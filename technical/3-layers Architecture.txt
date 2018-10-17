@@ -1,0 +1,7 @@
+﻿Mô hình 3-layers, nó chia business của app thành 3 layers, mỗi layer sẽ đảm nhận 1 vai trò riêng. 
+Presentation layer: cung cấp rest api/web service cho client giao tiếp vs nó = json thông qua môi trường
+network. (web service)
+
+Business Layer: xử lí các business logic (service)
+
+Data access layer: xử lí những thứ liên quan đến database, tương tác vs database. (repository, model)

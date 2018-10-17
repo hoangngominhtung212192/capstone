@@ -1,0 +1,14 @@
+﻿const pics = {
+  panda: "http://bit.ly/1Tqltv5",
+  owl: "http://bit.ly/1XGtkM3",
+  owlCat: "http://bit.ly/1Upbczi"
+};
+
+const panda = (
+  <img 
+    src={pics.panda}      // không có dấu "
+    alt="Lazy Panda" />
+);
+
+Event Listener:
+In JSX, event listener names are written in camelCase, such as onClick or onMouseOver (not onlick or onmouseover).
