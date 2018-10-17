@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<xsd:schema version="1.0"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="www.ModelImageSchema.com"
+            xmlns="www.ModelImageSchema.com"
+            elementFormDefault="qualified">
+
+    <xsd:element name="image">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="url" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="type" type="xsd:string" minOccurs="0"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

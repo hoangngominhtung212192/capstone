@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<xsd:schema version="1.0"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="www.ModelSchema.com"
+            xmlns="www.ModelSchema.com"
+            xmlns:image="www.ModelImageSchema.com"
+            elementFormDefault="qualified">
+    <xsd:import namespace="www.ModelImageSchema.com" schemaLocation="modelimage.xsd"/>
+
+    <!--    Declare ID  -->
+    <xsd:simpleType name="ID">
+        <xsd:restriction base="xsd:string">
+
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!--    End declare ID  -->
+
+    <xsd:element name="model">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="code" type="xsd:string"/>
+                <xsd:element name="name" type="xsd:string"/>
+                <xsd:element name="productSeries" type="xsd:string"/>
+                <xsd:element name="seriesTitle" type="xsd:string"/>
+                <xsd:element name="manufacturer" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="price" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="releasedDate" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="description" type="xsd:string" minOccurs="0"/>
+                <xsd:element ref="image:image" minOccurs="0" maxOccurs="unbounded"/>
+            </xsd:sequence>
+            <xsd:attribute name="id" type="ID"/>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

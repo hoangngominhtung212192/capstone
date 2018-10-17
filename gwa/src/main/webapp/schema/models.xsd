@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<xsd:schema version="1.0"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="www.Models.com"
+            xmlns="www.Models.com"
+            xmlns:model="www.ModelSchema.com"
+            elementFormDefault="qualified">
+    <xsd:import namespace="www.ModelSchema.com" schemaLocation="model.xsd" />
+
+    <xsd:element name="models">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="model:model" minOccurs="0" maxOccurs="unbounded" />
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns3:models xmlns:ns1="www.ModelSchema.com" xmlns:ns2="www.ModelImageSchema.com" xmlns:ns3="www.Models.com">
+    <ns1:model id="">
+        <ns1:code></ns1:code>
+        <ns1:name></ns1:name>
+        <ns1:productSeries></ns1:productSeries>
+        <ns1:seriesTitle></ns1:seriesTitle>
+        <ns1:manufacturer></ns1:manufacturer>
+        <ns1:price></ns1:price>
+        <ns1:releasedDate></ns1:releasedDate>
+        <ns1:description></ns1:description>
+        <ns2:image>
+            <ns2:url></ns2:url>
+            <ns2:type></ns2:type>
+        </ns2:image>
+    </ns1:model>
+</ns3:models>
