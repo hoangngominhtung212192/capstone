@@ -4,57 +4,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Login - Register Page</title>
 
-    <meta name="description" content="Expand, contract, animate forms with jQuery wihtout leaving the page">
-    <meta name="keywords" content="expand, form, css3, jquery, animate, width, height, adapt, unobtrusive javascript">
     <link rel="stylesheet" type="text/css" href="/css/loginregist.css">
-    <script type="text/javascript" async="" src="/js/ga.js.download"></script>
-    <script src="/js/cufon-yui.js.download" type="text/javascript"></script>
-    <style type="text/css">cufon {
-        text-indent: 0 !important;
-    }
-
-    @media screen, projection {
-        cufon {
-            display: inline !important;
-            display: inline-block !important;
-            position: relative !important;
-            vertical-align: middle !important;
-            font-size: 1px !important;
-            line-height: 1px !important;
-        }
-
-        cufon cufontext {
-            display: -moz-inline-box !important;
-            display: inline-block !important;
-            width: 0 !important;
-            height: 0 !important;
-            overflow: hidden !important;
-            text-indent: -10000in !important;
-        }
-
-        cufon canvas {
-            position: relative !important;
-        }
-    }
-
-    @media print {
-        cufon {
-            padding: 0 !important;
-        }
-
-        cufon canvas {
-            display: none !important;
-        }
-    }</style>
-    <script src="/js/ChunkFive_400.font.js.download"
-            type="text/javascript"></script>
-    <script type="text/javascript">
-        Cufon.replace('h1', {textShadow: '1px 1px #fff'});
-        Cufon.replace('h2', {textShadow: '1px 1px #fff'});
-        Cufon.replace('h3', {textShadow: '1px 1px #000'});
-        Cufon.replace('.back');
-    </script>
-
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/login.js"></script>
+</head>
 <body>
 <div class="background">
 </div>
@@ -63,11 +16,6 @@
         <div id="form_wrapper" class="form_wrapper" style="width: 350px; height: 381px; display: block;">
             <form class="register" style="display: none;">
                 <h3>Register
-                    <cufon class="cufon cufon-canvas" alt="Register" style="width: 106px; height: 25px;">
-                        <canvas width="122" height="28"
-                                style="width: 122px; height: 28px; top: -2px; left: 0px;"></canvas>
-                        <cufontext>Register</cufontext>
-                    </cufon>
                 </h3>
                 <div class="column">
                     <div>
@@ -113,55 +61,22 @@
                     <div class="clear"></div>
                 </div>
             </form>
-            <form class="login active" style="display: block;">
-                <h3>Login
-                    <cufon class="cufon cufon-canvas" alt="Login" style="width: 73px; height: 25px;">
-                        <canvas width="84" height="28"
-                                style="width: 84px; height: 28px; top: -2px; left: 0px;"></canvas>
-                        <cufontext>Login</cufontext>
-                    </cufon>
-                </h3>
+            <form id="loginForm" class="login active" style="display: block;">
+                <h3>Login</h3>
                 <div>
                     <label>Username:</label>
-                    <input type="text">
+                    <input id="username" type="text">
                     <span class="error">This is an error</span>
                 </div>
                 <div>
                     <label>Password: </label>
-                    <input type="password">
+                    <input id="password" type="password">
                     <span class="error">This is an error</span>
                 </div>
                 <div class="bottom">
                     <input type="reset" value="Reset">
-                    <input type="submit" value="Login">
+                    <input id="loginBtn" type="submit" value="Login">
                     <a href="#" rel="register" class="linkform">You don't have an account yet? Register here</a>
-                    <div class="clear"></div>
-                </div>
-            </form>
-            <form class="forgot_password" style="display: none;">
-                <h3>
-                    <cufon class="cufon cufon-canvas" alt="Forgot " style="width: 88px; height: 25px;">
-                        <canvas width="109" height="28"
-                                style="width: 109px; height: 28px; top: -2px; left: 0px;"></canvas>
-                        <cufontext>Forgot</cufontext>
-                    </cufon>
-                    <cufon class="cufon cufon-canvas" alt="Password" style="width: 123px; height: 25px;">
-                        <canvas width="134" height="28"
-                                style="width: 134px; height: 28px; top: -2px; left: 0px;"></canvas>
-                        <cufontext>Password</cufontext>
-                    </cufon>
-                </h3>
-                <div>
-                    <label>Username or Email:</label>
-                    <input type="text">
-                    <span class="error">This is an error</span>
-                </div>
-                <div class="bottom">
-                    <input type="submit" value="Send reminder">
-                    <a href="#" rel="login"
-                       class="linkform">Suddenly remebered? Log in here</a>
-                    <a href="#" rel="register"
-                       class="linkform">You don't have an account? Register here</a>
                     <div class="clear"></div>
                 </div>
             </form>
@@ -172,7 +87,6 @@
 
 
 <!-- The JavaScript -->
-<script type="text/javascript" src="/js/jquery.min.js.download"></script>
 <script type="text/javascript">
     $(function () {
         //the form wrapper (includes all forms)
