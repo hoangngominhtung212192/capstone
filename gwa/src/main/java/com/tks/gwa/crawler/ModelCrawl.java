@@ -29,9 +29,9 @@ public class ModelCrawl {
     }
 
     public void crawl() {
-        crawlPageCount(AppConstant.URL_GUNDAM_REAL_GRADE);
-
         crawlPageCount(AppConstant.URL_GUNDAM_HIGH_GRADE);
+
+        crawlPageCount(AppConstant.URL_GUNDAM_REAL_GRADE);
 
         crawlPageCount(AppConstant.URL_GUNDAM_MASTER_GRADE);
 
@@ -39,6 +39,8 @@ public class ModelCrawl {
     }
 
     public void crawlPageCount(String url) {
+        System.out.println("Crawling url: " + url);
+
         crawler.parseHTML(url,
                 AppConstant.URL_GUNDAM_MODELS_PAGE_BEGIN_SIGN, AppConstant.URL_GUNDAM_MODELS_PAGE_END_SIGN);
 
@@ -58,16 +60,20 @@ public class ModelCrawl {
                 crawlPageCount(newUrl);
             } else {
                 if (lastPage == 14) {
-                    String newUrl = url.substring(0, url.length() - 1) + "14";
+                    String newUrl = url.substring(0, url.length() - 2) + "14";
                     crawlPageCount(newUrl);
                 } else {
                     System.out.println("Total page: " + lastPage);
 
                     for (int i = 1; i <= lastPage; i++) {
-                        System.out.println("Crawling page number: " + i);
+                        String page_url = "";
+                        if (lastPage < 10) {
+                            page_url = url.substring(0, url.length() - 1) + i;
+                        } else {
+                            page_url = url.substring(0, url.length() - 2) + i;
+                        }
 
-                        String page_url = url.substring(0, url.length() - 1) + i;
-
+                        System.out.println("Crawling page number: " + i + " - url: " + page_url);
                         crawlModel(page_url);
                     }
                 }
@@ -132,6 +138,8 @@ public class ModelCrawl {
         htmlContent = CrawlHelper.fixString(htmlContent);
 
         htmlContent = htmlContent.replaceAll("style=\"width:\\d+;height:\\d+;\"", "");
+
+        System.out.println(htmlContent);
 
         is = new ByteArrayInputStream(htmlContent.getBytes());
         ss = new StreamSource(is);

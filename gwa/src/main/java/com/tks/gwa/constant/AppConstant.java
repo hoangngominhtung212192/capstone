@@ -26,5 +26,5 @@ public class AppConstant {
 
     public static final String URL_GUNDAM_MODEL_IMAGE_BEGIN_SIGN = "imgAll";
 
-    public static final String URL_GUNDAM_MODEL_IMAGE_END_SIGN = "pnlRecommendItem";
+    public static final String URL_GUNDAM_MODEL_IMAGE_END_SIGN = "margin-top:30px;";
 }

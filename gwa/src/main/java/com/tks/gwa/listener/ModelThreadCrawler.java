@@ -18,9 +18,8 @@ public class ModelThreadCrawler implements Runnable {
     synchronized public void run() {
         while (true) {
             try {
-                wait(Long.parseLong(watingTime));
-
                 modelCrawl.crawl();
+                wait(Long.parseLong(watingTime));
             } catch (Exception e) {
                 e.printStackTrace();
             }

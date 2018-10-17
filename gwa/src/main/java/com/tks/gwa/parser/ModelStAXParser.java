@@ -185,6 +185,48 @@ public class ModelStAXParser {
                         }
                     }
                 }
+
+                if (tagName.equals("div")) {
+                    String div_class = StAXParserHelper.getNodeStAXValue(reader, tagName, "", "class");
+
+                    if (div_class != null) {
+                        if (div_class.equals("bikou marginTop10")) {
+                            String description = "";
+
+                            boolean flag = false;
+
+                            while (!flag) {
+                                int cursorDes = reader.next();
+
+                                if (cursorDes == XMLStreamConstants.START_ELEMENT) {
+                                    String tagNameDes = reader.getLocalName();
+
+                                    if (tagNameDes.equals("div")) {
+                                        String tempDivClassFlag = StAXParserHelper.getNodeStAXValue(reader,
+                                                tagNameDes, "", "class");
+
+                                        if (tempDivClassFlag != null) {
+                                            description += "</div>";
+                                            flag = true;
+                                        } else {
+                                            description += "<" + tagNameDes + ">";
+                                        }
+                                    } else {
+                                        description += "<" + tagNameDes + ">";
+                                    }
+                                }
+                                if (cursorDes == XMLStreamConstants.END_ELEMENT) {
+                                    description += "</" + reader.getLocalName() + ">";
+                                }
+                                if (cursorDes == XMLStreamConstants.CHARACTERS) {
+                                    description += reader.getText();
+                                }
+                            }
+
+                            System.out.println("Description: " + description);
+                        }
+                    }
+                }
             }
         }
     }
