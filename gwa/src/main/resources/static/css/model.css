@@ -446,7 +446,7 @@
     list-style: none;
     clear: both;
     position: relative;
-    background: url(/images/star-matrix.gif) no-repeat 0 0;
+    background: url(images/star-matrix.gif) no-repeat 0 0;
 }
 
 ul.rating li {

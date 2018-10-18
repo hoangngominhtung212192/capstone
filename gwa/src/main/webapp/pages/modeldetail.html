@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>Gunpla World</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/img/favicon.ico">
+
+    <!-- Core Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/model.css">
+    <link rel="stylesheet" href="/css/search-filter.css">
+    <link rel="stylesheet" href="/css/pagination.css">
+    <link rel="stylesheet" href="/css/w3.css">
+    <style>
+        .mySlides {
+            display: none
+        }
+
+        .w3-left, .w3-right, .w3-badge {
+            cursor: pointer
+        }
+
+        .w3-badge {
+            height: 13px;
+            width: 13px;
+            padding: 0
+        }
+    </style>
+
+    <script>
+        function scrollToProducts() {
+            window.scrollTo(0, 420);
+        }
+    </script>
+</head>
+
+<body onpageshow="scrollToProducts()" style="background-color: whitesmoke;">
+<!-- ##### Header Area Start ##### -->
+<header class="header-area">
+
+    <!-- Top Header Area -->
+    <div class="top-header-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="top-header-content d-flex align-items-center justify-content-between">
+                        <!-- Logo -->
+                        <div class="logo">
+                            <a href="index.html" style="color: white; font: 3em sans-serif;">Gunpla World</a>
+                        </div>
+
+                        <!-- Login Search Area -->
+                        <div class="login-search-area d-flex align-items-center">
+                            <!-- Login -->
+                            <div class="account login d-flex">
+                                <a href="#">Tung</a>
+                                <div class="dropdown-menu-custom-profile">
+                                    <a id="profile" href="#">Profile</a>
+                                </div>
+                                <div class="dropdown-menu-custom-logout">
+                                    <a id="logout" href="#">Logout</a>
+                                </div>
+                                <!--<a href="#">Register</a>-->
+                            </div>
+                            <!-- Search Form -->
+                            <div class="search-form">
+                                <form action="#" method="post">
+                                    <input type="search" name="search" class="form-control" placeholder="Search">
+                                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar Area -->
+    <div class="newspaper-main-menu" id="stickyMenu">
+        <div class="classy-nav-container breakpoint-off">
+            <div class="container">
+                <!-- Menu -->
+                <nav class="classy-navbar justify-content-between" id="newspaperNav">
+
+                    <!-- Logo -->
+                    <div class="logo">
+                        <a href="index.html"><img src="/img/logo.png" alt=""></a>
+                    </div>
+
+                    <!-- Navbar Toggler -->
+                    <div class="classy-navbar-toggler">
+                        <span class="navbarToggler"><span></span><span></span><span></span></span>
+                    </div>
+
+                    <!-- Menu -->
+                    <div class="classy-menu">
+
+                        <!-- close btn -->
+                        <div class="classycloseIcon">
+                            <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                        </div>
+
+                        <!-- Nav Start -->
+                        <div class="classynav">
+                            <ul>
+                                <li class="active"><a href="index.html">Home</a></li>
+                                <li><a href="#">Pages</a>
+                                    <ul class="dropdown">
+                                        <li><a href="index.html">Home</a></li>
+                                        <li><a href="#">Dropdown</a>
+                                            <ul class="dropdown">
+                                                <li><a href="index.html">Home</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Mega Menu</a>
+                                    <div class="megamenu">
+                                        <ul class="single-mega cn-col-3">
+                                            <li class="title">Catagories</li>
+                                            <li><a href="index.html">Home</a></li>
+                                        </ul>
+                                        <ul class="single-mega cn-col-3">
+                                            <li class="title">Catagories</li>
+                                            <li><a href="index.html">Home</a></li>
+                                        </ul>
+                                        <ul class="single-mega cn-col-3">
+                                            <li class="title">Catagories</li>
+                                            <li><a href="index.html">Home</a></li>
+                                        </ul>
+
+                                    </div>
+                                </li>
+                                <li><a href="#">GUNDAM</a></li>
+                                <li><a href="#">Articles</a></li>
+                                <li><a href="#">Events</a></li>
+                                <li><a href="#">Trade market</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                            </ul>
+                        </div>
+                        <!-- Nav End -->
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- ##### Header Area End ##### -->
+
+<!-- ##### Begin Body Content ##### -->
+<div class="model-container">
+    <div class="container">
+        <div class="row"
+             style="background-color: white; padding-top: 20px; padding-bottom: 20px; border: 1px solid #f0f0f0;">
+            <!--    Begin left content  -->
+            <div class="col-sm-2">
+                <div class="image-category">
+                    <img class="image-menu" src="/img/4543112620538.jpg"/>
+                </div>
+                <div class="category-title-div">
+                    <strong class="category-title">CATEGORY OPTIONS</strong>
+                </div>
+                <div class="ul-category-title-content">
+                    <ul class="ul-category-contents">
+                        <li class="lead-title">
+                            <strong>Product Series
+                            </strong></li>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Master Grade (25)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Perfect Grade (20)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Real Grade (89)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">High Grade (50)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Other Grade (200)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">SD Gundam (30)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Premium Web Exclusives</li>
+                        </a>
+                    </ul>
+                    <ul class="ul-category-contents">
+                        <li class="lead-title"><strong>Series Title</strong></li>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">First Gundam(12)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Mobile Suit Variation MSV(20)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">0080 War in the Pocket (4)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">0083 Stardust Memory (20)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">New Mobile Report Gundam Wing (10)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Mobile Suit Gundam AGE (30)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Crossbone Gundam (2)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Thunderbolt</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">0083: Stardust Memory</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Z / ZZ Gundam</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Char`s Counter Attack</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Gundam UC</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Gundam F91 Series</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">V Gundam</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">G Gundam</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Gundam W</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Gundam X</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Turn A Gundam</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Gundam 00</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Gundam AGE</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Gundam Builders</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Iron-Blooded Orphans</li>
+                        </a>
+                    </ul>
+                </div>
+            </div>
+            <!--    End Left content-->
+
+            <!--    Begin middle content   -->
+            <div class="col-sm-8">
+                <!--    Begin container     -->
+                <div class="container">
+                    <div class="row searchFilter">
+
+                        <div class="input-group">
+                            <input id="table_filter" type="text" placeholder="Enter a search term"
+                                   aria-label="Text input with segmented button dropdown">
+                            <input type="submit" value="" class="search-box-button"/>
+                        </div>
+
+
+                        <!--    Begin model information -->
+                        <div class="model-information-container">
+                            <!--    Begin page title    -->
+                            <div class="page-title-wrapper">
+                                <h1 class="page-title-detail"><span><b>MODEL INFORMATION</b></span></h1>
+                            </div>
+                            <!--    End page title  -->
+
+                            <div class="model-information-bigimage">
+                                <img src="https://www.1999.co.jp/itbig52/10522238p.jpg">
+                            </div>
+
+                            <div class="model-information-detail">
+                                <table class="model-information-detail-table">
+                                    <tr>
+                                        <td><b>Name: </b></td>
+                                        <td class="attr-value">AMX-103 Hamma-Hamma</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Manufacturer: </b></td>
+                                        <td class="attr-value">Bandai</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Scale: </b></td>
+                                        <td class="attr-value">Master Grade , 1/100</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Series: </b></td>
+                                        <td class="attr-value">MG Other Gundam</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Release Date: </b></td>
+                                        <td class="attr-value">Mid May, 2018</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Sales Price: </b></td>
+                                        <td class="attr-value">3,600yen</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Item Code: </b></td>
+                                        <td class="attr-value">257516</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Rating: </b></td>
+                                        <td class="attr-value">
+                                            <ul class="rating">
+                                                <li class="one"><a title="1 Star">1</a></li>
+                                                <li class="two"><a title="2 Stars">2</a></li>
+                                                <li class="three"><a title="3 Stars">3</a></li>
+                                                <li class="four"><a title="4 Stars">4</a></li>
+                                                <li class="five"><a title="5 Stars">5</a></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="page-title-wrapper">
+                                <h1 class="page-title-image"><span>IMAGES</span></h1>
+                            </div>
+
+                            <div class="model-information-image-container">
+                                <div class="model-information-image-grid">
+                                    <div class="model-information-image-type">
+                                        Package
+                                    </div>
+
+                                    <div class="model-information-image-items">
+                                        <div class="w3-content w3-display-container"
+                                             style="max-width:220px;height:100%">
+                                            <img class="mySlides" src="/img/vf31a1.jpg" style="width:100%; height:100%">
+                                            <img class="mySlides" src="/img/10522238.jpg"
+                                                 style="width:100%; height:100%">
+                                            <img class="mySlides" src="/img/Gundam-Virsago-Hg-1-100-Model-Kit.jpg"
+                                                 style="width:100%; height:100%">
+                                            <img class="mySlides" src="/img/4543112620538.jpg"
+                                                 style="width:100%; height:100%">
+                                            <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle"
+                                                 style="width:100%">
+                                                <div class="w3-left w3-hover-text-khaki" onclick="plusDivs1(-1)">
+                                                    &#10094;
+                                                </div>
+                                                <div class="w3-right w3-hover-text-khaki" onclick="plusDivs1(1)">
+                                                    &#10095;
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="model-information-image-grid">
+                                    <div class="model-information-image-type">
+                                        Item picture
+                                    </div>
+
+                                    <div class="model-information-image-items">
+                                        <div class="w3-content w3-display-container"
+                                             style="max-width:220px;height:100%">
+                                            <img class="mySlides2" src="/img/10522238.jpg"
+                                                 style="width:100%; height:100%">
+                                            <img class="mySlides2" src="/img/vf31a1.jpg" style="width:100%; height:100%">
+                                            <img class="mySlides2" src="/img/Gundam-Virsago-Hg-1-100-Model-Kit.jpg"
+                                                 style="width:100%; height:100%">
+                                            <img class="mySlides2" src="/img/4543112620538.jpg"
+                                                 style="width:100%; height:100%">
+                                            <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle"
+                                                 style="width:100%">
+                                                <div class="w3-left w3-hover-text-khaki" onclick="plusDivs2(-1)">
+                                                    &#10094;
+                                                </div>
+                                                <div class="w3-right w3-hover-text-khaki" onclick="plusDivs2(1)">
+                                                    &#10095;
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="model-information-image-grid">
+                                    <div class="model-information-image-type">
+                                        Other picture
+                                    </div>
+
+                                    <div class="model-information-image-items">
+                                        <div class="w3-content w3-display-container"
+                                             style="max-width:220px;height:100%">
+                                            <img class="mySlides3" src="/img/Gundam-Virsago-Hg-1-100-Model-Kit.jpg"
+                                                 style="width:100%; height:100%">
+                                            <img class="mySlides3" src="/img/vf31a1.jpg" style="width:100%; height:100%">
+                                            <img class="mySlides3" src="/img/10522238.jpg"
+                                                 style="width:100%; height:100%">
+                                            <img class="mySlides3" src="/img/4543112620538.jpg"
+                                                 style="width:100%; height:100%">
+                                            <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle"
+                                                 style="width:100%">
+                                                <div class="w3-left w3-hover-text-khaki" onclick="plusDivs3(-1)">
+                                                    &#10094;
+                                                </div>
+                                                <div class="w3-right w3-hover-text-khaki" onclick="plusDivs3(1)">
+                                                    &#10095;
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="model-information-image-grid">
+                                    <div class="model-information-image-type">
+                                        Contents
+                                    </div>
+
+                                    <div class="model-information-image-items">
+                                        <div class="w3-content w3-display-container"
+                                             style="max-width:220px;height:100%">
+                                            <img class="mySlides4" src="/img/4543112620538.jpg"
+                                                 style="width:100%; height:100%">
+                                            <img class="mySlides4" src="/img/vf31a1.jpg" style="width:100%; height:100%">
+                                            <img class="mySlides4" src="/img/10522238.jpg"
+                                                 style="width:100%; height:100%">
+                                            <img class="mySlides4" src="/img/Gundam-Virsago-Hg-1-100-Model-Kit.jpg"
+                                                 style="width:100%; height:100%">
+                                            <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle"
+                                                 style="width:100%">
+                                                <div class="w3-left w3-hover-text-khaki" onclick="plusDivs4(-1)">
+                                                    &#10094;
+                                                </div>
+                                                <div class="w3-right w3-hover-text-khaki" onclick="plusDivs4(1)">
+                                                    &#10095;
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="model-information-image-grid">
+                                    <div class="model-information-image-type">
+                                        About item
+                                    </div>
+
+                                    <div class="model-information-image-items">
+                                        <div class="w3-content w3-display-container"
+                                             style="max-width:220px;height:100%">
+                                            <img class="mySlides5" src="/img/4543112620538.jpg"
+                                                 style="width:100%; height:100%">
+                                            <img class="mySlides5" src="/img/vf31a1.jpg" style="width:100%; height:100%">
+                                            <img class="mySlides5" src="/img/10522238.jpg"
+                                                 style="width:100%; height:100%">
+                                            <img class="mySlides5" src="/img/Gundam-Virsago-Hg-1-100-Model-Kit.jpg"
+                                                 style="width:100%; height:100%">
+                                            <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle"
+                                                 style="width:100%">
+                                                <div class="w3-left w3-hover-text-khaki" onclick="plusDivs5(-1)">
+                                                    &#10094;
+                                                </div>
+                                                <div class="w3-right w3-hover-text-khaki" onclick="plusDivs5(1)">
+                                                    &#10095;
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="model-information-image-grid">
+                                    <div class="model-information-image-type">
+                                        Color
+                                    </div>
+
+                                    <div class="model-information-image-items">
+                                        <div class="w3-content w3-display-container"
+                                             style="max-width:220px;height:100%">
+                                            <img class="mySlides6" src="/img/4543112620538.jpg"
+                                                 style="width:100%; height:100%">
+                                            <img class="mySlides6" src="/img/vf31a1.jpg" style="width:100%; height:100%">
+                                            <img class="mySlides6" src="/img/10522238.jpg"
+                                                 style="width:100%; height:100%">
+                                            <img class="mySlides6" src="/img/Gundam-Virsago-Hg-1-100-Model-Kit.jpg"
+                                                 style="width:100%; height:100%">
+                                            <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle"
+                                                 style="width:100%">
+                                                <div class="w3-left w3-hover-text-khaki" onclick="plusDivs6(-1)">
+                                                    &#10094;
+                                                </div>
+                                                <div class="w3-right w3-hover-text-khaki" onclick="plusDivs6(1)">
+                                                    &#10095;
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="model-information-image-grid">
+                                    <div class="model-information-image-type">
+                                        Assembly guide
+                                    </div>
+
+                                    <div class="model-information-image-items">
+                                        <div class="w3-content w3-display-container"
+                                             style="max-width:220px;height:100%">
+                                            <img class="mySlides7" src="/img/4543112620538.jpg"
+                                                 style="width:100%; height:100%">
+                                            <img class="mySlides7" src="/img/vf31a1.jpg" style="width:100%; height:100%">
+                                            <img class="mySlides7" src="/img/10522238.jpg"
+                                                 style="width:100%; height:100%">
+                                            <img class="mySlides7" src="/img/Gundam-Virsago-Hg-1-100-Model-Kit.jpg"
+                                                 style="width:100%; height:100%">
+                                            <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle"
+                                                 style="width:100%">
+                                                <div class="w3-left w3-hover-text-khaki" onclick="plusDivs7(-1)">
+                                                    &#10094;
+                                                </div>
+                                                <div class="w3-right w3-hover-text-khaki" onclick="plusDivs7(1)">
+                                                    &#10095;
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="page-title-wrapper">
+                                <h1 class="page-title-image"><span>DESCRIPTION</span></h1>
+                                <div class="model-information-description-cotainer">
+                                    <br>── Gundam F 91 appeared in Ver.<br><br>- While reproducing the flowing
+                                    silhouette of F91 designed with F1 as a motif, it condenses the technology
+                                    cultivated in the evolution project in a small aircraft.<br>- Adopting multiple
+                                    structures in the abdominal duct, directing the sense of density. I use parts
+                                    with extra finish for internal parts.<br>- Deepening the setting of Sanary 's
+                                    latest high - performance MS F91, sculptures detailing the circuit as a motif in
+                                    the inner frame.<br>- By adopting the light guiding parts inside the fuselage
+                                    and setting the separately sold [light emitting unit (white) 2 light type] on
+                                    the pedestal, heat discharged from the abdominal duct or backpack duct in
+                                    maximum movable mode and [MEPE] Directed. Head with a face open gimmick and two
+                                    non-deformed heads are included.
+                                </div>
+                            </div>
+                            <!--    End model information   -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--    End middle content   -->
+
+            <!--    Begin right content  -->
+            <div class="col-sm-2">
+                <div class="edit-container">
+                <button class="io-button-standard-2" type="submit">
+                <a href="#">EDIT</a>
+                </button>
+                <button class="io-button-standard-2" style="width: 85px;" type="submit">
+                <a href="#">DELETE</a>
+                </button>
+                </div>
+                <div class="top-five-title-div">
+                    <strong class="top-five-title">TOP FIVE</strong>
+                </div>
+
+                <!--    Begin Model   -->
+                <div class="ul-category-title-content">
+                    <ul class="ul-category-contents">
+                        <li class="lead-top-five">
+                            <strong>Model
+                            </strong></li>
+                    </ul>
+                </div>
+                <div class="image-top-five">
+                    <img class="image-top-five-items" src="/img/4543112620538.jpg"/>
+                </div>
+                <div class="image-top-five">
+                    <img class="image-top-five-items" src="/img/vf31a1.jpg"/>
+                </div>
+                <div class="image-top-five">
+                    <img class="image-top-five-items" src="/img/eb13a49fafa860b5d88138db105305e0.jpg"/>
+                </div>
+                <div class="image-top-five">
+                    <img class="image-top-five-items" src="/img/10522238p.jpg"/>
+                </div>
+                <div class="image-top-five">
+                    <img class="image-top-five-items" src="/img/Gundam-Virsago-Hg-1-100-Model-Kit.jpg"/>
+                </div>
+                <!--    End model   -->
+
+                <!--    Begin Article   -->
+                <div class="ul-category-title-content">
+                    <ul class="ul-category-contents">
+                        <li class="lead-top-five">
+                            <strong>Article
+                            </strong></li>
+                    </ul>
+                </div>
+                <div class="image-top-five">
+                    <img class="image-top-five-items" src="/img/4543112620538.jpg"/>
+                </div>
+                <div class="image-top-five">
+                    <img class="image-top-five-items" src="/img/vf31a1.jpg"/>
+                </div>
+                <div class="image-top-five">
+                    <img class="image-top-five-items" src="/img/eb13a49fafa860b5d88138db105305e0.jpg"/>
+                </div>
+                <div class="image-top-five">
+                    <img class="image-top-five-items" src="/img/10522238p.jpg"/>
+                </div>
+                <div class="image-top-five">
+                    <img class="image-top-five-items" src="/img/Gundam-Virsago-Hg-1-100-Model-Kit.jpg"/>
+                </div>
+                <!--    End Article -->
+            </div>
+            <!--    End right content-->
+        </div>
+    </div>
+</div>
+    <!-- ##### End Content #####-->
+
+    <!-- ##### Footer Add Area Start ##### -->
+    <div class="footer-add-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="footer-add">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Footer Add Area End ##### -->
+
+    <!-- ##### Footer Area Start ##### -->
+    <footer class="footer-area">
+
+        <!-- Main Footer Area -->
+        <div class="main-footer-area">
+            <div class="container">
+                <div class="row">
+
+                    <!-- Footer Widget Area -->
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="footer-widget-area mt-80">
+                            <!-- Footer Logo -->
+                            <div class="footer-logo">
+                                <a href="index.html" style="color: white; font: 3em sans-serif;">Gunpla World</a>
+                            </div>
+                            <!-- List -->
+                            <ul class="list">
+                                <li><a href="mailto:contact@youremail.com">contact@youremail.com</a></li>
+                                <li><a href="tel:+4352782883884">+43 5278 2883 884</a></li>
+                                <li><a href="http://yoursitename.com">www.yoursitename.com</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Footer Widget Area -->
+                    <div class="col-12 col-sm-6 col-lg-2">
+                        <div class="footer-widget-area mt-80">
+                            <!-- Title -->
+                            <h4 class="widget-title">Quick Links</h4>
+                            <!-- List -->
+                            <ul class="list">
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#">Articles</a></li>
+                                <li><a href="#">Events</a></li>
+                                <li><a href="#">Trade market</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Footer Widget Area -->
+                    <div class="col-12 col-sm-4 col-lg-2">
+                        <div class="footer-widget-area mt-80">
+                            <!-- Title -->
+                            <h4 class="widget-title">Follow us</h4>
+                            <!-- List -->
+                            <ul class="list">
+                                <li><a href="#">Facebook</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                    <!-- Bottom Footer Area -->
+                    <div class="bottom-footer-area">
+                        <div class="container h-100">
+                            <div class="row h-100 align-items-center">
+                                <div class="col-12">
+                                    <!-- Copywrite -->
+                                    <p>copywrite lol</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+    <!-- ##### Footer Area Start ##### -->
+
+    <!-- ##### All Javascript Files ##### -->
+    <!-- jQuery-2.2.4 js -->
+    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="js/active.js"></script>
+    <script>
+        var slideIndex1 = 1;
+        var slideIndex2 = 1;
+        var slideIndex3 = 1;
+        var slideIndex4 = 1;
+        var slideIndex5 = 1;
+        var slideIndex6 = 1;
+        var slideIndex7 = 1;
+        showDivs1(slideIndex1);
+        showDivs2(slideIndex2);
+        showDivs3(slideIndex3);
+        showDivs4(slideIndex4);
+        showDivs5(slideIndex5);
+        showDivs6(slideIndex6);
+        showDivs7(slideIndex7);
+
+        function plusDivs1(n) {
+            showDivs1(slideIndex1 += n);
+        }
+
+        function currentDiv1(n) {
+            showDivs1(slideIndex1 = n);
+        }
+
+        function plusDivs2(n) {
+            showDivs2(slideIndex2 += n);
+        }
+
+        function currentDiv2(n) {
+            showDivs2(slideIndex2 = n);
+        }
+
+        function plusDivs3(n) {
+            showDivs3(slideIndex3 += n);
+        }
+
+        function currentDiv3(n) {
+            showDivs3(slideIndex3 = n);
+        }
+
+        function plusDivs4(n) {
+            showDivs4(slideIndex4 += n);
+        }
+
+        function currentDiv2(n) {
+            showDivs4(slideIndex4 = n);
+        }
+
+        function plusDivs5(n) {
+            showDivs5(slideIndex5 += n);
+        }
+
+        function currentDiv5(n) {
+            showDivs5(slideIndex5 = n);
+        }
+
+        function plusDivs6(n) {
+            showDivs6(slideIndex6 += n);
+        }
+
+        function currentDiv6(n) {
+            showDivs6(slideIndex6 = n);
+        }
+
+        function plusDivs7(n) {
+            showDivs7(slideIndex7 += n);
+        }
+
+        function currentDiv7(n) {
+            showDivs7(slideIndex7 = n);
+        }
+
+        function showDivs1(n) {
+            var i;
+            var x = document.getElementsByClassName("mySlides");
+            var dots = document.getElementsByClassName("demo");
+            if (n > x.length) {
+                slideIndex1 = 1
+            }
+            if (n < 1) {
+                slideIndex1 = x.length
+            }
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" w3-white", "");
+            }
+            x[slideIndex1 - 1].style.display = "block";
+        }
+
+        function showDivs2(n) {
+            var i;
+            var x = document.getElementsByClassName("mySlides2");
+            var dots = document.getElementsByClassName("demo");
+            if (n > x.length) {
+                slideIndex2 = 1
+            }
+            if (n < 1) {
+                slideIndex2 = x.length
+            }
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" w3-white", "");
+            }
+            x[slideIndex2 - 1].style.display = "block";
+        }
+
+        function showDivs3(n) {
+            var i;
+            var x = document.getElementsByClassName("mySlides3");
+            var dots = document.getElementsByClassName("demo");
+            if (n > x.length) {
+                slideIndex3 = 1
+            }
+            if (n < 1) {
+                slideIndex3 = x.length
+            }
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" w3-white", "");
+            }
+            x[slideIndex3 - 1].style.display = "block";
+        }
+
+        function showDivs4(n) {
+            var i;
+            var x = document.getElementsByClassName("mySlides4");
+            var dots = document.getElementsByClassName("demo");
+            if (n > x.length) {
+                slideIndex4 = 1
+            }
+            if (n < 1) {
+                slideIndex4 = x.length
+            }
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" w3-white", "");
+            }
+            x[slideIndex4 - 1].style.display = "block";
+        }
+
+        function showDivs5(n) {
+            var i;
+            var x = document.getElementsByClassName("mySlides5");
+            var dots = document.getElementsByClassName("demo");
+            if (n > x.length) {
+                slideIndex5 = 1
+            }
+            if (n < 1) {
+                slideIndex5 = x.length
+            }
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" w3-white", "");
+            }
+            x[slideIndex5 - 1].style.display = "block";
+        }
+
+        function showDivs6(n) {
+            var i;
+            var x = document.getElementsByClassName("mySlides6");
+            var dots = document.getElementsByClassName("demo");
+            if (n > x.length) {
+                slideIndex6 = 1
+            }
+            if (n < 1) {
+                slideIndex6 = x.length
+            }
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" w3-white", "");
+            }
+            x[slideIndex6 - 1].style.display = "block";
+        }
+
+        function showDivs7(n) {
+            var i;
+            var x = document.getElementsByClassName("mySlides7");
+            var dots = document.getElementsByClassName("demo");
+            if (n > x.length) {
+                slideIndex7 = 1
+            }
+            if (n < 1) {
+                slideIndex7 = x.length
+            }
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" w3-white", "");
+            }
+            x[slideIndex7 - 1].style.display = "block";
+        }
+    </script>
+</body>
+
+</html>
