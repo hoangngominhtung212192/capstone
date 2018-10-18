@@ -29,4 +29,9 @@ public class WebControllerImpl implements WebController {
     public ModelAndView modelPage() {
         return new ModelAndView("model");
     }
+
+    @Override
+    public ModelAndView postNewTradePage() {
+        return new ModelAndView("post-trade");
+    }
 }

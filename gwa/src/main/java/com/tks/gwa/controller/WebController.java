@@ -19,4 +19,7 @@ public interface WebController {
 
     @RequestMapping(value = "/model")
     public ModelAndView modelPage();
+
+    @RequestMapping(value = "/trade-market/post-new-trade")
+    public ModelAndView postNewTradePage();
 }
