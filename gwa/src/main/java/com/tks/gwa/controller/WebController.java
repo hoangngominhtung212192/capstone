@@ -19,4 +19,7 @@ public interface WebController {
 
     @RequestMapping(value = "/model")
     public ModelAndView modelPage();
+
+    @RequestMapping(value = "/modeldetail")
+    public ModelAndView modelDetailPage();
 }

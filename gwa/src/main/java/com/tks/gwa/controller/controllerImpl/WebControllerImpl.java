@@ -25,8 +25,21 @@ public class WebControllerImpl implements WebController {
         return new ModelAndView("index");
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public ModelAndView modelPage() {
         return new ModelAndView("model");
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public ModelAndView modelDetailPage() {
+        return new ModelAndView("modeldetail");
     }
 }
