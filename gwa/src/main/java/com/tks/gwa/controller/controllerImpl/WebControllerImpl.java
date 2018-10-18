@@ -16,6 +16,11 @@ public class WebControllerImpl implements WebController {
         return new ModelAndView("login");
     }
 
+    @Override
+    public ModelAndView registerPage() {
+        return new ModelAndView("register");
+    }
+
     /**
      *
      * @return

@@ -158,7 +158,8 @@
 }
 
 #table_filter {
-    width: 40%;
+    margin-left: 244px;
+    width: 360px;
     border: 1px solid #CCCCCC;
     border-right: 0;
     display: block;
