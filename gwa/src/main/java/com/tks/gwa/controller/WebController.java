@@ -28,4 +28,13 @@ public interface WebController {
 
     @RequestMapping(value = "/profile")
     public ModelAndView profilePage();
+
+    @RequestMapping(value = "/user/search")
+    public ModelAndView searchAccountPage();
+
+    @RequestMapping(value = "/model/create")
+    public ModelAndView createModelPage();
+
+    @RequestMapping(value = "/model/edit")
+    public ModelAndView editModelPage();
 }

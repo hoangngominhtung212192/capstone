@@ -54,4 +54,19 @@ public class WebControllerImpl implements WebController {
     public ModelAndView profilePage() {
         return new ModelAndView("profile");
     }
+
+    @Override
+    public ModelAndView searchAccountPage() {
+        return new ModelAndView("searchaccount");
+    }
+
+    @Override
+    public ModelAndView createModelPage() {
+        return new ModelAndView("createmodel");
+    }
+
+    @Override
+    public ModelAndView editModelPage() {
+        return new ModelAndView("editmodel");
+    }
 }
