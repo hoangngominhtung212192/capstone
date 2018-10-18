@@ -1,0 +1,58 @@
+.my-pagination {
+    float: right;
+    margin-top: 2%;
+}
+
+.my-page {
+    display: inline-block;
+    padding: 0px 9px;
+    margin-right: 4px;
+    border-radius: 3px;
+    border: solid 1px #c0c0c0;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FEFEFE), to(#f0f0f0));
+    box-shadow: inset 0px 1px 0px rgba(255,255,255, .8), 0px 1px 3px rgba(0,0,0, .1);
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #717171;
+    cursor: -webkit-grabbing;
+    font-family: Arial;
+}
+
+.my-page > a {
+    font-size: 14px;
+    font-weight: normal;
+    text-decoration: none;
+    color: #3d74b2;
+    font-family: Arial;
+    transition: color 0.2s;
+}
+
+.my-pagination > a:hover {
+    background-color: black;
+    color: #00b100;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.my-page:hover > a, .my-page.my-gradient:hover > a {
+    color: #00b100;
+    font-size: 14px;
+}
+
+.my-page:focus, .my-page.my-gradient:focus {
+    font-size: 14px;
+    color: #00b100;
+}
+
+.my-page.my-active {
+    border: none;
+    background: #616161;
+    box-shadow: inset 0px 0px 8px rgba(0,0,0, .5), 0px 1px 0px rgba(255,255,255, .8);
+    color: #f0f0f0;
+    text-shadow: 0px 0px 3px rgba(0,0,0, .5);
+}
+
+.my-page.my-gradient {
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f8f8f8), to(#e9e9e9));
+}

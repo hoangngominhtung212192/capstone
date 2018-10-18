@@ -13,7 +13,7 @@ public class ModelRepositoryImpl extends GenericRepositoryImpl<Model, Integer> i
 
      */
     public ModelRepositoryImpl() {
-        super(Model.class);
+            super(Model.class);
     }
 
     /**

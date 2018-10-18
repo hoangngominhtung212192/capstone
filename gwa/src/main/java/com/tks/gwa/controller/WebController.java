@@ -13,4 +13,10 @@ public interface WebController {
      */
     @RequestMapping(value = "/login")
     public ModelAndView loginPage();
+
+    @RequestMapping(value = "/")
+    public ModelAndView indexPage();
+
+    @RequestMapping(value = "/model")
+    public ModelAndView modelPage();
 }

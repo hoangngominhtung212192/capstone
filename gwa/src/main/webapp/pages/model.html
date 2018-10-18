@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>Gunpla World</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="img/core-img/favicon.ico">
+
+    <!-- Core Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/model.css">
+    <link rel="stylesheet" href="/css/search-filter.css">
+    <link rel="stylesheet" href="/css/pagination.css">
+
+    <script>
+        function executeDisplayForm() {
+            if (document.getElementById('close_form').classList.contains('open')) {
+                document.getElementById('close_form').style.backgroundPosition = "12px -429px";
+                document.getElementById('close_form').classList.remove('open');
+                document.getElementById('close_form').classList.add('close');
+                document.getElementsByClassName('io-panel-body')[0].style.display = "none";
+                document.getElementsByClassName('io-panel-footer')[0].style.display = "none";
+            } else {
+                document.getElementById('close_form').style.backgroundPosition = "12px -371px";
+                document.getElementById('close_form').classList.remove('close');
+                document.getElementById('close_form').classList.add('open');
+                document.getElementsByClassName('io-panel-body')[0].style.display = "block";
+                document.getElementsByClassName('io-panel-footer')[0].style.display = "block";
+            }
+        }
+
+        function scrollToProducts() {
+            window.scrollTo(0, 420);
+        }
+    </script>
+
+</head>
+
+<body onpageshow="scrollToProducts()" style="background-color: whitesmoke;">
+<!-- ##### Header Area Start ##### -->
+<header class="header-area">
+
+    <!-- Top Header Area -->
+    <div class="top-header-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="top-header-content d-flex align-items-center justify-content-between">
+                        <!-- Logo -->
+                        <div class="logo">
+                            <a href="index.html" style="color: white; font: 3em sans-serif;">Gunpla World</a>
+                        </div>
+
+                        <!-- Login Search Area -->
+                        <div class="login-search-area d-flex align-items-center">
+                            <!-- Login -->
+                            <div class="login d-flex">
+                                <a href="#">Login</a>
+                                <a href="#">Register</a>
+                            </div>
+                            <!-- Search Form -->
+                            <div class="search-form">
+                                <form action="#" method="post">
+                                    <input type="search" name="search" class="form-control" placeholder="Search">
+                                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar Area -->
+    <div class="newspaper-main-menu" id="stickyMenu">
+        <div class="classy-nav-container breakpoint-off">
+            <div class="container">
+                <!-- Menu -->
+                <nav class="classy-navbar justify-content-between" id="newspaperNav">
+
+                    <!-- Logo -->
+                    <div class="logo">
+                        <a href="index.html"><img src="/img/logo.png" alt=""></a>
+                    </div>
+
+                    <!-- Navbar Toggler -->
+                    <div class="classy-navbar-toggler">
+                        <span class="navbarToggler"><span></span><span></span><span></span></span>
+                    </div>
+
+                    <!-- Menu -->
+                    <div class="classy-menu">
+
+                        <!-- close btn -->
+                        <div class="classycloseIcon">
+                            <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                        </div>
+
+                        <!-- Nav Start -->
+                        <div class="classynav">
+                            <ul>
+                                <li class="active"><a href="index.html">Home</a></li>
+                                <li><a href="#">Pages</a>
+                                    <ul class="dropdown">
+                                        <li><a href="index.html">Home</a></li>
+                                        <li><a href="#">Dropdown</a>
+                                            <ul class="dropdown">
+                                                <li><a href="index.html">Home</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Mega Menu</a>
+                                    <div class="megamenu">
+                                        <ul class="single-mega cn-col-3">
+                                            <li class="title">Catagories</li>
+                                            <li><a href="index.html">Home</a></li>
+                                        </ul>
+                                        <ul class="single-mega cn-col-3">
+                                            <li class="title">Catagories</li>
+                                            <li><a href="index.html">Home</a></li>
+                                        </ul>
+                                        <ul class="single-mega cn-col-3">
+                                            <li class="title">Catagories</li>
+                                            <li><a href="index.html">Home</a></li>
+                                        </ul>
+
+                                    </div>
+                                </li>
+                                <li><a href="#">GUNDAM</a></li>
+                                <li><a href="#">Articles</a></li>
+                                <li><a href="#">Events</a></li>
+                                <li><a href="#">Trade market</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                            </ul>
+                        </div>
+                        <!-- Nav End -->
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- ##### Header Area End ##### -->
+
+<!-- ##### Begin Body Content ##### -->
+<div class="model-container">
+    <div class="container">
+        <div class="row"
+             style="background-color: white; padding-top: 20px; padding-bottom: 20px; border: 1px solid #f0f0f0;">
+            <!--    Begin left content  -->
+            <div class="col-sm-2">
+                <div class="image-category">
+                    <img class="image-menu" src="/img/4543112620538.jpg"/>
+                </div>
+                <div class="category-title-div">
+                    <strong class="category-title">CATEGORY OPTIONS</strong>
+                </div>
+                <div class="ul-category-title-content">
+                    <ul class="ul-category-contents">
+                        <li class="lead-title">
+                            <strong>Product Series
+                            </strong></li>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Master Grade (25)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Perfect Grade (20)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Real Grade (89)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">High Grade (50)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Other Grade (200)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">SD Gundam (30)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Premium Web Exclusives</li>
+                        </a>
+                    </ul>
+                    <ul class="ul-category-contents">
+                        <li class="lead-title"><strong>Series Title</strong></li>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">First Gundam(12)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Mobile Suit Variation MSV(20)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">0080 War in the Pocket (4)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">0083 Stardust Memory (20)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">New Mobile Report Gundam Wing (10)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Mobile Suit Gundam AGE (30)</li>
+                        </a>
+                        <a class="title-li-a" href="#">
+                            <li class="title-li">Crossbone Gundam (2)</li>
+                        </a>
+                    </ul>
+                </div>
+            </div>
+            <!--    End Left content-->
+
+            <!--    Begin Right content   -->
+            <div class="col-sm-10">
+                <!--    Begin container     -->
+                <div class="container">
+                    <div class="row searchFilter">
+                        <div class="col-sm-12">
+                            <!--    Begin page title    -->
+                            <div class="page-title-wrapper">
+                                <h1 class="page-title"><img src="/img/ph18.jpg"/></h1>
+                            </div>
+                            <!--    End page title  -->
+
+                            <div class="input-group">
+                                <input id="table_filter" type="text" placeholder="Enter a search term"
+                                       aria-label="Text input with segmented button dropdown">
+                                <input type="submit" value="" class="search-box-button"/>
+                            </div>
+
+                            <div class="search-filter-form">
+                                <div class="search-filter-container">
+                                    <div class="io-panel-header">
+                                        <h3>Search model information</h3>
+                                        <div class="drop-down">
+                                            <div id="close_form" class="btn open" onclick="executeDisplayForm()"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="io-panel-body">
+                                        <div class="pad-20">
+                                            <table class="io-table-input">
+                                                <tbody>
+                                                <tr>
+                                                    <td class="label">Category Type</td>
+                                                    <td class="data">
+                                                        <select id="cbo-position" class="editable-select">
+                                                            <option value="All">All</option>
+                                                            <option value="Product Series">Product Series</option>
+                                                            <option value="Series Title">Series Title</option>
+                                                        </select>
+                                                    </td>
+
+                                                    <td class="label">Category</td>
+                                                    <td class="data">
+                                                        <select id="cbo-category" class="editable-select" style="width: 250px;">
+                                                            <option value="All">All</option>
+                                                            <option value="Product Series">Master Grade</option>
+                                                            <option value="Series Title">Series Title</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label">Status</td>
+                                                    <td class="data">
+                                                        <select id="cbo-status" class="editable-select">
+                                                            <option value="All">All</option>
+                                                            <option value="New">New</option>
+                                                            <option value="Selected">Selected</option>
+                                                            <option value="Review">Review</option>
+                                                            <option value="Online test">Online test</option>
+                                                            <option value="Interview">Interview</option>
+                                                            <option value="Offer">Offer</option>
+                                                            <option value="Hired">Hired</option>
+                                                        </select>
+                                                    </td>
+
+                                                    <td class="label">Manufacturer</td>
+                                                    <td class="data">
+                                                        <select id="cbo-manufacturer" class="editable-select" style="width: 200px;">
+                                                            <option value="All">All</option>
+                                                            <option value="&le; 6 months">&ge; 6 months</option>
+                                                            <option value="&gt; 6 months">&gt; 6 months</option>
+                                                            <option value="&gt; 12 months">&gt; 12 months</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label">Price</td>
+                                                    <td class="data">
+                                                        <select id="cbo-price" class="editable-select">
+                                                            <option value="All">All</option>
+                                                            <option value="New">New</option>
+                                                            <option value="Selected">Selected</option>
+                                                            <option value="Review">Review</option>
+                                                            <option value="Online test">Online test</option>
+                                                            <option value="Interview">Interview</option>
+                                                            <option value="Offer">Offer</option>
+                                                            <option value="Hired">Hired</option>
+                                                        </select>
+                                                    </td>
+
+                                                    <td class="label">Updated Date</td>
+                                                    <td class="data">
+                                                        <select id="cbo-updated-date" class="editable-select">
+                                                            <option value="All">All</option>
+                                                            <option value="&le; 6 months">&ge; 6 months</option>
+                                                            <option value="&gt; 6 months">&gt; 6 months</option>
+                                                            <option value="&gt; 12 months">&gt; 12 months</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="io-panel-footer">
+                                        <button class="io-button-standard medium"><span>SEARCH</span></button>
+                                        <button class="io-button-standard medium"><span>CLEAR</span></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--    Begin filters and pagination    -->
+                            <div class="io-list-header">
+
+                                <div class="col-left">
+                                    <span class="txt">Order by</span>&nbsp;
+                                    <div class="styled-select slate">
+                                        <select id="cbo-order-1" class="editable-select">
+                                            <option value="Deadline">Price</option>
+                                            <option value="Division">Released Date</option>
+                                        </select>&nbsp;
+                                    </div>
+
+                                    <!--    Begin ASC/DESC    -->
+                                    <div class="styled-select slate">
+                                        <select id="cbo-order-2" class="editable-select">
+                                            <option value="Deadline">Ascending</option>
+                                            <option value="Division">Descending</option>
+                                        </select>&nbsp;
+                                    </div>
+                                    <!--    End ASC/DESC    -->
+                                </div>
+
+                                <div class="col-right">
+                                    <div class="my-pagination">
+                                        <span class="my-page my-active">First</span>
+                                        <span class="my-page"><a href="#">Prev</a></span>
+                                        <span class="my-page my-active">1</span>
+                                        <span class="my-page"><a href="#">2</a></span>
+                                        <span class="my-page"><a href="#">3</a></span>
+                                        <span class="my-page"><a href="#">4</a></span>
+                                        <span class="my-page"><a href="#">5</a></span>
+                                        <span class="my-page">...</span>
+                                        <span class="my-page"><a href="#">Next</a></span>
+                                        <span class="my-page"><a href="#">Last</a></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--    End filters and pagination  -->
+
+                            <!--    Begin List records    -->
+                            <div class="model-records-container">
+                                <ul>
+                                    <li class="model-records-item">
+                                        <div class="model-records-item-img">
+                                            <img src="/img/10522238.jpg">
+                                            <span class="model-records-item-name">Gundam Mouts</span>
+                                            <div class="model-records-item-info">
+                                                <p>Gundam Mouts</p>
+                                                <p><b>Price: </b>900$</p>
+                                                <p><b>Released Date: </b>2/12/1996</p>
+                                                <p><b>Manufacturer: </b>Bandai</p>
+                                                <p><b>Product Series: </b>Perfect Grade</p>
+                                                <div class="model-records-item-info-button">
+                                                    <button>More Information</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="model-records-item">
+                                        <div class="model-records-item-img">
+                                            <img src="/img/10522238.jpg">
+                                            <span class="model-records-item-name">Gundam Mouts</span>
+                                            <div class="model-records-item-info">
+                                                <p>Gundam Mouts</p>
+                                                <p><b>Price: </b>900$</p>
+                                                <p><b>Released Date: </b>2/12/1996</p>
+                                                <p><b>Manufacturer: </b>Bandai</p>
+                                                <p><b>Product Series: </b>Perfect Grade</p>
+                                                <div class="model-records-item-info-button">
+                                                    <button>More Information</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="model-records-item">
+                                        <div class="model-records-item-img">
+                                            <img src="/img/10522238.jpg">
+                                            <span class="model-records-item-name">Gundam Mouts</span>
+                                            <div class="model-records-item-info">
+                                                <p>Gundam Mouts</p>
+                                                <p><b>Price: </b>900$</p>
+                                                <p><b>Released Date: </b>2/12/1996</p>
+                                                <p><b>Manufacturer: </b>Bandai</p>
+                                                <p><b>Product Series: </b>Perfect Grade</p>
+                                                <div class="model-records-item-info-button">
+                                                    <button>More Information</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="model-records-item">
+                                        <div class="model-records-item-img">
+                                            <img src="/img/10522238.jpg">
+                                            <span class="model-records-item-name">Gundam Mouts</span>
+                                            <div class="model-records-item-info">
+                                                <p>Gundam Mouts</p>
+                                                <p><b>Price: </b>900$</p>
+                                                <p><b>Released Date: </b>2/12/1996</p>
+                                                <p><b>Manufacturer: </b>Bandai</p>
+                                                <p><b>Product Series: </b>Perfect Grade</p>
+                                                <div class="model-records-item-info-button">
+                                                    <button>More Information</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="model-records-item">
+                                        <div class="model-records-item-img">
+                                            <img src="/img/10522238.jpg">
+                                            <span class="model-records-item-name">Gundam Mouts</span>
+                                            <div class="model-records-item-info">
+                                                <p>Gundam Mouts</p>
+                                                <p><b>Price: </b>900$</p>
+                                                <p><b>Released Date: </b>2/12/1996</p>
+                                                <p><b>Manufacturer: </b>Bandai</p>
+                                                <p><b>Product Series: </b>Perfect Grade</p>
+                                                <div class="model-records-item-info-button">
+                                                    <button>More Information</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="model-records-item">
+                                        <div class="model-records-item-img">
+                                            <img src="/img/10522238.jpg">
+                                            <span class="model-records-item-name">Gundam Mouts</span>
+                                            <div class="model-records-item-info">
+                                                <p>Gundam Mouts</p>
+                                                <p><b>Price: </b>900$</p>
+                                                <p><b>Released Date: </b>2/12/1996</p>
+                                                <p><b>Manufacturer: </b>Bandai</p>
+                                                <p><b>Product Series: </b>Perfect Grade</p>
+                                                <div class="model-records-item-info-button">
+                                                    <button>More Information</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="model-records-item">
+                                        <div class="model-records-item-img">
+                                            <img src="/img/10522238.jpg">
+                                            <span class="model-records-item-name">Gundam Mouts</span>
+                                            <div class="model-records-item-info">
+                                                <p>Gundam Mouts</p>
+                                                <p><b>Price: </b>900$</p>
+                                                <p><b>Released Date: </b>2/12/1996</p>
+                                                <p><b>Manufacturer: </b>Bandai</p>
+                                                <p><b>Product Series: </b>Perfect Grade</p>
+                                                <div class="model-records-item-info-button">
+                                                    <button>More Information</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="model-records-item">
+                                        <div class="model-records-item-img">
+                                            <img src="/img/10522238.jpg">
+                                            <span class="model-records-item-name">Gundam Mouts</span>
+                                            <div class="model-records-item-info">
+                                                <p>Gundam Mouts</p>
+                                                <p><b>Price: </b>900$</p>
+                                                <p><b>Released Date: </b>2/12/1996</p>
+                                                <p><b>Manufacturer: </b>Bandai</p>
+                                                <p><b>Product Series: </b>Perfect Grade</p>
+                                                <div class="model-records-item-info-button">
+                                                    <button>More Information</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="model-records-item">
+                                        <div class="model-records-item-img">
+                                            <img src="/img/10522238.jpg">
+                                            <span class="model-records-item-name">Gundam Mouts</span>
+                                            <div class="model-records-item-info">
+                                                <p>Gundam Mouts</p>
+                                                <p><b>Price: </b>900$</p>
+                                                <p><b>Released Date: </b>2/12/1996</p>
+                                                <p><b>Manufacturer: </b>Bandai</p>
+                                                <p><b>Product Series: </b>Perfect Grade</p>
+                                                <div class="model-records-item-info-button">
+                                                    <button>More Information</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="model-records-item">
+                                        <div class="model-records-item-img">
+                                            <img src="/img/10522238.jpg">
+                                            <span class="model-records-item-name">Gundam Mouts</span>
+                                            <div class="model-records-item-info">
+                                                <p>Gundam Mouts</p>
+                                                <p><b>Price: </b>900$</p>
+                                                <p><b>Released Date: </b>2/12/1996</p>
+                                                <p><b>Manufacturer: </b>Bandai</p>
+                                                <p><b>Product Series: </b>Perfect Grade</p>
+                                                <div class="model-records-item-info-button">
+                                                    <button>More Information</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="model-records-item">
+                                        <div class="model-records-item-img">
+                                            <img src="/img/10522238.jpg">
+                                            <span class="model-records-item-name">Gundam Mouts</span>
+                                            <div class="model-records-item-info">
+                                                <p>Gundam Mouts</p>
+                                                <p><b>Price: </b>900$</p>
+                                                <p><b>Released Date: </b>2/12/1996</p>
+                                                <p><b>Manufacturer: </b>Bandai</p>
+                                                <p><b>Product Series: </b>Perfect Grade</p>
+                                                <div class="model-records-item-info-button">
+                                                    <button>More Information</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="model-records-item">
+                                        <div class="model-records-item-img">
+                                            <img src="/img/10522238.jpg">
+                                            <span class="model-records-item-name">Gundam Mouts</span>
+                                            <div class="model-records-item-info">
+                                                <p>Gundam Mouts</p>
+                                                <p><b>Price: </b>900$</p>
+                                                <p><b>Released Date: </b>2/12/1996</p>
+                                                <p><b>Manufacturer: </b>Bandai</p>
+                                                <p><b>Product Series: </b>Perfect Grade</p>
+                                                <div class="model-records-item-info-button">
+                                                    <button>More Information</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="model-records-item">
+                                        <div class="model-records-item-img">
+                                            <img src="/img/10522238.jpg">
+                                            <span class="model-records-item-name">Gundam Mouts</span>
+                                            <div class="model-records-item-info">
+                                                <p>Gundam Mouts</p>
+                                                <p><b>Price: </b>900$</p>
+                                                <p><b>Released Date: </b>2/12/1996</p>
+                                                <p><b>Manufacturer: </b>Bandai</p>
+                                                <p><b>Product Series: </b>Perfect Grade</p>
+                                                <div class="model-records-item-info-button">
+                                                    <button>More Information</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="model-records-item">
+                                        <div class="model-records-item-img">
+                                            <img src="/img/10522238.jpg">
+                                            <span class="model-records-item-name">Gundam Mouts</span>
+                                            <div class="model-records-item-info">
+                                                <p>Gundam Mouts</p>
+                                                <p><b>Price: </b>900$</p>
+                                                <p><b>Released Date: </b>2/12/1996</p>
+                                                <p><b>Manufacturer: </b>Bandai</p>
+                                                <p><b>Product Series: </b>Perfect Grade</p>
+                                                <div class="model-records-item-info-button">
+                                                    <button>More Information</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="model-records-item">
+                                        <div class="model-records-item-img">
+                                            <img src="/img/10522238.jpg">
+                                            <span class="model-records-item-name">Gundam Mouts</span>
+                                            <div class="model-records-item-info">
+                                                <p>Gundam Mouts</p>
+                                                <p><b>Price: </b>900$</p>
+                                                <p><b>Released Date: </b>2/12/1996</p>
+                                                <p><b>Manufacturer: </b>Bandai</p>
+                                                <p><b>Product Series: </b>Perfect Grade</p>
+                                                <div class="model-records-item-info-button">
+                                                    <button>More Information</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="model-records-item">
+                                        <div class="model-records-item-img">
+                                            <img src="/img/10522238.jpg">
+                                            <span class="model-records-item-name">Gundam Mouts</span>
+                                            <div class="model-records-item-info">
+                                                <p>Gundam Mouts</p>
+                                                <p><b>Price: </b>900$</p>
+                                                <p><b>Released Date: </b>2/12/1996</p>
+                                                <p><b>Manufacturer: </b>Bandai</p>
+                                                <p><b>Product Series: </b>Perfect Grade</p>
+                                                <div class="model-records-item-info-button">
+                                                    <button>More Information</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="model-records-item">
+                                        <div class="model-records-item-img">
+                                            <img src="/img/10522238.jpg">
+                                            <span class="model-records-item-name">Gundam Mouts</span>
+                                            <div class="model-records-item-info">
+                                                <p>Gundam Mouts</p>
+                                                <p><b>Price: </b>900$</p>
+                                                <p><b>Released Date: </b>2/12/1996</p>
+                                                <p><b>Manufacturer: </b>Bandai</p>
+                                                <p><b>Product Series: </b>Perfect Grade</p>
+                                                <div class="model-records-item-info-button">
+                                                    <button>More Information</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="model-records-item">
+                                        <div class="model-records-item-img">
+                                            <img src="/img/10522238.jpg">
+                                            <span class="model-records-item-name">Gundam Mouts</span>
+                                            <div class="model-records-item-info">
+                                                <p>Gundam Mouts</p>
+                                                <p><b>Price: </b>900$</p>
+                                                <p><b>Released Date: </b>2/12/1996</p>
+                                                <p><b>Manufacturer: </b>Bandai</p>
+                                                <p><b>Product Series: </b>Perfect Grade</p>
+                                                <div class="model-records-item-info-button">
+                                                    <button>More Information</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="model-records-item">
+                                        <div class="model-records-item-img">
+                                            <img src="/img/10522238.jpg">
+                                            <span class="model-records-item-name">Gundam Mouts</span>
+                                            <div class="model-records-item-info">
+                                                <p>Gundam Mouts</p>
+                                                <p><b>Price: </b>900$</p>
+                                                <p><b>Released Date: </b>2/12/1996</p>
+                                                <p><b>Manufacturer: </b>Bandai</p>
+                                                <p><b>Product Series: </b>Perfect Grade</p>
+                                                <div class="model-records-item-info-button">
+                                                    <button>More Information</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="model-records-item">
+                                        <div class="model-records-item-img">
+                                            <img src="/img/10522238.jpg">
+                                            <span class="model-records-item-name">Gundam Mouts</span>
+                                            <div class="model-records-item-info">
+                                                <p>Gundam Mouts</p>
+                                                <p><b>Price: </b>900$</p>
+                                                <p><b>Released Date: </b>2/12/1996</p>
+                                                <p><b>Manufacturer: </b>Bandai</p>
+                                                <p><b>Product Series: </b>Perfect Grade</p>
+                                                <div class="model-records-item-info-button">
+                                                    <button>More Information</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!--    End list records    -->
+
+                            <!--    Begin filters and pagination    -->
+                            <div class="io-list-header" style="margin-top: 30px;">
+
+                                <div class="col-left">
+                                    <span class="txt">Order by</span>&nbsp;
+                                    <div class="styled-select slate">
+                                        <select id="cbo-order-4" class="editable-select">
+                                            <option value="Deadline">Price</option>
+                                            <option value="Division">Released Date</option>
+                                        </select>&nbsp;
+                                    </div>
+
+                                    <!--    Begin ASC/DESC    -->
+                                    <div class="styled-select slate">
+                                        <select id="cbo-order-5" class="editable-select">
+                                            <option value="Deadline">Ascending</option>
+                                            <option value="Division">Descending</option>
+                                        </select>&nbsp;
+                                    </div>
+                                    <!--    End ASC/DESC    -->
+                                </div>
+
+                                <div class="col-right">
+                                    <div class="my-pagination">
+                                        <span class="my-page my-active">First</span>
+                                        <span class="my-page"><a href="#">Prev</a></span>
+                                        <span class="my-page my-active">1</span>
+                                        <span class="my-page"><a href="#">2</a></span>
+                                        <span class="my-page"><a href="#">3</a></span>
+                                        <span class="my-page"><a href="#">4</a></span>
+                                        <span class="my-page"><a href="#">5</a></span>
+                                        <span class="my-page">...</span>
+                                        <span class="my-page"><a href="#">Next</a></span>
+                                        <span class="my-page"><a href="#">Last</a></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--    End filters and pagination  -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### End Content #####-->
+
+<!-- ##### Footer Add Area Start ##### -->
+<div class="footer-add-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="footer-add">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Footer Add Area End ##### -->
+
+<!-- ##### Footer Area Start ##### -->
+<footer class="footer-area">
+
+    <!-- Main Footer Area -->
+    <div class="main-footer-area">
+        <div class="container">
+            <div class="row">
+
+                <!-- Footer Widget Area -->
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="footer-widget-area mt-80">
+                        <!-- Footer Logo -->
+                        <div class="footer-logo">
+                            <a href="index.html" style="color: white; font: 3em sans-serif;">Gunpla World</a>
+                        </div>
+                        <!-- List -->
+                        <ul class="list">
+                            <li><a href="mailto:contact@youremail.com">contact@youremail.com</a></li>
+                            <li><a href="tel:+4352782883884">+43 5278 2883 884</a></li>
+                            <li><a href="http://yoursitename.com">www.yoursitename.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Footer Widget Area -->
+                <div class="col-12 col-sm-6 col-lg-2">
+                    <div class="footer-widget-area mt-80">
+                        <!-- Title -->
+                        <h4 class="widget-title">Quick Links</h4>
+                        <!-- List -->
+                        <ul class="list">
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Articles</a></li>
+                            <li><a href="#">Events</a></li>
+                            <li><a href="#">Trade market</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Footer Widget Area -->
+                <div class="col-12 col-sm-4 col-lg-2">
+                    <div class="footer-widget-area mt-80">
+                        <!-- Title -->
+                        <h4 class="widget-title">Follow us</h4>
+                        <!-- List -->
+                        <ul class="list">
+                            <li><a href="#">Facebook</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <!-- Bottom Footer Area -->
+                <div class="bottom-footer-area">
+                    <div class="container h-100">
+                        <div class="row h-100 align-items-center">
+                            <div class="col-12">
+                                <!-- Copywrite -->
+                                <p>copywrite lol</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- ##### Footer Area Start ##### -->
+
+<!-- ##### All Javascript Files ##### -->
+<!-- jQuery-2.2.4 js -->
+<script src="js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="js/bootstrap/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="js/bootstrap/bootstrap.min.js"></script>
+<!-- All Plugins js -->
+<script src="js/plugins/plugins.js"></script>
+<!-- Active js -->
+<script src="js/active.js"></script>
+</body>
+
+</html>

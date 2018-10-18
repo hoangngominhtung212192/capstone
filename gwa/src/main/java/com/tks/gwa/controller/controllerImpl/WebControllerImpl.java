@@ -15,4 +15,18 @@ public class WebControllerImpl implements WebController {
     public ModelAndView loginPage() {
         return new ModelAndView("login");
     }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public ModelAndView indexPage() {
+        return new ModelAndView("index");
+    }
+
+    @Override
+    public ModelAndView modelPage() {
+        return new ModelAndView("model");
+    }
 }
