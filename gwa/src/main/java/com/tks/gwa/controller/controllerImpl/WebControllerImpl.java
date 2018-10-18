@@ -42,4 +42,9 @@ public class WebControllerImpl implements WebController {
     public ModelAndView modelDetailPage() {
         return new ModelAndView("modeldetail");
     }
+
+    @Override
+    public ModelAndView profilePage() {
+        return new ModelAndView("profile");
+    }
 }

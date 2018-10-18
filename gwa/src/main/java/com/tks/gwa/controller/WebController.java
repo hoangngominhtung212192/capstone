@@ -22,4 +22,7 @@ public interface WebController {
 
     @RequestMapping(value = "/modeldetail")
     public ModelAndView modelDetailPage();
+
+    @RequestMapping(value = "/profile")
+    public ModelAndView profilePage();
 }
