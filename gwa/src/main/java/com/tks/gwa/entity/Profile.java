@@ -45,6 +45,9 @@ public class Profile implements Serializable {
     @Column(name = "tel")
     private String tel;
 
+    @Transient
+    private String status;
+
     //bi-directional many-to-one association to Account
     @ManyToOne
     @JoinColumn(name="accountid")

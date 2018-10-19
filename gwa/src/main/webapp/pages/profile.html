@@ -19,6 +19,9 @@
     <link rel="stylesheet" href="/css/model.css">
     <link rel="stylesheet" href="/css/search-filter.css">
     <link rel="stylesheet" href="/css/pagination.css">
+
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/profile.js"></script>
 </head>
 
 <body style="background-color: whitesmoke;">
@@ -39,9 +42,16 @@
                         <!-- Login Search Area -->
                         <div class="login-search-area d-flex align-items-center">
                             <!-- Login -->
-                            <div class="login d-flex">
-                                <a href="#">Login</a>
-                                <a href="#">Register</a>
+                            <div id="loginForm" class="account login d-flex">
+                                <a id="username" href="#" style="display: none;"></a>
+                                <a id="loginbtn" href="/login" style="display: none">Login</a>
+                                <a id="register" href="/register" style="display: none">Register</a>
+                                <div class="dropdown-menu-custom-profile" style="display:none;">
+                                    <a id="profile" href="#">Profile</a>
+                                </div>
+                                <div class="dropdown-menu-custom-logout" style="display: none;">
+                                    <a id="logout" href="#">Logout</a>
+                                </div>
                             </div>
                             <!-- Search Form -->
                             <div class="search-form">

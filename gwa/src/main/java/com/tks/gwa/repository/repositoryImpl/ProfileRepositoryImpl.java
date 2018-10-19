@@ -35,4 +35,22 @@ public class ProfileRepositoryImpl extends GenericRepositoryImpl<Profile, Intege
 
         return newProfile;
     }
+
+    @Override
+    public Profile findProfileByAccountID(int accountID) {
+        String sql = "SELECT p FROM " + Profile.class.getName()+ " AS p WHERE p.account.id =:accountID";
+
+        Query query = this.entityManager.createQuery(sql);
+        query.setParameter("accountID", accountID);
+
+        Profile profile = null;
+
+        try {
+            profile = (Profile) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+
+        return profile;
+    }
 }

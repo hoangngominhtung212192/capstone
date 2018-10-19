@@ -2,6 +2,7 @@ package com.tks.gwa.controller.controllerImpl;
 
 import com.tks.gwa.controller.UserWS;
 import com.tks.gwa.entity.Account;
+import com.tks.gwa.entity.Profile;
 import com.tks.gwa.service.UserService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +76,10 @@ public class UserWsImpl implements UserWS {
 
         System.out.println("Username in session: " + username);
 
+        if (username == null) {
+            return new ResponseEntity<>(username, HttpStatus.valueOf(400));
+        }
+
         return new ResponseEntity<>(username, HttpStatus.OK);
     }
 
@@ -99,5 +104,17 @@ public class UserWsImpl implements UserWS {
 
         newAccount.setMessage("Create account failed");
         return new ResponseEntity<Account>(newAccount, HttpStatus.valueOf(400));
+    }
+
+    @Override
+    public ResponseEntity<Profile> getUserProfile(int accountID) {
+
+        Profile profile = userService.getUserProfileByAccountID(accountID);
+
+        if (profile == null) {
+            return new ResponseEntity<Profile>(profile, HttpStatus.valueOf(400));
+        }
+
+        return new ResponseEntity<Profile>(profile, HttpStatus.OK);
     }
 }

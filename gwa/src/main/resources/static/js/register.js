@@ -1,15 +1,15 @@
 $(document).ready(function () {
-    getUsername();
+    authentication();
 
-    function getUsername() {
+    function authentication() {
 
         $.ajax({
-            type: "GET",
-            url: "http://localhost:8080/api/user/getUsername",
-            success: function (result, status) {
+            type : "GET",
+            url : "http://localhost:8080/api/user/getUsername",
+            complete : function(xhr, status) {
 
-                if (result.length) {
-                    window.location.href("http://localhost:8080/model/");
+                if (status == "success") {
+                    window.location.href = "/model/";
                 } else {
                     console.log("Guest is accessing !");
                 }
@@ -150,15 +150,16 @@ $(document).ready(function () {
 
     function ajaxPost(data) {
         console.log(data);
-
         $.ajax({
             type : "POST",
             contentType : "application/json",
-            url : "http://localhost:8080/api/user/register",
+            url : "/api/user/register",
             data : JSON.stringify(data),
             success : function(result, status) {
                 alert("Register successfully !")
-                console.log(result.id);
+                console("New profile is created successfully with identifier: " + result.id);
+
+                window.location.href = "/login";
             },
             complete : function(xhr, textStatus) {
                 if (textStatus == "error") {

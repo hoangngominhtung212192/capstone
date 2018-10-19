@@ -9,4 +9,6 @@ public interface ProfileRepository extends GenericRepository<Profile, Integer> {
     public Profile findProfileByEmail(String email);
 
     public Profile createNewProfile(Profile profile);
+
+    public Profile findProfileByAccountID(int accountID);
 }

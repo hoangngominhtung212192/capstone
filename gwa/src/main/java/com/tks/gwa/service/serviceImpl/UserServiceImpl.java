@@ -79,4 +79,12 @@ public class UserServiceImpl implements UserService {
 
         return newAccount;
     }
+
+    @Override
+    public Profile getUserProfileByAccountID(int accountID) {
+
+        Profile profile = profileRepository.findProfileByAccountID(accountID);
+
+        return profile;
+    }
 }

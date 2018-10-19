@@ -1,16 +1,16 @@
 $(document).ready(function() {
 
-    getUsername();
+    authentication();
 
-    function getUsername() {
+    function authentication() {
 
         $.ajax({
             type : "GET",
             url : "http://localhost:8080/api/user/getUsername",
-            success : function(result, status) {
+            complete : function(xhr, status) {
 
-                if (result.length) {
-                    window.location.href("http://localhost:8080/model/");
+                if (status == "success") {
+                    window.location.href = "/model/";
                 } else {
                     console.log("Guest is accessing !");
                 }
@@ -57,13 +57,13 @@ $(document).ready(function() {
         $.ajax({
             type : "POST",
             contentType : "application/json",
-            url : "http://localhost:8080/api/user/login",
+            url : "/api/user/login",
             data : JSON.stringify(data),
             success : function(role, status) {
                 if (role == "MEMBER") {
-                    window.location.href = "http://localhost:8080/model/"
+                    window.location.href = "/model/"
                 } else {
-                    window.location.href = "http://localhost:8080/admin/model/create"
+                    window.location.href = "/model/create"
                 }
             },
             complete : function(xhr, textStatus) {
