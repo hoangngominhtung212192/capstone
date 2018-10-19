@@ -2,11 +2,7 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <!-- Title -->
     <title>Gunpla World</title>
@@ -20,6 +16,7 @@
     <link rel="stylesheet" href="/css/search-filter.css">
     <link rel="stylesheet" href="/css/pagination.css">
 
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script>
         function executeDisplayForm() {
             if (document.getElementById('close_form').classList.contains('open')) {
@@ -62,9 +59,16 @@
                         <!-- Login Search Area -->
                         <div class="login-search-area d-flex align-items-center">
                             <!-- Login -->
-                            <div class="login d-flex">
-                                <a href="#">Login</a>
-                                <a href="#">Register</a>
+                            <div id="loginForm" class="account login d-flex">
+                                <a id="username" href="#" style="display: none;"></a>
+                                <a id="loginbtn" href="/login" style="display: none">Login</a>
+                                <a id="register" href="/register" style="display: none">Register</a>
+                                <div class="dropdown-menu-custom-profile" style="display:none;">
+                                    <a id="profile" href="#">Profile</a>
+                                </div>
+                                <div class="dropdown-menu-custom-logout" style="display: none;">
+                                    <a id="logout" href="#">Logout</a>
+                                </div>
                             </div>
                             <!-- Search Form -->
                             <div class="search-form">
@@ -263,7 +267,8 @@
 
                                                     <td class="label">Category</td>
                                                     <td class="data">
-                                                        <select id="cbo-category" class="editable-select" style="width: 250px;">
+                                                        <select id="cbo-category" class="editable-select"
+                                                                style="width: 250px;">
                                                             <option value="All">All</option>
                                                             <option value="Product Series">Master Grade</option>
                                                             <option value="Series Title">Series Title</option>
@@ -287,7 +292,8 @@
 
                                                     <td class="label">Manufacturer</td>
                                                     <td class="data">
-                                                        <select id="cbo-manufacturer" class="editable-select" style="width: 200px;">
+                                                        <select id="cbo-manufacturer" class="editable-select"
+                                                                style="width: 200px;">
                                                             <option value="All">All</option>
                                                             <option value="&le; 6 months">&ge; 6 months</option>
                                                             <option value="&gt; 6 months">&gt; 6 months</option>
@@ -838,6 +844,7 @@
 <script src="/js/plugins/plugins.js"></script>
 <!-- Active js -->
 <script src="/js/active.js"></script>
+<script type="text/javascript" src="/js/model.js"></script>
 </body>
 
 </html>

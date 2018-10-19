@@ -1844,6 +1844,22 @@ transform: scale(1.05) rotate(2deg);
 	-o-transition: all 0.3s ease-in-out;
 	transition: all 0.3s ease-in-out;
 }
+.image-preview{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	font-size: 30px;
+	color: #c2c2c2;
+	cursor:pointer;
+	margin-top: -14px;
+	margin-left: -14px;
+	line-height: 30px;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
 
 .add-image label.uplotradeimage:hover:before {
 	color:#00a651;
@@ -3593,14 +3609,6 @@ transform: scale(1.05) rotate(2deg);
  	Extra
  ========================================================================== */
 
-#scrollUp {
-    background-image: url("../images/top.png");
-    bottom: 20px;
-    right: 20px;
-    width: 38px;    /* Width of image */
-    height: 38px;   /* Height of image */
-    text-indent: -9999px;
-}
 
 
 input, select, a, .transition,
@@ -4837,4 +4845,3 @@ input, select, a, .transition,
 	}
 
 }
-
