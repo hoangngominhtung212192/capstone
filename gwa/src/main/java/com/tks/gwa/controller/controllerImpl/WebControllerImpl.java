@@ -54,4 +54,9 @@ public class WebControllerImpl implements WebController {
     public ModelAndView profilePage() {
         return new ModelAndView("profile");
     }
+
+    @Override
+    public ModelAndView createArticlePage() {
+        return new ModelAndView("create-article");
+    }
 }

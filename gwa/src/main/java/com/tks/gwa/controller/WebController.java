@@ -28,4 +28,7 @@ public interface WebController {
 
     @RequestMapping(value = "/profile")
     public ModelAndView profilePage();
+
+    @RequestMapping(value = "/create-Article")
+    public ModelAndView createArticlePage();
 }

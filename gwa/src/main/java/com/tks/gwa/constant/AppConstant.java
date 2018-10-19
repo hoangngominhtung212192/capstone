@@ -27,4 +27,12 @@ public class AppConstant {
     public static final String URL_GUNDAM_MODEL_IMAGE_BEGIN_SIGN = "imgAll";
 
     public static final String URL_GUNDAM_MODEL_IMAGE_END_SIGN = "margin-top:30px;";
+
+    public static final String APPROVED_STATUS = "approved";
+
+    public static final String DECLINED_STATUS = "declined";
+
+    public static final String USER_PENDING = "userpending";
+
+    public static final String CRAWL_PENDING = "crawlpending";
 }
