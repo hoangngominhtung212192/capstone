@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>Gunpla World</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/img/favicon.ico">
+
+    <!-- Core Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/model.css">
+    <link rel="stylesheet" href="/css/search-filter.css">
+    <link rel="stylesheet" href="/css/pagination.css">
+
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/profile.js"></script>
+</head>
+
+<body style="background-color: whitesmoke;">
+<!-- ##### Header Area Start ##### -->
+<header class="header-area">
+
+    <!-- Top Header Area -->
+    <div class="top-header-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="top-header-content d-flex align-items-center justify-content-between">
+                        <!-- Logo -->
+                        <div class="logo">
+                            <a href="index.html" style="color: white; font: 3em sans-serif;">Gunpla World</a>
+                        </div>
+
+                        <!-- Login Search Area -->
+                        <div class="login-search-area d-flex align-items-center">
+                            <!-- Login -->
+                            <div id="loginForm" class="account login d-flex">
+                                <a id="username" href="#" style="display: none;"></a>
+                                <a id="loginbtn" href="/login" style="display: none">Login</a>
+                                <a id="register" href="/register" style="display: none">Register</a>
+                                <div class="dropdown-menu-custom-profile" style="display:none;">
+                                    <a id="profile" href="#">Profile</a>
+                                </div>
+                                <div class="dropdown-menu-custom-logout" style="display: none;">
+                                    <a id="logout" href="#">Logout</a>
+                                </div>
+                            </div>
+                            <!-- Search Form -->
+                            <div class="search-form">
+                                <form action="#" method="post">
+                                    <input type="search" name="search" class="form-control" placeholder="Search">
+                                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar Area -->
+    <div class="newspaper-main-menu" id="stickyMenu">
+        <div class="classy-nav-container breakpoint-off">
+            <div class="container">
+                <!-- Menu -->
+                <nav class="classy-navbar justify-content-between" id="newspaperNav">
+
+                    <!-- Logo -->
+                    <div class="logo">
+                        <a href="index.html"><img src="/img/logo.png" alt=""></a>
+                    </div>
+
+                    <!-- Navbar Toggler -->
+                    <div class="classy-navbar-toggler">
+                        <span class="navbarToggler"><span></span><span></span><span></span></span>
+                    </div>
+
+                    <!-- Menu -->
+                    <div class="classy-menu">
+
+                        <!-- close btn -->
+                        <div class="classycloseIcon">
+                            <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                        </div>
+
+                        <!-- Nav Start -->
+                        <div class="classynav">
+                            <ul>
+                                <li class="active"><a href="index.html">Home</a></li>
+                                <li><a href="#">Pages</a>
+                                    <ul class="dropdown">
+                                        <li><a href="index.html">Home</a></li>
+                                        <li><a href="#">Dropdown</a>
+                                            <ul class="dropdown">
+                                                <li><a href="index.html">Home</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Mega Menu</a>
+                                    <div class="megamenu">
+                                        <ul class="single-mega cn-col-3">
+                                            <li class="title">Catagories</li>
+                                            <li><a href="index.html">Home</a></li>
+                                        </ul>
+                                        <ul class="single-mega cn-col-3">
+                                            <li class="title">Catagories</li>
+                                            <li><a href="index.html">Home</a></li>
+                                        </ul>
+                                        <ul class="single-mega cn-col-3">
+                                            <li class="title">Catagories</li>
+                                            <li><a href="index.html">Home</a></li>
+                                        </ul>
+
+                                    </div>
+                                </li>
+                                <li><a href="#">GUNDAM</a></li>
+                                <li><a href="#">Articles</a></li>
+                                <li><a href="#">Events</a></li>
+                                <li><a href="#">Trade market</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                            </ul>
+                        </div>
+                        <!-- Nav End -->
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- ##### Header Area End ##### -->
+
+<!-- ##### Begin Body Content ##### -->
+<div class="model-container">
+    <div class="container">
+        <div class="row" style="background-color: white; padding-top: 20px; padding-bottom: 20px; border: 1px solid #f0f0f0;">
+            <!--    Begin left content  -->
+            <div class="col-sm-6">
+                <div class="profile-title">
+                    tunghoang122
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="edit-container">
+                    <button class="io-button-standard" type="submit">
+                        <a href="#">BAN</a>
+                    </button>
+                    <button class="io-button-standard" type="submit">
+                        <a href="#">EDIT</a>
+                    </button>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="profile-left-col">
+                    <div class="text-center">
+                        <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                             class="avatar img-circle img-thumbnail" alt="avatar">
+                        <h6>Upload a different photo...</h6>
+                        <input class="button-file" type="file" class="text-center center-block file-upload">
+                    </div>
+                    </hr><br>
+
+                    <ul class="list-group">
+                        <li class="list-group-item text-muted title-activity">Activity</li>
+                        <li class="list-group-item text-right title-activity-item"><span class="pull-left"><strong>Proposal</strong></span>
+                            125
+                        </li>
+                        <li class="list-group-item text-right title-activity-item"><span
+                                class="pull-left"><strong>Buy</strong></span> 13
+                        </li>
+                        <li class="list-group-item text-right title-activity-item"><span
+                                class="pull-left"><strong>Sell</strong></span> 37
+                        </li>
+                        <li class="list-group-item text-right title-activity-item"><span class="pull-left"
+                                                                                         style="margin-top: 8px"><strong>Reputation</strong></span>
+                            <span class="reputation-star-rating">&#9733;&#9733;&#9733;&#9733;&#9733;</span></li>
+                    </ul>
+                </div>
+            </div>
+            <!--    End Left content-->
+
+            <!--    Begin Right content   -->
+            <div class="col-sm-9">
+                <form class="form" action="##" method="post" id="registrationForm">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="col-xs-6">
+                                        <label for="first_name"><h5>First name</h5></label>
+                                        <input type="text" class="form-control" name="first_name" id="first_name"
+                                               value="Tung" title="enter your first name if any.">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-6">
+                                        <label for="last_name"><h5>Middle name</h5></label>
+                                        <input type="text" class="form-control" name="last_name" id="last_name"
+                                               value="Minh" title="enter your last name if any.">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-6">
+                                        <label for="phone"><h5>Last name</h5></label>
+                                        <input type="text" class="form-control" name="phone" id="phone"
+                                               value="Hoang Ngo" title="enter your phone number if any.">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-6">
+                                        <label for="mobile"><h5>Tel</h5></label>
+                                        <input type="text" class="form-control" name="mobile" id="mobile"
+                                               value="0981875113"
+                                               title="enter your mobile number if any.">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-6">
+                                        <label for="status"><h5>Status</h5></label>
+                                        <input style="width: 100px; color: green" type="text" class="form-control" name="status" id="status"
+                                               value="Active" title="Status" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+
+                                    <div class="col-xs-6">
+                                        <label for="email"><h5>Email</h5></label>
+                                        <input type="email" class="form-control" name="email" id="email"
+                                               value="tunghnmse62231@fpt.edu.vn" title="enter your email.">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+
+                                    <div class="col-xs-6">
+                                        <label for="email"><h5>Address</h5></label>
+                                        <input type="email" class="form-control" id="location"
+                                               value="You can't know"
+                                               title="enter a location">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-6">
+                                        <label for="birthday"><h5>Birthday</h5></label>
+                                        <input type="text" class="form-control" name="birthday" id="birthday"
+                                               value="2-12-1997" title="enter your password.">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-6">
+                                        <label for="password2"><h5>Password</h5></label>
+                                        <input type="password" class="form-control" name="password2" id="password2"
+                                               value="123456789" title="enter your password2." disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <br>
+                                        <button class="save-btn btn btn-lg btn-success" type="submit"><i
+                                                class="glyphicon glyphicon-ok-sign"></i> SAVE
+                                        </button>
+                                        <button class="reset-btn btn btn-lg" type="reset"><i
+                                                class="glyphicon glyphicon-repeat"></i> RESET
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- ##### End Content #####-->
+
+<!-- ##### Footer Add Area Start ##### -->
+<div class="footer-add-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="footer-add">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Footer Add Area End ##### -->
+
+<!-- ##### Footer Area Start ##### -->
+<footer class="footer-area">
+
+    <!-- Main Footer Area -->
+    <div class="main-footer-area">
+        <div class="container">
+            <div class="row">
+
+                <!-- Footer Widget Area -->
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="footer-widget-area mt-80">
+                        <!-- Footer Logo -->
+                        <div class="footer-logo">
+                            <a href="index.html" style="color: white; font: 3em sans-serif;">Gunpla World</a>
+                        </div>
+                        <!-- List -->
+                        <ul class="list">
+                            <li><a href="mailto:contact@youremail.com">contact@youremail.com</a></li>
+                            <li><a href="tel:+4352782883884">+43 5278 2883 884</a></li>
+                            <li><a href="http://yoursitename.com">www.yoursitename.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Footer Widget Area -->
+                <div class="col-12 col-sm-6 col-lg-2">
+                    <div class="footer-widget-area mt-80">
+                        <!-- Title -->
+                        <h4 class="widget-title">Quick Links</h4>
+                        <!-- List -->
+                        <ul class="list">
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Articles</a></li>
+                            <li><a href="#">Events</a></li>
+                            <li><a href="#">Trade market</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Footer Widget Area -->
+                <div class="col-12 col-sm-4 col-lg-2">
+                    <div class="footer-widget-area mt-80">
+                        <!-- Title -->
+                        <h4 class="widget-title">Follow us</h4>
+                        <!-- List -->
+                        <ul class="list">
+                            <li><a href="#">Facebook</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <!-- Bottom Footer Area -->
+                <div class="bottom-footer-area">
+                    <div class="container h-100">
+                        <div class="row h-100 align-items-center">
+                            <div class="col-12">
+                                <!-- Copywrite -->
+                                <p>copywrite lol</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- ##### Footer Area Start ##### -->
+
+<!-- ##### All Javascript Files ##### -->
+<!-- jQuery-2.2.4 js -->
+<script src="/js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="/js/bootstrap/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="/js/bootstrap/bootstrap.min.js"></script>
+<!-- All Plugins js -->
+<script src="/js/plugins/plugins.js"></script>
+<!-- Active js -->
+<script src="/js/active.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recruitment Tool</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <!-- css reset style sheet -->
+    <link rel="stylesheet" href="/css/normalize.css">
+    <!-- css master style sheet -->
+    <link rel="stylesheet" href="/css/admin-tung.css">
+
+    <!-- third party style sheet -->
+    <link rel="stylesheet" type="text/css" href="/css/jquery.editable-select.css">
+
+    <!-- resruitmen tool style sheet -->
+    <link rel="stylesheet" href="/css/admin_tung_tool.css">
+    <script>
+        $(function () {
+
+            //resize right column to match height with left column => fix vertical divider
+            var colLeft = $('.io-contact-information');
+            var colRight = $('.io-personal-information');
+            colLeft.resize(function () {
+                colRight.css('min-height', colLeft.height() + 'px');
+            });
+            colLeft.resize();
+
+
+        });
+    </script>
+
+</head>
+<body style="font: normal 18px Lato, Helvetica, sans-serif;">
+<div class="io-col-main">
+    <div class="io-main-content">
+        <div class="pad-10">
+            <div class="io-panel panel-create-new-candidate">
+                <div class="io-panel-header">
+                    <h3 style="float:left; margin-top:8px;">Edit Model {Code of the model}</h3>
+                    <div style="float:right;"><a href="03_candidate_detail.html" class="io-button-highlight medium"
+                                                 style="margin-right: 10px;"><span>SAVE</span></a><a
+                            href="03_candidate_detail.html" class="io-button-standard medium"
+                            style=""><span>CANCEL</span></a></div>
+                    <div style="clear:right;"></div>
+                </div>
+                <div class="io-panel-body clearfix">
+                    <div class="io-contact-information">
+
+
+                        <div class="pad-20">
+                            <h3><img src="/img/transparent.png" alt="Contact Information" class="iconContactInfo">Model
+                                information</h3>
+
+                            <table class="io-table-input vertical" style="width: auto;">
+                                <tbody>
+                                <tr>
+                                    <td class="label" colspan="2">Code</td>
+                                </tr>
+                                <tr>
+                                    <td class="data"><input class="io-txt-normal empty" style="width: 98px;"
+                                                            id="firstname" type="text" value="" placeholder="Code"
+                                                            autofocus/></td>
+                                </tr>
+                                <tr>
+                                    <td class="label" colspan="2">Name</td>
+                                </tr>
+                                <tr>
+                                    <td class="data" colspan="2"><input class="io-txt-normal empty"
+                                                                        style="width: 230px;" id="no_street" type="text"
+                                                                        placeholder="Name"/></td>
+                                </tr>
+
+                                <tr>
+                                    <td class="label" colspan="2">Product Series</td>
+                                </tr>
+                                <tr>
+                                    <td class="data" style="width: 200px;">
+                                        <select id="cbo-productseries" style="width: 100%;
+    overflow: hidden;
+    background: transparent;
+    padding: 8px; /* If you add too much padding here, the options won't show in IE */
+    background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
+    width: 200px;
+    float: left;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    height: 34px;
+-webkit-appearance: none;">
+                                            <option value="Perfect Grade">Perfect Grade</option>
+                                            <option value="Master Grade">Master Grade</option>
+                                            <option value="Real Grade">Real Grade</option>
+                                            <option value="High Grade">high Grade</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="label" colspan="2">Series Title</td>
+                                </tr>
+                                <tr>
+                                    <td class="data" style="width: 200px;">
+                                        <select id="cbo-seriestitle" style="width: 100%;
+    overflow: hidden;
+    background: transparent;
+    padding: 8px; /* If you add too much padding here, the options won't show in IE */
+    background: url(/css/images//2e3ybe1.jpg) no-repeat right center;
+    width: 300px;
+    float: left;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    height: 34px;
+-webkit-appearance: none;">
+                                            <option value="Perfect Grade">Reborn-One Hundred</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="label" colspan="2">Manufacturer</td>
+                                </tr>
+                                <tr>
+                                    <td class="data" style="width: 200px;">
+                                        <select id="cbo-manufacturer" style="width: 100%;
+    overflow: hidden;
+    background: transparent;
+    padding: 8px; /* If you add too much padding here, the options won't show in IE */
+    background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
+    width: 150px;
+    float: left;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    height: 34px;
+-webkit-appearance: none;">
+                                            <option value="Perfect Grade">Bandai</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="label" colspan="2">Price</td>
+                                </tr>
+                                <tr>
+                                    <td class="data" colspan="2"><input class="io-txt-normal empty" placeholder="Price" style="width: 98px;"
+                                                                        id="phone" type="text" value=""/></td>
+                                </tr>
+
+                                <tr>
+                                    <td class="label" colspan="2">Status</td>
+                                </tr>
+                                <tr>
+                                    <td class="data" style="width: 200px;">
+                                        <select id="cbo-status" style="width: 100%;
+    overflow: hidden;
+    background: transparent;
+    padding: 8px; /* If you add too much padding here, the options won't show in IE */
+    background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
+    width: 150px;
+    float: left;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    height: 34px;
+-webkit-appearance: none;">
+                                            <option value="Available">Available</option>
+                                            <option value="Unavailable">Unavailable</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <div class="io-personal-information newCandidate">
+                        <div class="pad-20">
+                            <div class="profile-summary">
+                                <h3 class="expand"><img src="/img/transparent.png" alt=""
+                                                        class="iconSummary"><span>Description<span></h3>
+                                <div>
+                                                <textarea class="io-ta-normal" style="height: 150px;">Prototype MS with Psycomu appeared in RE / 100!
+
+Refreshed the details and proportions according to RE / 100 based on the original image of the ZZ fan highly anticipated hammer hammer.
+Flexible arm has a large number of gimmicks including soft materials and repeatable all range attack by lead wire.</textarea>
+                                </div>
+
+
+                            </div><!-- end of summary -->
+                            <div class="profile-experience">
+                                <h3 class="expand"><img src="/img/transparent.png" alt="" class="iconEx"/><span>Model's Images</span>
+                                </h3>
+
+                                <table class="io-table-input vertical">
+                                    <tbody>
+                                    <tr>
+                                        <td class="label">Upload pictures</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="data" colspan="1">
+                                            <input id="avatar" type="file" value=""
+                                                   style="float: left; padding-top: 5px; width: 350px;"/>
+                                            <div class="io-editable-list">
+                                                <div class="row">
+                                                              <span class="col">
+                                                              	<select id="cbo-image-type" style="width: 100%;
+    overflow: hidden;
+    background: transparent;
+    padding: 8px; /* If you add too much padding here, the options won't show in IE */
+    background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
+    width: 150px;
+    float: left;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    height: 34px;
+-webkit-appearance: none;">
+                                            <option value="Available">Package</option>
+                                            <option value="Unavailable">Item picture</option>
+                                        </select></span>
+                                                    <span class="ico-20 add-row"></span>
+                                                    <span class="ico-20 remove-row"></span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- end io-col-main -->
+
+
+</body>
+</html>

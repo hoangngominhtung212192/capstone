@@ -25,6 +25,18 @@ public class Account implements Serializable {
     @JoinColumn(name="roleid")
     private Role role;
 
+    @Transient
+    private String firstname;
+
+    @Transient
+    private String lastname;
+
+    @Transient
+    private String email;
+
+    @Transient
+    private String message;
+
     public Account(){}
 
     public int getId() {
@@ -65,5 +77,37 @@ public class Account implements Serializable {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

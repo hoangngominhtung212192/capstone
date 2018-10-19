@@ -16,6 +16,11 @@ public class WebControllerImpl implements WebController {
         return new ModelAndView("login");
     }
 
+    @Override
+    public ModelAndView registerPage() {
+        return new ModelAndView("register");
+    }
+
     /**
      *
      * @return
@@ -48,5 +53,25 @@ public class WebControllerImpl implements WebController {
     public ModelAndView modelDetailPage() {
         return new ModelAndView("modeldetail");
 
+    }
+
+    @Override
+    public ModelAndView profilePage() {
+        return new ModelAndView("profile");
+    }
+
+    @Override
+    public ModelAndView searchAccountPage() {
+        return new ModelAndView("searchaccount");
+    }
+
+    @Override
+    public ModelAndView createModelPage() {
+        return new ModelAndView("createmodel");
+    }
+
+    @Override
+    public ModelAndView editModelPage() {
+        return new ModelAndView("editmodel");
     }
 }

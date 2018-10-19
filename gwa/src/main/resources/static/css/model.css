@@ -598,6 +598,8 @@ ul.rating li a:hover {
 .dropdown-menu-custom-profile > #profile {
     transition: none;
     color: black;
+    font-weight: 100;
+    font-family: Arial, Verdana, Helvetica, sans-serif;;
 }
 
 .dropdown-menu-custom-profile > #profile:hover {
@@ -630,6 +632,8 @@ ul.rating li a:hover {
 .dropdown-menu-custom-logout > #logout {
     transition: none;
     color: black;
+    font-weight: 100;
+    font-family: Arial, Verdana, Helvetica, sans-serif;;
 }
 
 .dropdown-menu-custom-logout > #logout:hover {
