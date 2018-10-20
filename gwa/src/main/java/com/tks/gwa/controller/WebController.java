@@ -34,6 +34,7 @@ public interface WebController {
 
     @RequestMapping(value = "/create-Article")
     public ModelAndView createArticlePage();
+
     @RequestMapping(value = "/admin/user/search")
     public ModelAndView searchAccountPage();
 

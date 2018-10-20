@@ -12,13 +12,13 @@ import javax.servlet.http.HttpSession;
 public interface UserWS {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    ResponseEntity<String> checklogin(@RequestBody Account account, HttpSession session);
+    ResponseEntity<Account> checklogin(@RequestBody Account account, HttpSession session);
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     ResponseEntity<String> logout(HttpSession session);
 
-    @RequestMapping(value = "/getUsername", method =  RequestMethod.GET)
-    ResponseEntity<String> getUserNameFromSession(HttpSession session);
+    @RequestMapping(value = "/checkLogin", method =  RequestMethod.GET)
+    ResponseEntity<Account> getAccountFromSession(HttpSession session);
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     ResponseEntity<Account> register(@RequestBody Account account);

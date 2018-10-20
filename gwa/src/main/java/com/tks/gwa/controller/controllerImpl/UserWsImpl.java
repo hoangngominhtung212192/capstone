@@ -3,6 +3,7 @@ package com.tks.gwa.controller.controllerImpl;
 import com.tks.gwa.controller.UserWS;
 import com.tks.gwa.entity.Account;
 import com.tks.gwa.entity.Profile;
+import com.tks.gwa.entity.Role;
 import com.tks.gwa.service.UserService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,35 +23,33 @@ public class UserWsImpl implements UserWS {
     private UserService userService;
 
     @Override
-    public ResponseEntity<String> checklogin(@RequestBody Account account, HttpSession session) {
-
-        boolean checkAdmin = false;
+    public ResponseEntity<Account> checklogin(@RequestBody Account account, HttpSession session) {
 
         Account result = userService.checkLogin(account);
 
         if (result == null) {
-            return new ResponseEntity<>("Incorrect username of password!", HttpStatus.valueOf(400));
+            Account responseAccount = new Account();
+            responseAccount.setMessage("Incorrect username of password!");
+
+            return new ResponseEntity<Account>(responseAccount, HttpStatus.valueOf(400));
         }
 
         if (result.getStatus().equals("Banned")) {
-            return new ResponseEntity<>("Sorry! Your account has been banned!", HttpStatus.valueOf(400));
+            Account responseAccount = new Account();
+            responseAccount.setMessage("Sorry! Your account has been banned!");
+
+            return new ResponseEntity<Account>(responseAccount, HttpStatus.valueOf(400));
         }
 
         System.out.println("Username " + account.getUsername() + " login successfully !");
 
-        if (result.getRole().getName().equalsIgnoreCase("ADMIN")) {
-            session.setAttribute("ADMIN", "TRUE");
-            checkAdmin = true;
-        }
-
+        // set session
+        session.setAttribute("ROLE", result.getRole().getName());
         session.setAttribute("USERNAME", result.getUsername());
 
-        if (checkAdmin) {
-            System.out.println("Welcome admin " + account.getUsername());
-            return new ResponseEntity<>("ADMIN", HttpStatus.OK);
-        }
+        System.out.println("Welcome " + result.getRole().getName() + " " + account.getUsername() + "!");
 
-        return new ResponseEntity<>("MEMBER", HttpStatus.OK);
+        return new ResponseEntity<Account>(result, HttpStatus.OK);
     }
 
     @Override
@@ -70,17 +69,30 @@ public class UserWsImpl implements UserWS {
     }
 
     @Override
-    public ResponseEntity<String> getUserNameFromSession(HttpSession session) {
+    public ResponseEntity<Account> getAccountFromSession(HttpSession session) {
+
+        Account account = null;
 
         String username = (String) session.getAttribute("USERNAME");
 
-        System.out.println("Username in session: " + username);
+        if (username != null) {
+            System.out.println("Username in session: " + username);
 
-        if (username == null) {
-            return new ResponseEntity<>(username, HttpStatus.valueOf(400));
+            account = userService.getAccountByUsername(username);
+
+            if (account != null) {
+                String role = (String) session.getAttribute("ROLE");
+                System.out.println("Role in session: " + role);
+
+                Role roleEntity = new Role();
+                roleEntity.setName(role);
+
+                account.setRole(roleEntity);
+                return new ResponseEntity<Account>(account, HttpStatus.OK);
+            }
         }
 
-        return new ResponseEntity<>(username, HttpStatus.OK);
+        return new ResponseEntity<Account>(account, HttpStatus.valueOf(400));
     }
 
     @Override

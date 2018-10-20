@@ -4,12 +4,20 @@ $(document).ready(function () {
     function authentication() {
 
         $.ajax({
-            type : "GET",
-            url : "http://localhost:8080/api/user/getUsername",
-            complete : function(xhr, status) {
+            type: "GET",
+            url: "http://localhost:8080/api/user/checkLogin",
+            complete: function (xhr, status) {
 
                 if (status == "success") {
-                    window.location.href = "/model/";
+                    var xhr_data = xhr.responseText;
+                    var jsonResponse = JSON.parse(xhr_data);
+                    var role = jsonResponse["role"].name;
+
+                    if (role == "MEMBER") {
+                        window.location.href = "/model/"
+                    } else if (role == "ADMIN") {
+                        window.location.href = "/admin/model/create";
+                    }
                 } else {
                     console.log("Guest is accessing !");
                 }

@@ -64,6 +64,8 @@ public class WebControllerImpl implements WebController {
     public ModelAndView createArticlePage() {
         return new ModelAndView("create-article");
     }
+
+    @Override
     public ModelAndView searchAccountPage() {
         return new ModelAndView("searchaccount");
     }
