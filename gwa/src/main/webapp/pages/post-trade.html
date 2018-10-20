@@ -11,6 +11,7 @@
     <!-- Title -->
     <title>Gunpla World</title>
 
+
     <!-- Favicon -->
     <link rel="icon" href="/img/favicon.ico">
 
@@ -18,6 +19,11 @@
     <link rel="stylesheet" href="/css/style.css">
     <!-- Trademarket Stylesheet -->
     <link rel="stylesheet" href="/css/trademarket.css">
+    <style>
+        label.error {
+            color: red;
+        }
+    </style>
 
 </head>
 
@@ -144,22 +150,23 @@
         <div class="adpost-details">
             <div class="row">
                 <div class="col-md-8">
-                    <form action="#">
+                    <form action="/api/tradepost/post-new-trade" id="tradepostForm">
                         <fieldset>
                             <!--Trade Post Section -->
                             <div class="section postdetails">
                                 <h4>Trade an item or service <span class="pull-right">* Mandatory Fields</span></h4>
 
                                 <!-- Type of Trade -->
-                                <div class="row form-group">
-                                    <label class="col-sm-3">Type of trade<span class="required">*</span></label>
-                                    <div class="col-sm-9 user-type">
-                                        <input type="radio" name="tradeType" value="sell" id="tradeType-sell"> <label
-                                            for="tradeType-sell">I want to sell </label>
-                                        <input type="radio" name="tradeType" value="buy" id="tradeType-buy"> <label
-                                            for="tradeType-buy">I want to buy</label>
-                                    </div>
-                                </div><!-- Type of Trade -->
+                                    <div class="row form-group">
+                                        <label class="col-sm-3">Type of trade<span class="required">*</span></label>
+                                        <div class="col-sm-9 user-type">
+                                            <input type="radio" name="tradeType" value="sell" id="tradeType-sell">
+                                            <label
+                                                    for="tradeType-sell">I want to sell </label>
+                                            <input type="radio" name="tradeType" value="buy" id="tradeType-buy"> <label
+                                                for="tradeType-buy">I want to buy</label>
+                                        </div>
+                                    </div><!-- Type of Trade -->
 
                                 <!-- Title of Trade -->
                                 <div class="row form-group add-title">
@@ -204,10 +211,16 @@
                                     <div class="col-sm-9">
                                         <label>$USD</label>
                                         <input type="text" name="tradePrice" class="form-control" id="tradePrice">
+                                    </div>
+                                </div>
+                                <div class="row form-group select-priceNego">
+                                    <label class="col-sm-4 label-title"></label>
+                                    <div class="col-sm-7">
                                         <input type="radio" name="priceNeg" value="negotiable" id="priceNeg">
                                         <label for="priceNeg">Negotiable </label>
                                     </div>
-                                </div><!-- Price of Trade -->
+                                </div>
+                                <!-- Price of Trade -->
 
                                 <!-- Quantity of Trade -->
                                 <div class="row form-group">
@@ -465,6 +478,10 @@
                         </div>
                     </div>
                 </div>
+
+            </div>
+        </div>
+    </div>
 </footer>
 <!-- ##### Footer Area Start ##### -->
 
@@ -479,6 +496,8 @@
 <script src="/js/plugins/plugins.js"></script>
 <!-- Active js -->
 <script src="/js/active.js"></script>
+<!-- jQuery validation js -->
+<script src="/js/plugins/jquery.validate.min.js"></script>
 <!------------- -->
 <script src="/js/post-trade.js"></script>
 <script src="/js/address-selector.js"></script>
