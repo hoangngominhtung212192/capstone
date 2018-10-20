@@ -24,7 +24,9 @@ import java.util.stream.Collectors;
 
 @RestController
 public class FileControllerWsImpl implements FileControllerWs {
+
     private static final Logger logger = LoggerFactory.getLogger(FileControllerWs.class);
+
     @Autowired
     private FileUploadService fileUploadService;
 

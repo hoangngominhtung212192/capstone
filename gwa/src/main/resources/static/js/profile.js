@@ -22,13 +22,22 @@ $(document).ready(function () {
 
         $.ajax({
             type : "GET",
-            url : "http://localhost:8080/api/user/getUsername",
+            url : "http://localhost:8080/api/user/checkLogin",
             complete : function(xhr, status) {
 
                 if (status == "success") {
-                    console.log("User " + xhr.responseText + " login!");
+                    var xhr_data = xhr.responseText;
+                    var jsonResponse = JSON.parse(xhr_data);
+                    var role = jsonResponse["role"].name;
+                    var username = jsonResponse["username"];
+                    var accountID = jsonResponse["id"];
 
-                    $("#username").text(xhr.responseText)
+                    console.log(role + " " + username + " login!");
+
+                    // click profile button
+                    profileClick(accountID);
+
+                    $("#username").text(username)
                     $("#username").css("display", "block");
                     $(".dropdown-menu-custom-profile").css("display", "block");
                     $(".dropdown-menu-custom-logout").css("display", "block");
@@ -57,5 +66,11 @@ $(document).ready(function () {
                 console.log("ERROR: ", e);
             }
         });
+    }
+
+    function profileClick(accountID) {
+        $("#profile").click(function (event) {
+            window.location.href = "/pages/profile.html?accountID=" + accountID;
+        })
     }
 })

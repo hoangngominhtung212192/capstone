@@ -87,4 +87,12 @@ public class UserServiceImpl implements UserService {
 
         return profile;
     }
+
+    @Override
+    public Account getAccountByUsername(String username) {
+
+        Account result = accountRepository.findUserByUsername(username);
+
+        return result;
+    }
 }

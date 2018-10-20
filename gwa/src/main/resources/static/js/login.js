@@ -1,16 +1,24 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
     authentication();
 
     function authentication() {
 
         $.ajax({
-            type : "GET",
-            url : "http://localhost:8080/api/user/getUsername",
-            complete : function(xhr, status) {
+            type: "GET",
+            url: "http://localhost:8080/api/user/checkLogin",
+            complete: function (xhr, status) {
 
                 if (status == "success") {
-                    window.location.href = "/model/";
+                    var xhr_data = xhr.responseText;
+                    var jsonResponse = JSON.parse(xhr_data);
+                    var role = jsonResponse["role"].name;
+
+                    if (role == "MEMBER") {
+                        window.location.href = "/model/"
+                    } else if (role == "ADMIN") {
+                        window.location.href = "/admin/model/create";
+                    }
                 } else {
                     console.log("Guest is accessing !");
                 }
@@ -42,8 +50,8 @@ $(document).ready(function() {
 
         if (check) {
             var formLogin = {
-                username : $("#username").val(),
-                password : $("#password").val()
+                username: $("#username").val(),
+                password: $("#password").val()
             }
 
             ajaxPost(formLogin);
@@ -55,21 +63,27 @@ $(document).ready(function() {
         console.log(data);
 
         $.ajax({
-            type : "POST",
-            contentType : "application/json",
-            url : "/api/user/login",
-            data : JSON.stringify(data),
-            success : function(role, status) {
-                if (role == "MEMBER") {
+            type: "POST",
+            contentType: "application/json",
+            url: "/api/user/login",
+            data: JSON.stringify(data),
+            success: function (result, status) {
+                if (result.role.name == "MEMBER") {
                     window.location.href = "/model/"
                 } else {
-                    window.location.href = "/model/create"
+                    if (result.role.name == "ADMIN") {
+                        window.location.href = "/model/create"
+                    }
                 }
             },
-            complete : function(xhr, textStatus) {
+            complete: function (xhr, textStatus) {
                 if (textStatus == "error") {
+
+                    var xhr_data = xhr.responseText;
+                    var jsonResponse = JSON.parse(xhr_data);
+
                     $("#errorpassword").css("visibility", "visible");
-                    $("#errorpassword").text(xhr.responseText);
+                    $("#errorpassword").text(jsonResponse["message"]);
                 }
             }
         });
