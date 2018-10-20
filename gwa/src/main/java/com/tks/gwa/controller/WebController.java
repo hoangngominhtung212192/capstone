@@ -32,10 +32,9 @@ public interface WebController {
     @RequestMapping(value = "/user/profile")
     public ModelAndView profilePage();
 
-<<<<<<< HEAD
     @RequestMapping(value = "/create-Article")
     public ModelAndView createArticlePage();
-=======
+
     @RequestMapping(value = "/admin/user/search")
     public ModelAndView searchAccountPage();
 
@@ -44,5 +43,4 @@ public interface WebController {
 
     @RequestMapping(value = "/admin/model/edit")
     public ModelAndView editModelPage();
->>>>>>> 8c1953d7375270621a56fe7fcc3fb9a4a2696a6d
 }
