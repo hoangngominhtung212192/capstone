@@ -20,8 +20,10 @@
     <link rel="stylesheet" href="/css/search-filter.css">
     <link rel="stylesheet" href="/css/pagination.css">
 
+    <!--    my js   -->
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/profile.js"></script>
+
 </head>
 
 <body style="background-color: whitesmoke;">
@@ -43,9 +45,10 @@
                         <div class="login-search-area d-flex align-items-center">
                             <!-- Login -->
                             <div id="loginForm" class="account login d-flex">
-                                <a id="username" href="#" style="display: none;"></a>
-                                <a id="loginbtn" href="/login" style="display: none">Login</a>
-                                <a id="register" href="/register" style="display: none">Register</a>
+                                <div class="usernameImage">
+                                    <img id="thumbAvatar" class="thumbAvatar" src="/img/avatar_2x.png"/>
+                                    <a id="username" href="#" style="display: none;"></a>
+                                </div>
                                 <div class="dropdown-menu-custom-profile" style="display:none;">
                                     <a id="profile" href="#">Profile</a>
                                 </div>
@@ -142,19 +145,23 @@
 <!-- ##### Begin Body Content ##### -->
 <div class="model-container">
     <div class="container">
-        <div class="row" style="background-color: white; padding-top: 20px; padding-bottom: 20px; border: 1px solid #f0f0f0;">
+        <div class="row"
+             style="background-color: white; padding-top: 20px; padding-bottom: 20px; border: 1px solid #f0f0f0;">
             <!--    Begin left content  -->
             <div class="col-sm-6">
                 <div class="profile-title">
-                    tunghoang122
+                    <span id="usernameTitle"></span>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="edit-container">
-                    <button class="io-button-standard" type="submit">
+                    <button id="unbanBtn" style="display: none;" class="io-button-standard-profile" type="submit">
+                        <a href="#">UNBAN</a>
+                    </button>
+                    <button id="banBtn" style="display: none;" class="io-button-standard-profile" type="submit">
                         <a href="#">BAN</a>
                     </button>
-                    <button class="io-button-standard" type="submit">
+                    <button id="editBtn" style="display: none;" class="io-button-standard-profile" type="submit">
                         <a href="#">EDIT</a>
                     </button>
                 </div>
@@ -162,23 +169,34 @@
             <div class="col-sm-3">
                 <div class="profile-left-col">
                     <div class="text-center">
-                        <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                             class="avatar img-circle img-thumbnail" alt="avatar">
-                        <h6>Upload a different photo...</h6>
-                        <input class="button-file" type="file" class="text-center center-block file-upload">
+                        <img id="avatar" src="/img/avatar_2x.png"
+                             class="avatar img-circle img-thumbnail" alt="avatar"
+                             onError="this.src='/img/avatar_2x.png';"
+                            style="width: 202px; height: 202px;">
+                        <h6 id="photoTitle" style="display: none;">Upload a different photo...</h6>
+
+                        <!--    replaced image for input file button    -->
+                        <label for="photoBtn">
+                            <img id="upload" src="/img/upload-image.png"/>
+                        </label>
+
+                        <input id="photoBtn" style="display: none" class="button-file" type="file"
+                               class="text-center center-block file-upload">
+                        <span id="imgError" class="error"
+                              style="display: none; margin-top: 10px;font-size: 15px; color: red"></span>
                     </div>
-                    </hr><br>
+                    </hr>
 
                     <ul class="list-group">
                         <li class="list-group-item text-muted title-activity">Activity</li>
                         <li class="list-group-item text-right title-activity-item"><span class="pull-left"><strong>Proposal</strong></span>
-                            125
+                            <span>125</span>
                         </li>
                         <li class="list-group-item text-right title-activity-item"><span
-                                class="pull-left"><strong>Buy</strong></span> 13
+                                class="pull-left"><strong>Buy</strong></span> <span>13</span>
                         </li>
                         <li class="list-group-item text-right title-activity-item"><span
-                                class="pull-left"><strong>Sell</strong></span> 37
+                                class="pull-left"><strong>Sell</strong></span> <span>37</span>
                         </li>
                         <li class="list-group-item text-right title-activity-item"><span class="pull-left"
                                                                                          style="margin-top: 8px"><strong>Reputation</strong></span>
@@ -190,45 +208,45 @@
 
             <!--    Begin Right content   -->
             <div class="col-sm-9">
-                <form class="form" action="##" method="post" id="registrationForm">
-                    <div class="container">
+                <div class="container">
+                    <form class="form" id="profileForm">
                         <div class="row">
+
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <div class="col-xs-6">
-                                        <label for="first_name"><h5>First name</h5></label>
-                                        <input type="text" class="form-control" name="first_name" id="first_name"
-                                               value="Tung" title="enter your first name if any.">
+                                        <label for="firstName"><h5>First name</h5></label>
+                                        <input type="text" style="width: 280px;" class="form-control" name="firstName"
+                                               id="firstName"
+                                               value="Tung" title="enter your first name" disabled>
+                                        <span id="errorfirstname" class="error_field"></span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-xs-6">
-                                        <label for="last_name"><h5>Middle name</h5></label>
-                                        <input type="text" class="form-control" name="last_name" id="last_name"
-                                               value="Minh" title="enter your last name if any.">
+                                        <label for="middleName"><h5>Middle name</h5></label>
+                                        <input type="text" style="width: 280px;" class="form-control" name="middleName"
+                                               id="middleName"
+                                               value="Minh" title="enter your middle name if any" disabled>
+                                        <span id="errormiddlename" class="error_field"></span>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="col-xs-6">
-                                        <label for="phone"><h5>Last name</h5></label>
-                                        <input type="text" class="form-control" name="phone" id="phone"
-                                               value="Hoang Ngo" title="enter your phone number if any.">
+                                        <label for="lastName"><h5>Last name</h5></label>
+                                        <input type="text" style="width: 280px;" class="form-control" name="lastName"
+                                               id="lastName"
+                                               value="Hoang Ngo" title="enter your last name" disabled required>
+                                        <span id="errorlastname" class="error_field"></span>
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <div class="col-xs-6">
-                                        <label for="mobile"><h5>Tel</h5></label>
-                                        <input type="text" class="form-control" name="mobile" id="mobile"
-                                               value="0981875113"
-                                               title="enter your mobile number if any.">
-                                    </div>
-                                </div>
                                 <div class="form-group">
                                     <div class="col-xs-6">
                                         <label for="status"><h5>Status</h5></label>
-                                        <input style="width: 100px; color: green" type="text" class="form-control" name="status" id="status"
+                                        <input style="width: 100px; color: green" type="text" class="form-control"
+                                               name="status" id="status"
                                                value="Active" title="Status" disabled>
                                     </div>
                                 </div>
@@ -239,49 +257,67 @@
                                     <div class="col-xs-6">
                                         <label for="email"><h5>Email</h5></label>
                                         <input type="email" class="form-control" name="email" id="email"
-                                               value="tunghnmse62231@fpt.edu.vn" title="enter your email.">
+                                               value="tunghnmse62231@fpt.edu.vn" title="enter your email." disabled
+                                               required>
+                                        <span id="erroremail" class="error_field"></span>
                                     </div>
                                 </div>
                                 <div class="form-group">
 
                                     <div class="col-xs-6">
                                         <label for="email"><h5>Address</h5></label>
-                                        <input type="email" class="form-control" id="location"
+                                        <input type="text" class="form-control" id="address"
                                                value="You can't know"
-                                               title="enter a location">
+                                               title="enter a location" disabled>
+                                        <span id="erroraddress" class="error_field"></span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-xs-6">
                                         <label for="birthday"><h5>Birthday</h5></label>
-                                        <input type="text" class="form-control" name="birthday" id="birthday"
-                                               value="2-12-1997" title="enter your password.">
+                                        <input style="width: 150px;" type="text" class="form-control" name="birthday"
+                                               id="birthday"
+                                               value="2-12-1997" title="enter your password." disabled>
+                                        <span id="errorbirthday" class="error_field"></span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-xs-6">
-                                        <label for="password2"><h5>Password</h5></label>
-                                        <input type="password" class="form-control" name="password2" id="password2"
-                                               value="123456789" title="enter your password2." disabled>
+                                        <label for="mobile"><h5>Tel</h5></label>
+                                        <input style="width: 250px;" type="text" class="form-control" name="mobile"
+                                               id="mobile"
+                                               value="0981875113"
+                                               title="enter your mobile number if any." disabled>
+                                        <span id="errormobile" class="error_field"></span>
                                     </div>
                                 </div>
+                                <!--<div class="form-group">-->
+                                <!--<div class="col-xs-6">-->
+                                <!--<label for="password"><h5>Password</h5></label>-->
+                                <!--<input type="password" class="form-control" name="password" id="password"-->
+                                <!--value="" title="enter your password2." disabled>-->
+                                <!--</div>-->
+                                <!--</div>-->
                             </div>
+                            <span id="error" class="error" style="display: none; margin-left: 15px; font-size: 15px; color: red;
+                                width: 100%; float: left;"></span>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <div class="col-xs-12">
                                         <br>
-                                        <button class="save-btn btn btn-lg btn-success" type="submit"><i
-                                                class="glyphicon glyphicon-ok-sign"></i> SAVE
-                                        </button>
-                                        <button class="reset-btn btn btn-lg" type="reset"><i
+                                        <button id="saveBtn" style="display: none; float: left;"
+                                                class="save-btn btn btn-lg btn-success" type="submit">SAVE</button>
+                                        <button id="resetBtn" style="display: none; float: left; margin-left: 10px;"
+                                                class="reset-btn btn btn-lg" type="reset"><i
                                                 class="glyphicon glyphicon-repeat"></i> RESET
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                    <!--    end form    -->
+                </div>
             </div>
         </div>
     </div>
@@ -373,15 +409,16 @@
 
 <!-- ##### All Javascript Files ##### -->
 <!-- jQuery-2.2.4 js -->
-<script src="/js/jquery/jquery-2.2.4.min.js"></script>
+<!--<script src="/js/jquery/jquery-2.2.4.min.js"></script>-->
 <!-- Popper js -->
-<script src="/js/bootstrap/popper.min.js"></script>
+<!--<script src="/js/bootstrap/popper.min.js"></script>-->
 <!-- Bootstrap js -->
 <script src="/js/bootstrap/bootstrap.min.js"></script>
 <!-- All Plugins js -->
-<script src="/js/plugins/plugins.js"></script>
+<!--<script src="/js/plugins/plugins.js"></script>-->
 <!-- Active js -->
-<script src="/js/active.js"></script>
+<!--<script src="/js/active.js"></script>-->
+
 </body>
 
 </html>

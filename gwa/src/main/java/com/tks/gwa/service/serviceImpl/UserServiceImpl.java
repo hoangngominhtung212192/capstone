@@ -87,4 +87,32 @@ public class UserServiceImpl implements UserService {
 
         return profile;
     }
+
+    @Override
+    public Account getAccountByUsername(String username) {
+
+        Account result = accountRepository.findUserByUsername(username);
+
+        return result;
+    }
+
+    @Override
+    public Profile updateProfile(Profile profile) {
+
+        Profile checkExistedEmail = profileRepository.findProfileByEmail(profile.getEmail());
+
+        if (checkExistedEmail == null) {
+            Profile newProfile = profileRepository.updateProfile(profile);
+
+            return newProfile;
+        } else {
+            if (checkExistedEmail.getId() == profile.getId()) {
+                Profile newProfile = profileRepository.updateProfile(profile);
+
+                return newProfile;
+            }
+        }
+
+        return null;
+    }
 }

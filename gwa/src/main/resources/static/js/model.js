@@ -6,13 +6,25 @@ $(document).ready(function() {
 
         $.ajax({
             type : "GET",
-            url : "http://localhost:8080/api/user/getUsername",
+            url : "http://localhost:8080/api/user/checkLogin",
             complete : function(xhr, status) {
 
                 if (status == "success") {
-                    console.log("User " + xhr.responseText + " login!");
+                    // username click
+                    usernameClick();
 
-                    $("#username").text(xhr.responseText)
+                    var xhr_data = xhr.responseText;
+                    var jsonResponse = JSON.parse(xhr_data);
+                    var role = jsonResponse["role"].name;
+                    var username = jsonResponse["username"];
+                    var accountID = jsonResponse["id"];
+
+                    console.log(role + " " + username + " is on session!");
+
+                    // click profile button
+                    profileClick(accountID);
+
+                    $("#username").text(username)
                     $("#username").css("display", "block");
                     $(".dropdown-menu-custom-profile").css("display", "block");
                     $(".dropdown-menu-custom-logout").css("display", "block");
@@ -27,7 +39,6 @@ $(document).ready(function() {
     }
 
     $("#logout").click(function (event) {
-        console.log("aaaaaaaaa");
 
         event.preventDefault();
 
@@ -42,5 +53,25 @@ $(document).ready(function() {
                 window.location.href = "http://localhost:8080/login";
             }
         });
+    }
+
+    function profileClick(accountID) {
+        $("#profile").click(function (event) {
+            window.location.href = "/pages/profile.html?accountID=" + accountID;
+        })
+    }
+
+    function usernameClick() {
+        $("#username").click(function (event) {
+            // separate from document click
+            event.stopPropagation();
+
+            $(".dropdown-menu-custom-profile").css("height", "25px");
+            $(".dropdown-menu-custom-profile").css("border", "1px solid #FF0000");
+            $(".dropdown-menu-custom-logout").css("height", "25px");
+            $(".dropdown-menu-custom-logout").css("border", "1px solid #FF0000");
+
+            return false;
+        })
     }
 })

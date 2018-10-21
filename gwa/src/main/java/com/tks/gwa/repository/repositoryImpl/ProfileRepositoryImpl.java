@@ -53,4 +53,12 @@ public class ProfileRepositoryImpl extends GenericRepositoryImpl<Profile, Intege
 
         return profile;
     }
+
+    @Override
+    public Profile updateProfile(Profile profile) {
+
+        Profile updatedProfile = this.update(profile);
+
+        return updatedProfile;
+    }
 }

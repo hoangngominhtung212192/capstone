@@ -228,6 +228,7 @@
 .io-button-standard:active,
 .io-button-standard:focus {
 	/*gradient background*/
+	cursor: pointer;
 	background-image: -ms-linear-gradient(top, #3c96d6 0%, #79c8ff 100%);
 	background-image: -moz-linear-gradient(top, #3c96d6 0%, #79c8ff 100%);
 	background-image: -o-linear-gradient(top, #3c96d6 0%, #79c8ff 100%);

@@ -4,12 +4,20 @@ $(document).ready(function () {
     function authentication() {
 
         $.ajax({
-            type : "GET",
-            url : "http://localhost:8080/api/user/getUsername",
-            complete : function(xhr, status) {
+            type: "GET",
+            url: "http://localhost:8080/api/user/checkLogin",
+            complete: function (xhr, status) {
 
                 if (status == "success") {
-                    window.location.href = "/model/";
+                    var xhr_data = xhr.responseText;
+                    var jsonResponse = JSON.parse(xhr_data);
+                    var role = jsonResponse["role"].name;
+
+                    if (role == "MEMBER") {
+                        window.location.href = "/model/"
+                    } else if (role == "ADMIN") {
+                        window.location.href = "/admin/model/create";
+                    }
                 } else {
                     console.log("Guest is accessing !");
                 }
@@ -43,18 +51,18 @@ $(document).ready(function () {
             }
         }
 
-        var firstname = $("#firtName").val().trim();
+        var firstname = $("#firstName").val().trim();
 
-        if (!firstname) {
+        if (!firstName) {
             $("#errorfirstname").css("visibility", "visible");
             $("#errorfirstname").text("Please input empty field");
             check = false;
         } else {
-            if (!firstname.match("[A-Za-z\\s]+")) {
+            if (!firstName.match("[A-Za-z\\s]+")) {
                 $("#errorfirstname").css("visibility", "visible");
                 $("#errorfirstname").text("Please input valid string");
                 check = false;
-            } else if (firstname.length > 50) {
+            } else if (firstName.length > 50) {
                 $("#errorfirstname").css("visibility", "visible");
                 $("#errorfirstname").text("Out of range, maximum: 50 characters");
                 check = false;
