@@ -4,6 +4,7 @@ import com.tks.gwa.entity.Account;
 import com.tks.gwa.entity.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 
@@ -23,6 +24,13 @@ public interface UserWS {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     ResponseEntity<Account> register(@RequestBody Account account);
 
-    @RequestMapping(value = "/profile")
+    @RequestMapping(value = "/profile", method = RequestMethod.POST)
     ResponseEntity<Profile> getUserProfile(@RequestParam("accountID") int accountID);
+
+    @RequestMapping(value = "/profile/update", method = RequestMethod.POST)
+    ResponseEntity<Profile> updateProfile(@RequestBody Profile profile);
+
+    @RequestMapping(value = "/profile/update/image", method = RequestMethod.POST)
+    ResponseEntity<Profile> updateProfileImage(@RequestParam(value = "photoBtn", required = false) MultipartFile photoBtn,
+                                               @RequestParam("id") int id);
 }

@@ -1,5 +1,7 @@
 package com.tks.gwa.entity;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -47,6 +49,12 @@ public class Profile implements Serializable {
 
     @Transient
     private String status;
+
+    @Transient
+    private String message;
+
+    @Transient
+    private int accountID;
 
     //bi-directional many-to-one association to Account
     @ManyToOne
@@ -157,5 +165,42 @@ public class Profile implements Serializable {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public int getAccountID() {
+        return accountID;
+    }
+
+    public void setAccountID(int accountID) {
+        this.accountID = accountID;
+    }
+
+    @Override
+    public String toString() {
+        return "\nId: " + this.id
+                + "\nFirst name: " + this.firstName
+                + "\nMiddle name: " + this.middleName
+                + "\nLast name: " + this.lastName
+                + "\nEmail: " + this.email
+                + "\nAddress: " + this.address
+                + "\nBirthday: " + this.birthday
+                + "\nMobile: " + this.tel
+                + "\nAvatar: " + this.avatar;
     }
 }

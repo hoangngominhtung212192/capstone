@@ -51,18 +51,18 @@ $(document).ready(function () {
             }
         }
 
-        var firstname = $("#firtName").val().trim();
+        var firstname = $("#firstName").val().trim();
 
-        if (!firstname) {
+        if (!firstName) {
             $("#errorfirstname").css("visibility", "visible");
             $("#errorfirstname").text("Please input empty field");
             check = false;
         } else {
-            if (!firstname.match("[A-Za-z\\s]+")) {
+            if (!firstName.match("[A-Za-z\\s]+")) {
                 $("#errorfirstname").css("visibility", "visible");
                 $("#errorfirstname").text("Please input valid string");
                 check = false;
-            } else if (firstname.length > 50) {
+            } else if (firstName.length > 50) {
                 $("#errorfirstname").css("visibility", "visible");
                 $("#errorfirstname").text("Out of range, maximum: 50 characters");
                 check = false;

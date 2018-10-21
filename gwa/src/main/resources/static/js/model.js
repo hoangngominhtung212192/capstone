@@ -10,13 +10,16 @@ $(document).ready(function() {
             complete : function(xhr, status) {
 
                 if (status == "success") {
+                    // username click
+                    usernameClick();
+
                     var xhr_data = xhr.responseText;
                     var jsonResponse = JSON.parse(xhr_data);
                     var role = jsonResponse["role"].name;
                     var username = jsonResponse["username"];
                     var accountID = jsonResponse["id"];
 
-                    console.log(role + " " + username + " login!");
+                    console.log(role + " " + username + " is on session!");
 
                     // click profile button
                     profileClick(accountID);
@@ -36,7 +39,6 @@ $(document).ready(function() {
     }
 
     $("#logout").click(function (event) {
-        console.log("aaaaaaaaa");
 
         event.preventDefault();
 
@@ -56,6 +58,20 @@ $(document).ready(function() {
     function profileClick(accountID) {
         $("#profile").click(function (event) {
             window.location.href = "/pages/profile.html?accountID=" + accountID;
+        })
+    }
+
+    function usernameClick() {
+        $("#username").click(function (event) {
+            // separate from document click
+            event.stopPropagation();
+
+            $(".dropdown-menu-custom-profile").css("height", "25px");
+            $(".dropdown-menu-custom-profile").css("border", "1px solid #FF0000");
+            $(".dropdown-menu-custom-logout").css("height", "25px");
+            $(".dropdown-menu-custom-logout").css("border", "1px solid #FF0000");
+
+            return false;
         })
     }
 })

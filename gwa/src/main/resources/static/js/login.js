@@ -72,7 +72,7 @@ $(document).ready(function () {
                     window.location.href = "/model/"
                 } else {
                     if (result.role.name == "ADMIN") {
-                        window.location.href = "/model/create"
+                        window.location.href = "/admin/model/create"
                     }
                 }
             },

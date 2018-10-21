@@ -11,4 +11,6 @@ public interface ProfileRepository extends GenericRepository<Profile, Integer> {
     public Profile createNewProfile(Profile profile);
 
     public Profile findProfileByAccountID(int accountID);
+
+    public Profile updateProfile(Profile profile);
 }

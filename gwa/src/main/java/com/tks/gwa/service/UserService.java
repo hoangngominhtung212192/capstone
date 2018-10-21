@@ -14,4 +14,6 @@ public interface UserService {
     public Profile getUserProfileByAccountID(int accountID);
 
     public Account getAccountByUsername(String username);
+
+    public Profile updateProfile(Profile profile);
 }

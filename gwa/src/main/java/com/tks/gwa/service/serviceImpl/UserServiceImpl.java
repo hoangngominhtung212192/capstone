@@ -95,4 +95,24 @@ public class UserServiceImpl implements UserService {
 
         return result;
     }
+
+    @Override
+    public Profile updateProfile(Profile profile) {
+
+        Profile checkExistedEmail = profileRepository.findProfileByEmail(profile.getEmail());
+
+        if (checkExistedEmail == null) {
+            Profile newProfile = profileRepository.updateProfile(profile);
+
+            return newProfile;
+        } else {
+            if (checkExistedEmail.getId() == profile.getId()) {
+                Profile newProfile = profileRepository.updateProfile(profile);
+
+                return newProfile;
+            }
+        }
+
+        return null;
+    }
 }
