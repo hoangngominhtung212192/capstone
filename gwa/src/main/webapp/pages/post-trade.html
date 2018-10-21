@@ -19,11 +19,10 @@
     <link rel="stylesheet" href="/css/style.css">
     <!-- Trademarket Stylesheet -->
     <link rel="stylesheet" href="/css/trademarket.css">
-    <style>
-        label.error {
-            color: red;
-        }
-    </style>
+    <!-- UploadFile Plugin Stylesheet -->
+    <link rel="stylesheet" href="/css/fileup.min.css">
+    <link rel="stylesheet" href="/css/jquery.growl.css">
+
 
 </head>
 
@@ -138,42 +137,45 @@
     <div class="container">
 
         <div class="breadcrumb-section section">
-            <!-- breadcrumb -->
-            <ol class="breadcrumb">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="trade-listing.html">Trade Market</a></li>
-                <li>Post new trade</li>
-            </ol><!-- breadcrumb -->
             <h2 class="title">Post New Trade</h2>
         </div><!-- banner -->
 
         <div class="adpost-details">
+
             <div class="row">
                 <div class="col-md-8">
-                    <form action="/api/tradepost/post-new-trade" id="tradepostForm">
+                    <form action="/api/tradepost/post-new-trade" method="post" id="tradepostForm" enctype='application/json'>
                         <fieldset>
                             <!--Trade Post Section -->
                             <div class="section postdetails">
                                 <h4>Trade an item or service <span class="pull-right">* Mandatory Fields</span></h4>
 
                                 <!-- Type of Trade -->
-                                    <div class="row form-group">
-                                        <label class="col-sm-3">Type of trade<span class="required">*</span></label>
-                                        <div class="col-sm-9 user-type">
-                                            <input type="radio" name="tradeType" value="sell" id="tradeType-sell">
-                                            <label
-                                                    for="tradeType-sell">I want to sell </label>
-                                            <input type="radio" name="tradeType" value="buy" id="tradeType-buy"> <label
-                                                for="tradeType-buy">I want to buy</label>
+                                <div class="row form-group">
+                                    <label class="col-sm-3 label-title">Type of trade<span
+                                            class="required">*</span></label>
+                                    <div class="col-sm-9 input-group">
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" value="sell" class="custom-control-input"
+                                                   id="tradeType-sell" name="tradeType" required>
+                                            <label class="custom-control-label" for="tradeType-sell">I want to
+                                                sell</label>
                                         </div>
-                                    </div><!-- Type of Trade -->
+                                        <div class="custom-control custom-radio  custom-control-inline">
+                                            <input type="radio" value="sell" class="custom-control-input "
+                                                   id="tradeType-buy" name="tradeType" required>
+                                            <label class="custom-control-label" for="tradeType-buy">I want to
+                                                buy</label>
+                                        </div>
+                                    </div>
+                                </div><!-- Type of Trade -->
 
                                 <!-- Title of Trade -->
                                 <div class="row form-group add-title">
                                     <label class="col-sm-3 label-title">Title for your trade<span
                                             class="required">*</span></label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="tradeTitle" id="tradeTitle"
+                                        <input type="text" class="form-control " name="tradeTitle" id="tradeTitle"
                                                placeholder="ex, P-bandai xxx brandnew. ">
                                     </div>
                                 </div><!-- Title of Trade -->
@@ -183,41 +185,61 @@
                                     <label class="col-sm-3 label-title">Photos for your trade <span>(This will be your cover photo )</span>
                                     </label>
                                     <div class="col-sm-9">
-                                        <h5><i class="fa fa-upload" aria-hidden="true"></i>Select Files to Upload / Drag
-                                            and Drop Files <span>You can add multiple images.</span></h5>
-                                        <div class="uplotradesection">
-                                            <label class="uplotradeimage" for="uploadimage">
-                                                <input type="file" id="uploadimage" name="uplotradeimage-1">
-                                            </label>
+                                        <h5><i class="fa fa-upload" aria-hidden="true"></i>Select Files to Upload<span>You can add multiple images.</span>
+                                        </h5>
 
+                                        <div class="" id="multiple">
+                                            <button type="button" class="btn btn-success fileup-btn">
+                                                Select images
+                                                <input type="file" id="upload-2" multiple accept="image/*">
+                                            </button>
+
+                                            <a class="control-button btn btn-link uploadall" style="display: none"
+                                               href="javascript:$.fileup('upload-2', 'upload', '*')">Upload all</a>
+                                            <a class="control-button btn btn-link removeall" style="display: none"
+                                               href="javascript:$.fileup('upload-2', 'remove', '*')">Remove all</a>
+
+                                            <div id="upload-2-queue" class="queue"></div>
                                         </div>
+                                        <input type="hidden" id="imageUploadedList" name="imageUploadedList"/>
+
                                     </div>
-                                </div><!-- image of Trade -->
+                                </div>
+                                <!-- image of Trade -->
 
                                 <!-- Condition of Trade -->
-                                <div class="row form-group select-condition">
-                                    <label class="col-sm-3">Condition<span class="required">*</span></label>
-                                    <div class="col-sm-9">
-                                        <input type="radio" name="tradeCon" value="new" id="tradeNew">
-                                        <label for="tradeNew">New</label>
-                                        <input type="radio" name="tradeCon" value="used" id="tradeUsed">
-                                        <label for="tradeUsed">Used</label>
+                                <div class="row form-group">
+                                    <label class="col-sm-3 label-title">Condition<span class="required">*</span></label>
+                                    <div class="col-sm-9 input-group">
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" value="new" class="custom-control-input"
+                                                   id="tradeCondition-new" name="tradeCondition" required>
+                                            <label class="custom-control-label" for="tradeCondition-new">New </label>
+                                        </div>
+                                        <div class="custom-control custom-radio  custom-control-inline">
+                                            <input type="radio" value="used" class="custom-control-input "
+                                                   id="tradeCondition-used" name="tradeCondition" required>
+                                            <label class="custom-control-label" for="tradeCondition-used">Used</label>
+                                        </div>
                                     </div>
                                 </div><!-- Condition of Trade -->
 
                                 <!-- Price of Trade -->
-                                <div class="row form-group select-price">
+                                <div class="row form-group">
                                     <label class="col-sm-3 label-title">Price<span class="required">*</span></label>
-                                    <div class="col-sm-9">
-                                        <label>$USD</label>
-                                        <input type="text" name="tradePrice" class="form-control" id="tradePrice">
+                                    <div class="col-sm-6">
+                                        <input type="text" name="tradePrice" class="form-control" id="tradePrice"
+                                               placeholder="in $USD">
                                     </div>
                                 </div>
-                                <div class="row form-group select-priceNego">
-                                    <label class="col-sm-4 label-title"></label>
-                                    <div class="col-sm-7">
-                                        <input type="radio" name="priceNeg" value="negotiable" id="priceNeg">
-                                        <label for="priceNeg">Negotiable </label>
+                                <div class="row form-group">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-9 ">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="tradeNegotiable"
+                                                   name="tradeNegotiable">
+                                            <label class="custom-control-label" for="tradeNegotiable">Negotiable</label>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- Price of Trade -->
@@ -225,7 +247,7 @@
                                 <!-- Quantity of Trade -->
                                 <div class="row form-group">
                                     <label class="col-sm-3 label-title">Quantity<span class="required">*</span></label>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-6">
                                         <input type="text" name="tradeQuantity" class="form-control" id="tradeQuantity">
                                     </div>
                                 </div><!-- Quantity of Trade -->
@@ -286,10 +308,10 @@
                                             class="required">*</span></label>
                                     <div class="col-sm-9">
                                         <input type="text" name="traderPhone" id="traderPhone" class="form-control"
-                                               value="0343 777 228">
+                                               value="0343777228">
                                     </div>
                                 </div>
-                                <div class="row form-group select-address">
+                                <div class="row form-group">
                                     <label class="col-sm-3 label-title">Address<span class="required">*</span></label>
                                     <div class="col-sm-7">
                                         <input type="text" name="traderAddress" id="traderAddress" class="form-control"
@@ -299,7 +321,7 @@
                                         <button type="button" class="btn" title="Auto get your location"
                                                 onclick="autoGetYourLocation();">
                                             <i class="fa fa-location-arrow"></i></button>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        <button type="button" class="btn btn-info" data-toggle="modal"
                                                 data-target="#addressModal" title="Open select address form"><i
                                                 class="fa fa-pencil-square-ofa fa-pencil-square-o"></i></button>
                                     </div>
@@ -308,12 +330,16 @@
 
                             <!-- Confirm section -->
                             <div class="section agreement">
-                                <label for="sendCheck">
-                                    <input type="checkbox" name="sendCheck" id="sendCheck">
-                                    By clicking "Post", you agree to our <a href="#">Terms of Use</a> and <a href="#">Privacy
-                                    Policy</a> and acknowledge that you are the rightful owner of this item and using
-                                    Trade to find a genuine buyer.
-                                </label>
+                                <div class=" custom-control custom-checkbox">
+                                    <input type="checkbox" name="sendCheck" id="sendCheck" class="custom-control-input">
+                                    <label for="sendCheck" class="custom-control-label">
+                                        By clicking "Post Your Trade", you agree to our <a href="#">Terms of Use</a> and
+                                        <a href="#">Privacy
+                                            Policy</a> and acknowledge that you are the rightful owner of this item and
+                                        using
+                                        Trade to find a genuine buyer.
+                                    </label>
+                                </div>
                                 <button type="submit" class="btn btn-primary">Post Your Trade</button>
                             </div><!-- section -->
 
@@ -354,59 +380,62 @@
 <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="addressModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
+            <form id="addressSelectForm">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Select your address</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Select your address</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+                <div class="modal-body">
+                    <div class="row form-group">
+                        <div class="col-sm-4">
+                            <select class="form-control custom-select" id="provinceSel" name="provinceSel">
+                                <option value="">Select Province/City</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <select class="form-control custom-select" id="districtSel" name="districtSel">
+                                <option value="">Select District</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <select class="form-control custom-select" id="wardSel" name="wardSel">
+                                <option value="">Select Ward</option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row form-group">
+                        <div class="col-sm-5">
+                            <input type="text" name="selectAddressDeptNum" class="form-control"
+                                   id="selectAddressDeptNum"
+                                   placeholder="Apartment number, ex: 1358/28/14">
+                        </div>
+                        <div class="col-sm-7">
+                            <input type="text" name="selectAddressStreetName" class="form-control"
+                                   id="selectAddressStreetName" placeholder="Street name, ex: Quang Trung">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row justify-content-center">
+                        <span class="label text-info">Your Selected Address</span>
+                    </div>
+                    <div class="row form-group justify-content-center">
+                        <div class="col-sm-10">
+                            <input type="text" name="selectAddressFull" class="form-control" id="selectAddressFull"
+                                   readonly>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="modal-body">
-                <div class="row form-group">
-                    <div class="col-sm-4">
-                        <select class="form-control" id="provinceSel">
-                            <option>Select Province/City</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-4">
-                        <select class="form-control" id="districtSel">
-                            <option>Select District</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-4">
-                        <select class="form-control" id="wardSel">
-                            <option>Select Ward</option>
-                        </select>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Use this address
+                    </button>
                 </div>
-                <hr>
-                <div class="row form-group">
-                    <div class="col-sm-5">
-                        <input type="text" name="selectAddressDeptNum" class="form-control" id="selectAddressDeptNum"
-                               placeholder="Apartment number, ex: 1358/28/14">
-                    </div>
-                    <div class="col-sm-7">
-                        <input type="text" name="selectAddressStreetName" class="form-control"
-                               id="selectAddressStreetName" placeholder="Street name, ex: Quang Trung">
-                    </div>
-                </div>
-                <hr>
-                <div class="row justify-content-center">
-                    <span class="label text-info">Your Selected Address</span>
-                </div>
-                <div class="row form-group justify-content-center">
-                    <div class="col-sm-10">
-                        <input type="text" name="selectAddressFull" class="form-control" id="selectAddressFull"
-                               readonly>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="submitAddressSelect();">Use this address</button>
-            </div>
+            </form>
         </div>
     </div>
 </div>
@@ -498,6 +527,9 @@
 <script src="/js/active.js"></script>
 <!-- jQuery validation js -->
 <script src="/js/plugins/jquery.validate.min.js"></script>
+<!-- jQuery File Upload js -->
+<script src="/js/plugins/fileup.min.js"></script>
+<script src="/js/plugins/jquery.growl.js"></script>
 <!------------- -->
 <script src="/js/post-trade.js"></script>
 <script src="/js/address-selector.js"></script>
