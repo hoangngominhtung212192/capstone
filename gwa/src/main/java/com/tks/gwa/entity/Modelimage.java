@@ -50,4 +50,12 @@ public class Modelimage implements Serializable {
     public void setModel(Model model) {
         this.model = model;
     }
+
+    public Imagetype getImagetype() {
+        return imagetype;
+    }
+
+    public void setImagetype(Imagetype imagetype) {
+        this.imagetype = imagetype;
+    }
 }
