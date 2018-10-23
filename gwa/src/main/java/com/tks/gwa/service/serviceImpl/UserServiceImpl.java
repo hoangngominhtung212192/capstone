@@ -93,6 +93,12 @@ public class UserServiceImpl implements UserService {
 
         Account result = accountRepository.findUserByUsername(username);
 
+        Profile profile = profileRepository.findProfileByAccountID(result.getId());
+
+        if (profile != null) {
+            result.setAvatar(profile.getAvatar());
+        }
+
         return result;
     }
 

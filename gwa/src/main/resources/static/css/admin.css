@@ -1,0 +1,192 @@
+.treeview-menu > li > a {
+    padding: 5px 5px 5px 15px;
+    display: block;
+    font-size: 15px;
+    transition: none;
+}
+
+.skin-blue .sidebar-form input[type="text"]:focus, .skin-blue .sidebar-form input[type="text"]:focus + .input-group-btn .btn {
+    color: #666;
+}
+
+.username {
+    color: darkblue;
+    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.username:hover {
+    color: blue;
+    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.5;
+    text-decoration: underline;
+}
+
+#cancel {
+    font-size: 15px;
+    padding: 5px 15px;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 3px;
+    background-image: linear-gradient(to bottom, #3c96d6 0%, #3481b7 100%);
+    border: solid 1px #2b6b98;
+    margin: 0;
+    vertical-align: baseline;
+    width: 90px;
+    float: right;
+    color: #fff;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#cancel:hover {
+    cursor: pointer;
+    background-image: -ms-linear-gradient(top, #3c96d6 0%, #79c8ff 100%);
+    background-image: -moz-linear-gradient(top, #3c96d6 0%, #79c8ff 100%);
+    background-image: -o-linear-gradient(top, #3c96d6 0%, #79c8ff 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #3c96d6), color-stop(1, #79c8ff));
+    background-image: -webkit-linear-gradient(top, #3c96d6 0%, #79c8ff 100%);
+    background-image: linear-gradient(to bottom, #3c96d6 0%, #79c8ff 100%);
+}
+
+#save {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#addFiles {
+    transition: none;
+    color: white;
+    width: 110px;
+    font-size: 14px;
+    height: 34px;
+    padding-top: 5px;
+}
+
+#deleteFiles {
+    transition: none;
+    color: white;
+    width: 90px;
+    font-size: 14px;
+    height: 34px;
+    padding-top: 5px;
+}
+
+#cancelImage {
+    transition: none;
+    color: white;
+    width: 85px;
+    font-size: 14px;
+    height: 34px;
+    padding-top: 5px;
+}
+
+.glyphicon-plus:before {
+    content: "\002b";
+}
+
+.glyphicon-plus {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+}
+
+.glyphicon-trash:before {
+    content: "\e020";
+}
+
+.glyphicon-trash {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+}
+
+.glyphicon-ban-circle:before {
+    content: "\e090";
+}
+
+.glyphicon-ban-circle {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+}
+
+.table-striped {
+    width: 100%;
+    padding-top: 10px;
+    height: 350px;
+    overflow-y: scroll;
+    display: block;
+}
+
+.table-tr {
+    width: 100%;
+    height: 80px;
+    box-shadow: 0px 0px 5px #aaa;
+    border: solid 1px #c2c2c2;
+    margin-top: 15px;
+}
+
+.table-striped .table-tr td img {
+    height: 80px;
+    width: 80px;
+    border: 1px solid darkblue;
+    box-shadow: 1px 1px 1px #000;
+}
+
+.table-striped .table-tr .imageName, .table-striped .table-tr .imageSize {
+    padding-top: 28px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.table-striped .table-tr .imageSize {
+    width: 55px;
+}
+
+.table-striped .table-tr .imageName {
+    width: 100px;
+}
+
+.table-striped .table-tr .canceltd {
+    padding-top: 32px;
+}
+
+.table-striped .table-tr .imageType {
+    padding-top: 32px;
+}
+
+.table-striped .table-tr .imageType select {
+    overflow: hidden;
+    background: transparent;
+    padding: 8px; /* If you add too much padding here, the options won't show in IE */
+    background: url(images/2e3ybe1.jpg) no-repeat right center;
+    width: 120px;
+    float: left;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    height: 34px;
+    -webkit-appearance: none;
+}
+
+
+
+
+

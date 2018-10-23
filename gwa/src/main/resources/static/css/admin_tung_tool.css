@@ -136,9 +136,8 @@
 }
 
 .io-col-main {
-	margin-left: 250px;
 	padding-bottom:40px;
-	width: 80%;
+	width: 100%;
 }
 
 .pad-5 {
@@ -282,7 +281,7 @@
 	display:inline-block;
 	border-radius:3px;
 }
-button.io-button-highlight.medium {margin:-2px 0;}
+button.io-button-highlight.medium {margin:-2px 0;font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;}
 
 .io-button-standard.medium.has-icon-right, .io-button-highlight.medium.has-icon-right {
 	padding:5px 10px 5px 15px;
@@ -919,9 +918,6 @@ ul.io-breadcrum li a:hover, ul.io-breadcrum li a:active, ul.io-breadcrum li a:fo
 }
 
 /* MAIN CONTENT */
-.io-main-content {
-	padding: 10px;
-}
 
 .io-panel {
 	background-color: white;

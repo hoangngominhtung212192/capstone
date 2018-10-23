@@ -75,6 +75,10 @@ public class Model {
     @XmlAttribute(name = "id")
     protected String id;
 
+    public void setImage(List<Image> image) {
+        this.image = image;
+    }
+
     /**
      * Gets the value of the code property.
      * 

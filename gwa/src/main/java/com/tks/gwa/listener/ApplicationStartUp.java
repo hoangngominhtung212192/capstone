@@ -1,5 +1,6 @@
 package com.tks.gwa.listener;
 
+import com.tks.gwa.crawler.ModelCrawl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -11,11 +12,14 @@ public class ApplicationStartUp implements ApplicationListener<ApplicationReadyE
     @Autowired
     ModelThreadCrawler modelThreadCrawler;
 
+    @Autowired
+    ModelCrawl modelCrawl;
+
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
         System.out.println("#" + ApplicationStartUp.class.getName() + ": Application Starting Up...");
 
-        Thread autoCrawling_Model = new Thread(modelThreadCrawler, "ThreadAutoCrawling_Model");
-        autoCrawling_Model.start();
+        // begin crawl models
+//        modelCrawl.crawl();
     }
 }

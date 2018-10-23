@@ -41,4 +41,18 @@ public interface ModelRepository extends GenericRepository<Model, Integer> {
      * @return
      */
     Model findModelByID(int modelID);
+
+    /**
+     *
+     * @param code
+     * @return
+     */
+    Model findModelByCode(String code);
+
+    /**
+     *
+     * @param name
+     * @return
+     */
+    Model findModelByName(String name);
 }
