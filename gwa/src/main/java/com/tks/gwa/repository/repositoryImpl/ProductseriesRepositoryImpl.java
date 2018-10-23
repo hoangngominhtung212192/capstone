@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import java.util.List;
 
 @Repository
 public class ProductseriesRepositoryImpl extends GenericRepositoryImpl<Productseries, Integer> implements ProductseriesRepository {
@@ -39,5 +40,10 @@ public class ProductseriesRepositoryImpl extends GenericRepositoryImpl<Productse
         Productseries newProductseries = this.create(productseries);
 
         return newProductseries;
+    }
+
+    @Override
+    public List<Productseries> getAllProductseries() {
+        return this.getAll();
     }
 }

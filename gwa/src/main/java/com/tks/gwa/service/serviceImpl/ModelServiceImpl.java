@@ -119,6 +119,40 @@ public class ModelServiceImpl implements ModelService {
         return null;
     }
 
+    @Override
+    public List<Productseries> getAllProductseries() {
+
+        List<Productseries> productseriesList = productseriesRepository.getAllProductseries();
+
+        if (productseriesList == null) {
+            productseriesList = new ArrayList<Productseries>();
+        }
+
+        return productseriesList;
+    }
+
+    @Override
+    public List<Seriestitle> getAllSeriestitle() {
+        List<Seriestitle> seriestitleList = seriestitleRepository.getAllSeriestitle();
+
+        if (seriestitleList == null) {
+            seriestitleList = new ArrayList<Seriestitle>();
+        }
+
+        return seriestitleList;
+    }
+
+    @Override
+    public List<Manufacturer> getAllManufacturer() {
+        List<Manufacturer> manufacturerList = manufacturerRepository.getAllManufacturer();
+
+        if (manufacturerList == null) {
+            manufacturerList = new ArrayList<Manufacturer>();
+        }
+
+        return manufacturerList;
+    }
+
     public boolean checkExistedModel(String name) {
         // if existed
         if (modelRepository.findModelByName(name) != null) {
@@ -151,18 +185,23 @@ public class ModelServiceImpl implements ModelService {
     // check exist or create new
     public Manufacturer processManufacturer(String name) {
 
-        Manufacturer manufacturer = manufacturerRepository.findByName(name);
+        if (name.length() > 0) {
+            Manufacturer manufacturer = manufacturerRepository.findByName(name);
 
-        // if exist
-        if (manufacturer != null) {
-            return manufacturer;
+            // if exist
+            if (manufacturer != null) {
+                return manufacturer;
+            }
+
+            // create new
+            manufacturer = new Manufacturer();
+            manufacturer.setName(name);
+
+            Manufacturer newManufacturer = manufacturerRepository.createNew(manufacturer);
+            return newManufacturer;
         }
 
-        // create new
-        manufacturer = new Manufacturer();
-        manufacturer.setName(name);
-
-        Manufacturer newManufacturer = manufacturerRepository.createNew(manufacturer);
+        Manufacturer newManufacturer = new Manufacturer();
         return newManufacturer;
     }
 

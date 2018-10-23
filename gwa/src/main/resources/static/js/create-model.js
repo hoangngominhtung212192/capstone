@@ -2,11 +2,13 @@ $(document).ready(function () {
 
     // authentication();
 
+    getAllDropdownValues();
+
     function authentication() {
 
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/api/user/checkLogin",
+            url: "/api/user/checkLogin",
             complete: function (xhr, status) {
 
                 if (status == "success") {
@@ -30,6 +32,90 @@ $(document).ready(function () {
                     window.location.href = "/login";
                 }
 
+            }
+        });
+    }
+
+    function getAllDropdownValues() {
+        $("#loading").css("display", "block");
+        ajaxGetManufacturer();
+        ajaxGetProductseries();
+        ajaxGetSeriestitle();
+        setTimeout(function () {
+            $("#loading").css("display", "none");
+        }, 500);
+    }
+
+    function ajaxGetProductseries() {
+
+        var first = false;
+
+        $.ajax({
+            type: "GET",
+            url: "/api/model/getAllProductseries",
+            success: function (result) {
+                console.log(result);
+
+                $.each(result, function (key, entry) {
+                    $("#cbo-productseries").append($('<option></option>').attr('value', entry.name).text(entry.name));
+                    // first option
+                    if (!first) {
+                        $("#txtProductseries").attr('value', entry.name);
+                        first = true;
+                    }
+                })
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    function ajaxGetSeriestitle() {
+
+        var first = false;
+
+        $.ajax({
+            type: "GET",
+            url: "/api/model/getAllSeriestitle",
+            success: function (result) {
+                console.log(result);
+
+                $.each(result, function (key, entry) {
+                    $("#cbo-seriestitle").append($('<option></option>').attr('value', entry.name).text(entry.name));
+                    // first option
+                    if (!first) {
+                        $("#txtSeriestitle").attr('value', entry.name);
+                        first = true;
+                    }
+                })
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    function ajaxGetManufacturer() {
+
+        var first = false;
+
+        $.ajax({
+            type: "GET",
+            url: "/api/model/getAllManufacturer",
+            success: function (result) {
+                console.log(result);
+
+                $.each(result, function (key, entry) {
+                    $("#cbo-manufacturer").append($('<option></option>').attr('value', entry.name).text(entry.name));
+                    if (!first) {
+                        $("#txtManufacturer").attr('value', entry.name);
+                        first = true;
+                    }
+                })
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
             }
         });
     }
@@ -66,7 +152,7 @@ $(document).ready(function () {
                     // if exist
                     if (value.name == imageFiles[i].name) {
                         $("#error").css("display", "block");
-                        $("#error").text("You selected image " + value.name);
+                        $("#error").text("You already selected image " + value.name);
                         checkExist = true;
                     }
                 }
@@ -95,7 +181,7 @@ $(document).ready(function () {
                         // preview image with file reader
                         var reader = new FileReader();
                         reader.onload = function (e) {
-                            $(".files").append('<tr id="' + value.name.split(".")[0] + '" class="table-tr" style="margin-top: 10px;">' +
+                            $(".files").append('<tr id="' + value.name + '" class="table-tr" style="margin-top: 10px;">' +
                                 '<td><img id="' + count + '" src="' + e.target.result + '"/></td>' +
                                 '<td><div class="imageName">' + value.name + '</div></td>' +
                                 '<td><div class="imageSize">' + Math.round(value.size / 1024) + ' KB</div></td>' +
@@ -109,18 +195,23 @@ $(document).ready(function () {
                                 '<option value="Assembly Guide">Assembly Guide</option>\n' +
                                 ' </select></td>\n' +
                                 ' <td class="canceltd">\n' +
-                                '<button id="cancelImage" class="btn btn-warning cancel ' + value.name.split(".")[0] + '">\n' +
+                                '<button id="$$$' + value.name + '" style="transition: none;\n' +
+                                '    color: white;\n' +
+                                '    width: 85px;\n' +
+                                '    font-size: 14px;\n' +
+                                '    height: 34px;\n' +
+                                '    padding-top: 5px;" ' +
+                                'class="high-cancel btn btn-warning cancel ' + value.name + '">\n' +
                                 '<i class="glyphicon glyphicon-ban-circle"></i>\n' +
                                 '<span>Cancel</span>\n' +
                                 '</button>\n' +
-                                '<input type="checkbox" class="toggle models $$$' + value.name.split(".")[0] + '">\n' +
+                                '<input id="$$' + value.name + '" type="checkbox" class="toggle models">\n' +
                                 '</td>');
 
-                            $("." + value.name.split(".")[0]).click(function (e) {
+                            $("button[id='$$$" + value.name + "']").click(function (e) {
                                 e.preventDefault();
 
-                                var classess = this.className.split(" ");
-                                var imageName = classess[classess.length-1];
+                                var imageName = $(this).attr('id').replace('$$$', '');
 
                                 remove(imageName);
                             })
@@ -130,6 +221,8 @@ $(document).ready(function () {
                 }
             }
         });
+
+        $("#files").val('');
     });
 
     // remove image
@@ -138,11 +231,15 @@ $(document).ready(function () {
 
         for (var i = 0; i < imageFiles.length; i++) {
             if (imageFiles[i].name.indexOf(imageName) == 0) {
+                // subtract image size
+                totalSize -= imageFiles[i].size;
                 imageFiles.splice(i,1);
+                // subtract list length
+                count--;
             }
         }
 
-        $("table#listImage tr#" + imageName).remove();
+        $("table#listImage tr[id='" + imageName + "']").remove();
     }
 
     $("#checkAll").change(function () {
@@ -157,8 +254,7 @@ $(document).ready(function () {
         e.preventDefault();
 
         $(".models:checkbox:checked").each(function () {
-            var classess = this.className.split(" ");
-            var imageName = classess[classess.length-1].replaceAll("$$$", "");
+            var imageName = $(this).attr('id').replace('$$', '');
 
             remove(imageName);
         })

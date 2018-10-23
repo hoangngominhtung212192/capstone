@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import java.util.List;
 
 @Repository
 public class SeriestitleRepositoryImpl extends GenericRepositoryImpl<Seriestitle, Integer> implements SeriestitleRepository {
@@ -40,5 +41,10 @@ public class SeriestitleRepositoryImpl extends GenericRepositoryImpl<Seriestitle
         Seriestitle newSeriestitle = this.create(seriestitle);
 
         return newSeriestitle;
+    }
+
+    @Override
+    public List<Seriestitle> getAllSeriestitle() {
+        return this.getAll();
     }
 }
