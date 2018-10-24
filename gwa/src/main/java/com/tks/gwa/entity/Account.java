@@ -37,6 +37,9 @@ public class Account implements Serializable {
     @Transient
     private String message;
 
+    @Transient
+    private String avatar;
+
     public Account(){}
 
     public int getId() {
@@ -109,5 +112,13 @@ public class Account implements Serializable {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

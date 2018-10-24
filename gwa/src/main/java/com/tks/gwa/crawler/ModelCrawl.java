@@ -1,6 +1,7 @@
 package com.tks.gwa.crawler;
 
 import com.tks.gwa.constant.AppConstant;
+import com.tks.gwa.jaxb.Image;
 import com.tks.gwa.parser.ModelStAXParser;
 import com.tks.gwa.utils.CrawlHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +9,10 @@ import org.springframework.stereotype.Service;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.stream.StreamSource;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.List;
+import java.io.*;
+import java.nio.Buffer;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class ModelCrawl {
@@ -24,18 +26,32 @@ public class ModelCrawl {
 
     private StreamSource ss;
 
+    private boolean inProgress = false;
+
+    private int records;
+
     public ModelCrawl() {
         this.crawler = new Crawler();
+        this.records = 0;
     }
 
     public void crawl() {
-        crawlPageCount(AppConstant.URL_GUNDAM_HIGH_GRADE);
+        inProgress = true;
 
-        crawlPageCount(AppConstant.URL_GUNDAM_REAL_GRADE);
+        // begin crawl
+        int logID = logFile();
+        // re-initialize
+        records = 0;
+        this.parser.setNewRecords(0);
 
-        crawlPageCount(AppConstant.URL_GUNDAM_MASTER_GRADE);
+        for (int i = 0; i < AppConstant.listModelCrawlUrls.length; i++) {
+            crawlPageCount(AppConstant.listModelCrawlUrls[i]);
+        }
 
-        crawlPageCount(AppConstant.URL_GUNDAM_PERFECT_GRADE);
+        // finish crawl
+        editLogFile(logID, records, this.parser.getNewRecords());
+
+        inProgress = false;
     }
 
     public void crawlPageCount(String url) {
@@ -59,12 +75,19 @@ public class ModelCrawl {
                 String newUrl = url.substring(0, url.length() - 1) + "10";
                 crawlPageCount(newUrl);
             } else {
-                if (lastPage == 14) {
-                    String newUrl = url.substring(0, url.length() - 2) + "14";
+                int nextFourPages = 0;
+
+                if (lastPage > 10) {
+                    nextFourPages = Integer.parseInt(url.substring(url.length() - 2, url.length())) + 4;
+                }
+
+                if (lastPage == nextFourPages) {
+                    String newUrl = url.substring(0, url.length() - 2) + lastPage;
                     crawlPageCount(newUrl);
                 } else {
                     System.out.println("Total page: " + lastPage);
 
+                    // run crawling; loop until the last page
                     for (int i = 1; i <= lastPage; i++) {
                         String page_url = "";
                         if (lastPage < 10) {
@@ -104,6 +127,7 @@ public class ModelCrawl {
                     System.out.println("");
                     System.out.println("Model number " + count + ":");
                     crawlModelDetail(AppConstant.URL_GUNDAM_HOME_PAGE_CRAWL + listDetailLink.get(i));
+                    records += 1;
                 }
             }
         } catch (XMLStreamException e) {
@@ -129,7 +153,7 @@ public class ModelCrawl {
         }
     }
 
-    public void crawlModelImage(String url) {
+    public List<Image> crawlModelImage(String url) {
         crawler.parseHTML(AppConstant.URL_GUNDAM_HOME_PAGE_CRAWL + url,
                 AppConstant.URL_GUNDAM_MODEL_IMAGE_BEGIN_SIGN, AppConstant.URL_GUNDAM_MODEL_IMAGE_END_SIGN);
 
@@ -139,15 +163,174 @@ public class ModelCrawl {
 
         htmlContent = htmlContent.replaceAll("style=\"width:\\d+;height:\\d+;\"", "");
 
-        System.out.println(htmlContent);
-
         is = new ByteArrayInputStream(htmlContent.getBytes());
         ss = new StreamSource(is);
 
         try {
-            parser.parseModelImage(ss);
+            List<Image> jaxb_list_images = parser.parseModelImage(ss);
+
+            return jaxb_list_images;
         } catch (XMLStreamException e) {
             e.printStackTrace();
         }
+
+        return null;
+    }
+
+    public boolean isInProgress() {
+        return inProgress;
+    }
+
+    public void setInProgress(boolean inProgress) {
+        this.inProgress = inProgress;
+    }
+
+    public void editLogFile(int currentID, int records, int newRecords) {
+        List<String> lines = new ArrayList<>();
+        String line = null;
+        File f = null;
+        FileWriter fw = null;
+        PrintWriter pw = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+
+        try {
+            f = new File(AppConstant.LOG_FILE_MODEL_CRAWL);
+            if (!f.exists()) {
+                return;
+            }
+
+            fr = new FileReader(f);
+            br = new BufferedReader(fr);
+            String details;
+
+            while ((details = br.readLine()) != null) {
+                line = "";
+                StringTokenizer stk = new StringTokenizer(details, ";");
+                int id = Integer.parseInt(stk.nextToken());
+                line += id;
+                if (id == currentID) {
+                    line += ";" + stk.nextToken() + ";" + records + ";" + newRecords + ";Done";
+                } else {
+                    line += ";" + stk.nextToken() + ";" + stk.nextToken() + ";" + stk.nextToken() + ";" + stk.nextToken();
+                }
+                lines.add(line);
+            }
+            br.close();
+            fr.close();
+
+            if (lines.size() > 0) {
+                fw = new FileWriter(f, false);
+                pw = new PrintWriter(fw);
+
+                for (String s : lines) {
+                    pw.println(s);
+                }
+                pw.close();
+                fw.close();
+
+                System.out.println("Log ID " + currentID + " has been updated with records: " + records + ", " +
+                        "new records: " + newRecords + " and status: Done");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int logFile() {
+        File f = null;
+        FileWriter fw = null;
+        PrintWriter pw = null;
+
+        try {
+            int id = getLastIDFromFile();
+            id += 1;
+
+            f = new File(AppConstant.LOG_FILE_MODEL_CRAWL);
+            if (!f.exists()) {
+                f.createNewFile();
+            }
+            fw = new FileWriter(f, true);
+            pw = new PrintWriter(fw);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date now = new Date();
+            String strDate = sdf.format(now);
+
+            if (id == 1) {
+                pw.print(id + ";" + strDate + ";" + "N/A;N/A;Crawling");
+                pw.println("");
+            } else {
+                pw.println(id + ";" + strDate + ";" + "N/A;N/A;Crawling");
+            }
+            System.out.println("Append to log crawl model: " + id + ";" + strDate + ";N/A;N/A;Crawling");
+
+            return id;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pw != null) {
+                    pw.close();
+                }
+                if (fw != null) {
+                    fw.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return 0;
+    }
+
+    public int getLastIDFromFile() {
+
+        File f = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+
+        int id = 0;
+
+        try {
+            f = new File(AppConstant.LOG_FILE_MODEL_CRAWL);
+            if (!f.exists()) {
+                return id;
+            }
+
+            fr = new FileReader(f);
+            br = new BufferedReader(fr);
+            String details;
+
+            while ((details = br.readLine()) != null) {
+                StringTokenizer stk = new StringTokenizer(details, ";");
+                id = Integer.parseInt(stk.nextToken());
+            }
+
+            System.out.println("The last id of log file: " + id);
+
+            return id;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        } catch (NoSuchElementException e) {
+            System.out.println("There is no data in log file");
+            return 0;
+        }
+        finally {
+            try {
+                if (br != null) {
+                    br.close();
+                }
+                if (fr != null) {
+                    fr.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return 0;
     }
 }

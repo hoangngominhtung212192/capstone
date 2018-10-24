@@ -109,17 +109,17 @@ public class XJCGenerateJavaObj {
     }
 
     public static void main(String[] args) {
-        printSimilarity("", "");
-        printSimilarity("Tung", "tugg");
-        printSimilarity("Khanh", "Kanhh");
-        printSimilarity("Sang", "Angs");
-        printSimilarity("Tung", "Tung Hoang");
-        printSimilarity("Khanh dep trai", "Khanh dep gai");
-        printSimilarity("Tung dep trai", "Sang dep gai");
-        printSimilarity("47/2018", "47/2011");
-        printSimilarity("47/2018", "AB/CDEF");
-        printSimilarity("47/2018", "4B.CDEFG");
-        printSimilarity("47/2018", "AB.CDEFG");
-        printSimilarity("kitten", "sitting");
+//        printSimilarity("", "");
+//        printSimilarity("Tung", "tugg");
+//        printSimilarity("Khanh", "Kanhh");
+//        printSimilarity("Sang", "Angs");
+//        printSimilarity("Tung", "Tung Hoang");
+//        printSimilarity("Khanh dep trai", "Khanh dep gai");
+//        printSimilarity("Tung dep trai", "Sang dep gai");
+//        printSimilarity("47/2018", "47/2011");
+//        printSimilarity("47/2018", "AB/CDEF");
+//        printSimilarity("47/2018", "4B.CDEFG");
+//        printSimilarity("47/2018", "AB.CDEFG");
+//        printSimilarity("kitten", "sitting");
     }
 }

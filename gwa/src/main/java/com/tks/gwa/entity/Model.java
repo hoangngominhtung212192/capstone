@@ -19,6 +19,7 @@ public class Model implements Serializable {
     @Column(name = "createddate")
     private String createdDate;
 
+    @Lob
     @Column(name = "description")
     private String description;
 

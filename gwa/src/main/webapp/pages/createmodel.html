@@ -1,22 +1,71 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Recruitment Tool</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Admin | Search Account</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta
+            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+            name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet"
+          href="/css/index/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="/css/index/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet"
+          href="/css/index/ionicons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet"
+          href="/css/index/dataTables.bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/css/index/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+           folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="/css/index/_all-skins.min.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/model.css">
+    <link rel="stylesheet" href="/css/pagination.css">
+    <link rel="stylesheet" href="/css/style.css">
 
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
-    <!-- css reset style sheet -->
-    <link rel="stylesheet" href="/css/normalize.css">
-    <!-- css master style sheet -->
-    <link rel="stylesheet" href="/css/admin-tung.css">
-
-    <!-- third party style sheet -->
-    <link rel="stylesheet" type="text/css" href="/css/jquery.editable-select.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--&lt;!&ndash;[if lt IE 9]>-->
+    <!--<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>-->
+    <!--<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>-->
+    <!--<![endif]&ndash;&gt;-->
 
     <!-- resruitmen tool style sheet -->
     <link rel="stylesheet" href="/css/admin_tung_tool.css">
+    <!-- css master style sheet -->
+    <link rel="stylesheet" href="/css/admin-tung.css">
+    <!-- css reset style sheet -->
+    <link rel="stylesheet" href="/css/normalize.css">
+    <!-- third party style sheet -->
+    <link rel="stylesheet" type="text/css" href="/css/jquery.editable-select.css">
+    <link rel="stylesheet" href="/css/index/jquery.fileupload.css">
+    <link rel="stylesheet" href="/css/index/jquery.fileupload-ui.css">
+
+    <!-- Google Font -->
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/create-model.js"></script>
+    <style>
+
+        #imageBook:hover {
+            transform: scale(1.2);
+        }
+
+        #trBook:hover {
+            border-radius: 6px;
+            background: #ffffff;
+            border: 3px solid #d2d6de;
+        }
+    </style>
+
+    <!--    my js   -->
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script>
         $(function () {
 
@@ -31,203 +80,700 @@
 
         });
     </script>
-
 </head>
-<body style="font: normal 18px Lato, Helvetica, sans-serif;">
-<div class="io-col-main">
-    <div class="io-main-content">
-        <div class="pad-10">
-            <div class="io-panel panel-create-new-candidate">
-                <div class="io-panel-header">
-                    <!--<h3 style="float:left; margin-top:8px;">Edit Model {Code of the model}</h3>-->
-                    <h3 style="float:left; margin-top:8px;">Create Model</h3>
-                    <div style="float:right;"><a href="03_candidate_detail.html" class="io-button-highlight medium"
-                                                 style="margin-right: 10px;"><span>SAVE</span></a><a
-                            href="03_candidate_detail.html" class="io-button-standard medium"
-                            style=""><span>CANCEL</span></a></div>
-                    <div style="clear:right;"></div>
+<script
+        src="/js/jquery.min.js"></script>
+<body class="hold-transition skin-blue sidebar-mini" style="font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-weight: 400;font-size: 1rem;line-height: 1.5;color: #212529;">
+<div id="loading" class="loading" style="display: none;">Loading&#8230;</div>
+<div class="wrapper">
+
+    <header class="main-header">
+        <!-- Logo -->
+        <a href="" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>AD</b></span> <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>Admin</b> - Account</span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="push-menu"
+               role="button"> <span class="sr-only">Toggle navigation</span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </a>
+
+        </nav>
+    </header>
+
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- Sidebar user panel -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="/img/avatar5.png" class="img-circle"
+                         alt="User Image">
                 </div>
-                <div class="io-panel-body clearfix">
-                    <div class="io-contact-information">
+                <div class="pull-left info">
+                    <p>Hoang Ngo Minh Tung</p>
+                </div>
+            </div>
+            <!-- search form -->
+
+            <!-- /.search form -->
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu" data-widget="tree">
+                <li class="header">MAIN NAVIGATION</li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-edit"></i>
+                        <span>Users</span>
+                        <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a class="admin-li" href="pages/forms/general.html"><i class="fa fa-circle-o"></i> Manage
+                            users</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-laptop"></i>
+                        <span>Models</span>
+                        <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> Create model</a></li>
+                        <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> Manage model</a></li>
+                        <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> Pending model</a></li>
+                        <li><a href="pages/UI/buttons.html"><i class="fa fa-circle-o"></i> Crawl model</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-pie-chart"></i>
+                        <span>Article</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> Manage article</a></li>
+                        <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i> Pending article</a></li>
+                        <li><a href="pages/charts/flot.html"><i class="fa fa-circle-o"></i> Create new article</a></li>
+                    </ul>
+                </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-edit"></i>
+                        <span>Event</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="pages/forms/general.html"><i class="fa fa-circle-o"></i> Manage Event</a></li>
+                        <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i> Create new event</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-table"></i>
+                        <span>Trade post</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="pages/tables/simple.html"><i class="fa fa-circle-o"></i> Manage trade post</a></li>
+                        <li><a href="pages/tables/data.html"><i class="fa fa-circle-o"></i> Pending trade post</a></li>
+                    </ul>
+                </li>
 
 
-                        <div class="pad-20">
-                            <h3><img src="/img/transparent.png" alt="Contact Information" class="iconContactInfo">Model
-                                information</h3>
+                <li class="header">LABELS</li>
+                <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
+                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
+                <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
 
-                            <table class="io-table-input vertical" style="width: auto;">
-                                <tbody>
-                                <tr>
-                                    <td class="label" colspan="2">Code</td>
-                                </tr>
-                                <tr>
-                                    <td class="data"><input class="io-txt-normal empty" style="width: 98px;"
-                                                            id="firstname" type="text" value="" placeholder="Code"
-                                                            autofocus/></td>
-                                </tr>
-                                <tr>
-                                    <td class="label" colspan="2">Name</td>
-                                </tr>
-                                <tr>
-                                    <td class="data" colspan="2"><input class="io-txt-normal empty"
-                                                                        style="width: 230px;" id="no_street" type="text"
-                                                                        placeholder="Name"/></td>
-                                </tr>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper" style="min-height: 550px;">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1 style="font-weight: normal;">Models</h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li><a href="#">Models</a></li>
+            </ol>
+        </section>
 
-                                <tr>
-                                    <td class="label" colspan="2">Product Series</td>
-                                </tr>
-                                <tr>
-                                    <td class="data" style="width: 200px;">
-                                        <select id="cbo-productseries" style="width: 100%;
-    overflow: hidden;
-    background: transparent;
-    padding: 8px; /* If you add too much padding here, the options won't show in IE */
-    background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
-    width: 200px;
-    float: left;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    height: 34px;
--webkit-appearance: none;">
-                                            <option value="Perfect Grade">Perfect Grade</option>
-                                            <option value="Master Grade">Master Grade</option>
-                                            <option value="Real Grade">Real Grade</option>
-                                            <option value="High Grade">high Grade</option>
-                                        </select>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="label" colspan="2">Series Title</td>
-                                </tr>
-                                <tr>
-                                    <td class="data" style="width: 200px;">
-                                        <select id="cbo-seriestitle" style="width: 100%;
-    overflow: hidden;
-    background: transparent;
-    padding: 8px; /* If you add too much padding here, the options won't show in IE */
-    background: url(/css/images//2e3ybe1.jpg) no-repeat right center;
-    width: 300px;
-    float: left;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    height: 34px;
--webkit-appearance: none;">
-                                            <option value="Perfect Grade">Reborn-One Hundred</option>
-                                        </select>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="label" colspan="2">Manufacturer</td>
-                                </tr>
-                                <tr>
-                                    <td class="data" style="width: 200px;">
-                                        <select id="cbo-manufacturer" style="width: 100%;
-    overflow: hidden;
-    background: transparent;
-    padding: 8px; /* If you add too much padding here, the options won't show in IE */
-    background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
-    width: 150px;
-    float: left;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    height: 34px;
--webkit-appearance: none;">
-                                            <option value="Perfect Grade">Bandai</option>
-                                        </select>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="label" colspan="2">Price</td>
-                                </tr>
-                                <tr>
-                                    <td class="data" colspan="2"><input class="io-txt-normal empty" placeholder="Price" style="width: 98px;"
-                                                                        id="phone" type="text" value=""/></td>
-                                </tr>
-
-                                <tr>
-                                    <td class="label" colspan="2">Status</td>
-                                </tr>
-                                <tr>
-                                    <td class="data" style="width: 200px;">
-                                        <select id="cbo-status" style="width: 100%;
-    overflow: hidden;
-    background: transparent;
-    padding: 8px; /* If you add too much padding here, the options won't show in IE */
-    background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
-    width: 150px;
-    float: left;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    height: 34px;
--webkit-appearance: none;">
-                                            <option value="Available">Available</option>
-                                            <option value="Unavailable">Unavailable</option>
-                                        </select>
-                                    </td>
-                                </tr>
-
-                                </tbody>
-                            </table>
-
-                        </div>
-                    </div>
-                    <div class="io-personal-information newCandidate">
-                        <div class="pad-20">
-                            <div class="profile-summary">
-                                <h3 class="expand"><img src="/img/transparent.png" alt=""
-                                                        class="iconSummary"><span>Description<span></h3>
-                                <div>
-                                                <textarea class="io-ta-normal" style="height: 150px;">Prototype MS with Psycomu appeared in RE / 100!
-
-Refreshed the details and proportions according to RE / 100 based on the original image of the ZZ fan highly anticipated hammer hammer.
-Flexible arm has a large number of gimmicks including soft materials and repeatable all range attack by lead wire.</textarea>
+        <!-- Main content -->
+        <section class="content">
+            <div class="io-col-main" style="font: normal 18px Lato, Helvetica, sans-serif;">
+                <div class="io-main-content">
+                    <div class="pad-10">
+                        <div class="io-panel panel-create-new-candidate">
+                            <div class="io-panel-header">
+                                <!--<h3 style="float:left; margin-top:8px;">Edit Model {Code of the model}</h3>-->
+                                <h3 style="float:left; margin-top:8px;font-size: 18px;">Create Model</h3>
+                                <div style="float:right;">
+                                    <a id="save" href="#"
+                                       class="io-button-highlight medium"
+                                       style="margin-right: 10px; font-size: 15px;">
+                                        <span>SAVE</span>
+                                    </a>
+                                    <a href="#" id="cancel"
+                                       style="">
+                                        <span>CANCEL</span>
+                                    </a>
                                 </div>
+                                <div style="clear:right;"></div>
+                            </div>
+                            <div class="io-panel-body clearfix">
+                                <div class="io-contact-information">
 
 
-                            </div><!-- end of summary -->
-                            <div class="profile-experience">
-                                <h3 class="expand"><img src="/img/transparent.png" alt="" class="iconEx"/><span>Model's Images</span>
-                                </h3>
+                                    <div class="pad-20">
+                                        <h3><img src="/img/transparent.png" alt="Contact Information"
+                                                 class="iconContactInfo">Model
+                                            information</h3>
 
-                                <table class="io-table-input vertical">
-                                    <tbody>
-                                    <tr>
-                                        <td class="label">Upload pictures</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="data" colspan="1">
-                                            <input id="avatar" type="file" value=""
-                                                   style="float: left; padding-top: 5px; width: 350px;"/>
-                                            <div class="io-editable-list">
-                                                <div class="row">
-                                                              <span class="col">
-                                                              	<select id="cbo-image-type" style="width: 100%;
-    overflow: hidden;
-    background: transparent;
-    padding: 8px; /* If you add too much padding here, the options won't show in IE */
-    background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
-    width: 150px;
-    float: left;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    height: 34px;
--webkit-appearance: none;">
-                                            <option value="Available">Package</option>
-                                            <option value="Unavailable">Item picture</option>
-                                        </select></span>
-                                                    <span class="ico-20 add-row"></span>
-                                                    <span class="ico-20 remove-row"></span>
+                                        <span id="serverErr" class="error" style="display: none; margin-top: 15px; font-size: 15px; color: red;
+                                width: 100%;"></span>
+                                        <table class="io-table-input vertical" style="width: auto;">
+                                            <tbody>
+                                            <tr>
+                                                <td class="label" colspan="2">Code
+                                                    <span id="errorcode" style="display: none; width: 60px;" class="error_field">
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="data"><input class="io-txt-normal empty" style="padding: 8px;
+                                                        width: 150px;
+                                                        float: left;
+                                                        border: 1px solid #ccc;
+                                                        font-size: 14px;
+                                                        height: 34px;
+                                                    -webkit-appearance: none;"
+                                                                        id="firstname" type="text" value=""
+                                                                        placeholder="Code"
+                                                                        autofocus/></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label" colspan="2">Name
+                                                    <span id="errorname" style="display: none; width: 60px;"
+                                                          class="error_field">
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="data" colspan="2"><input class="io-txt-normal empty"
+                                                                                    style="padding: 8px;
+                                                        width: 230px;
+                                                        float: left;
+                                                        border: 1px solid #ccc;
+                                                        font-size: 14px;
+                                                        height: 34px;
+                                                    -webkit-appearance: none;" id="no_street"
+                                                                                    type="text"
+                                                                                    placeholder="Name"/></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="label" colspan="2">Product Series
+                                                    <span id="errorproductseries" style="display: none; width: 60px;"
+                                                          class="error_field">
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="data" style="width: 150px;">
+                                                    <div class="select-editable-productseries">
+                                                        <select id="cbo-productseries" style="width: 100%;
+                                                         overflow: hidden;
+                                                        position: absolute;
+                                                        top:0px;
+                                                        left:0px;
+                                                        background: transparent;
+                                                        padding: 8px; /* If you add too much padding here, the options won't show in IE */
+                                                        background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
+                                                        width: 160px;
+                                                        float: left;
+                                                        border: 1px solid #ccc;
+                                                        font-size: 14px;
+                                                        height: 34px;
+                                                         -webkit-appearance: none;"
+                                                                onchange="this.nextElementSibling.value=this.value">
+                                                        </select>
+                                                        <input type="text" id="txtProductseries" value=""
+                                                               style="position:absolute;
+                                                                 top:0px;
+                                                                 left:0px;
+                                                                 width:126px;
+                                                                 height: 34px;
+                                                                 padding: 8px;
+                                                                 font-size:14px;
+                                                                 border:1px solid #ccc;"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="label" colspan="2">Series Title
+                                                    <span id="errorseriestitle" style="display: none; width: 60px;"
+                                                          class="error_field">
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="data" style="width: 200px;">
+                                                    <div class="select-editable-seriestitle">
+                                                        <select id="cbo-seriestitle" style="width: 100%;
+                                                        overflow: hidden;
+                                                        position: absolute;
+                                                        top:0px;
+                                                        left:0px;
+                                                        background: transparent;
+                                                        padding: 8px; /* If you add too much padding here, the options won't show in IE */
+                                                        background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
+                                                        width: 220px;
+                                                        float: left;
+                                                        border: 1px solid #ccc;
+                                                        font-size: 14px;
+                                                        height: 34px;
+                                                    -webkit-appearance: none;"
+                                                                onchange="this.nextElementSibling.value=this.value">
+                                                        </select>
+                                                        <input type="text" id="txtSeriestitle" value=""
+                                                               style="position:absolute;
+                                                                 top:0px;
+                                                                 left:0px;
+                                                                 width:186px;
+                                                                 height: 34px;
+                                                                 padding: 8px;
+                                                                 font-size:14px;
+                                                                 border:1px solid #ccc;"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="label" colspan="2">Manufacturer
+                                                    <span id="errormanufacturer" style="display: none; width: 60px;"
+                                                          class="error_field">
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="data" style="width: 200px;">
+                                                    <div class="select-editable-manufacturer">
+                                                    <select id="cbo-manufacturer" style="width: 100%;
+                                                        overflow: hidden;
+                                                        position: absolute;
+                                                        top:0px;
+                                                        left:0px;
+                                                        background: transparent;
+                                                        padding: 8px; /* If you add too much padding here, the options won't show in IE */
+                                                        background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
+                                                        width: 200px;
+                                                        float: left;
+                                                        border: 1px solid #ccc;
+                                                        font-size: 14px;
+                                                        height: 34px;
+                                                    -webkit-appearance: none;"
+                                                            onchange="this.nextElementSibling.value=this.value">
+                                                    </select>
+                                                        <input type="text" id="txtManufacturer" value=""
+                                                               style="position:absolute;
+                                                                 top:0px;
+                                                                 left:0px;
+                                                                 width:166px;
+                                                                 height: 34px;
+                                                                 padding: 8px;
+                                                                 font-size:14px;
+                                                                 border:1px solid #ccc;"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="label" colspan="2">Price
+                                                    <span id="errorprice" style="display: none; width: 60px;"
+                                                          class="error_field">
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="data" colspan="2"><input class="io-txt-normal empty"
+                                                                                    placeholder="Price"
+                                                                                    style="width: 96px;padding: 8px;
+                                                    width: 98px;
+                                                    float: left;
+                                                    border: 1px solid #ccc;
+                                                    font-size: 14px;
+                                                    height: 34px;
+                                                -webkit-appearance: none;"
+                                                                                    id="phone" type="text" value=""/>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="label" colspan="2">Status</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="data" style="width: 200px;">
+                                                    <select id="cbo-status" style="width: 100%;
+                                                            overflow: hidden;
+                                                            background: transparent;
+                                                            padding: 8px; /* If you add too much padding here, the options won't show in IE */
+                                                            background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
+                                                            width: 150px;
+                                                            float: left;
+                                                            border: 1px solid #ccc;
+                                                            font-size: 14px;
+                                                            height: 34px;
+                                                        -webkit-appearance: none;">
+                                                        <option value="Available">Available</option>
+                                                        <option value="Unavailable">Unavailable</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                                <div class="io-personal-information newCandidate">
+                                    <div class="pad-20">
+                                        <div class="profile-summary">
+                                            <h3 class="expand"><img src="/img/transparent.png" alt=""
+                                                                    class="iconSummary"><span>Description<span></h3>
+                                            <div>
+                                                <textarea id="txtDescription" placeholder="Enter model's description" class="io-ta-normal" style="height: 150px;"></textarea>
+                                            </div>
+
+
+                                        </div><!-- end of summary -->
+                                        <div class="profile-experience">
+                                            <h3 class="expand"><img src="/img/transparent.png" alt=""
+                                                                    class="iconEx"/><span>Model's Images</span>
+                                            </h3>
+                                            <div class="row fileupload-buttonbar">
+                                                <div class="col-lg-7">
+                                                    <!-- The fileinput-button span is used to style the file input field as button -->
+                                                    <span id="addFiles" class="btn btn-success fileinput-button">
+                                                             <i class="glyphicon glyphicon-plus"></i>
+                                                            <span>Add files...</span>
+                                                        <!--    input file type -->
+                                                             <input id="files" type="file" name="files" multiple>
+                                                        </span>
+                                                    <button id="deleteFiles" type="button"
+                                                            class="btn btn-danger delete">
+                                                        <i class="glyphicon glyphicon-trash"></i>
+                                                        <span>Delete</span>
+                                                    </button>
+                                                    <input id="checkAll" type="checkbox" class="toggle">
+                                                    <!-- The global file processing state -->
+                                                    <span id="totalSize" class="fileupload-process"
+                                                          style="display: block; padding-top: 5px;">
+                                                        </span>
                                                 </div>
                                             </div>
-                                        </td>
-                                    </tr>
+                                            <!-- The table listing the files available for upload/download -->
+                                            <span id="error" class="error" style="display: none;
+                                                            margin-left: 15px; font-size: 15px; color: red;
+                                                            width: 100%; float: left;"></span>
+                                            <table id="listImage" role="presentation" class="table table-striped">
+                                                <tbody class="files">
+                                                <!--<tr class="table-tr" style="margin-top: 10px;">-->
+                                                <!--<td>-->
+                                                <!--<img id="file1" src="/img/10522238.jpg"/>-->
+                                                <!--</td>-->
+                                                <!--<td><div class="imageName">10522238.jpg</div></td>-->
+                                                <!--<td><div class="imageSize">22.65 KB</div></td>-->
+                                                <!--<td class="imageType"><select id="cbo-image-type">-->
+                                                <!--<option value="Available">Package</option>-->
+                                                <!--<option value="Unavailable">Item picture</option>-->
+                                                <!--</select></td>-->
+                                                <!--<td class="canceltd">-->
+                                                <!--<button id="cancelImage" class="btn btn-warning cancel">-->
+                                                <!--<i class="glyphicon glyphicon-ban-circle"></i>-->
+                                                <!--<span>Cancel</span>-->
+                                                <!--</button>-->
+                                                <!--<input type="checkbox" class="toggle">-->
+                                                <!--</td>-->
+                                                <!--</tr>-->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end io-col-main -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>Version</b> 0.0.1
+        </div>
+        <strong>Copyright &copy; GWA <a href="#">All rights
+            reserved.</a></strong>
+    </footer>
 
-                                    </tbody>
-                                </table>
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Create the tabs -->
+        <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+            <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i
+                    class="fa fa-home"></i></a></li>
+            <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i
+                    class="fa fa-gears"></i></a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <!-- Home tab content -->
+            <div class="tab-pane" id="control-sidebar-home-tab">
+                <h3 class="control-sidebar-heading">Recent Activity</h3>
+                <ul class="control-sidebar-menu">
+                    <li><a href="javascript:void(0)"> <i
+                            class="menu-icon fa fa-birthday-cake bg-red"></i>
+
+                        <div class="menu-info">
+                            <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+
+                            <p>Will be 23 on April 24th</p>
+                        </div>
+                    </a></li>
+                    <li><a href="javascript:void(0)"> <i
+                            class="menu-icon fa fa-user bg-yellow"></i>
+
+                        <div class="menu-info">
+                            <h4 class="control-sidebar-subheading">Frodo Updated His
+                                Profile</h4>
+
+                            <p>New phone +1(800)555-1234</p>
+                        </div>
+                    </a></li>
+                    <li><a href="javascript:void(0)"> <i
+                            class="menu-icon fa fa-envelope-o bg-light-blue"></i>
+
+                        <div class="menu-info">
+                            <h4 class="control-sidebar-subheading">Nora Joined Mailing
+                                List</h4>
+
+                            <p>nora@example.com</p>
+                        </div>
+                    </a></li>
+                    <li><a href="javascript:void(0)"> <i
+                            class="menu-icon fa fa-file-code-o bg-green"></i>
+
+                        <div class="menu-info">
+                            <h4 class="control-sidebar-subheading">Cron Job 254
+                                Executed</h4>
+
+                            <p>Execution time 5 secondss</p>
+                        </div>
+                    </a></li>
+                </ul>
+                <!-- /.control-sidebar-menu -->
+
+                <h3 class="control-sidebar-heading">Tasks Progress</h3>
+                <ul class="control-sidebar-menu">
+                    <li><a href="javascript:void(0)">
+                        <h4 class="control-sidebar-subheading">
+                            Custom Template Design <span
+                                class="label label-danger pull-right">70%</span>
+                        </h4>
+
+                        <div class="progress progress-xxs">
+                            <div class="progress-bar progress-bar-danger"
+                                 style="width: 70%"></div>
+                        </div>
+                    </a></li>
+                    <li><a href="javascript:void(0)">
+                        <h4 class="control-sidebar-subheading">
+                            Update Resume <span class="label label-success pull-right">95%</span>
+                        </h4>
+
+                        <div class="progress progress-xxs">
+                            <div class="progress-bar progress-bar-success"
+                                 style="width: 95%"></div>
+                        </div>
+                    </a></li>
+                    <li><a href="javascript:void(0)">
+                        <h4 class="control-sidebar-subheading">
+                            Laravel Integration <span
+                                class="label label-warning pull-right">50%</span>
+                        </h4>
+
+                        <div class="progress progress-xxs">
+                            <div class="progress-bar progress-bar-warning"
+                                 style="width: 50%"></div>
+                        </div>
+                    </a></li>
+                    <li><a href="javascript:void(0)">
+                        <h4 class="control-sidebar-subheading">
+                            Back End Framework <span class="label label-primary pull-right">68%</span>
+                        </h4>
+
+                        <div class="progress progress-xxs">
+                            <div class="progress-bar progress-bar-primary"
+                                 style="width: 68%"></div>
+                        </div>
+                    </a></li>
+                </ul>
+                <!-- /.control-sidebar-menu -->
+
+            </div>
+            <!-- /.tab-pane -->
+            <!-- Stats tab content -->
+            <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab
+                Content
+            </div>
+            <!-- /.tab-pane -->
+            <!-- Settings tab content -->
+            <div class="tab-pane" id="control-sidebar-settings-tab">
+                <form method="post">
+                    <h3 class="control-sidebar-heading">General Settings</h3>
+
+                    <div class="form-group">
+                        <label class="control-sidebar-subheading"> Report panel
+                            usage <input type="checkbox" class="pull-right" checked>
+                        </label>
+
+                        <p>Some information about this general settings option</p>
+                    </div>
+                    <!-- /.form-group -->
+
+                    <div class="form-group">
+                        <label class="control-sidebar-subheading"> Allow mail
+                            redirect <input type="checkbox" class="pull-right" checked>
+                        </label>
+
+                        <p>Other sets of options are available</p>
+                    </div>
+                    <!-- /.form-group -->
+
+                    <div class="form-group">
+                        <label class="control-sidebar-subheading"> Expose author
+                            name in posts <input type="checkbox" class="pull-right" checked>
+                        </label>
+
+                        <p>Allow the user to show his name in blog posts</p>
+                    </div>
+                    <!-- /.form-group -->
+
+                    <h3 class="control-sidebar-heading">Chat Settings</h3>
+
+                    <div class="form-group">
+                        <label class="control-sidebar-subheading"> Show me as
+                            online <input type="checkbox" class="pull-right" checked>
+                        </label>
+                    </div>
+                    <!-- /.form-group -->
+
+                    <div class="form-group">
+                        <label class="control-sidebar-subheading"> Turn off
+                            notifications <input type="checkbox" class="pull-right">
+                        </label>
+                    </div>
+                    <!-- /.form-group -->
+
+                    <div class="form-group">
+                        <label class="control-sidebar-subheading"> Delete chat
+                            history <a href="javascript:void(0)" class="text-red pull-right"><i
+                                    class="fa fa-trash-o"></i></a>
+                        </label>
+                    </div>
+                    <!-- /.form-group -->
+                </form>
+            </div>
+            <!-- /.tab-pane -->
+        </div>
+    </aside>
+    <!-- /.control-sidebar -->
+    <!-- Add the sidebar's background. This div must be placed
+   immediately after the control sidebar -->
+    <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+<!-- ##### Footer Area Start ##### -->
+<footer class="footer-area">
+
+    <!-- Main Footer Area -->
+    <div class="main-footer-area">
+        <div class="container">
+            <div class="row">
+
+                <!-- Footer Widget Area -->
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="footer-widget-area mt-80">
+                        <!-- Footer Logo -->
+                        <div class="footer-logo">
+                            <a href="index.html" style="color: white; font: 3em sans-serif;">Gunpla World</a>
+                        </div>
+                        <!-- List -->
+                        <ul class="list">
+                            <li><a href="mailto:contact@youremail.com">contact@youremail.com</a></li>
+                            <li><a href="tel:+4352782883884">+43 5278 2883 884</a></li>
+                            <li><a href="http://yoursitename.com">www.yoursitename.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Footer Widget Area -->
+                <div class="col-12 col-sm-6 col-lg-2">
+                    <div class="footer-widget-area mt-80">
+                        <!-- Title -->
+                        <h4 class="widget-title">Quick Links</h4>
+                        <!-- List -->
+                        <ul class="list">
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Articles</a></li>
+                            <li><a href="#">Events</a></li>
+                            <li><a href="#">Trade market</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Footer Widget Area -->
+                <div class="col-12 col-sm-4 col-lg-2">
+                    <div class="footer-widget-area mt-80">
+                        <!-- Title -->
+                        <h4 class="widget-title">Follow us</h4>
+                        <!-- List -->
+                        <ul class="list">
+                            <li><a href="#">Facebook</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <!-- Bottom Footer Area -->
+                <div class="bottom-footer-area">
+                    <div class="container h-100">
+                        <div class="row h-100 align-items-center">
+                            <div class="col-12">
+                                <!-- Copywrite -->
+                                <p>copywrite lol</p>
                             </div>
                         </div>
                     </div>
@@ -235,8 +781,38 @@ Flexible arm has a large number of gimmicks including soft materials and repeata
             </div>
         </div>
     </div>
-</div><!-- end io-col-main -->
+</footer>
 
-
+<!-- Bootstrap 3.3.7 -->
+<script src="/js/bootstrap/bootstrap.min.js"></script>
+<!-- DataTables -->
+<script
+        src="/js/jquery/jquery.dataTables.min.js"></script>
+<script
+        src="/js/bootstrap/dataTables.bootstrap.min.js"></script>
+<!-- SlimScroll -->
+<script
+        src="/js/jquery/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="/js/jquery/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="/js/lib/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/js/lib/demo.js"></script>
+<!-- page script -->
+<script>
+    $(function () {
+        $('#example1').DataTable()
+        $('#example2').DataTable({
+            'paging': true,
+            'lengthChange': false,
+            'searching': false,
+            'ordering': true,
+            'info': true,
+            'autoWidth': false
+        })
+    })
+</script>
 </body>
 </html>
+

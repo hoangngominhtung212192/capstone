@@ -1,5 +1,13 @@
 $(document).ready(function() {
 
+    // process UI
+    $(document).click(function (event) {
+        $(".dropdown-menu-custom-profile").css("height", "0");
+        $(".dropdown-menu-custom-profile").css("border", "none");
+        $(".dropdown-menu-custom-logout").css("height", "0");
+        $(".dropdown-menu-custom-logout").css("border", "none");
+    })
+
     authentication();
 
     function authentication() {
@@ -16,6 +24,8 @@ $(document).ready(function() {
                     var xhr_data = xhr.responseText;
                     var jsonResponse = JSON.parse(xhr_data);
                     var role = jsonResponse["role"].name;
+
+                    var thumbAvatar = jsonResponse["avatar"];
                     var username = jsonResponse["username"];
                     var accountID = jsonResponse["id"];
 
@@ -26,6 +36,7 @@ $(document).ready(function() {
 
                     $("#username").text(username)
                     $("#username").css("display", "block");
+                    $("#thumbAvatar").attr("src", thumbAvatar);
                     $(".dropdown-menu-custom-profile").css("display", "block");
                     $(".dropdown-menu-custom-logout").css("display", "block");
                 } else {

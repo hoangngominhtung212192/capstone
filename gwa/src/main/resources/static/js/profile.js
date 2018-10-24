@@ -17,7 +17,14 @@ $(document).ready(function () {
     var checkImage = false;
     var imagetype;
     var avatar;
-    
+    var preEmail;
+    var preFirstName;
+    var preMiddleName;
+    var preLastName;
+    var preMobile;
+    var preBirthday;
+    var preAddress;
+
     // authentication
     authentication();
 
@@ -41,7 +48,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/api/user/checkLogin",
+            url: "/api/user/checkLogin",
             complete: function (xhr, status) {
 
                 if (status == "success") {
@@ -55,6 +62,7 @@ $(document).ready(function () {
                     account_session_id = jsonResponse["id"];
                     
                     var username = jsonResponse["username"];
+                    var thumbAvatar = jsonResponse["avatar"];
                     console.log(role_session + " " + username + " is on session!");
 
                     // click profile button
@@ -63,6 +71,7 @@ $(document).ready(function () {
                     // display username, profile and logout button
                     $("#username").text(username)
                     $("#username").css("display", "block");
+                    $("#thumbAvatar").attr("src", thumbAvatar);
                     $(".dropdown-menu-custom-profile").css("display", "block");
                     $(".dropdown-menu-custom-logout").css("display", "block");
 
@@ -93,7 +102,15 @@ $(document).ready(function () {
                 profile_id = result.id;
                 username = result.account.username;
                 avatar = result.avatar;
+                preAddress = result.address;
+                preBirthday = result.birthday;
+                preEmail = result.email;
+                preFirstName = result.firstName;
+                preMiddleName = result.middleName;
+                preLastName = result.lastName;
+                preMobile = result.tel;
 
+                console.log(result);
                 setField(result);
             },
             error: function (e) {
@@ -193,16 +210,65 @@ $(document).ready(function () {
     $("#resetBtn").click(function (event) {
         event.preventDefault();
 
-        $("#firstName").val("");
-        $("#email").val("");
-        $("#middleName").val("");
-        $("#lastName").val("");
-        $("#address").val("");
-        $("#birthday").val("");
-        $("#mobile").val("");
+        $("#error").css("display", "none");
 
-        $("#firstName").focus();
+        $("#firstName").val(preFirstName);
+        if (preMiddleName == null) {
+            $("#middleName").val("");
+        } else {
+            $("#middleName").val(preMiddleName);
+        }
+        $("#lastName").val(preLastName);
+        $("#email").val(preEmail);
+        if (preAddress == null) {
+            $("#address").val("");
+        } else {
+            $("#address").val(preAddress);
+        }
+        if (preBirthday == null) {
+            $("#birthday").val("");
+        } else {
+            $("#birthday").val(preBirthday);
+        }
+        if (preMobile == null) {
+            $("#mobile").val("");
+        } else {
+            $("#mobile").val(preMobile);
+        }
+        if (avatar != null) {
+            $("#avatar").attr("src", avatar);
+        }
+
+        $("#username").text(username);
+
+        $("#saveBtn").css("display", "none");
+        $("#resetBtn").css("display", "none");
+
+        $("#photoBtn").css("display", "none");
+        $("#photoTitle").css("display", "none");
+        $("#upload").css("display", "none");
+
+        $("#firstName").attr('disabled', true);
+        $("#firstName").css("width", "280px");
+
+        $("#email").attr('disabled', true);
+
+        $("#middleName").attr('disabled', true);
+        $("#middleName").css("width", "280px");
+
+        $("#address").attr('disabled', true);
+
+        $("#lastName").attr('disabled', true);
+        $("#lastName").css("width", "280px");
+
+        $("#birthday").attr('disabled', true);
+        $("#birthday").css("width", "150px");
+
+        $("#mobile").attr('disabled', true);
+        $("#mobile").css("width", "250px");
     })
+
+    var imageFile;
 
     $("#photoBtn").change(function (e) {
         console.log($("#photoBtn").val());
@@ -224,6 +290,8 @@ $(document).ready(function () {
                     $("#avatar").css("width", "202px");
                 }
                 reader.readAsDataURL(file);
+
+                imageFile = file;
 
                 checkImage = true;
                 $("#imgError").css("display", "none");
@@ -363,8 +431,10 @@ $(document).ready(function () {
             var formData = new FormData();
             if (checkImage) {
                 var type = imagetype.split("/")[1];
-
-                formData.append("photoBtn", $("#photoBtn").get(0).files[0], username + "." + type);
+                // $("#photoBtn").get(0).files[0]
+                if (imageFile) {
+                    formData.append("photoBtn", imageFile, username + "." + type);
+                }
                 ajaxPost(formProfile, formData);
             } else {
                 ajaxPost(formProfile, null);
@@ -387,8 +457,8 @@ $(document).ready(function () {
                     ajaxImagePost(images);
                 }
 
-                alert("Updated profile successfully !")
-                setField(result);
+                alert("Updated profile successfully !");
+                window.location.href = "/pages/profile.html?accountID=" + result.account.id;
             },
             complete : function(xhr, textStatus) {
                 if (textStatus == "error") {
@@ -421,34 +491,39 @@ $(document).ready(function () {
     function setField(result) {
         $("#error").css("display", "none");
 
-        $("#firstName").text(result.firstName);
+        $("#firstName").val(result.firstName);
         if (result.middleName == null) {
-            $("#middleName").text("");
+            $("#middleName").val("");
         } else {
-            $("#middleName").text(result.middleName);
+            $("#middleName").val(result.middleName);
         }
-        $("#lastName").text(result.lastName);
-        $("#email").text(result.email);
+        $("#lastName").val(result.lastName);
+        $("#email").val(result.email);
         if (result.address == null) {
-            $("#address").text("");
+            $("#address").val("");
         } else {
-            $("#address").text(result.address);
+            $("#address").val(result.address);
         }
         if (result.birthday == null) {
-            $("#birthday").text("");
+            $("#birthday").val("");
         } else {
-            $("#birthday").text(result.birthday);
+            $("#birthday").val(result.birthday);
         }
         if (result.tel == null) {
-            $("#mobile").text("");
+            $("#mobile").val("");
         } else {
-            $("#mobile").text(result.tel);
-        }
-        if (result.avatar != null) {
-            $("#avatar").attr("src", result.avatar);
+            $("#mobile").val(result.tel);
         }
 
-        $("#username").text(result.account.username);
+        $("#loading").css("display", "block");
+        setTimeout(function () {
+            if (result.avatar != null) {
+                $("#avatar").attr("src", result.avatar);
+                $("#loading").css("display", "none");
+            }
+        }, 500);
+
+        $("#usernameTitle").text(result.account.username);
 
         $("#saveBtn").css("display", "none");
         $("#resetBtn").css("display", "none");

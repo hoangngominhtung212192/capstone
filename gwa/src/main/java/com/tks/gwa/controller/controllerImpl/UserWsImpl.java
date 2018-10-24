@@ -93,7 +93,7 @@ public class UserWsImpl implements UserWS {
                 account.setPassword(null);
 
                 String role = (String) session.getAttribute("ROLE");
-                System.out.println("Role in session: " + role);
+                System.out.println("[UserWs] Role in session: " + role);
 
                 Role roleEntity = new Role();
                 roleEntity.setName(role);
