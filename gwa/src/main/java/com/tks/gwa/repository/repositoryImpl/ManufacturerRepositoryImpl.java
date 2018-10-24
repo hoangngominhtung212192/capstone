@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import java.util.List;
 
 @Repository
 public class ManufacturerRepositoryImpl extends GenericRepositoryImpl<Manufacturer, Integer> implements ManufacturerRepository {
@@ -39,5 +40,10 @@ public class ManufacturerRepositoryImpl extends GenericRepositoryImpl<Manufactur
         Manufacturer newManufacturer = this.create(manufacturer);
 
         return newManufacturer;
+    }
+
+    @Override
+    public List<Manufacturer> getAllManufacturer() {
+        return this.getAll();
     }
 }

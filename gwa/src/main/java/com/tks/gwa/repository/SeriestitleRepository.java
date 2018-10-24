@@ -3,6 +3,8 @@ package com.tks.gwa.repository;
 import com.tks.gwa.entity.Seriestitle;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface SeriestitleRepository extends GenericRepository<Seriestitle, Integer> {
 
@@ -19,4 +21,10 @@ public interface SeriestitleRepository extends GenericRepository<Seriestitle, In
      * @return
      */
     public Seriestitle createNew(Seriestitle seriestitle);
+
+    /**
+     *
+     * @return
+     */
+    public List<Seriestitle> getAllSeriestitle();
 }

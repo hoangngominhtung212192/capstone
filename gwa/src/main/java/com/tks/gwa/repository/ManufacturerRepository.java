@@ -3,6 +3,8 @@ package com.tks.gwa.repository;
 import com.tks.gwa.entity.Manufacturer;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ManufacturerRepository extends GenericRepository<Manufacturer, Integer> {
 
@@ -19,4 +21,10 @@ public interface ManufacturerRepository extends GenericRepository<Manufacturer, 
      * @return
      */
     public Manufacturer createNew(Manufacturer manufacturer);
+
+    /**
+     *
+     * @return
+     */
+    public List<Manufacturer> getAllManufacturer();
 }

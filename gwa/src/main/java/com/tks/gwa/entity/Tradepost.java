@@ -18,10 +18,10 @@ public class Tradepost implements Serializable {
     @Column(name = "brand")
     private String brand;
 
-    @Column(name = "condition")
+    @Column(name = "`condition`")
     private int condition;
 
-    @Column(name = "description")
+    @Column(name = "`description`")
     private String description;
 
     @Column(name = "lastmodified")

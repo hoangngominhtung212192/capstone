@@ -85,6 +85,7 @@
         src="/js/jquery.min.js"></script>
 <body class="hold-transition skin-blue sidebar-mini" style="font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
     font-weight: 400;font-size: 1rem;line-height: 1.5;color: #212529;">
+<div id="loading" class="loading" style="display: none;">Loading&#8230;</div>
 <div class="wrapper">
 
     <header class="main-header">
@@ -247,118 +248,182 @@
                                                  class="iconContactInfo">Model
                                             information</h3>
 
+                                        <span id="serverErr" class="error" style="display: none; margin-top: 15px; font-size: 15px; color: red;
+                                width: 100%;"></span>
                                         <table class="io-table-input vertical" style="width: auto;">
                                             <tbody>
                                             <tr>
-                                                <td class="label" colspan="2">Code</td>
+                                                <td class="label" colspan="2">Code
+                                                    <span id="errorcode" style="display: none; width: 60px;" class="error_field">
+                                                    </span>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td class="data"><input class="io-txt-normal empty" style="padding: 8px;
-    width: 150px;
-    float: left;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    height: 34px;
--webkit-appearance: none;"
+                                                        width: 150px;
+                                                        float: left;
+                                                        border: 1px solid #ccc;
+                                                        font-size: 14px;
+                                                        height: 34px;
+                                                    -webkit-appearance: none;"
                                                                         id="firstname" type="text" value=""
                                                                         placeholder="Code"
                                                                         autofocus/></td>
                                             </tr>
                                             <tr>
-                                                <td class="label" colspan="2">Name</td>
+                                                <td class="label" colspan="2">Name
+                                                    <span id="errorname" style="display: none; width: 60px;"
+                                                          class="error_field">
+                                                    </span>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td class="data" colspan="2"><input class="io-txt-normal empty"
                                                                                     style="padding: 8px;
-    width: 230px;
-    float: left;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    height: 34px;
--webkit-appearance: none;" id="no_street"
+                                                        width: 230px;
+                                                        float: left;
+                                                        border: 1px solid #ccc;
+                                                        font-size: 14px;
+                                                        height: 34px;
+                                                    -webkit-appearance: none;" id="no_street"
                                                                                     type="text"
                                                                                     placeholder="Name"/></td>
                                             </tr>
 
                                             <tr>
-                                                <td class="label" colspan="2">Product Series</td>
+                                                <td class="label" colspan="2">Product Series
+                                                    <span id="errorproductseries" style="display: none; width: 60px;"
+                                                          class="error_field">
+                                                    </span>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td class="data" style="width: 200px;">
-                                                    <select id="cbo-productseries" style="width: 100%;
-    overflow: hidden;
-    background: transparent;
-    padding: 8px; /* If you add too much padding here, the options won't show in IE */
-    background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
-    width: 200px;
-    float: left;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    height: 34px;
--webkit-appearance: none;">
-                                                        <option value="Perfect Grade">Perfect Grade</option>
-                                                        <option value="Master Grade">Master Grade</option>
-                                                        <option value="Real Grade">Real Grade</option>
-                                                        <option value="High Grade">high Grade</option>
-                                                    </select>
+                                                <td class="data" style="width: 150px;">
+                                                    <div class="select-editable-productseries">
+                                                        <select id="cbo-productseries" style="width: 100%;
+                                                         overflow: hidden;
+                                                        position: absolute;
+                                                        top:0px;
+                                                        left:0px;
+                                                        background: transparent;
+                                                        padding: 8px; /* If you add too much padding here, the options won't show in IE */
+                                                        background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
+                                                        width: 160px;
+                                                        float: left;
+                                                        border: 1px solid #ccc;
+                                                        font-size: 14px;
+                                                        height: 34px;
+                                                         -webkit-appearance: none;"
+                                                                onchange="this.nextElementSibling.value=this.value">
+                                                        </select>
+                                                        <input type="text" id="txtProductseries" value=""
+                                                               style="position:absolute;
+                                                                 top:0px;
+                                                                 left:0px;
+                                                                 width:126px;
+                                                                 height: 34px;
+                                                                 padding: 8px;
+                                                                 font-size:14px;
+                                                                 border:1px solid #ccc;"/>
+                                                    </div>
                                                 </td>
                                             </tr>
 
                                             <tr>
-                                                <td class="label" colspan="2">Series Title</td>
+                                                <td class="label" colspan="2">Series Title
+                                                    <span id="errorseriestitle" style="display: none; width: 60px;"
+                                                          class="error_field">
+                                                    </span>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td class="data" style="width: 200px;">
-                                                    <select id="cbo-seriestitle" style="width: 100%;
-    overflow: hidden;
-    background: transparent;
-    padding: 8px; /* If you add too much padding here, the options won't show in IE */
-    background: url(/css/images//2e3ybe1.jpg) no-repeat right center;
-    width: 300px;
-    float: left;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    height: 34px;
--webkit-appearance: none;">
-                                                        <option value="Perfect Grade">Reborn-One Hundred</option>
-                                                    </select>
+                                                    <div class="select-editable-seriestitle">
+                                                        <select id="cbo-seriestitle" style="width: 100%;
+                                                        overflow: hidden;
+                                                        position: absolute;
+                                                        top:0px;
+                                                        left:0px;
+                                                        background: transparent;
+                                                        padding: 8px; /* If you add too much padding here, the options won't show in IE */
+                                                        background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
+                                                        width: 220px;
+                                                        float: left;
+                                                        border: 1px solid #ccc;
+                                                        font-size: 14px;
+                                                        height: 34px;
+                                                    -webkit-appearance: none;"
+                                                                onchange="this.nextElementSibling.value=this.value">
+                                                        </select>
+                                                        <input type="text" id="txtSeriestitle" value=""
+                                                               style="position:absolute;
+                                                                 top:0px;
+                                                                 left:0px;
+                                                                 width:186px;
+                                                                 height: 34px;
+                                                                 padding: 8px;
+                                                                 font-size:14px;
+                                                                 border:1px solid #ccc;"/>
+                                                    </div>
                                                 </td>
                                             </tr>
 
                                             <tr>
-                                                <td class="label" colspan="2">Manufacturer</td>
+                                                <td class="label" colspan="2">Manufacturer
+                                                    <span id="errormanufacturer" style="display: none; width: 60px;"
+                                                          class="error_field">
+                                                    </span>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td class="data" style="width: 200px;">
+                                                    <div class="select-editable-manufacturer">
                                                     <select id="cbo-manufacturer" style="width: 100%;
-    overflow: hidden;
-    background: transparent;
-    padding: 8px; /* If you add too much padding here, the options won't show in IE */
-    background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
-    width: 150px;
-    float: left;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    height: 34px;
--webkit-appearance: none;">
-                                                        <option value="Perfect Grade">Bandai</option>
+                                                        overflow: hidden;
+                                                        position: absolute;
+                                                        top:0px;
+                                                        left:0px;
+                                                        background: transparent;
+                                                        padding: 8px; /* If you add too much padding here, the options won't show in IE */
+                                                        background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
+                                                        width: 200px;
+                                                        float: left;
+                                                        border: 1px solid #ccc;
+                                                        font-size: 14px;
+                                                        height: 34px;
+                                                    -webkit-appearance: none;"
+                                                            onchange="this.nextElementSibling.value=this.value">
                                                     </select>
+                                                        <input type="text" id="txtManufacturer" value=""
+                                                               style="position:absolute;
+                                                                 top:0px;
+                                                                 left:0px;
+                                                                 width:166px;
+                                                                 height: 34px;
+                                                                 padding: 8px;
+                                                                 font-size:14px;
+                                                                 border:1px solid #ccc;"/>
+                                                    </div>
                                                 </td>
                                             </tr>
 
                                             <tr>
-                                                <td class="label" colspan="2">Price</td>
+                                                <td class="label" colspan="2">Price
+                                                    <span id="errorprice" style="display: none; width: 60px;"
+                                                          class="error_field">
+                                                    </span>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td class="data" colspan="2"><input class="io-txt-normal empty"
                                                                                     placeholder="Price"
                                                                                     style="width: 96px;padding: 8px;
-    width: 98px;
-    float: left;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    height: 34px;
--webkit-appearance: none;"
+                                                    width: 98px;
+                                                    float: left;
+                                                    border: 1px solid #ccc;
+                                                    font-size: 14px;
+                                                    height: 34px;
+                                                -webkit-appearance: none;"
                                                                                     id="phone" type="text" value=""/>
                                                 </td>
                                             </tr>
@@ -369,16 +434,16 @@
                                             <tr>
                                                 <td class="data" style="width: 200px;">
                                                     <select id="cbo-status" style="width: 100%;
-    overflow: hidden;
-    background: transparent;
-    padding: 8px; /* If you add too much padding here, the options won't show in IE */
-    background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
-    width: 150px;
-    float: left;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    height: 34px;
--webkit-appearance: none;">
+                                                            overflow: hidden;
+                                                            background: transparent;
+                                                            padding: 8px; /* If you add too much padding here, the options won't show in IE */
+                                                            background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
+                                                            width: 150px;
+                                                            float: left;
+                                                            border: 1px solid #ccc;
+                                                            font-size: 14px;
+                                                            height: 34px;
+                                                        -webkit-appearance: none;">
                                                         <option value="Available">Available</option>
                                                         <option value="Unavailable">Unavailable</option>
                                                     </select>
@@ -396,10 +461,7 @@
                                             <h3 class="expand"><img src="/img/transparent.png" alt=""
                                                                     class="iconSummary"><span>Description<span></h3>
                                             <div>
-                                                <textarea class="io-ta-normal" style="height: 150px;">Prototype MS with Psycomu appeared in RE / 100!
-
-Refreshed the details and proportions according to RE / 100 based on the original image of the ZZ fan highly anticipated hammer hammer.
-Flexible arm has a large number of gimmicks including soft materials and repeatable all range attack by lead wire.</textarea>
+                                                <textarea id="txtDescription" placeholder="Enter model's description" class="io-ta-normal" style="height: 150px;"></textarea>
                                             </div>
 
 
@@ -408,53 +470,53 @@ Flexible arm has a large number of gimmicks including soft materials and repeata
                                             <h3 class="expand"><img src="/img/transparent.png" alt=""
                                                                     class="iconEx"/><span>Model's Images</span>
                                             </h3>
-                                                <div class="row fileupload-buttonbar">
-                                                    <div class="col-lg-7">
-                                                        <!-- The fileinput-button span is used to style the file input field as button -->
-                                                        <span id="addFiles" class="btn btn-success fileinput-button">
+                                            <div class="row fileupload-buttonbar">
+                                                <div class="col-lg-7">
+                                                    <!-- The fileinput-button span is used to style the file input field as button -->
+                                                    <span id="addFiles" class="btn btn-success fileinput-button">
                                                              <i class="glyphicon glyphicon-plus"></i>
                                                             <span>Add files...</span>
-                                                            <!--    input file type -->
+                                                        <!--    input file type -->
                                                              <input id="files" type="file" name="files" multiple>
                                                         </span>
-                                                        <button id="deleteFiles" type="button"
-                                                                class="btn btn-danger delete">
-                                                            <i class="glyphicon glyphicon-trash"></i>
-                                                            <span>Delete</span>
-                                                        </button>
-                                                        <input id="checkAll" type="checkbox" class="toggle">
-                                                        <!-- The global file processing state -->
-                                                        <span id="totalSize" class="fileupload-process"
-                                                              style="display: block; padding-top: 5px;">
+                                                    <button id="deleteFiles" type="button"
+                                                            class="btn btn-danger delete">
+                                                        <i class="glyphicon glyphicon-trash"></i>
+                                                        <span>Delete</span>
+                                                    </button>
+                                                    <input id="checkAll" type="checkbox" class="toggle">
+                                                    <!-- The global file processing state -->
+                                                    <span id="totalSize" class="fileupload-process"
+                                                          style="display: block; padding-top: 5px;">
                                                         </span>
-                                                    </div>
                                                 </div>
-                                                <!-- The table listing the files available for upload/download -->
-                                                <span id="error" class="error" style="display: none;
+                                            </div>
+                                            <!-- The table listing the files available for upload/download -->
+                                            <span id="error" class="error" style="display: none;
                                                             margin-left: 15px; font-size: 15px; color: red;
                                                             width: 100%; float: left;"></span>
-                                                <table id="listImage" role="presentation" class="table table-striped">
-                                                    <tbody class="files">
-                                                    <!--<tr class="table-tr" style="margin-top: 10px;">-->
-                                                        <!--<td>-->
-                                                            <!--<img id="file1" src="/img/10522238.jpg"/>-->
-                                                        <!--</td>-->
-                                                        <!--<td><div class="imageName">10522238.jpg</div></td>-->
-                                                        <!--<td><div class="imageSize">22.65 KB</div></td>-->
-                                                        <!--<td class="imageType"><select id="cbo-image-type">-->
-                                                            <!--<option value="Available">Package</option>-->
-                                                            <!--<option value="Unavailable">Item picture</option>-->
-                                                        <!--</select></td>-->
-                                                        <!--<td class="canceltd">-->
-                                                            <!--<button id="cancelImage" class="btn btn-warning cancel">-->
-                                                                <!--<i class="glyphicon glyphicon-ban-circle"></i>-->
-                                                                <!--<span>Cancel</span>-->
-                                                            <!--</button>-->
-                                                            <!--<input type="checkbox" class="toggle">-->
-                                                        <!--</td>-->
-                                                    <!--</tr>-->
-                                                    </tbody>
-                                                </table>
+                                            <table id="listImage" role="presentation" class="table table-striped">
+                                                <tbody class="files">
+                                                <!--<tr class="table-tr" style="margin-top: 10px;">-->
+                                                <!--<td>-->
+                                                <!--<img id="file1" src="/img/10522238.jpg"/>-->
+                                                <!--</td>-->
+                                                <!--<td><div class="imageName">10522238.jpg</div></td>-->
+                                                <!--<td><div class="imageSize">22.65 KB</div></td>-->
+                                                <!--<td class="imageType"><select id="cbo-image-type">-->
+                                                <!--<option value="Available">Package</option>-->
+                                                <!--<option value="Unavailable">Item picture</option>-->
+                                                <!--</select></td>-->
+                                                <!--<td class="canceltd">-->
+                                                <!--<button id="cancelImage" class="btn btn-warning cancel">-->
+                                                <!--<i class="glyphicon glyphicon-ban-circle"></i>-->
+                                                <!--<span>Cancel</span>-->
+                                                <!--</button>-->
+                                                <!--<input type="checkbox" class="toggle">-->
+                                                <!--</td>-->
+                                                <!--</tr>-->
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>

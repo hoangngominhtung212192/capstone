@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>Gunpla World</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/img/favicon.ico">
+
+    <!-- Core Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Trademarket Stylesheet -->
+    <link rel="stylesheet" href="/css/trademarket.css">
+    <!-- UploadFile Plugin Stylesheet -->
+    <link rel="stylesheet" href="/css/fileup.min.css">
+    <link rel="stylesheet" href="/css/jquery.growl.css">
+
+</head>
+
+<body>
+<!-- ##### Header Area Start ##### -->
+<header class="header-area">
+
+    <!-- Top Header Area -->
+    <div class="top-header-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="top-header-content d-flex align-items-center justify-content-between">
+                        <!-- Logo -->
+                        <div class="logo">
+                            <a href="index.html" style="color: white; font: 3em sans-serif;">Gunpla World</a>
+                        </div>
+
+                        <!-- Login Search Area -->
+                        <div class="login-search-area d-flex align-items-center">
+                            <!-- Login -->
+                            <div class="login d-flex">
+                                <a href="#">Login</a>
+                                <a href="#">Register</a>
+                            </div>
+                            <!-- Search Form -->
+                            <div class="search-form">
+                                <form action="#" method="post">
+                                    <input type="search" name="search" class="form-control" placeholder="Search">
+                                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar Area -->
+    <div class="newspaper-main-menu" id="stickyMenu">
+        <div class="classy-nav-container breakpoint-off">
+            <div class="container">
+                <!-- Menu -->
+                <nav class="classy-navbar justify-content-between" id="newspaperNav">
+
+                    <!-- Logo -->
+                    <div class="logo">
+                        <a href="index.html"><img src="/img/logo.png" alt=""></a>
+                    </div>
+
+                    <!-- Navbar Toggler -->
+                    <div class="classy-navbar-toggler">
+                        <span class="navbarToggler"><span></span><span></span><span></span></span>
+                    </div>
+
+                    <!-- Menu -->
+                    <div class="classy-menu">
+
+                        <!-- close btn -->
+                        <div class="classycloseIcon">
+                            <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                        </div>
+
+                        <!-- Nav Start -->
+                        <div class="classynav">
+                            <ul>
+                                <li class="active"><a href="index.html">Home</a></li>
+                                <li><a href="#">Pages</a>
+                                    <ul class="dropdown">
+                                        <li><a href="index.html">Home</a></li>
+                                        <li><a href="#">Dropdown</a>
+                                            <ul class="dropdown">
+                                                <li><a href="index.html">Home</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Mega Menu</a>
+                                    <div class="megamenu">
+                                        <ul class="single-mega cn-col-3">
+                                            <li class="title">Catagories</li>
+                                            <li><a href="index.html">Home</a></li>
+                                        </ul>
+                                        <ul class="single-mega cn-col-3">
+                                            <li class="title">Catagories</li>
+                                            <li><a href="index.html">Home</a></li>
+                                        </ul>
+                                        <ul class="single-mega cn-col-3">
+                                            <li class="title">Catagories</li>
+                                            <li><a href="index.html">Home</a></li>
+                                        </ul>
+
+                                    </div>
+                                </li>
+                                <li><a href="#">Articles</a></li>
+                                <li><a href="#">Events</a></li>
+                                <li><a href="#">Trade market</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                            </ul>
+                        </div>
+                        <!-- Nav End -->
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- ##### Header Area End ##### -->
+
+<div class="container trade-body">
+    <!-- Trade navbar -->
+    <div class="row">
+        <div class="col-12 tm-navbar">
+            <ul>
+                <li><a href="trade-listing.html">Trade Listing</a></li>
+                <li><a href="#mytrade">My Trade</a></li>
+                <li><a class="active" href="#myorder">My Order</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- End trade navbar -->
+
+    <!-- Trade container -->
+    <div class="section trending-ads">
+        <div class="section-title tab-manu">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#onpay" data-toggle="tab">On payment</a></li>
+                <li role="presentation"><a href="#pedingorders" data-toggle="tab">Pending approval</a></li>
+                <li role="presentation"><a href="#rejectedorders" data-toggle="tab">Rejected</a></li>
+                <li role="presentation"><a href="#orderhistories" data-toggle="tab">History</a></li>
+            </ul>
+        </div>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <!-- tab-pane -->
+            <div role="tabpanel" class="tab-pane in active" id="onpay">
+                <!-- tradeitem -->
+                <div class="tradeitem row">
+                    <!-- item-image -->
+                    <div class="item-image-box col-sm-4">
+                        <div class="item-image">
+                            <a href="details.html"><img
+                                    src="https://2.bp.blogspot.com/-pQ7ked2ayUI/W7aA8q180AI/AAAAAAAHBx8/AHbxH6sKiC4foYi4iyfrDBdYgTwjFMhtQCLcBGAs/s1600/mg-origin-gundam-conversion%2B%25281%2529.jpg"
+                                    alt="Image" class="img-responsive"></a>
+                        </div><!-- item-image -->
+                    </div>
+
+                    <!-- rending-text -->
+                    <div class="item-info col-sm-8">
+                        <!-- tradeinfo -->
+                        <div class="tradeinfo">
+                            <h3 class="item-price">Order From: <a href="#gotoTrade">Title of Trade Post</a></h3>
+                            <div class="item-cat">
+                                <span>Phone: </span><span id="phone_info" style="color: black">0343777228</span> <br/>
+                                <span>Email: </span><span id="email_info" style="color: black">tksangit@gmail.com</span>
+                                <br/>
+                                <span>Quantity: </span><span id="email_info" style="color: red">1</span> -
+                                <span>Need to pay: </span><span id="email_info" style="color: red">50$</span>
+                            </div>
+                        </div><!-- tradeinfo -->
+
+                        <!-- trademeta -->
+                        <div class="trademeta">
+                            <div class="meta-content">
+                                <span class="dated">Ordered On: <a href="#">7 Jan, 16 10:10 pm </a></span>
+                                <span class="dated" style="color: green">Accepted On: <a
+                                        href="#">7 Jan, 16 10:10 pm </a></span>
+                            </div>
+                            <!-- item-info-right -->
+                            <div class="user-option pull-right">
+                                <a href="#gotoDirection" data-toggle="tooltip" data-placement="top"
+                                   title="Go vap, Ho Chi Minh"><i class="fa fa-map-marker"></i></a>
+                                <a class="delete-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Cancel this order"><i class="fa fa-share-square"></i></a>
+                            </div><!-- item-info-right -->
+                        </div><!-- trademeta -->
+                    </div><!-- item-info -->
+                </div><!-- tradeitem -->
+                <!-- tradeitem -->
+                <div class="tradeitem row">
+                    <!-- item-image -->
+                    <div class="item-image-box col-sm-4">
+                        <div class="item-image">
+                            <a href="details.html"><img
+                                    src="https://2.bp.blogspot.com/-pQ7ked2ayUI/W7aA8q180AI/AAAAAAAHBx8/AHbxH6sKiC4foYi4iyfrDBdYgTwjFMhtQCLcBGAs/s1600/mg-origin-gundam-conversion%2B%25281%2529.jpg"
+                                    alt="Image" class="img-responsive"></a>
+                        </div><!-- item-image -->
+                    </div>
+
+                    <!-- rending-text -->
+                    <div class="item-info col-sm-8">
+                        <!-- tradeinfo -->
+                        <div class="tradeinfo">
+                            <h3 class="item-price">Order From: <a href="#gotoTrade">Title of Trade Post</a></h3>
+                            <div class="item-cat">
+                                <span>Phone: </span><span id="phone_info" style="color: black">0343777228</span> <br/>
+                                <span>Email: </span><span id="email_info" style="color: black">tksangit@gmail.com</span>
+                                <br/>
+                                <span>Quantity: </span><span id="email_info" style="color: red">1</span> -
+                                <span>Need to pay: </span><span id="email_info" style="color: red">50$</span>
+                            </div>
+                        </div><!-- tradeinfo -->
+
+                        <!-- trademeta -->
+                        <div class="trademeta">
+                            <div class="meta-content">
+                                <span class="dated">Ordered On: <a href="#">7 Jan, 16 10:10 pm </a></span>
+                                <span class="dated" style="color: green">Accepted On: <a
+                                        href="#">7 Jan, 16 10:10 pm </a></span>
+                            </div>
+                            <!-- item-info-right -->
+                            <div class="user-option pull-right">
+                                <a href="#gotoDirection" data-toggle="tooltip" data-placement="top"
+                                   title="Go vap, Ho Chi Minh"><i class="fa fa-map-marker"></i></a>
+                                <a class="delete-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Cancel this order"><i class="fa fa-share-square"></i></a>
+                            </div><!-- item-info-right -->
+                        </div><!-- trademeta -->
+                    </div><!-- item-info -->
+                </div><!-- tradeitem -->
+                <!-- tradeitem -->
+                <div class="tradeitem row">
+                    <!-- item-image -->
+                    <div class="item-image-box col-sm-4">
+                        <div class="item-image">
+                            <a href="details.html"><img
+                                    src="https://2.bp.blogspot.com/-pQ7ked2ayUI/W7aA8q180AI/AAAAAAAHBx8/AHbxH6sKiC4foYi4iyfrDBdYgTwjFMhtQCLcBGAs/s1600/mg-origin-gundam-conversion%2B%25281%2529.jpg"
+                                    alt="Image" class="img-responsive"></a>
+                        </div><!-- item-image -->
+                    </div>
+
+                    <!-- rending-text -->
+                    <div class="item-info col-sm-8">
+                        <!-- tradeinfo -->
+                        <div class="tradeinfo">
+                            <h3 class="item-price">Order From: <a href="#gotoTrade">Title of Trade Post</a></h3>
+                            <div class="item-cat">
+                                <span>Phone: </span><span id="phone_info" style="color: black">0343777228</span> <br/>
+                                <span>Email: </span><span id="email_info" style="color: black">tksangit@gmail.com</span>
+                                <br/>
+                                <span>Quantity: </span><span id="email_info" style="color: red">1</span> -
+                                <span>Need to pay: </span><span id="email_info" style="color: red">50$</span>
+                            </div>
+                        </div><!-- tradeinfo -->
+
+                        <!-- trademeta -->
+                        <div class="trademeta">
+                            <div class="meta-content">
+                                <span class="dated">Ordered On: <a href="#">7 Jan, 16 10:10 pm </a></span>
+                                <span class="dated" style="color: green">Accepted On: <a
+                                        href="#">7 Jan, 16 10:10 pm </a></span>
+                            </div>
+                            <!-- item-info-right -->
+                            <div class="user-option pull-right">
+                                <a href="#gotoDirection" data-toggle="tooltip" data-placement="top"
+                                   title="Go vap, Ho Chi Minh"><i class="fa fa-map-marker"></i></a>
+                                <a class="delete-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Cancel this order"><i class="fa fa-share-square"></i></a>
+                            </div><!-- item-info-right -->
+                        </div><!-- trademeta -->
+                    </div><!-- item-info -->
+                </div><!-- tradeitem -->
+                <!-- tradeitem -->
+                <div class="tradeitem row">
+                    <!-- item-image -->
+                    <div class="item-image-box col-sm-4">
+                        <div class="item-image">
+                            <a href="details.html"><img
+                                    src="https://2.bp.blogspot.com/-pQ7ked2ayUI/W7aA8q180AI/AAAAAAAHBx8/AHbxH6sKiC4foYi4iyfrDBdYgTwjFMhtQCLcBGAs/s1600/mg-origin-gundam-conversion%2B%25281%2529.jpg"
+                                    alt="Image" class="img-responsive"></a>
+                        </div><!-- item-image -->
+                    </div>
+
+                    <!-- rending-text -->
+                    <div class="item-info col-sm-8">
+                        <!-- tradeinfo -->
+                        <div class="tradeinfo">
+                            <h3 class="item-price">Order From: <a href="#gotoTrade">Title of Trade Post</a></h3>
+                            <div class="item-cat">
+                                <span>Phone: </span><span id="phone_info" style="color: black">0343777228</span> <br/>
+                                <span>Email: </span><span id="email_info" style="color: black">tksangit@gmail.com</span>
+                                <br/>
+                                <span>Quantity: </span><span id="email_info" style="color: red">1</span> -
+                                <span>Need to pay: </span><span id="email_info" style="color: red">50$</span>
+                            </div>
+                        </div><!-- tradeinfo -->
+
+                        <!-- trademeta -->
+                        <div class="trademeta">
+                            <div class="meta-content">
+                                <span class="dated">Ordered On: <a href="#">7 Jan, 16 10:10 pm </a></span>
+                                <span class="dated" style="color: green">Accepted On: <a
+                                        href="#">7 Jan, 16 10:10 pm </a></span>
+                            </div>
+                            <!-- item-info-right -->
+                            <div class="user-option pull-right">
+                                <a href="#gotoDirection" data-toggle="tooltip" data-placement="top"
+                                   title="Go vap, Ho Chi Minh"><i class="fa fa-map-marker"></i></a>
+                                <a class="delete-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Cancel this order"><i class="fa fa-share-square"></i></a>
+                            </div><!-- item-info-right -->
+                        </div><!-- trademeta -->
+                    </div><!-- item-info -->
+                </div><!-- tradeitem -->
+                <!-- tradeitem -->
+                <div class="tradeitem row">
+                    <!-- item-image -->
+                    <div class="item-image-box col-sm-4">
+                        <div class="item-image">
+                            <a href="details.html"><img
+                                    src="https://2.bp.blogspot.com/-pQ7ked2ayUI/W7aA8q180AI/AAAAAAAHBx8/AHbxH6sKiC4foYi4iyfrDBdYgTwjFMhtQCLcBGAs/s1600/mg-origin-gundam-conversion%2B%25281%2529.jpg"
+                                    alt="Image" class="img-responsive"></a>
+                        </div><!-- item-image -->
+                    </div>
+
+                    <!-- rending-text -->
+                    <div class="item-info col-sm-8">
+                        <!-- tradeinfo -->
+                        <div class="tradeinfo">
+                            <h3 class="item-price">Order From: <a href="#gotoTrade">Title of Trade Post</a></h3>
+                            <div class="item-cat">
+                                <span>Phone: </span><span id="phone_info" style="color: black">0343777228</span> <br/>
+                                <span>Email: </span><span id="email_info" style="color: black">tksangit@gmail.com</span>
+                                <br/>
+                                <span>Quantity: </span><span id="email_info" style="color: red">1</span> -
+                                <span>Need to pay: </span><span id="email_info" style="color: red">50$</span>
+                            </div>
+                        </div><!-- tradeinfo -->
+
+                        <!-- trademeta -->
+                        <div class="trademeta">
+                            <div class="meta-content">
+                                <span class="dated">Ordered On: <a href="#">7 Jan, 16 10:10 pm </a></span>
+                                <span class="dated" style="color: green">Accepted On: <a
+                                        href="#">7 Jan, 16 10:10 pm </a></span>
+                            </div>
+                            <!-- item-info-right -->
+                            <div class="user-option pull-right">
+                                <a href="#gotoDirection" data-toggle="tooltip" data-placement="top"
+                                   title="Go vap, Ho Chi Minh"><i class="fa fa-map-marker"></i></a>
+                                <a class="delete-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Cancel this order"><i class="fa fa-share-square"></i></a>
+                            </div><!-- item-info-right -->
+                        </div><!-- trademeta -->
+                    </div><!-- item-info -->
+                </div><!-- tradeitem -->
+
+            </div><!-- tab-pane -->
+
+            <!-- tab-pane -->
+            <div role="tabpanel" class="tab-pane fade" id="pedingorders">
+                <!-- tradeitem -->
+                <div class="tradeitem row">
+                    <!-- item-image -->
+                    <div class="item-image-box col-sm-4">
+                        <div class="item-image">
+                            <a href="details.html"><img
+                                    src="https://2.bp.blogspot.com/-Zo-dmQOS23o/W7WZTslTNjI/AAAAAAAHBtk/li5kdcmZp6cOCEVetDz5u9n6jsPA8EntwCLcBGAs/s1600/hgbd-gundam-love-phantom%2B%25281%2529.jpg"
+                                    alt="Image" class="img-responsive"></a>
+                        </div><!-- item-image -->
+                    </div>
+
+                    <!-- rending-text -->
+                    <div class="item-info col-sm-8">
+                        <!-- tradeinfo -->
+                        <div class="tradeinfo">
+                            <h3 class="item-price">$800.00</h3>
+                            <h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>
+                            <div class="item-cat">
+                                <span><a href="#">Brand here</a></span> /
+                                <span><a href="#">Model here</a></span>
+                            </div>
+                        </div><!-- tradeinfo -->
+
+                        <!-- trademeta -->
+                        <div class="trademeta">
+                            <div class="meta-content">
+                                <span class="dated">Posted On: <a href="#">7 Jan, 16 10:10 pm </a></span>
+                                <span class="visitors" style="color: lightgreen">Waiting approval</span>
+                            </div>
+                            <!-- item-info-right -->
+                            <div class="user-option pull-right">
+                                <a class="edit-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Edit this trade"><i class="fa fa-pencil"></i></a>
+                                <a class="delete-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Delete this trade"><i class="fa fa-times"></i></a>
+                            </div><!-- item-info-right -->
+                        </div><!-- trademeta -->
+                    </div><!-- item-info -->
+                </div><!-- tradeitem -->
+                <!-- tradeitem -->
+                <div class="tradeitem row">
+                    <!-- item-image -->
+                    <div class="item-image-box col-sm-4">
+                        <div class="item-image">
+                            <a href="details.html"><img
+                                    src="https://2.bp.blogspot.com/-Zo-dmQOS23o/W7WZTslTNjI/AAAAAAAHBtk/li5kdcmZp6cOCEVetDz5u9n6jsPA8EntwCLcBGAs/s1600/hgbd-gundam-love-phantom%2B%25281%2529.jpg"
+                                    alt="Image" class="img-responsive"></a>
+                        </div><!-- item-image -->
+                    </div>
+
+                    <!-- rending-text -->
+                    <div class="item-info col-sm-8">
+                        <!-- tradeinfo -->
+                        <div class="tradeinfo">
+                            <h3 class="item-price">$800.00</h3>
+                            <h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>
+                            <div class="item-cat">
+                                <span><a href="#">Brand here</a></span> /
+                                <span><a href="#">Model here</a></span>
+                            </div>
+                        </div><!-- tradeinfo -->
+
+                        <!-- trademeta -->
+                        <div class="trademeta">
+                            <div class="meta-content">
+                                <span class="dated">Posted On: <a href="#">7 Jan, 16 10:10 pm </a></span>
+                                <span class="visitors" style="color: lightgreen">Waiting approval</span>
+                            </div>
+                            <!-- item-info-right -->
+                            <div class="user-option pull-right">
+                                <a class="edit-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Edit this trade"><i class="fa fa-pencil"></i></a>
+                                <a class="delete-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Delete this trade"><i class="fa fa-times"></i></a>
+                            </div><!-- item-info-right -->
+                        </div><!-- trademeta -->
+                    </div><!-- item-info -->
+                </div><!-- tradeitem -->
+                <!-- tradeitem -->
+                <div class="tradeitem row">
+                    <!-- item-image -->
+                    <div class="item-image-box col-sm-4">
+                        <div class="item-image">
+                            <a href="details.html"><img
+                                    src="https://2.bp.blogspot.com/-Zo-dmQOS23o/W7WZTslTNjI/AAAAAAAHBtk/li5kdcmZp6cOCEVetDz5u9n6jsPA8EntwCLcBGAs/s1600/hgbd-gundam-love-phantom%2B%25281%2529.jpg"
+                                    alt="Image" class="img-responsive"></a>
+                        </div><!-- item-image -->
+                    </div>
+
+                    <!-- rending-text -->
+                    <div class="item-info col-sm-8">
+                        <!-- tradeinfo -->
+                        <div class="tradeinfo">
+                            <h3 class="item-price">$800.00</h3>
+                            <h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>
+                            <div class="item-cat">
+                                <span><a href="#">Brand here</a></span> /
+                                <span><a href="#">Model here</a></span>
+                            </div>
+                        </div><!-- tradeinfo -->
+
+                        <!-- trademeta -->
+                        <div class="trademeta">
+                            <div class="meta-content">
+                                <span class="dated">Posted On: <a href="#">7 Jan, 16 10:10 pm </a></span>
+                                <span class="visitors" style="color: lightgreen">Waiting approval</span>
+                            </div>
+                            <!-- item-info-right -->
+                            <div class="user-option pull-right">
+                                <a class="edit-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Edit this trade"><i class="fa fa-pencil"></i></a>
+                                <a class="delete-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Delete this trade"><i class="fa fa-times"></i></a>
+                            </div><!-- item-info-right -->
+                        </div><!-- trademeta -->
+                    </div><!-- item-info -->
+                </div><!-- tradeitem -->
+                <!-- tradeitem -->
+                <div class="tradeitem row">
+                    <!-- item-image -->
+                    <div class="item-image-box col-sm-4">
+                        <div class="item-image">
+                            <a href="details.html"><img
+                                    src="https://2.bp.blogspot.com/-Zo-dmQOS23o/W7WZTslTNjI/AAAAAAAHBtk/li5kdcmZp6cOCEVetDz5u9n6jsPA8EntwCLcBGAs/s1600/hgbd-gundam-love-phantom%2B%25281%2529.jpg"
+                                    alt="Image" class="img-responsive"></a>
+                        </div><!-- item-image -->
+                    </div>
+
+                    <!-- rending-text -->
+                    <div class="item-info col-sm-8">
+                        <!-- tradeinfo -->
+                        <div class="tradeinfo">
+                            <h3 class="item-price">$800.00</h3>
+                            <h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>
+                            <div class="item-cat">
+                                <span><a href="#">Brand here</a></span> /
+                                <span><a href="#">Model here</a></span>
+                            </div>
+                        </div><!-- tradeinfo -->
+
+                        <!-- trademeta -->
+                        <div class="trademeta">
+                            <div class="meta-content">
+                                <span class="dated">Posted On: <a href="#">7 Jan, 16 10:10 pm </a></span>
+                                <span class="visitors" style="color: lightgreen">Waiting approval</span>
+                            </div>
+                            <!-- item-info-right -->
+                            <div class="user-option pull-right">
+                                <a class="edit-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Edit this trade"><i class="fa fa-pencil"></i></a>
+                                <a class="delete-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Delete this trade"><i class="fa fa-times"></i></a>
+                            </div><!-- item-info-right -->
+                        </div><!-- trademeta -->
+                    </div><!-- item-info -->
+                </div><!-- tradeitem -->
+                <!-- tradeitem -->
+                <div class="tradeitem row">
+                    <!-- item-image -->
+                    <div class="item-image-box col-sm-4">
+                        <div class="item-image">
+                            <a href="details.html"><img
+                                    src="https://2.bp.blogspot.com/-Zo-dmQOS23o/W7WZTslTNjI/AAAAAAAHBtk/li5kdcmZp6cOCEVetDz5u9n6jsPA8EntwCLcBGAs/s1600/hgbd-gundam-love-phantom%2B%25281%2529.jpg"
+                                    alt="Image" class="img-responsive"></a>
+                        </div><!-- item-image -->
+                    </div>
+
+                    <!-- rending-text -->
+                    <div class="item-info col-sm-8">
+                        <!-- tradeinfo -->
+                        <div class="tradeinfo">
+                            <h3 class="item-price">$800.00</h3>
+                            <h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>
+                            <div class="item-cat">
+                                <span><a href="#">Brand here</a></span> /
+                                <span><a href="#">Model here</a></span>
+                            </div>
+                        </div><!-- tradeinfo -->
+
+                        <!-- trademeta -->
+                        <div class="trademeta">
+                            <div class="meta-content">
+                                <span class="dated">Posted On: <a href="#">7 Jan, 16 10:10 pm </a></span>
+                                <span class="visitors" style="color: lightgreen">Waiting approval</span>
+                            </div>
+                            <!-- item-info-right -->
+                            <div class="user-option pull-right">
+                                <a class="edit-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Edit this trade"><i class="fa fa-pencil"></i></a>
+                                <a class="delete-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Delete this trade"><i class="fa fa-times"></i></a>
+                            </div><!-- item-info-right -->
+                        </div><!-- trademeta -->
+                    </div><!-- item-info -->
+                </div><!-- tradeitem -->
+
+
+            </div><!-- tab-pane -->
+
+            <!-- tab-pane -->
+            <div role="tabpanel" class="tab-pane fade" id="rejectedorders">
+                <!-- tradeitem -->
+                <div class="tradeitem row">
+                    <!-- item-image -->
+                    <div class="item-image-box col-sm-4">
+                        <div class="item-image">
+                            <a href="details.html"><img
+                                    src="https://4.bp.blogspot.com/-CHftdfh1yg8/W7QWJO5SO5I/AAAAAAAHBmc/isTcoHgriAEvzXLV6jnujoZGsdMqhWbfACLcBGAs/s1600/sdcs-00-gundam-diver-ace%2B%25281%2529.jpg"
+                                    alt="Image" class="img-responsive"></a>
+                        </div><!-- item-image -->
+                    </div>
+
+                    <!-- rending-text -->
+                    <div class="item-info col-sm-8">
+                        <!-- tradeinfo -->
+                        <div class="tradeinfo">
+                            <h3 class="item-price">$800.00</h3>
+                            <h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>
+                            <div class="item-cat">
+                                <span><a href="#">Brand here</a></span> /
+                                <span><a href="#">Model here</a></span>
+                            </div>
+                        </div><!-- tradeinfo -->
+
+                        <!-- trademeta -->
+                        <div class="trademeta">
+                            <div class="meta-content">
+                                <span class="dated">Posted On: <a href="#">7 Jan, 16 10:10 pm </a></span>
+                                <span class="visitors" style="color: red">Rejected: <a href="#">View reason</a></span>
+                            </div>
+                            <!-- item-info-right -->
+                            <div class="user-option pull-right">
+                                <a class="edit-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Edit this ad"><i class="fa fa-pencil"></i></a>
+                                <a class="delete-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Delete this ad"><i class="fa fa-times"></i></a>
+                            </div><!-- item-info-right -->
+                        </div><!-- trademeta -->
+                    </div><!-- item-info -->
+                </div><!-- tradeitem -->
+                <!-- tradeitem -->
+                <div class="tradeitem row">
+                    <!-- item-image -->
+                    <div class="item-image-box col-sm-4">
+                        <div class="item-image">
+                            <a href="details.html"><img
+                                    src="https://4.bp.blogspot.com/-CHftdfh1yg8/W7QWJO5SO5I/AAAAAAAHBmc/isTcoHgriAEvzXLV6jnujoZGsdMqhWbfACLcBGAs/s1600/sdcs-00-gundam-diver-ace%2B%25281%2529.jpg"
+                                    alt="Image" class="img-responsive"></a>
+                        </div><!-- item-image -->
+                    </div>
+
+                    <!-- rending-text -->
+                    <div class="item-info col-sm-8">
+                        <!-- tradeinfo -->
+                        <div class="tradeinfo">
+                            <h3 class="item-price">$800.00</h3>
+                            <h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>
+                            <div class="item-cat">
+                                <span><a href="#">Brand here</a></span> /
+                                <span><a href="#">Model here</a></span>
+                            </div>
+                        </div><!-- tradeinfo -->
+
+                        <!-- trademeta -->
+                        <div class="trademeta">
+                            <div class="meta-content">
+                                <span class="dated">Posted On: <a href="#">7 Jan, 16 10:10 pm </a></span>
+                                <span class="visitors" style="color: red">Rejected: <a href="#">View reason</a></span>
+                            </div>
+                            <!-- item-info-right -->
+                            <div class="user-option pull-right">
+                                <a class="edit-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Edit this ad"><i class="fa fa-pencil"></i></a>
+                                <a class="delete-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Delete this ad"><i class="fa fa-times"></i></a>
+                            </div><!-- item-info-right -->
+                        </div><!-- trademeta -->
+                    </div><!-- item-info -->
+                </div><!-- tradeitem -->
+                <!-- tradeitem -->
+                <div class="tradeitem row">
+                    <!-- item-image -->
+                    <div class="item-image-box col-sm-4">
+                        <div class="item-image">
+                            <a href="details.html"><img
+                                    src="https://4.bp.blogspot.com/-CHftdfh1yg8/W7QWJO5SO5I/AAAAAAAHBmc/isTcoHgriAEvzXLV6jnujoZGsdMqhWbfACLcBGAs/s1600/sdcs-00-gundam-diver-ace%2B%25281%2529.jpg"
+                                    alt="Image" class="img-responsive"></a>
+                        </div><!-- item-image -->
+                    </div>
+
+                    <!-- rending-text -->
+                    <div class="item-info col-sm-8">
+                        <!-- tradeinfo -->
+                        <div class="tradeinfo">
+                            <h3 class="item-price">$800.00</h3>
+                            <h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>
+                            <div class="item-cat">
+                                <span><a href="#">Brand here</a></span> /
+                                <span><a href="#">Model here</a></span>
+                            </div>
+                        </div><!-- tradeinfo -->
+
+                        <!-- trademeta -->
+                        <div class="trademeta">
+                            <div class="meta-content">
+                                <span class="dated">Posted On: <a href="#">7 Jan, 16 10:10 pm </a></span>
+                                <span class="visitors" style="color: red">Rejected: <a href="#">View reason</a></span>
+                            </div>
+                            <!-- item-info-right -->
+                            <div class="user-option pull-right">
+                                <a class="edit-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Edit this ad"><i class="fa fa-pencil"></i></a>
+                                <a class="delete-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Delete this ad"><i class="fa fa-times"></i></a>
+                            </div><!-- item-info-right -->
+                        </div><!-- trademeta -->
+                    </div><!-- item-info -->
+                </div><!-- tradeitem -->
+                <!-- tradeitem -->
+                <div class="tradeitem row">
+                    <!-- item-image -->
+                    <div class="item-image-box col-sm-4">
+                        <div class="item-image">
+                            <a href="details.html"><img
+                                    src="https://4.bp.blogspot.com/-CHftdfh1yg8/W7QWJO5SO5I/AAAAAAAHBmc/isTcoHgriAEvzXLV6jnujoZGsdMqhWbfACLcBGAs/s1600/sdcs-00-gundam-diver-ace%2B%25281%2529.jpg"
+                                    alt="Image" class="img-responsive"></a>
+                        </div><!-- item-image -->
+                    </div>
+
+                    <!-- rending-text -->
+                    <div class="item-info col-sm-8">
+                        <!-- tradeinfo -->
+                        <div class="tradeinfo">
+                            <h3 class="item-price">$800.00</h3>
+                            <h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>
+                            <div class="item-cat">
+                                <span><a href="#">Brand here</a></span> /
+                                <span><a href="#">Model here</a></span>
+                            </div>
+                        </div><!-- tradeinfo -->
+
+                        <!-- trademeta -->
+                        <div class="trademeta">
+                            <div class="meta-content">
+                                <span class="dated">Posted On: <a href="#">7 Jan, 16 10:10 pm </a></span>
+                                <span class="visitors" style="color: red">Rejected: <a href="#">View reason</a></span>
+                            </div>
+                            <!-- item-info-right -->
+                            <div class="user-option pull-right">
+                                <a class="edit-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Edit this ad"><i class="fa fa-pencil"></i></a>
+                                <a class="delete-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Delete this ad"><i class="fa fa-times"></i></a>
+                            </div><!-- item-info-right -->
+                        </div><!-- trademeta -->
+                    </div><!-- item-info -->
+                </div><!-- tradeitem -->
+                <!-- tradeitem -->
+                <div class="tradeitem row">
+                    <!-- item-image -->
+                    <div class="item-image-box col-sm-4">
+                        <div class="item-image">
+                            <a href="details.html"><img
+                                    src="https://4.bp.blogspot.com/-CHftdfh1yg8/W7QWJO5SO5I/AAAAAAAHBmc/isTcoHgriAEvzXLV6jnujoZGsdMqhWbfACLcBGAs/s1600/sdcs-00-gundam-diver-ace%2B%25281%2529.jpg"
+                                    alt="Image" class="img-responsive"></a>
+                        </div><!-- item-image -->
+                    </div>
+
+                    <!-- rending-text -->
+                    <div class="item-info col-sm-8">
+                        <!-- tradeinfo -->
+                        <div class="tradeinfo">
+                            <h3 class="item-price">$800.00</h3>
+                            <h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>
+                            <div class="item-cat">
+                                <span><a href="#">Brand here</a></span> /
+                                <span><a href="#">Model here</a></span>
+                            </div>
+                        </div><!-- tradeinfo -->
+
+                        <!-- trademeta -->
+                        <div class="trademeta">
+                            <div class="meta-content">
+                                <span class="dated">Posted On: <a href="#">7 Jan, 16 10:10 pm </a></span>
+                                <span class="visitors" style="color: red">Rejected: <a href="#">View reason</a></span>
+                            </div>
+                            <!-- item-info-right -->
+                            <div class="user-option pull-right">
+                                <a class="edit-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Edit this ad"><i class="fa fa-pencil"></i></a>
+                                <a class="delete-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Delete this ad"><i class="fa fa-times"></i></a>
+                            </div><!-- item-info-right -->
+                        </div><!-- trademeta -->
+                    </div><!-- item-info -->
+                </div><!-- tradeitem -->
+            </div><!-- tab-pane -->
+
+            <!-- tab-panel -->
+            <div role="tabpanel" class="tab-pane fade" id="orderhistories">
+                <!-- tradeitem -->
+                <div class="tradeitem row">
+                    <!-- item-image -->
+                    <div class="item-image-box col-sm-4">
+                        <div class="item-image">
+                            <a href="details.html"><img
+                                    src="https://3.bp.blogspot.com/-pNl0tSuIKmw/W7jXhM0JjiI/AAAAAAAHB2E/iVuieNJkUSwtgho_WcxlMEZIFdlNcB-AACLcBGAs/s1600/HGUC-narrative-gundam-equipment-a%2B%25282%2529.jpg"
+                                    alt="Image" class="img-responsive"></a>
+                        </div><!-- item-image -->
+                    </div>
+
+                    <!-- rending-text -->
+                    <div class="item-info col-sm-8">
+                        <!-- tradeinfo -->
+                        <div class="tradeinfo">
+                            <h3 class="item-price">$800.00</h3>
+                            <h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>
+                            <div class="item-cat">
+                                <span><a href="#">Brand here</a></span> /
+                                <span><a href="#">Model here</a></span>
+                            </div>
+                        </div><!-- tradeinfo -->
+
+                        <!-- trademeta -->
+                        <div class="trademeta">
+                            <div class="meta-content">
+                                <span class="dated">Posted On: <a href="#">7 Jan, 16 10:10 pm </a></span>
+                                <span class="visitors">Likes: 221</span>
+                            </div>
+                            <!-- item-info-right -->
+                            <div class="user-option pull-right">
+                                <a class="delete-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Remove from favorite"><i class="fa fa-heart"></i></a>
+                            </div><!-- item-info-right -->
+                        </div><!-- trademeta -->
+                    </div><!-- item-info -->
+                </div><!-- tradeitem -->
+                <!-- tradeitem -->
+                <div class="tradeitem row">
+                    <!-- item-image -->
+                    <div class="item-image-box col-sm-4">
+                        <div class="item-image">
+                            <a href="details.html"><img
+                                    src="https://3.bp.blogspot.com/-pNl0tSuIKmw/W7jXhM0JjiI/AAAAAAAHB2E/iVuieNJkUSwtgho_WcxlMEZIFdlNcB-AACLcBGAs/s1600/HGUC-narrative-gundam-equipment-a%2B%25282%2529.jpg"
+                                    alt="Image" class="img-responsive"></a>
+                        </div><!-- item-image -->
+                    </div>
+
+                    <!-- rending-text -->
+                    <div class="item-info col-sm-8">
+                        <!-- tradeinfo -->
+                        <div class="tradeinfo">
+                            <h3 class="item-price">$800.00</h3>
+                            <h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>
+                            <div class="item-cat">
+                                <span><a href="#">Brand here</a></span> /
+                                <span><a href="#">Model here</a></span>
+                            </div>
+                        </div><!-- tradeinfo -->
+
+                        <!-- trademeta -->
+                        <div class="trademeta">
+                            <div class="meta-content">
+                                <span class="dated">Posted On: <a href="#">7 Jan, 16 10:10 pm </a></span>
+                                <span class="visitors">Likes: 221</span>
+                            </div>
+                            <!-- item-info-right -->
+                            <div class="user-option pull-right">
+                                <a class="delete-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Remove from favorite"><i class="fa fa-heart"></i></a>
+                            </div><!-- item-info-right -->
+                        </div><!-- trademeta -->
+                    </div><!-- item-info -->
+                </div><!-- tradeitem -->
+                <!-- tradeitem -->
+                <div class="tradeitem row">
+                    <!-- item-image -->
+                    <div class="item-image-box col-sm-4">
+                        <div class="item-image">
+                            <a href="details.html"><img
+                                    src="https://3.bp.blogspot.com/-pNl0tSuIKmw/W7jXhM0JjiI/AAAAAAAHB2E/iVuieNJkUSwtgho_WcxlMEZIFdlNcB-AACLcBGAs/s1600/HGUC-narrative-gundam-equipment-a%2B%25282%2529.jpg"
+                                    alt="Image" class="img-responsive"></a>
+                        </div><!-- item-image -->
+                    </div>
+
+                    <!-- rending-text -->
+                    <div class="item-info col-sm-8">
+                        <!-- tradeinfo -->
+                        <div class="tradeinfo">
+                            <h3 class="item-price">$800.00</h3>
+                            <h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>
+                            <div class="item-cat">
+                                <span><a href="#">Brand here</a></span> /
+                                <span><a href="#">Model here</a></span>
+                            </div>
+                        </div><!-- tradeinfo -->
+
+                        <!-- trademeta -->
+                        <div class="trademeta">
+                            <div class="meta-content">
+                                <span class="dated">Posted On: <a href="#">7 Jan, 16 10:10 pm </a></span>
+                                <span class="visitors">Likes: 221</span>
+                            </div>
+                            <!-- item-info-right -->
+                            <div class="user-option pull-right">
+                                <a class="delete-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Remove from favorite"><i class="fa fa-heart"></i></a>
+                            </div><!-- item-info-right -->
+                        </div><!-- trademeta -->
+                    </div><!-- item-info -->
+                </div><!-- tradeitem -->
+                <!-- tradeitem -->
+                <div class="tradeitem row">
+                    <!-- item-image -->
+                    <div class="item-image-box col-sm-4">
+                        <div class="item-image">
+                            <a href="details.html"><img
+                                    src="https://3.bp.blogspot.com/-pNl0tSuIKmw/W7jXhM0JjiI/AAAAAAAHB2E/iVuieNJkUSwtgho_WcxlMEZIFdlNcB-AACLcBGAs/s1600/HGUC-narrative-gundam-equipment-a%2B%25282%2529.jpg"
+                                    alt="Image" class="img-responsive"></a>
+                        </div><!-- item-image -->
+                    </div>
+
+                    <!-- rending-text -->
+                    <div class="item-info col-sm-8">
+                        <!-- tradeinfo -->
+                        <div class="tradeinfo">
+                            <h3 class="item-price">$800.00</h3>
+                            <h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>
+                            <div class="item-cat">
+                                <span><a href="#">Brand here</a></span> /
+                                <span><a href="#">Model here</a></span>
+                            </div>
+                        </div><!-- tradeinfo -->
+
+                        <!-- trademeta -->
+                        <div class="trademeta">
+                            <div class="meta-content">
+                                <span class="dated">Posted On: <a href="#">7 Jan, 16 10:10 pm </a></span>
+                                <span class="visitors">Likes: 221</span>
+                            </div>
+                            <!-- item-info-right -->
+                            <div class="user-option pull-right">
+                                <a class="delete-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Remove from favorite"><i class="fa fa-heart"></i></a>
+                            </div><!-- item-info-right -->
+                        </div><!-- trademeta -->
+                    </div><!-- item-info -->
+                </div><!-- tradeitem -->
+                <!-- tradeitem -->
+                <div class="tradeitem row">
+                    <!-- item-image -->
+                    <div class="item-image-box col-sm-4">
+                        <div class="item-image">
+                            <a href="details.html"><img
+                                    src="https://3.bp.blogspot.com/-pNl0tSuIKmw/W7jXhM0JjiI/AAAAAAAHB2E/iVuieNJkUSwtgho_WcxlMEZIFdlNcB-AACLcBGAs/s1600/HGUC-narrative-gundam-equipment-a%2B%25282%2529.jpg"
+                                    alt="Image" class="img-responsive"></a>
+                        </div><!-- item-image -->
+                    </div>
+
+                    <!-- rending-text -->
+                    <div class="item-info col-sm-8">
+                        <!-- tradeinfo -->
+                        <div class="tradeinfo">
+                            <h3 class="item-price">$800.00</h3>
+                            <h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>
+                            <div class="item-cat">
+                                <span><a href="#">Brand here</a></span> /
+                                <span><a href="#">Model here</a></span>
+                            </div>
+                        </div><!-- tradeinfo -->
+
+                        <!-- trademeta -->
+                        <div class="trademeta">
+                            <div class="meta-content">
+                                <span class="dated">Posted On: <a href="#">7 Jan, 16 10:10 pm </a></span>
+                                <span class="visitors">Likes: 221</span>
+                            </div>
+                            <!-- item-info-right -->
+                            <div class="user-option pull-right">
+                                <a class="delete-item" href="#" data-toggle="tooltip" data-placement="top"
+                                   title="Remove from favorite"><i class="fa fa-heart"></i></a>
+                            </div><!-- item-info-right -->
+                        </div><!-- trademeta -->
+                    </div><!-- item-info -->
+                </div><!-- tradeitem -->
+
+
+            </div><!-- tab-pane -->
+        </div>
+    </div><!-- trending-ads -->
+
+    <!-- End trade container -->
+
+    <!-- Pagination -->
+    <div class="row justify-content-center">
+        <nav aria-label="Page navigation">
+            <ul class="pagination mt-50">
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                <li class="page-item"><a class="page-link" href="#">...</a></li>
+                <li class="page-item"><a class="page-link" href="#">10</a></li>
+            </ul>
+        </nav>
+    </div>
+    <!-- End pagination -->
+</div>
+
+
+<!-- ##### Footer Area Start ##### -->
+<footer class="footer-area">
+
+    <!-- Main Footer Area -->
+    <div class="main-footer-area">
+        <div class="container">
+            <div class="row">
+
+                <!-- Footer Widget Area -->
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="footer-widget-area mt-80">
+                        <!-- Footer Logo -->
+                        <div class="footer-logo">
+                            <a href="index.html" style="color: white; font: 3em sans-serif;">Gunpla World</a>
+                        </div>
+                        <!-- List -->
+                        <ul class="list">
+                            <li><a href="mailto:contact@youremail.com">contact@youremail.com</a></li>
+                            <li><a href="tel:+4352782883884">+43 5278 2883 884</a></li>
+                            <li><a href="http://yoursitename.com">www.yoursitename.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Footer Widget Area -->
+                <div class="col-12 col-sm-6 col-lg-2">
+                    <div class="footer-widget-area mt-80">
+                        <!-- Title -->
+                        <h4 class="widget-title">Quick Links</h4>
+                        <!-- List -->
+                        <ul class="list">
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Articles</a></li>
+                            <li><a href="#">Events</a></li>
+                            <li><a href="#">Trade market</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Footer Widget Area -->
+                <div class="col-12 col-sm-4 col-lg-2">
+                    <div class="footer-widget-area mt-80">
+                        <!-- Title -->
+                        <h4 class="widget-title">Follow us</h4>
+                        <!-- List -->
+                        <ul class="list">
+                            <li><a href="#">Facebook</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <!-- Bottom Footer Area -->
+                <div class="bottom-footer-area">
+                    <div class="container h-100">
+                        <div class="row h-100 align-items-center">
+                            <div class="col-12">
+                                <!-- Copywrite -->
+                                <p>copywrite lol</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- ##### Footer Area Start ##### -->
+
+<!-- ##### All Javascript Files ##### -->
+<!-- jQuery-2.2.4 js -->
+<script src="/js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="/js/bootstrap/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="/js/bootstrap/bootstrap.min.js"></script>
+<!-- All Plugins js -->
+<script src="/js/plugins/plugins.js"></script>
+<!-- Active js -->
+<script src="/js/active.js"></script>
+<!-- jQuery validation js -->
+<script src="/js/plugins/jquery.validate.min.js"></script>
+<!-- jQuery File Upload js -->
+<script src="/js/plugins/fileup.min.js"></script>
+<script src="/js/plugins/jquery.growl.js"></script>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+</script>
+</body>
+
+</html>
