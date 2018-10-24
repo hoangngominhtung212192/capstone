@@ -79,4 +79,19 @@ public class WebControllerImpl implements WebController {
     public ModelAndView editModelPage() {
         return new ModelAndView("editmodel");
     }
+
+    @Override
+    public ModelAndView searchArticlePage() {
+        return new ModelAndView("search-article");
+    }
+
+    @Override
+    public ModelAndView viewArticlePage() {
+        return new ModelAndView("article-detail");
+    }
+
+    @Override
+    public ModelAndView editArticlePage() {
+        return new ModelAndView("article-edit");
+    }
 }

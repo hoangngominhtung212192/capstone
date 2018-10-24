@@ -21,18 +21,32 @@
     <!-- js -->
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/html-importer.js"></script>
-
+    <script type="text/javascript" src="/js/article-detail.js"></script>
 
 </head>
 
 <body>
     <!-- ##### Header Area Start ##### -->
+    <header class="header-area">
         <script>HTMLImporter.import("/pages/header.html");</script>
-    <!-- ##### Header Area End ##### -->
+    </header>
 
+    <!-- ##### Header Area End ##### -->
+    <div style="background-color: whitesmoke">
+        <div style="background-color:white;margin-left: 350px;margin-right: 350px;padding: 20px">
+            <h2 id="title"></h2>
+            <p class="post-date" id="date"></p>
+            <button class="btn" id="btnEdit">Edit this article</button>
+            <div class="entry-content" id="content">
+
+            </div>
+        </div>
+    </div>
 
     <!-- ##### Footer Area Start ##### -->
+    <footer class="footer-area">
         <script>HTMLImporter.import("/pages/footer.html");</script>
+    </footer>
     <!-- ##### Footer Area Start ##### -->
 
     <!-- ##### All Javascript Files ##### -->

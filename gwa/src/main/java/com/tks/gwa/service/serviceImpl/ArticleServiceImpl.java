@@ -15,7 +15,7 @@ import java.util.List;
 public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
-    private ArticleRepository articleRepository; /*trùng tên bean trong spring container :)*/
+    private ArticleRepository articleRepository;
 
     public List<Article> getAllArticle() {
         return articleRepository.getAllArticle();
@@ -35,7 +35,29 @@ public class ArticleServiceImpl implements ArticleService {
         return true;
     }
 
+    @Override
     public Article getArticleByID(Integer id) {
+        System.out.println("service getarticle id:" + id);
         return articleRepository.findArticleByID(id);
+    }
+
+    @Override
+    public List<Article> findArticleByTitle(String title) {
+        return articleRepository.findArticleByTitle(title);
+    }
+
+    @Override
+    public List<Article> findArticleByCategory(String category) {
+        return articleRepository.findArticleByCategory(category);
+    }
+
+    @Override
+    public Article changeStatusArticle(Integer id, String status) {
+        return articleRepository.changeStatusArticle(id, status);
+    }
+
+    @Override
+    public List<Article> changeStatusManyArticle(List<Integer> idlist, String status) {
+        return articleRepository.changeStatusManyArticle(idlist, status);
     }
 }

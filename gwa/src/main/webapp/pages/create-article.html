@@ -16,258 +16,77 @@
 
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="/css/style.css">
-    <script src="/js/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script>
 
     <!-- js -->
     <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/html-importer.js"></script>
+    <script type="text/javascript" src="/js/article-create.js"></script>
 
 </head>
 
 <body>
-    <!-- ##### Header Area Start ##### -->
-    <header class="header-area">
+<!-- ##### Header Area Start ##### -->
+<header class="header-area">
+    <script>HTMLImporter.import("/pages/header.html");</script>
+</header>
 
-        <!-- Top Header Area -->
-        <div class="top-header-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="top-header-content d-flex align-items-center justify-content-between">
-                            <!-- Logo -->
-                            <div class="logo">
-                                <a href="index.html" style="color: white; font: 3em sans-serif;">Gunpla World</a>
-                            </div>
+<!-- ##### Header Area End ##### -->
+<div style="background-color: whitesmoke">
+    <div style="background-color:white;margin-left: 200px;margin-right: 200px;padding: 20px">
+        <h3>Edit article</h3>
+        <a style="color: red">Your article will be taken down and reviewed by the administrators before being posted on the website again</a>
+        <h5 >Article title: </h5>
+        <input name="title" id="title" class="form-control">
 
-                            <!-- Login Search Area -->
-                            <div class="login-search-area d-flex align-items-center">
-                                <!-- Login -->
-                                <div class="login d-flex">
-                                    <a href="#">Login</a>
-                                    <a href="#">Register</a>
-                                </div>
-                                <!-- Search Form -->
-                                <div class="search-form">
-                                    <form action="#" method="post">
-                                        <input type="search" name="search" class="form-control" placeholder="Search">
-                                        <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+        <a>Posted on:</a><p class="post-date" id="date"></p>
+        <div style="margin-bottom: 10px">
+            <textarea name="editor1" id="content" ></textarea>
+        </div>
+        <script>
+            // Replace the <textarea id="editor1"> with a CKEditor
+            // instance, using default configuration.
+            CKEDITOR.replace('content');
+        </script>
+
+        <input id="submitBtn" type="submit" value="Submit" class="btn btn-primary">
+        <input id="deleteBtn" type="submit" value="Delete this article" class="btn btn-default">
+
+        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="confi-modal">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Are you sure you want to delete this article?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" id="modal-btn-yes" >Yes</button>
+                        <button type="button" class="btn btn-primary" id="modal-btn-no">No</button>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Navbar Area -->
-        <div class="newspaper-main-menu" id="stickyMenu">
-            <div class="classy-nav-container breakpoint-off">
-                <div class="container">
-                    <!-- Menu -->
-                    <nav class="classy-navbar justify-content-between" id="newspaperNav">
-
-                        <!-- Logo -->
-                        <div class="logo">
-                            <a href="index.html"><img src="img/core-img/logo.png" alt=""></a>
-                        </div>
-
-                        <!-- Navbar Toggler -->
-                        <div class="classy-navbar-toggler">
-                            <span class="navbarToggler"><span></span><span></span><span></span></span>
-                        </div>
-
-                        <!-- Menu -->
-                        <div class="classy-menu">
-
-                            <!-- close btn -->
-                            <div class="classycloseIcon">
-                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
-                            </div>
-
-                            <!-- Nav Start -->
-                            <div class="classynav">
-                                <ul>
-                                    <li class="active"><a href="index.html">Home</a></li>
-                                    <li><a href="#">Pages</a>
-                                        <ul class="dropdown">
-                                            <li><a href="index.html">Home</a></li>
-                                            <li><a href="#">Dropdown</a>
-                                                <ul class="dropdown">
-                                                    <li><a href="index.html">Home</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">Mega Menu</a>
-                                        <div class="megamenu">
-                                            <ul class="single-mega cn-col-3">
-                                                <li class="title">Catagories</li>
-                                                <li><a href="index.html">Home</a></li>
-                                            </ul>
-                                            <ul class="single-mega cn-col-3">
-                                                <li class="title">Catagories</li>
-                                                <li><a href="index.html">Home</a></li>
-                                            </ul>
-                                            <ul class="single-mega cn-col-3">
-                                                <li class="title">Catagories</li>
-                                                <li><a href="index.html">Home</a></li>
-                                            </ul>
-                                            
-                                        </div>
-                                    </li>
-                                    <li><a href="#">Articles</a></li>
-                                    <li><a href="#">Events</a></li>
-                                    <li><a href="#">Trade market</a></li>
-                                    <li><a href="contact.html">Contact</a></li>
-                                </ul>
-                            </div>
-                            <!-- Nav End -->
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
-    <!-- ##### Header Area End ##### -->
-
-    <div style="background-color: whitesmoke">
-            <div style="background-color:white;margin-left: 370px;margin-right: 370px;padding: 20px">
-                    <div>
-                            <h3>Create article</h3>
-                        <form id="createArticleForm">
-                            <a style="color: red">Your article will need to be reviewed by the administrators before being posted on the website.</a>
-                            <h5 >Article title: </h5> 
-                            <input name="title" placeholder="Gundam #111" value="Gundam #111" id="title">
-                        </br>
-                            <h5>Write your article below:</h5></br>
-
-                                <textarea name="editor1" id="editor1" rows="10" cols="300"></textarea>
-                                <script>
-                                    // Replace the <textarea id="editor1"> with a CKEditor
-                                    // instance, using default configuration.
-                                    CKEDITOR.replace('editor1');
-                                </script>
-                                <input id="submitBtn" type="submit" value="Submit">
-                        </form>
-
-                    </div>
-            </div>
     </div>
-    
-    
+</div>
 
-    <!-- ##### Footer Area Start ##### -->
-    <footer class="footer-area">
+<!-- ##### Footer Area Start ##### -->
+<footer class="footer-area">
+    <script>HTMLImporter.import("/pages/footer.html");</script>
+</footer>
+<!-- ##### Footer Area Start ##### -->
 
-        <!-- Main Footer Area -->
-        <div class="main-footer-area">
-            <div class="container">
-                <div class="row">
+<!-- ##### All Javascript Files ##### -->
+<!-- jQuery-2.2.4 js -->
+<script src="/js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="/js/bootstrap/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="/js/bootstrap/bootstrap.min.js"></script>
+<!-- All Plugins js -->
+<script src="/js/plugins/plugins.js"></script>
+<!-- Active js -->
+<script src="/js/active.js"></script>
 
-                    <!-- Footer Widget Area -->
-                    <div class="col-12 col-sm-6 col-lg-4">
-                        <div class="footer-widget-area mt-80">
-                            <!-- Footer Logo -->
-                            <div class="footer-logo">
-                                <a href="index.html" style="color: white; font: 3em sans-serif;">Gunpla World</a>
-                            </div>
-                            <!-- List -->
-                            <ul class="list">
-                                <li><a href="mailto:contact@youremail.com">contact@youremail.com</a></li>
-                                <li><a href="tel:+4352782883884">+43 5278 2883 884</a></li>
-                                <li><a href="http://yoursitename.com">www.yoursitename.com</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Footer Widget Area -->
-                    <div class="col-12 col-sm-6 col-lg-2">
-                        <div class="footer-widget-area mt-80">
-                            <!-- Title -->
-                            <h4 class="widget-title">Quick Links</h4>
-                            <!-- List -->
-                            <ul class="list">
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Articles</a></li>
-                                <li><a href="#">Events</a></li>
-                                <li><a href="#">Trade market</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Footer Widget Area -->
-                    <div class="col-12 col-sm-4 col-lg-2">
-                        <div class="footer-widget-area mt-80">
-                            <!-- Title -->
-                            <h4 class="widget-title">Follow us</h4>
-                            <!-- List -->
-                            <ul class="list">
-                                <li><a href="#">Facebook</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-
-        <!-- Bottom Footer Area -->
-        <div class="bottom-footer-area">
-            <div class="container h-100">
-                <div class="row h-100 align-items-center">
-                    <div class="col-12">
-                        <!-- Copywrite -->
-                        <p>copywrite lol</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- ##### Footer Area Start ##### -->
-
-    <!-- ##### All Javascript Files ##### -->
-    <!-- jQuery-2.2.4 js -->
-    <script src="js/jquery/jquery-2.2.4.min.js"></script>
-    <!-- Popper js -->
-    <script src="js/bootstrap/popper.min.js"></script>
-    <!-- Bootstrap js -->
-    <script src="js/bootstrap/bootstrap.min.js"></script>
-    <!-- All Plugins js -->
-    <script src="js/plugins/plugins.js"></script>
-    <!-- Active js -->
-    <script src="js/active.js"></script>
-
-    <script>
-        $(document).ready(function() {
-
-            $("#submitBtn").click(function (event) {
-                event.preventDefault();
-                var formArticle = {
-                    title : $("#title").val(),
-                    content : CKEDITOR.instances.editor1.getData()
-                    // content : $("#editor1").val()
-                }
-
-                ajaxPost(formArticle);
-            })
-
-            function ajaxPost(data) {
-                console.log(data);
-
-                $.ajax({
-                    type : "POST",
-                    contentType : "application/json",
-                    url : "http://localhost:8080/api/user/createArticle",
-                    data : JSON.stringify(data),
-                    success : function(result, status) {
-                        console.log(result);
-                        console.log(status)
-                    },
-                    error : function(e) {
-                        alert("Error!")
-                        console.log("ERROR: ", e);
-                    }
-                });
-            }
-        })
-    </script>
 </body>
 
 </html>

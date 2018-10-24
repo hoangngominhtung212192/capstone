@@ -32,8 +32,17 @@ public interface WebController {
     @RequestMapping(value = "/user/profile")
     public ModelAndView profilePage();
 
-    @RequestMapping(value = "/create-Article")
+    @RequestMapping(value = "/article/create-article")
     public ModelAndView createArticlePage();
+
+    @RequestMapping(value = "/article")
+    public ModelAndView searchArticlePage();
+
+    @RequestMapping(value = "/article/detail")
+    public ModelAndView viewArticlePage();
+
+    @RequestMapping(value = "/article/edit")
+    public ModelAndView editArticlePage();
 
     @RequestMapping(value = "/admin/user/search")
     public ModelAndView searchAccountPage();
@@ -43,4 +52,8 @@ public interface WebController {
 
     @RequestMapping(value = "/admin/model/edit")
     public ModelAndView editModelPage();
+
+
+
+
 }
