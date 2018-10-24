@@ -310,14 +310,37 @@ section {
     vertical-align: middle;
 }
 
-.trademeta .meta-content .dated {
-    margin-right: 20px;
-}
 
-.trademeta .meta-content .dated,
-.trademeta .meta-content .visitors {
+.trademeta .meta-content .dated{
+    margin-right: 20px;
     font-weight: 500;
     color: #9fa4a4;
+}
+.trademeta .meta-content .number-payment{
+    font-weight: 500;
+    color: blue;
+    margin-left: 20px;
+}
+.trademeta .meta-content .number-request{
+    font-weight: 500;
+    color: orangered;
+}
+.trademeta .meta-content .number-succed{
+    font-weight: 500;
+    color: green;
+    margin-left: 20px;
+}
+.trademeta .meta-content .no-trade{
+    font-weight: 500;
+    color: black;
+}
+.trademeta .meta-content .pending-trade{
+    font-weight: 500;
+    color: blue;
+}
+.trademeta .meta-content .rejected-trade{
+    font-weight: 500;
+    color: red;
 }
 
 .trademeta .meta-content span,

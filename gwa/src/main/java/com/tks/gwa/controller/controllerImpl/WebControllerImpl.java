@@ -40,11 +40,6 @@ public class WebControllerImpl implements WebController {
     }
 
 
-    @Override
-    public ModelAndView postNewTradePage() {
-        return new ModelAndView("post-trade");
-    }
-
     /**
      *
      * @return
@@ -78,5 +73,30 @@ public class WebControllerImpl implements WebController {
     @Override
     public ModelAndView editModelPage() {
         return new ModelAndView("editmodel");
+    }
+
+    @Override
+    public ModelAndView tradepostListingPage() {
+        return new ModelAndView("trade-listing");
+    }
+
+    @Override
+    public ModelAndView myTradePage() {
+        return new ModelAndView("my-trade");
+    }
+
+    @Override
+    public ModelAndView myOrderPage() {
+        return new ModelAndView("my-order");
+    }
+
+    @Override
+    public ModelAndView viewTradePage() {
+        return new ModelAndView("trade-details");
+    }
+
+    @Override
+    public ModelAndView addEditTradePage() {
+        return new ModelAndView("post-trade");
     }
 }

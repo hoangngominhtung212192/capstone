@@ -1,10 +1,228 @@
+var tradepost_data_edit;
+var authorStatus;// 1 = Yes , 0 = No
+var notFoundStatus;// 1 = notfound , 0 = found
+
 $(document).ready(function () {
-    authentication();
-    $('[data-toggle="tooltip"]').tooltip();
-    $('#imageUploadedList').onchange = function () {
-        console.log(this.val());
+    if (checkValidRequest()) {
+        notFoundStatus = 0;
+        console.log("valid request");
+        authentication();
     }
+    else {
+        notFoundStatus = 1;
+        $("#noticeTitle").css("color", "red");
+        $("#noticeTitle").html("Opps! [ 404 - Not found ] You go wrong way, Please go back!");
+        $("#tradePostDiv").hide();
+        console.log("Error Request");
+    }
+    $('[data-title="tooltip"]').tooltip();
 });
+
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+
+function checkEditRequest() {
+    var uriPath = window.location.pathname;
+    if (uriPath == "/trade-market/edit-trade") {
+        return true;
+    }
+    return false;
+}
+
+function checkValidEditRequest() {
+    var editPram = getUrlParameter("tradepostID");
+    // console.log(editPram);
+    if (editPram === undefined || editPram === true) {
+        return false;
+    }
+    if (!+editPram) {
+        return false;
+    }
+    if (parseInt(editPram) < 1) {
+        return false;
+    }
+    return true;
+}
+
+function checkValidRequest() {
+    if (!checkEditRequest()) {
+        return true;
+    } else {
+        if (checkValidEditRequest()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function checkAuthorization(userId) {
+    var tradepostID = getUrlParameter("tradepostID");
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/tradepost/get-trade-post-edit-form-data?tradepostID=" + tradepostID,
+        async: false,
+        complete: function (xhr, status) {
+            if (status == "success") {
+                var xhr_data = xhr.responseText;
+                var jsonResponse = JSON.parse(xhr_data);
+                // console.log(jsonResponse);
+                var userIdPost = jsonResponse["traderId"];
+                if (userId == userIdPost) {//This login user owner this post
+                    authorStatus = 1;
+                    tradepost_data_edit = jsonResponse;
+                    console.log("Authorizationed");
+                } else {
+                    authorStatus = 0;
+                    console.log("Not Author");
+                }
+            } else {
+                notFoundStatus = 1;
+                console.log("Trade post not found!");
+            }
+        }
+    });
+}
+
+
+function authentication() {
+    $("#tradePostDiv").hide();
+    var noticeTitle = "";
+    var noticeContent = "";
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/user/checkLogin",
+        complete: function (xhr, status) {
+
+            if (status == "success") {
+                var xhr_data = xhr.responseText;
+                var jsonResponse = JSON.parse(xhr_data);
+                var role = jsonResponse["role"].name;
+                var username = jsonResponse["username"];
+                var id = jsonResponse["id"];
+                // console.log(jsonResponse);
+
+                if (role == "MEMBER" || role == "BUYERSELLER") {
+                    if (checkEditRequest()) {
+                        checkAuthorization(id);
+                        // console.log(authorStatus);
+                        if (notFoundStatus === 1) {
+                            noticeTitle = "Opps! [ 404 - Not found ] You go wrong way, Please go back!";
+                            $("#noticeTitle").css("color", "red");
+                            $("#tradePostDiv").hide();
+                        } else {
+                            if (authorStatus == 1) {
+                                loadEditForm(tradepost_data_edit);
+                                noticeTitle = "Edit your trade post"
+                                $("#noticeTitle").css("color", "green");
+                                $("#tradePostDiv").show();
+                            } else {
+                                noticeTitle = "Opps! You dont have permisstion to edit this trade post!"
+                                $("#noticeTitle").css("color", "orange");
+                                $("#tradePostDiv").hide();
+                            }
+                        }
+                    } else {
+                        noticeTitle = "Post your new trade";
+                        $("#noticeTitle").css("color", "green");
+                        loadProfileData(id);
+                        $("#tradePostDiv").show();
+                    }
+                } else if (role == "ADMIN") {
+                    noticeTitle = "Opps! You are administrator, why you stay here...";
+                    $("#noticeTitle").css("color", "orange");
+                    noticeContent = 'Click <a href="/admin">[HERE]</a> to back to your site.';
+                    $("#tradePostDiv").hide();
+                }
+                console.log("Login as " + role);
+            } else {
+                $("#noticeTitle").css("color", "red");
+                noticeTitle = "Opps! You need login to stay here!";
+                noticeContent = 'Click <a href="/login">[HERE]</a> to login.';
+                $("#tradePostDiv").hide();
+                console.log("Guest is accessing !");
+            }
+            $("#noticeTitle").html(noticeTitle);
+            $("#noticeContent").html(noticeContent);
+
+        }
+    });
+
+}
+function loadEditForm(editformData) {
+    console.log(editformData);
+    //SET EDIT API TO FORM
+    $("#tradepostForm").attr("action", "/api/tradepost/edit-trade-post");
+    //SET NAME OF BUTTOM
+    $("#submitTradeBtn").html("Save Your Trade");
+
+    //SET TRADE POST DATA
+    $("#tradeId").val(editformData["tradeId"]);
+    if (editformData["tradeType"] === "sell"){
+        $("#tradeType-sell").prop('checked', true);
+    }else {
+        $("#tradeType-buy").prop('checked', true);
+    }
+    $("#tradeTitle").val(editformData["tradeTitle"]);
+    if (editformData["tradeCondition"] === "new"){
+        $("#tradeCondition-new").prop('checked', true);
+    }else {
+        $("#tradeCondition-used").prop('checked', true);
+    }
+    $("#tradePrice").attr("value", editformData["tradePrice"]);
+    if (editformData["tradeNegotiable"] === "on"){
+        $("#tradeNegotiable").prop('checked', true);
+    }
+    $("#tradeQuantity").val(editformData["tradeQuantity"]);
+    $("#tradeBrand").val(editformData["tradeBrand"]);
+    $("#tradeModel").val(editformData["tradeModel"]);
+    $("#tradeDesc").val(editformData["tradeDesc"]);
+    var imgListArr = [];
+    imgListArr = editformData["imageUploadedList"];
+    $("#imageUploadedList").val(JSON.stringify(imgListArr));
+
+    //Trader profile load
+    $("#traderName").val(editformData["traderName"]);
+    $("#traderPhone").val(editformData["traderPhone"]);
+    $("#traderEmail").val(editformData["traderEmail"]);
+    $("#traderAddress").val(editformData["traderAddress"]);
+
+
+
+}
+
+function loadProfileData(accountID) {
+    $.ajax({
+        type: "POST",
+        url: "/api/user/profile?accountID=" + accountID,
+        success: function (result) {
+            // console.log(result);
+            //get selected profile's account status
+            var traderName = result["firstName"].trim() + " " + result["middleName"].trim() + " " + result["lastName"].trim();
+            var traderPhone = result["tel"].trim();
+            var traderEmail = result["email"];
+            var traderAddress = result["address"];
+            $("#traderName").val(traderName);
+            $("#traderPhone").val(traderPhone);
+            $("#traderEmail").val(traderEmail);
+            $("#traderAddress").val(traderAddress);
+        },
+        error: function (e) {
+            console.log("ERROR: ", e);
+        }
+    });
+}
 
 function autoGetYourLocation() {
     waitingDialog.show('Getting your location...', {dialogSize: '', progressType: 'info'});
@@ -12,12 +230,6 @@ function autoGetYourLocation() {
         waitingDialog.hide();
     }, 2000);
     // waitingDialog.show('Dialog with callback on hidden',{onHide: function () {alert('Callback!');}});
-}
-
-
-function authentication() {
-
-
 }
 
 
@@ -77,9 +289,10 @@ $("#addressSelectForm").validate({
         setTimeout(function () {
             $("#addressModal").modal('hide');
         }, 300);
-        var addressText = document.getElementById("traderAddress"),
-            addressFromModelText = document.getElementById("selectAddressFull");
-        addressText.value = addressFromModelText.value;
+        var addressText = $("#traderAddress"),
+            addressFromModelText = $("#selectAddressFull");
+        addressText.val(addressFromModelText.val());
+        $.growl.notice({title: "Select Address: ", message: addressText.val()});
     }
 
 });
@@ -193,32 +406,38 @@ $("#tradepostForm").validate({
     },
     submitHandler: function (form) {
         var formObj = {};
-        new FormData(form).forEach(function(value, key){
+        new FormData(form).forEach(function (value, key) {
             formObj[key] = value;
-            if (key === "imageUploadedList"){
+            if (key === "imageUploadedList") {
                 formObj[key] = JSON.parse(value);
             }
         });
         var url = $(form).attr("action");
         var formDataJson = JSON.stringify(formObj);
-        console.log(formDataJson);
+        // console.log(formDataJson);
         $.ajax({
             url: url,
             type: "POST",
             data: formDataJson,
-            contentType : "application/json",
-            success: function(result, txtStatus, xhr) {
-                console.log(result + " - " + txtStatus);
+            contentType: "application/json",
+            success: function (result, txtStatus, xhr) {
+                $.growl.notice({title: txtStatus, message: result});
+                $("#tradePostDiv").hide();
+                $("#noticeTitle").html("Trade post has been submited.").css("color", "green");
+                $("#noticeContent").html("Redirecting to your trade post list page...");
+                setTimeout(function () {
+                    window.location.href = "/trade-market/my-trade";
+                }, 3000);
             },
             error: function (xhr, textStatus, errorThrown) {
-                console.log("Error: " + errorThrown);
+                $.growl.error({title: textStatus, message: xhr.responseText});
             }
         });
     }
 });
 var countFileSuccess = 0;
 var countFileSelect = 0;
-var FiletoSubmit =[];
+var FiletoSubmit = [];
 $.fileup({
     url: "/uploadFile",
     inputID: 'upload-2',
@@ -253,31 +472,31 @@ $.fileup({
         '    </div>\n' +
         '    <div class="fileup-clear"></div>\n' +
         '</div>',
-    onSelect: function(file) {
+    onSelect: function (file) {
         countFileSelect++;
         $('#multiple .control-button').show();
         console.log(countFileSelect);
-        if (countFileSuccess > 0){
+        if (countFileSuccess > 0) {
             $('#multiple .removeall').hide();
         }
     },
-    onRemove: function(file, total) {
+    onRemove: function (file, total) {
         countFileSelect--;
         if (file === '*' || total === 1) {
             $('#multiple .control-button').hide();
         }
-        if (countFileSelect === countFileSuccess){
+        if (countFileSelect === countFileSuccess) {
             $('#multiple .control-button').hide();
         }
     },
-    onSuccess: function(response, file_number, file) {
+    onSuccess: function (response, file_number, file) {
         countFileSuccess++;
-        $.growl.notice({ title: "Upload success!", message: file.name });
-        $("#remove-" +file_number).hide();
-        if (countFileSelect === countFileSuccess){
+        $.growl.notice({title: "Upload success!", message: file.name});
+        $("#remove-" + file_number).hide();
+        if (countFileSelect === countFileSuccess) {
             $('#multiple .control-button').hide();
         }
-        if (countFileSuccess > 0){
+        if (countFileSuccess > 0) {
             $('#multiple .removeall').hide();
         }
         FiletoSubmit.push(JSON.parse(response)['fileDownloadUri']);
@@ -285,15 +504,15 @@ $.fileup({
         $('#imageUploadedList').val(JSON.stringify(FiletoSubmit));
         console.log($('#imageUploadedList').val);
     },
-    onError: function(event, file, file_number) {
-        var textErr= "";
-        if (event === "files_limit"){
+    onError: function (event, file, file_number) {
+        var textErr = "";
+        if (event === "files_limit") {
             textErr = "The number of selected file exceeds the limit(5)";
         }
-        if(event  ==="file_type"){
-            textErr = "File " + file.name +" is not image file types";
+        if (event === "file_type") {
+            textErr = "File " + file.name + " is not image file types";
         }
-        $.growl.error({ title: "Upload error: " , message: textErr});
+        $.growl.error({title: "Upload error: ", message: textErr});
     }
 
 });

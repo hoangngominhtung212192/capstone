@@ -137,15 +137,18 @@
     <div class="container">
 
         <div class="breadcrumb-section section">
-            <h2 class="title">Post New Trade</h2>
+            <h4 id="noticeTitle"></h4>
+            <span id="noticeContent"></span>
+
         </div><!-- banner -->
 
-        <div class="adpost-details">
+        <div class="adpost-details" id="tradePostDiv">
 
             <div class="row">
                 <div class="col-md-8">
                     <form action="/api/tradepost/post-new-trade" method="post" id="tradepostForm" enctype='application/json'>
                         <fieldset>
+                            <input type="hidden" name="tradeId" id="tradeId">
                             <!--Trade Post Section -->
                             <div class="section postdetails">
                                 <h4>Trade an item or service <span class="pull-right">* Mandatory Fields</span></h4>
@@ -162,7 +165,7 @@
                                                 sell</label>
                                         </div>
                                         <div class="custom-control custom-radio  custom-control-inline">
-                                            <input type="radio" value="sell" class="custom-control-input "
+                                            <input type="radio" value="buy" class="custom-control-input "
                                                    id="tradeType-buy" name="tradeType" required>
                                             <label class="custom-control-label" for="tradeType-buy">I want to
                                                 buy</label>
@@ -292,7 +295,7 @@
                                     <label class="col-sm-3 label-title">Your Name<span class="required">*</span></label>
                                     <div class="col-sm-9">
                                         <input type="text" name="traderName" id="traderName" class="form-control"
-                                               value="Lê Nguyễn Ngọc Sang">
+                                               value="" readonly>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -300,7 +303,7 @@
                                             class="required">*</span></label>
                                     <div class="col-sm-9">
                                         <input type="email" name="traderEmail" id="traderEmail" class="form-control"
-                                               value="tksangit@gmail.com" readonly>
+                                               value="" readonly>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -308,21 +311,21 @@
                                             class="required">*</span></label>
                                     <div class="col-sm-9">
                                         <input type="text" name="traderPhone" id="traderPhone" class="form-control"
-                                               value="0343777228">
+                                               value="">
                                     </div>
                                 </div>
                                 <div class="row form-group">
                                     <label class="col-sm-3 label-title">Address<span class="required">*</span></label>
                                     <div class="col-sm-7">
                                         <input type="text" name="traderAddress" id="traderAddress" class="form-control"
-                                               value="1358/28/14 Quang Trung, Gò Vấp, TPHCM" readonly>
+                                               value="" readonly>
                                     </div>
                                     <div class="col-sm-2">
-                                        <button type="button" class="btn" title="Auto get your location"
+                                        <button type="button" class="btn" data-title="tooltip" title="Auto get your location"
                                                 onclick="autoGetYourLocation();">
                                             <i class="fa fa-location-arrow"></i></button>
                                         <button type="button" class="btn btn-info" data-toggle="modal"
-                                                data-target="#addressModal" title="Open select address form"><i
+                                                data-target="#addressModal" title="Open select address form" data-title="tooltip"><i
                                                 class="fa fa-pencil-square-ofa fa-pencil-square-o"></i></button>
                                     </div>
                                 </div>
@@ -340,7 +343,7 @@
                                         Trade to find a genuine buyer.
                                     </label>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Post Your Trade</button>
+                                <button type="submit" class="btn btn-primary" id="submitTradeBtn">Post Your Trade</button>
                             </div><!-- section -->
 
                         </fieldset>

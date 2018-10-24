@@ -8,5 +8,7 @@ import java.util.List;
 @Repository
 public interface TradepostimageRepository extends GenericRepository<Tradepostimage, Integer> {
     List<Tradepostimage> getImageByTradepostId(int tradepostId);
+    String getThumbnailImgUrlByTradepostId(int tradepostId);
     Tradepostimage addImage(Tradepostimage tradepostimage);
+    boolean deleteAllImageByTradepostId(int tradepostId);
 }
