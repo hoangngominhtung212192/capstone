@@ -12,4 +12,9 @@ public interface ArticleRepository extends GenericRepository<Article, Integer>{
     Article updateArticle(Article article);
     boolean deleteArticle(Article article);
     Article findArticleByID(Integer id);
+    List<Article> findArticleByTitle(String title);
+    List<Article> findArticleByCategory(String category);
+    Article changeStatusArticle(Integer id, String status);
+    List<Article> changeStatusManyArticle(List<Integer> idlist, String status);
+
 }
