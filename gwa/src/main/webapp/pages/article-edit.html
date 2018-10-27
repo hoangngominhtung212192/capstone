@@ -48,7 +48,10 @@
             <script>
                 // Replace the <textarea id="editor1"> with a CKEditor
                 // instance, using default configuration.
-                CKEDITOR.replace('content');
+                CKEDITOR.replace('content', {
+                    height: 300,
+                    filebrowserImageUploadUrl: 'http://localhost:8080/images/upload'
+                });
             </script>
 
             <input id="submitBtn" type="submit" value="Submit" class="btn btn-primary">

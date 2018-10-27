@@ -50,11 +50,19 @@ public interface WebController {
     @RequestMapping(value = "/admin/model/edit")
     public ModelAndView editModelPage();
 
-<<<<<<< HEAD
 
+    @RequestMapping(value = "/admin/article")
+    public ModelAndView searchArticleAdminPage();
 
+    @RequestMapping(value = "/admin/article/create")
+    public ModelAndView createArticleAdminPage();
 
-=======
+    @RequestMapping(value = "/admin/article/edit")
+    public ModelAndView editArticleAdminPage();
+
+    @RequestMapping(value = "/admin/article/detail")
+    public ModelAndView viewArticleAdminPage();
+
     @RequestMapping(value = {"/trade-market","/trade-market/trading"})
     public ModelAndView tradepostListingPage();
 
@@ -69,5 +77,4 @@ public interface WebController {
 
     @RequestMapping(value ={"trade-market/post-new-trade","trade-market/edit-trade"})
     public ModelAndView addEditTradePage();
->>>>>>> f6b98532a6a5b4a70d2b578521280e73d4b1f8c7
 }
