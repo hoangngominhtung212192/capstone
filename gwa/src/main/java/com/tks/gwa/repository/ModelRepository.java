@@ -55,4 +55,16 @@ public interface ModelRepository extends GenericRepository<Model, Integer> {
      * @return
      */
     Model findModelByName(String name);
+
+    /**
+     *
+     * @return
+     */
+    List<Model> getAllPending(int pageNumber, int pageSize);
+
+    /**
+     *
+     * @return
+     */
+    int getCountAllPending();
 }

@@ -67,16 +67,31 @@ public class WebControllerImpl implements WebController {
 
     @Override
     public ModelAndView searchAccountPage() {
-        return new ModelAndView("searchaccount");
+        return new ModelAndView("search-account");
     }
 
     @Override
     public ModelAndView createModelPage() {
-        return new ModelAndView("createmodel");
+        return new ModelAndView("create-model");
     }
 
     @Override
     public ModelAndView editModelPage() {
-        return new ModelAndView("editmodel");
+        return new ModelAndView("edit-model");
+    }
+
+    @Override
+    public ModelAndView crawlModelPage() {
+        return new ModelAndView("crawl-model");
+    }
+
+    @Override
+    public ModelAndView pendingModelPage() {
+        return new ModelAndView("pending-model");
+    }
+
+    @Override
+    public ModelAndView forbiddenPage() {
+        return new ModelAndView("403");
     }
 }

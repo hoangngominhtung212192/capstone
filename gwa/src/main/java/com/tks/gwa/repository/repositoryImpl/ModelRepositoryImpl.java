@@ -11,9 +11,6 @@ import java.util.List;
 @Repository
 public class ModelRepositoryImpl extends GenericRepositoryImpl<Model, Integer> implements ModelRepository {
 
-    /*
-
-     */
     public ModelRepositoryImpl() {
             super(Model.class);
     }
@@ -76,7 +73,7 @@ public class ModelRepositoryImpl extends GenericRepositoryImpl<Model, Integer> i
 
         Model model = this.read(modelID);
 
-        return null;
+        return model;
     }
 
     @Override
@@ -101,7 +98,7 @@ public class ModelRepositoryImpl extends GenericRepositoryImpl<Model, Integer> i
     @Override
     public Model findModelByName(String name) {
 
-        String sql = "SELECT m FROM " + Model.class.getName()+ " AS m WHERE m.name =:name";
+        String sql = "SELECT m FROM " + Model.class.getName() + " AS m WHERE m.name =:name";
 
         Query query = this.entityManager.createQuery(sql);
         query.setParameter("name", name);
@@ -115,5 +112,29 @@ public class ModelRepositoryImpl extends GenericRepositoryImpl<Model, Integer> i
         }
 
         return model;
+    }
+
+    @Override
+    public List<Model> getAllPending(int pageNumber, int pageSize) {
+
+        String sql = "SELECT m FROM " + Model.class.getName() + " AS m WHERE m.status='crawlpending'";
+
+        Query query = this.entityManager.createQuery(sql);
+        query.setFirstResult((pageNumber-1)*pageSize);
+        query.setMaxResults(pageSize);
+
+        List<Model> modelList = query.getResultList();
+
+        return modelList;
+    }
+
+    @Override
+    public int getCountAllPending() {
+
+        String sql = "SELECT count(m.id) FROM " + Model.class.getName() + " AS m WHERE m.status='crawlpending'";
+
+        Query query = this.entityManager.createQuery(sql);
+
+        return (int) (long) query.getSingleResult();
     }
 }

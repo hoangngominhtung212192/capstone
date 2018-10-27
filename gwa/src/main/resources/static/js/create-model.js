@@ -43,7 +43,7 @@ $(document).ready(function () {
         ajaxGetSeriestitle();
         setTimeout(function () {
             $("#loading").css("display", "none");
-        }, 500);
+        }, 300);
     }
 
     function ajaxGetProductseries() {
@@ -185,7 +185,7 @@ $(document).ready(function () {
                                 '<td><img id="' + count + '" src="' + e.target.result + '"/></td>' +
                                 '<td><div class="imageName">' + value.name + '</div></td>' +
                                 '<td><div class="imageSize">' + Math.round(value.size / 1024) + ' KB</div></td>' +
-                                '<td class="imageType"><select id="image-type-' + count + '">\n' +
+                                '<td class="imageType"><select id="image-type-' + value.name + '">\n' +
                                 '<option value="Package">Package</option>\n' +
                                 '<option value="Item picture">Item picture</option>\n' +
                                 '<option value="Other picture">Other picture</option>\n' +
@@ -248,7 +248,7 @@ $(document).ready(function () {
         } else {
             $(".models:checkbox").prop('checked', false);
         }
-    })
+    });
 
     $("#deleteFiles").click(function (e) {
         e.preventDefault();
@@ -258,5 +258,154 @@ $(document).ready(function () {
 
             remove(imageName);
         })
-    })
+    });
+
+    $("#save").click(function (e) {
+        e.preventDefault();
+
+        var code = $("#txtCode").val().trim();
+        var name = $("#txtName").val().trim();
+        var productseries = $("#txtProductseries").val().trim();
+        var seriestitle = $("#txtSeriestitle").val().trim();
+        var manufac = $("#txtManufacturer").val().trim();
+        var price = $("#txtPrice").val().trim();
+        var status = $("#cbo-status").find(":selected").text();
+        var description = $("#txtDescription").val();
+
+        if (checkValidForm(code, name, productseries, seriestitle, price)) {
+
+            var formModel = {
+                code : code,
+                name : name,
+                productseries : {
+                    name : productseries
+                },
+                seriestitle : {
+                    name : seriestitle
+                },
+                manufacturer : {
+                    name : manufac
+                },
+                price : price,
+                status: status,
+                description : description
+            }
+
+            $("#mi-modal").modal('show');
+            $("#modal-btn-si").on("click", function(){
+                $("#mi-modal").modal('hide');
+            });
+
+            $("#modal-btn-no").on("click", function(){
+                if (imageFiles.length > 0) {
+                    var formData = new FormData();
+
+                    $.each(imageFiles, function (idx, value) {
+                        var type = value.type.split("/")[1];
+
+                        formData.append("files", value, code + idx + "." + type);
+                        formData.append("imagetypes", $("select[id='image-type-" + value.name + "'] option:selected").text());
+                    });
+
+                    ajaxPostModel(formModel, formData);
+                } else {
+                    ajaxPostModel(formModel, null);
+                }
+
+                $("#mi-modal").modal('hide');
+            });
+        }
+    });
+
+    function ajaxPostModel(data, images) {
+        $.ajax({
+           type: "POST",
+            contentType: "application/json",
+            processData: false,
+            url: "/api/model/create",
+            data: JSON.stringify(data),
+            success: function (result) {
+               console.log(result);
+
+               if (images) {
+                   images.append("id", result.id);
+
+                   ajaxImagePost(images);
+               }
+            }, 
+            complete: function (xhr, txtStatus) {
+                if (txtStatus == "error") {
+                    $("#error").css("display", "block");
+
+                    var xhr_data = xhr.responseText;
+                    var jsonResponse = JSON.parse(xhr_data);
+                    $("#error").text(jsonResponse["message"]);
+                }
+            }
+        });
+    }
+
+    function ajaxImagePost(formData) {
+        $.ajax({
+            type: "POST",
+            contentType: false,
+            processData: false,
+            url: "/api/model/create/uploadImages",
+            data: formData,
+            success: function (result) {
+                console.log(result);
+
+                alert("Created model successfully!")
+                window.location.href = "/model/modeldetail";
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        })
+    }
+
+    function checkValidForm(code, name, productseries, seriestitle, price) {
+        var check = true;
+
+        if (!code) {
+            $("#errorcode").css("display", "block");
+            $("#errorcode").text("Please input model code")
+            check = false;
+        } else {
+            if (!code.match(/^\S*$/)) {
+                $("#errorcode").css("display", "block");
+                $("#errorcode").text("Invalid code, not allow space");
+                check = false;
+            } else {
+                $("#errorcode").css("display", "none");
+                $("#errorcode").text("");
+            }
+        }
+
+        if (!name) {
+            $("#errorname").css("display", "block");
+            $("#errorname").text("Please input model name")
+            check = false;
+        }
+
+        if (!productseries) {
+            $("#errorproductseries").css("display", "block");
+            $("#errorproductseries").text("Please input or select product series");
+            check = false;
+        } else {
+            $("#errorproductseries").css("display", "none");
+            $("#errorproductseries").text("");
+        }
+
+        if (!seriestitle) {
+            $("#errorseriestitle").css("display", "block");
+            $("#errorseriestitle").text("Please input or select series title");
+            check = false;
+        } else {
+            $("#errorseriestitle").css("display", "none");
+            $("#errorseriestitle").text("");
+        }
+
+        return check;
+    }
 })

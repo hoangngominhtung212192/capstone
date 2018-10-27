@@ -2,6 +2,7 @@ package com.tks.gwa.service.serviceImpl;
 
 import com.tks.gwa.constant.AppConstant;
 import com.tks.gwa.dto.LogCrawl;
+import com.tks.gwa.dto.Pagination;
 import com.tks.gwa.entity.*;
 import com.tks.gwa.repository.*;
 import com.tks.gwa.service.ModelService;
@@ -81,29 +82,31 @@ public class ModelServiceImpl implements ModelService {
 
                     // get current list model images
                     List<Modelimage> modelimageList = model.getModelimages();
-                    for (Modelimage modelimage : modelimageList) {
-                        // get image type by name
-                        Imagetype imagetype = processImageType(modelimage.getImagetype().getName());
+                    if (modelimageList != null) {
+                        for (Modelimage modelimage : modelimageList) {
+                            // get image type by name
+                            Imagetype imagetype = processImageType(modelimage.getImagetype().getName());
 
-                        if (imagetype != null) {
-                            // set image type to model image
-                            modelimage.setImagetype(imagetype);
+                            if (imagetype != null) {
+                                // set image type to model image
+                                modelimage.setImagetype(imagetype);
 
-                            // set modelID to modelimage
-                            Model model_for_image = new Model();
-                            model_for_image.setId(newModel.getId());
-                            modelimage.setModel(model_for_image);
+                                // set modelID to modelimage
+                                Model model_for_image = new Model();
+                                model_for_image.setId(newModel.getId());
+                                modelimage.setModel(model_for_image);
 
-                            // create new
-                            Modelimage newModelImage = modelimageRepository.createNew(modelimage);
-                            if (newModelImage != null) {
-                                System.out.println("Save image: " + newModelImage.getImageUrl() + " successfully!");
-                                // add to list new model images
-                                newModelImageList.add(newModelImage);
+                                // create new
+                                Modelimage newModelImage = modelimageRepository.createNew(modelimage);
+                                if (newModelImage != null) {
+                                    System.out.println("Save image: " + newModelImage.getImageUrl() + " successfully!");
+                                    // add to list new model images
+                                    newModelImageList.add(newModelImage);
+                                }
+                            } else {
+                                // missing image type
+                                System.out.println("Database doesn't have image type: " + modelimage.getImagetype().getName());
                             }
-                        } else {
-                            // missing image type
-                            System.out.println("Database doesn't have image type: " + modelimage.getImagetype().getName());
                         }
                     } // end for model image
 
@@ -285,5 +288,108 @@ public class ModelServiceImpl implements ModelService {
         }
 
         return listLogs;
+    }
+
+    @Override
+    public List<Object> getAllPendingModel(int pageNumber, String type) {
+
+        List<Object> result = new ArrayList<>();
+
+        int beginPage = 0;
+        int currentPage = 0;
+        int countTotal = 0;
+        int lastPage = 0;
+
+        int[] resultList = getCountResultAndLastPage(AppConstant.PAGE_SIZE);
+        countTotal = (int) resultList[0];
+        lastPage = (int) resultList[1];
+
+        if (type.equals("First")) {
+            currentPage = 1;
+        } else if (type.equals("Prev")) {
+            currentPage = pageNumber - 1;
+        } else if (type.equals("Next")) {
+            currentPage = pageNumber + 1;
+        } else if (type.equals("Last")) {
+            currentPage = lastPage;
+        } else {
+            currentPage = pageNumber;
+        }
+
+        if (currentPage <= 5) {
+            beginPage = 1;
+        } else if (currentPage % 5 != 0) {
+            beginPage = ((int) (currentPage / 5)) * 5 + 1;
+        } else {
+            beginPage = ((currentPage / 5) - 1) * 5 + 1;
+        }
+
+        Pagination pagination = new Pagination(countTotal, currentPage, lastPage, beginPage);
+        result.add(pagination);
+
+        List<Model> modelList = modelRepository.getAllPending(currentPage, AppConstant.PAGE_SIZE);
+
+        if (modelList == null) {
+            modelList = new ArrayList<Model>();
+        }
+        result.add(modelList);
+
+        return result;
+    }
+
+    @Override
+    public Model approveModel(int id) {
+
+        Model model = modelRepository.findModelByID(id);
+
+        model.setStatus("Available");
+
+        Model newModel = modelRepository.update(model);
+
+        return newModel;
+    }
+
+    @Override
+    public Model uploadModelImages(List<String> images, List<String> types, int modelID) {
+
+        Model model = new Model();
+        model.setId(modelID);
+
+        for (int i = 0; i < images.size(); i++) {
+            String typeName = types.get(i);
+
+            Imagetype imagetype = processImageType(typeName);
+
+            if (imagetype != null) {
+                Modelimage modelimage = new Modelimage();
+
+                modelimage.setImageUrl(images.get(i));
+                modelimage.setImagetype(imagetype);
+                modelimage.setModel(model);
+
+                Modelimage newModelImage = modelimageRepository.createNew(modelimage);
+                System.out.println("Create new model image: " + newModelImage.toString());
+            }
+        }
+
+        return model;
+    }
+
+    public int[] getCountResultAndLastPage(int pageSize) {
+
+        int[] listResult = new int[2];
+        int countResult = modelRepository.getCountAllPending();
+        listResult[0] = countResult;
+
+        int lastPage = 1;
+
+        if (countResult % pageSize == 0) {
+            lastPage = countResult / pageSize;
+        } else {
+            lastPage = ((countResult / pageSize) + 1);
+        }
+        listResult[1] = lastPage;
+
+        return listResult;
     }
 }

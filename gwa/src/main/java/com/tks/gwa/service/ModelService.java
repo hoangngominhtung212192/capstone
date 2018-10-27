@@ -1,5 +1,6 @@
 package com.tks.gwa.service;
 
+import com.tks.gwa.dto.LogCrawl;
 import com.tks.gwa.entity.Manufacturer;
 import com.tks.gwa.entity.Model;
 import com.tks.gwa.entity.Productseries;
@@ -37,4 +38,30 @@ public interface ModelService {
      * @return
      */
     public List<Manufacturer> getAllManufacturer();
+
+    /**
+     *
+     * @return
+     */
+    public List<LogCrawl> getLogCrawlFromFile();
+
+    /**
+     *
+     * @return
+     */
+    public List<Object> getAllPendingModel(int pageNumber, String type);
+
+    /**
+     *
+     * @return
+     */
+    public Model approveModel(int id);
+
+    /**
+     *
+     * @param images
+     * @param types
+     * @return
+     */
+    public Model uploadModelImages(List<String> images, List<String> types, int modelID);
 }

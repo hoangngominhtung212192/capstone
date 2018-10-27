@@ -181,10 +181,6 @@ public class ModelCrawl {
         return inProgress;
     }
 
-    public void setInProgress(boolean inProgress) {
-        this.inProgress = inProgress;
-    }
-
     public void editLogFile(int currentID, int records, int newRecords) {
         List<String> lines = new ArrayList<>();
         String line = null;
@@ -332,5 +328,13 @@ public class ModelCrawl {
         }
 
         return 0;
+    }
+
+    public int getRecords() {
+        return records;
+    }
+
+    public int getNewRecords() {
+        return this.parser.getNewRecords();
     }
 }

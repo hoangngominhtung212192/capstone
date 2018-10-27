@@ -7,6 +7,9 @@ public class LogCrawl {
     String numberOfRecords;
     String numberOfNewRecords;
     String status;
+    boolean inProgress;
+
+    public LogCrawl(){}
 
     public LogCrawl(int id, String crawlDateTime, String numberOfRecords, String numberOfNewRecords,String status) {
         this.id = id;
@@ -54,5 +57,13 @@ public class LogCrawl {
 
     public void setNumberOfNewRecords(String numberOfNewRecords) {
         this.numberOfNewRecords = numberOfNewRecords;
+    }
+
+    public boolean isInProgress() {
+        return inProgress;
+    }
+
+    public void setInProgress(boolean inProgress) {
+        this.inProgress = inProgress;
     }
 }

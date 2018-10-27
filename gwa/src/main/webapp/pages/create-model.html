@@ -48,7 +48,6 @@
     <link rel="stylesheet" href="/css/index/jquery.fileupload.css">
     <link rel="stylesheet" href="/css/index/jquery.fileupload-ui.css">
 
-    <!-- Google Font -->
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/create-model.js"></script>
     <style>
@@ -81,11 +80,24 @@
         });
     </script>
 </head>
-<script
-        src="/js/jquery.min.js"></script>
-<body class="hold-transition skin-blue sidebar-mini" style="font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
-    font-weight: 400;font-size: 1rem;line-height: 1.5;color: #212529;">
+<body class="hold-transition skin-blue sidebar-mini" style="font-family: 'Roboto', sans-serif;
+font-size: 14px;;font-weight: 400;line-height: 1.5;color: #212529;">
 <div id="loading" class="loading" style="display: none;">Loading&#8230;</div>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 style="margin: 0; font-weight: 700; font-size: 1.5em;
+                        " class="modal-title" id="myModalLabel">Are you sure?</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="modal-btn-si">No</button>
+                <button type="button" class="btn btn-primary" id="modal-btn-no">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="wrapper">
 
     <header class="main-header">
@@ -148,10 +160,10 @@
               </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> Create model</a></li>
-                        <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> Manage model</a></li>
-                        <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> Pending model</a></li>
-                        <li><a href="pages/UI/buttons.html"><i class="fa fa-circle-o"></i> Crawl model</a></li>
+                        <li><a href="/admin/model/create"><i class="fa fa-circle-o"></i> Create model</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Manage model</a></li>
+                        <li><a href="/admin/model/pending"><i class="fa fa-circle-o"></i> Pending model</a></li>
+                        <li><a href="/admin/model/crawl"><i class="fa fa-circle-o"></i> Crawl model</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
@@ -254,12 +266,12 @@
                                             <tbody>
                                             <tr>
                                                 <td class="label" colspan="2">Code
-                                                    <span id="errorcode" style="display: none; width: 60px;" class="error_field">
+                                                    <span id="errorcode" style="display: none; width: 100%;" class="error_field">
                                                     </span>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="data"><input class="io-txt-normal empty" style="padding: 8px;
+                                                <td class="data"><input id="txtCode" class="io-txt-normal empty" style="padding: 8px;
                                                         width: 150px;
                                                         float: left;
                                                         border: 1px solid #ccc;
@@ -272,13 +284,13 @@
                                             </tr>
                                             <tr>
                                                 <td class="label" colspan="2">Name
-                                                    <span id="errorname" style="display: none; width: 60px;"
+                                                    <span id="errorname" style="display: none; width: 100%;"
                                                           class="error_field">
                                                     </span>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="data" colspan="2"><input class="io-txt-normal empty"
+                                                <td class="data" colspan="2"><input id="txtName" class="io-txt-normal empty"
                                                                                     style="padding: 8px;
                                                         width: 230px;
                                                         float: left;
@@ -292,7 +304,7 @@
 
                                             <tr>
                                                 <td class="label" colspan="2">Product Series
-                                                    <span id="errorproductseries" style="display: none; width: 60px;"
+                                                    <span id="errorproductseries" style="display: none; width: 100%;"
                                                           class="error_field">
                                                     </span>
                                                 </td>
@@ -331,7 +343,7 @@
 
                                             <tr>
                                                 <td class="label" colspan="2">Series Title
-                                                    <span id="errorseriestitle" style="display: none; width: 60px;"
+                                                    <span id="errorseriestitle" style="display: none; width: 100%;"
                                                           class="error_field">
                                                     </span>
                                                 </td>
@@ -370,7 +382,7 @@
 
                                             <tr>
                                                 <td class="label" colspan="2">Manufacturer
-                                                    <span id="errormanufacturer" style="display: none; width: 60px;"
+                                                    <span id="errormanufacturer" style="display: none; width: 100%;"
                                                           class="error_field">
                                                     </span>
                                                 </td>
@@ -409,13 +421,13 @@
 
                                             <tr>
                                                 <td class="label" colspan="2">Price
-                                                    <span id="errorprice" style="display: none; width: 60px;"
+                                                    <span id="errorprice" style="display: none; width: 100%;"
                                                           class="error_field">
                                                     </span>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="data" colspan="2"><input class="io-txt-normal empty"
+                                                <td class="data" colspan="2"><input id="txtPrice" class="io-txt-normal empty"
                                                                                     placeholder="Price"
                                                                                     style="width: 96px;padding: 8px;
                                                     width: 98px;

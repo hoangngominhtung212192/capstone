@@ -185,7 +185,7 @@ form.forgot_password{
 .form_wrapper span.error{
 	visibility:hidden;
 	color:red;
-	font-size:11px;
+	font-size:14px;
 	font-style:italic;
 	display:block;
 	margin:4px 30px;

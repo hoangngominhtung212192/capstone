@@ -43,4 +43,13 @@ public interface WebController {
 
     @RequestMapping(value = "/admin/model/edit")
     public ModelAndView editModelPage();
+
+    @RequestMapping(value = "/admin/model/crawl")
+    public ModelAndView crawlModelPage();
+
+    @RequestMapping(value = "/admin/model/pending")
+    public ModelAndView pendingModelPage();
+
+    @RequestMapping(value = "/403")
+    public ModelAndView forbiddenPage();
 }
