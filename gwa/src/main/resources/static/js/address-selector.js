@@ -11,14 +11,16 @@ function loadLocationData(){
     });
     return obj;
 }
+var provinceSel = document.getElementById("provinceSel"),
+    districtSel = document.getElementById("districtSel"),
+    wardSel = document.getElementById("wardSel"),
+    streetName = document.getElementById("selectAddressStreetName"),
+    apartNum = document.getElementById("selectAddressDeptNum"),
+    fullAddress = document.getElementById("selectAddressFull");
+
+var wardText, districtText, provinceText, apartNumText, streetNameText;
 
 window.onload = function () {
-    var provinceSel = document.getElementById("provinceSel"),
-        districtSel = document.getElementById("districtSel"),
-        wardSel = document.getElementById("wardSel"),
-        streetName = document.getElementById("selectAddressStreetName"),
-        apartNum = document.getElementById("selectAddressDeptNum"),
-        fullAddress = document.getElementById("selectAddressFull");
 
     function updateAddressText() {
         apartNumText = apartNum.value.trim();
@@ -29,18 +31,14 @@ window.onload = function () {
         if (streetNameText.length > 0) {
             streetNameText = "Đường " + streetNameText + ", ";
         }
-        wardText = wardSel.value.trim() + ", ";
-        if (wardText.toLowerCase().startsWith("select")) {
+        wardText = wardSel.value + ", ";
+        console.log(wardText.trim());
+        districtText = districtSel.value + ", ";
+        provinceText = provinceSel.value;
+        if (wardText.trim() === ",") {
             wardText = "";
         }
-        districtText = districtSel.value.trim() + ", ";
-        if (districtText.toLowerCase().startsWith("select")) {
-            districtText = "";
-            wardText = "";
-        }
-        provinceText = provinceSel.value.trim();
-        if (provinceText.toLowerCase().startsWith("select")) {
-            provinceText = "";
+        if ((districtText.trim() === ",") || (provinceText === "")) {
             districtText = "";
             wardText = "";
         }

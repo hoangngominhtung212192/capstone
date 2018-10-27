@@ -23,17 +23,23 @@ public interface WebController {
     @RequestMapping(value = "/model/")
     public ModelAndView modelPage();
 
-    @RequestMapping(value = "/trade-market/post-new-trade")
-    public ModelAndView postNewTradePage();
-
     @RequestMapping(value = "/model/modeldetail")
     public ModelAndView modelDetailPage();
 
     @RequestMapping(value = "/user/profile")
     public ModelAndView profilePage();
 
-    @RequestMapping(value = "/create-Article")
+    @RequestMapping(value = "/article/create-article")
     public ModelAndView createArticlePage();
+
+    @RequestMapping(value = "/article")
+    public ModelAndView searchArticlePage();
+
+    @RequestMapping(value = "/article/detail")
+    public ModelAndView viewArticlePage();
+
+    @RequestMapping(value = "/article/edit")
+    public ModelAndView editArticlePage();
 
     @RequestMapping(value = "/admin/user/search")
     public ModelAndView searchAccountPage();
@@ -52,4 +58,31 @@ public interface WebController {
 
     @RequestMapping(value = "/403")
     public ModelAndView forbiddenPage();
+
+    @RequestMapping(value = "/admin/article")
+    public ModelAndView searchArticleAdminPage();
+
+    @RequestMapping(value = "/admin/article/create")
+    public ModelAndView createArticleAdminPage();
+
+    @RequestMapping(value = "/admin/article/edit")
+    public ModelAndView editArticleAdminPage();
+
+    @RequestMapping(value = "/admin/article/detail")
+    public ModelAndView viewArticleAdminPage();
+
+    @RequestMapping(value = {"/trade-market","/trade-market/trading"})
+    public ModelAndView tradepostListingPage();
+
+    @RequestMapping(value = "/trade-market/my-trade")
+    public ModelAndView myTradePage();
+
+    @RequestMapping(value = "/trade-market/my-order")
+    public ModelAndView myOrderPage();
+
+    @RequestMapping(value = "/trade-market/view-trade")
+    public ModelAndView viewTradePage();
+
+    @RequestMapping(value ={"trade-market/post-new-trade","trade-market/edit-trade"})
+    public ModelAndView addEditTradePage();
 }
