@@ -21,6 +21,7 @@ public class Tradepost implements Serializable {
     @Column(name = "`condition`")
     private int condition;
 
+    @Lob
     @Column(name = "`description`")
     private String description;
 

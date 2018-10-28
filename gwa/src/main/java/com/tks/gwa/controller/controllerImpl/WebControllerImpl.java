@@ -76,7 +76,7 @@ public class WebControllerImpl implements WebController {
     }
 
     @Override
-<<<<<<< HEAD
+
     public ModelAndView searchArticlePage() {
         return new ModelAndView("search-article");
     }
@@ -89,7 +89,8 @@ public class WebControllerImpl implements WebController {
     @Override
     public ModelAndView editArticlePage() {
         return new ModelAndView("article-edit");
-=======
+    }
+
     public ModelAndView tradepostListingPage() {
         return new ModelAndView("trade-listing");
     }
@@ -112,6 +113,5 @@ public class WebControllerImpl implements WebController {
     @Override
     public ModelAndView addEditTradePage() {
         return new ModelAndView("post-trade");
->>>>>>> f6b98532a6a5b4a70d2b578521280e73d4b1f8c7
     }
 }

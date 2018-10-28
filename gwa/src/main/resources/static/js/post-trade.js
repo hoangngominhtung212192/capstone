@@ -128,7 +128,7 @@ function authentication() {
                                 $("#noticeTitle").css("color", "green");
                                 $("#tradePostDiv").show();
                             } else {
-                                noticeTitle = "Opps! You dont have permisstion to edit this trade post!"
+                                noticeTitle = "Opps! You dont have permission to edit this trade post!"
                                 $("#noticeTitle").css("color", "orange");
                                 $("#tradePostDiv").hide();
                             }
@@ -228,8 +228,33 @@ function autoGetYourLocation() {
     waitingDialog.show('Getting your location...', {dialogSize: '', progressType: 'info'});
     setTimeout(function () {
         waitingDialog.hide();
+        getYourLocation();
     }, 2000);
     // waitingDialog.show('Dialog with callback on hidden',{onHide: function () {alert('Callback!');}});
+}
+function getYourLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        $.growl.notice({title: "Location Error", message: "Geolocation is not supported by this browser."});
+    }
+}
+function showPosition(position) {
+    var lat = position.coords.latitude;
+    var lng = position.coords.longitude;
+    var google_map_pos = new google.maps.LatLng( lat, lng );
+
+    /* Use Geocoder to get address */
+    var google_maps_geocoder = new google.maps.Geocoder();
+    google_maps_geocoder.geocode(
+        { 'latLng': google_map_pos },
+        function( results, status ) {
+            if ( status == google.maps.GeocoderStatus.OK && results[0] ) {
+                $("#traderAddress").val(results[0].formatted_address);
+
+            }
+        }
+    );
 }
 
 

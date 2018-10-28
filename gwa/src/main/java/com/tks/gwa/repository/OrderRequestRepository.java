@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface OrderRequestRepository {
     List<Orderrequest> getAllRequestByTradepostId(int TradepostId);
+    int countRequestWithStatusByTradepostId(int tradepostId, String status);
 }
