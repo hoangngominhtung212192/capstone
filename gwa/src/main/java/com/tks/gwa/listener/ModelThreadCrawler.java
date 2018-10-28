@@ -16,14 +16,19 @@ public class ModelThreadCrawler implements Runnable {
 
     @Override
     synchronized public void run() {
-        while (true) {
-            try {
-                wait(Long.parseLong(watingTime));
+        modelCrawl.crawl();
+    }
 
-                modelCrawl.crawl();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+    public boolean isInprogress() {
+        return modelCrawl.isInProgress();
+    }
+
+    public int getCrawlRecords() {
+        return modelCrawl.getRecords();
+    }
+
+    public int getNewRecords() {
+        return modelCrawl.getNewRecords();
     }
 }
+

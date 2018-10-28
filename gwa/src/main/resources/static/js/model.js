@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
     // process UI
     $(document).click(function (event) {
@@ -13,9 +13,9 @@ $(document).ready(function() {
     function authentication() {
 
         $.ajax({
-            type : "GET",
-            url : "http://localhost:8080/api/user/checkLogin",
-            complete : function(xhr, status) {
+            type: "GET",
+            url: "http://localhost:8080/api/user/checkLogin",
+            complete: function (xhr, status) {
 
                 if (status == "success") {
                     // username click
@@ -34,9 +34,12 @@ $(document).ready(function() {
                     // click profile button
                     profileClick(accountID);
 
+                    // execute UI
                     $("#username").text(username)
                     $("#username").css("display", "block");
-                    $("#thumbAvatar").attr("src", thumbAvatar);
+                    if (thumbAvatar) {
+                        $("#thumbAvatar").attr("src", thumbAvatar);
+                    }
                     $(".dropdown-menu-custom-profile").css("display", "block");
                     $(".dropdown-menu-custom-logout").css("display", "block");
                 } else {
@@ -58,9 +61,9 @@ $(document).ready(function() {
 
     function ajaxLogout() {
         $.ajax({
-            type : "GET",
-            url : "http://localhost:8080/api/user/logout",
-            success : function(result) {
+            type: "GET",
+            url: "http://localhost:8080/api/user/logout",
+            success: function (result) {
                 window.location.href = "http://localhost:8080/login";
             }
         });

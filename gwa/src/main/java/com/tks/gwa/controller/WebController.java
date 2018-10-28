@@ -51,6 +51,27 @@ public interface WebController {
     public ModelAndView editModelPage();
 
 
+    @RequestMapping(value = "/admin/model/crawl")
+    public ModelAndView crawlModelPage();
+
+    @RequestMapping(value = "/admin/model/pending")
+    public ModelAndView pendingModelPage();
+
+    @RequestMapping(value = "/403")
+    public ModelAndView forbiddenPage();
+
+    @RequestMapping(value = "/admin/article")
+    public ModelAndView searchArticleAdminPage();
+
+    @RequestMapping(value = "/admin/article/create")
+    public ModelAndView createArticleAdminPage();
+
+    @RequestMapping(value = "/admin/article/edit")
+    public ModelAndView editArticleAdminPage();
+
+    @RequestMapping(value = "/admin/article/detail")
+    public ModelAndView viewArticleAdminPage();
+
     @RequestMapping(value = {"/trade-market","/trade-market/trading"})
     public ModelAndView tradepostListingPage();
 

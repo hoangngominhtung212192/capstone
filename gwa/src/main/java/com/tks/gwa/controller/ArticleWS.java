@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/api/user")
 public interface ArticleWS {
     @RequestMapping(value = "/createArticle", method = RequestMethod.POST)
-    ResponseEntity<String> createArticle(@RequestBody Article article);
+    ResponseEntity<Article> createArticle(@RequestBody Article article);
 
     @RequestMapping(value = "/searchArticle", method = RequestMethod.POST)
     ResponseEntity<List<Article>> searchArticle(@RequestBody String title);
@@ -30,7 +30,7 @@ public interface ArticleWS {
     ResponseEntity<String> deleteArticle(@RequestBody Article article);
 
     @RequestMapping(value = "/getAllArticle", method = RequestMethod.POST)
-    ResponseEntity<List<Article>> searchArticle();
+    ResponseEntity<List<Article>> searchAllArticle();
 
     @RequestMapping(value = "/changeStatusOneArticle", method = RequestMethod.POST)
     ResponseEntity<Article> changeStatusArticle(@RequestBody Integer id, String status);

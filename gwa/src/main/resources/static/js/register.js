@@ -42,9 +42,9 @@ $(document).ready(function () {
                 $("#errorusername").css("visibility", "visible");
                 $("#errorusername").text("Please input valid string");
                 check = false;
-            } else if (username.length > 50) {
+            } else if (username.length > 50 || username.length < 3) {
                 $("#errorusername").css("visibility", "visible");
-                $("#errorusername").text("Out of range, maximum: 50 characters");
+                $("#errorusername").text("Out of range, maximum: 50 characters, minimum: 3 characters");
                 check = false;
             } else {
                 $("#errorusername").css("visibility", "hidden");
@@ -53,18 +53,18 @@ $(document).ready(function () {
 
         var firstname = $("#firstName").val().trim();
 
-        if (!firstName) {
+        if (!firstname) {
             $("#errorfirstname").css("visibility", "visible");
             $("#errorfirstname").text("Please input empty field");
             check = false;
         } else {
-            if (!firstName.match("[A-Za-z\\s]+")) {
+            if (!firstname.match("[A-Za-z\\s]+")) {
                 $("#errorfirstname").css("visibility", "visible");
                 $("#errorfirstname").text("Please input valid string");
                 check = false;
-            } else if (firstName.length > 50) {
+            } else if (firstname.length > 50 || firstname.length < 3) {
                 $("#errorfirstname").css("visibility", "visible");
-                $("#errorfirstname").text("Out of range, maximum: 50 characters");
+                $("#errorfirstname").text("Out of range, maximum: 50 characters, minimum: 3 characters");
                 check = false;
             } else {
                 $("#errorfirstname").css("visibility", "hidden");
@@ -82,9 +82,9 @@ $(document).ready(function () {
                 $("#errorlastname").css("visibility", "visible");
                 $("#errorlastname").text("Please input valid string");
                 check = false;
-            } else if (lastname.length > 50) {
+            } else if (lastname.length > 50 || lastname.length < 3) {
                 $("#errorlastname").css("visibility", "visible");
-                $("#errorlastname").text("Out of range, maximum: 50 characters");
+                $("#errorlastname").text("Out of range, maximum: 50 characters, minimum: 3 characters");
                 check = false;
             } else {
                 $("#errorlastname").css("visibility", "hidden");
@@ -118,9 +118,9 @@ $(document).ready(function () {
             $("#errorpassword").text("Please input empty field");
             check = false;
         } else {
-            if (password.length > 50) {
+            if (password.length > 50 || password.length < 6) {
                 $("#errorpassword").css("visibility", "visible");
-                $("#errorpassword").text("Out of range, maximum: 50 characters");
+                $("#errorpassword").text("Out of range, maximum: 50 characters, minimum: 6 characters");
                 check = false;
             } else {
                 $("#errorpassword").css("visibility", "hidden");
@@ -165,7 +165,7 @@ $(document).ready(function () {
             data : JSON.stringify(data),
             success : function(result, status) {
                 alert("Register successfully !")
-                console("New profile is created successfully with identifier: " + result.id);
+                console.log("New profile is created successfully with identifier: " + result.id);
 
                 window.location.href = "/login";
             },

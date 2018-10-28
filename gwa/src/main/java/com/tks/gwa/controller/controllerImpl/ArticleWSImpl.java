@@ -21,7 +21,7 @@ public class ArticleWSImpl implements ArticleWS {
     ArticleService articleService;
 
     @Override
-    public ResponseEntity<String> createArticle(@RequestBody Article article) {
+    public ResponseEntity<Article> createArticle(@RequestBody Article article) {
         System.out.println("----Adding article with title:" + article.getTitle());
         article.setApprovalStatus("APPROVED");
         article.setCategory("news");
@@ -39,7 +39,7 @@ public class ArticleWSImpl implements ArticleWS {
 
         Article newarticle = articleService.createArticle(article);
 
-        return ResponseEntity.ok("Successful!");
+        return new ResponseEntity<Article>(newarticle, HttpStatus.OK);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class ArticleWSImpl implements ArticleWS {
     }
 
     @Override
-    public ResponseEntity<List<Article>> searchArticle() {
+    public ResponseEntity<List<Article>> searchAllArticle() {
         List<Article> result = articleService.getAllArticle();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

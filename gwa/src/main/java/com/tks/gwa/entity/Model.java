@@ -35,6 +35,9 @@ public class Model implements Serializable {
     @Column(name = "status")
     private String status;
 
+    @Transient
+    private String message;
+
     //bi-directional many-to-one association to Manufacturer
     @ManyToOne
     @JoinColumn(name="manufacturerid")
@@ -51,7 +54,7 @@ public class Model implements Serializable {
     private Seriestitle seriestitle;
 
     //bi-directional many-to-one association to Modelimage
-    @OneToMany(mappedBy="model")
+    @Transient
     private List<Modelimage> modelimages;
 
     public Model(){}
@@ -150,5 +153,13 @@ public class Model implements Serializable {
 
     public void setModelimages(List<Modelimage> modelimages) {
         this.modelimages = modelimages;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

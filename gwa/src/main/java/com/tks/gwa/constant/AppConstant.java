@@ -2,19 +2,11 @@ package com.tks.gwa.constant;
 
 public class AppConstant {
 
-    public static final String[] listModelCrawlUrls = {"https://www.1999.co.jp/eng/list/678/0/1",
+    public static final String[] listModelCrawlUrls = {"https://www.1999.co.jp/eng/list/678/0/1"/*,
     "https://www.1999.co.jp/eng/list/679/0/1", "https://www.1999.co.jp/eng/list/680/0/1",
-    "https://www.1999.co.jp/eng/list/681/0/1"};
+    "https://www.1999.co.jp/eng/list/681/0/1"*/};
 
     public static final String URL_GUNDAM_HOME_PAGE_CRAWL = "https://www.1999.co.jp";
-
-//    public static final String URL_GUNDAM_MASTER_GRADE = "https://www.1999.co.jp/eng/list/678/0/1";
-
-//    public static final String URL_GUNDAM_HIGH_GRADE = "https://www.1999.co.jp/eng/list/679/0/1";
-
-//    public static final String URL_GUNDAM_PERFECT_GRADE = "https://www.1999.co.jp/eng/list/680/0/1";
-
-//    public static final String URL_GUNDAM_REAL_GRADE = "https://www.1999.co.jp/eng/list/681/0/1";
 
     public static final String URL_GUNDAM_MODELS_PAGE_BEGIN_SIGN = "list_kensu08";
 
@@ -63,4 +55,6 @@ public class AppConstant {
     }
 
     public static final String LOG_FILE_MODEL_CRAWL = "./crawlmodel.dat";
+
+    public static final int PAGE_SIZE = 24;
 }

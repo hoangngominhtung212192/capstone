@@ -71,7 +71,9 @@ $(document).ready(function () {
                     // display username, profile and logout button
                     $("#username").text(username)
                     $("#username").css("display", "block");
-                    $("#thumbAvatar").attr("src", thumbAvatar);
+                    if (thumbAvatar) {
+                        $("#thumbAvatar").attr("src", thumbAvatar);
+                    }
                     $(".dropdown-menu-custom-profile").css("display", "block");
                     $(".dropdown-menu-custom-logout").css("display", "block");
 
@@ -165,7 +167,7 @@ $(document).ready(function () {
         if (account_profile_on_page_id == account_session_id) {
             $("#editBtn").css("display", "block");
         } else {
-            $("#editBtn").css("display", "none");
+            window.location.href = "/403";
         }
         if (role_session == "ADMIN") {
             $("#editBtn").css("display", "block");
@@ -519,8 +521,8 @@ $(document).ready(function () {
         setTimeout(function () {
             if (result.avatar != null) {
                 $("#avatar").attr("src", result.avatar);
-                $("#loading").css("display", "none");
             }
+            $("#loading").css("display", "none");
         }, 500);
 
         $("#usernameTitle").text(result.account.username);

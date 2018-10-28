@@ -17,7 +17,7 @@ $(document).ready(function () {
                     if (role == "MEMBER") {
                         window.location.href = "/model/"
                     } else if (role == "ADMIN") {
-                        window.location.href = "/admin/model/create";
+                        window.location.href = "/admin/model/crawl";
                     }
                 } else {
                     console.log("Guest is accessing !");
