@@ -11,26 +11,16 @@ public class MyTradeDTO {
     private int numOfPendingRequest;
     private int numOfOnPaymentRequest;
     private String thumbnail;
-    private int totalPage;
 
     public MyTradeDTO() {
     }
 
-    public MyTradeDTO(Tradepost myTradePost, int numOfSucceedRequest, int numOfPendingRequest, int numOfOnPaymentRequest, String thumbnail, int totalPage) {
+    public MyTradeDTO(Tradepost myTradePost, int numOfSucceedRequest, int numOfPendingRequest, int numOfOnPaymentRequest, String thumbnail) {
         this.myTradePost = myTradePost;
         this.numOfSucceedRequest = numOfSucceedRequest;
         this.numOfPendingRequest = numOfPendingRequest;
         this.numOfOnPaymentRequest = numOfOnPaymentRequest;
         this.thumbnail = thumbnail;
-        this.totalPage = totalPage;
-    }
-
-    public int getTotalPage() {
-        return totalPage;
-    }
-
-    public void setTotalPage(int totalPage) {
-        this.totalPage = totalPage;
     }
 
     public Tradepost getMyTradePost() {

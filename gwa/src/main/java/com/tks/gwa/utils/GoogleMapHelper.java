@@ -11,7 +11,7 @@ import java.io.IOException;
 public class GoogleMapHelper {
     private static final String API_KEY = "AIzaSyASrDg7CwB0GQ_XGzWfbkP4RUE_31YCy1M";
     private static final GeoApiContext context = new GeoApiContext.Builder().apiKey(API_KEY).build();
-    private static final int R = 6378137; // R is earth’s radius (mean radius = 6,371km)
+    private static final int R = 6378137; // R is earthâ€™s radius (mean radius = 6,371km)
 
     public static LatLng getLatLngFromAddress(String address) {
         LatLng p = null;
@@ -30,15 +30,15 @@ public class GoogleMapHelper {
 
     /**
      * This is the implementation Haversine Distance Algorithm between two places
-     * R = earth’s radius (mean radius = 6,371km)
-     * Δlat = lat2− lat1
-     * Δlong = long2− long1
-     * a = sin²(Δlat/2) + cos(lat1).cos(lat2).sin²(Δlong/2)
-     * c = 2.atan2(√a, √(1−a))
+     * R = earthâ€™s radius (mean radius = 6,371km)
+     * Î”lat = lat2âˆ’ lat1
+     * Î”long = long2âˆ’ long1
+     * a = sinÂ²(Î”lat/2) + cos(lat1).cos(lat2).sinÂ²(Î”long/2)
+     * c = 2.atan2(âˆša, âˆš(1âˆ’a))
      * d = R.c
      */
 
-    public static double calculateDistanceBetweenTwoPoint(LatLng from, LatLng to) {
+    public static long calculateDistanceBetweenTwoPoint(LatLng from, LatLng to) {
         Double latDistance = toRad(to.lat - from.lat);
         Double lngDistance = toRad(to.lng - from.lng);
         Double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) +
@@ -47,7 +47,7 @@ public class GoogleMapHelper {
         Double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         Double distance = R * c;
 
-        return distance;
+        return Math.round(distance);
     }
 
     private static Double toRad(Double value) {
