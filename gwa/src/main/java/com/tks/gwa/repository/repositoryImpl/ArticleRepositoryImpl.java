@@ -100,4 +100,19 @@ public class ArticleRepositoryImpl extends GenericRepositoryImpl<Article, Intege
         return lista;
     }
 
+    @Override
+    public List<Article> getTop5ArticleByModelName(String modelName) {
+
+        String sql = "SELECT a FROM " + Article.class.getName() + " AS a WHERE a.title LIKE :modelName AND a.approvalStatus=" +
+                "'approved' ORDER BY a.date DESC";
+
+        Query query = this.entityManager.createQuery(sql);
+        query.setParameter("modelName", "%" + modelName + "%");
+        query.setMaxResults(5);
+
+        List<Article> result = query.getResultList();
+
+        return result;
+    }
+
 }

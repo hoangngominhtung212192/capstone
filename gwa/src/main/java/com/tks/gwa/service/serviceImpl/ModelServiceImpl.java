@@ -2,10 +2,13 @@ package com.tks.gwa.service.serviceImpl;
 
 import com.tks.gwa.constant.AppConstant;
 import com.tks.gwa.dto.LogCrawl;
+import com.tks.gwa.dto.ModelDTO;
+import com.tks.gwa.dto.ModelSDTO;
 import com.tks.gwa.dto.Pagination;
 import com.tks.gwa.entity.*;
 import com.tks.gwa.repository.*;
 import com.tks.gwa.service.ModelService;
+import com.tks.gwa.utils.StringHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,80 +45,120 @@ public class ModelServiceImpl implements ModelService {
     @Autowired
     private ModelimageRepository modelimageRepository;
 
+    @Autowired
+    private ModelratingRepository modelratingRepository;
+
+    @Autowired
+    private ProfileRepository profileRepository;
+
+    @Autowired
+    private TradepostRepository tradepostRepository;
+
+    @Autowired
+    private ArticleRepository articleRepository;
+
     @Override
     public Model createNewModel(Model model, String status) {
 
         if (model.getProductseries() != null && model.getCode() != null && model.getSeriestitle() != null) {
-            if (!checkExistedModel(model.getName())) {
-                // check exist manu or create new
-                String manufacturer_name = model.getManufacturer().getName();
-                Manufacturer manufacturer = processManufacturer(manufacturer_name);
-                model.setManufacturer(manufacturer);
+            // check existed code
+            if (!checkExistedCode(model.getCode())) {
+                // check existed model
+                String hashMD5 = hashMD5(model.getName(), model.getManufacturer().getName(), model.getProductseries().getName(),
+                        model.getSeriestitle().getName());
+                List<String> md5List = modelRepository.getAllMd5HashValues();
 
-                // check exist product series or create new
-                String productseries_name = model.getProductseries().getName();
-                Productseries productseries = processProductseries(productseries_name);
-                model.setProductseries(productseries);
+                if (!checkExistedModel(hashMD5, md5List)) {
+                    // set md5 hash value
+                    model.setMd5Hash(hashMD5);
 
-                // check exist series title or create new
-                String seriestitle_name = model.getSeriestitle().getName();
-                Seriestitle seriestitle = processSeriestitle(seriestitle_name);
-                model.setSeriestitle(seriestitle);
+                    // check exist manu or create new
+                    String manufacturer_name = model.getManufacturer().getName();
+                    Manufacturer manufacturer = processManufacturer(manufacturer_name);
+                    model.setManufacturer(manufacturer);
 
-                // set current date time
-                String currentDateTime = getCurrentTimeStamp();
-                model.setCreatedDate(currentDateTime);
+                    // check exist product series or create new
+                    String productseries_name = model.getProductseries().getName();
+                    Productseries productseries = processProductseries(productseries_name);
+                    model.setProductseries(productseries);
 
-                // set default status for admin to approve
-                if (status.equalsIgnoreCase("crawl")) {
-                    model.setStatus(AppConstant.CRAWL_PENDING);
-                }
+                    // check exist series title or create new
+                    String seriestitle_name = model.getSeriestitle().getName();
+                    Seriestitle seriestitle = processSeriestitle(seriestitle_name);
+                    model.setSeriestitle(seriestitle);
 
-                // create new entity model
-                Model newModel = modelRepository.addNewModel(model);
+                    // set current date time
+                    String currentDateTime = getCurrentTimeStamp();
+                    model.setCreatedDate(currentDateTime);
 
-                if (newModel != null) {
-                    // to save all new model images which are saved to database
-                    List<Modelimage> newModelImageList = new ArrayList<Modelimage>();
+                    // set default status for admin to approve
+                    if (status.equalsIgnoreCase("crawl")) {
+                        model.setStatus(AppConstant.CRAWL_PENDING);
+                    }
 
-                    System.out.println("Save model code: " + newModel.getCode() + " successfully!");
+                    // set default rating
+                    model.setNumberOfRating(0);
+                    model.setNumberOfRater(0);
 
-                    // get current list model images
-                    List<Modelimage> modelimageList = model.getModelimages();
-                    if (modelimageList != null) {
-                        for (Modelimage modelimage : modelimageList) {
-                            // get image type by name
-                            Imagetype imagetype = processImageType(modelimage.getImagetype().getName());
+                    // create new entity model
+                    Model newModel = modelRepository.addNewModel(model);
 
-                            if (imagetype != null) {
-                                // set image type to model image
-                                modelimage.setImagetype(imagetype);
+                    if (newModel != null) {
+                        // to save all new model images which are saved to database
+                        List<Modelimage> newModelImageList = new ArrayList<Modelimage>();
 
-                                // set modelID to modelimage
-                                Model model_for_image = new Model();
-                                model_for_image.setId(newModel.getId());
-                                modelimage.setModel(model_for_image);
+                        System.out.println("Save model code: " + newModel.getCode() + " successfully!");
+                        System.out.println("New model is saved with MD5 hash value: " + newModel.getMd5Hash());
 
-                                // create new
-                                Modelimage newModelImage = modelimageRepository.createNew(modelimage);
-                                if (newModelImage != null) {
-                                    System.out.println("Save image: " + newModelImage.getImageUrl() + " successfully!");
-                                    // add to list new model images
-                                    newModelImageList.add(newModelImage);
+                        // get current list model images
+                        List<Modelimage> modelimageList = model.getModelimages();
+                        if (modelimageList != null) {
+                            for (Modelimage modelimage : modelimageList) {
+                                // get image type by name
+                                Imagetype imagetype = processImageType(modelimage.getImagetype().getName());
+
+                                if (imagetype != null) {
+                                    // set image type to model image
+                                    modelimage.setImagetype(imagetype);
+
+                                    // set modelID to modelimage
+                                    Model model_for_image = new Model();
+                                    model_for_image.setId(newModel.getId());
+                                    modelimage.setModel(model_for_image);
+
+                                    // create new
+                                    Modelimage newModelImage = modelimageRepository.createNew(modelimage);
+                                    if (newModelImage != null) {
+                                        System.out.println("Save image: " + newModelImage.getImageUrl() + " successfully!");
+                                        // add to list new model images
+                                        newModelImageList.add(newModelImage);
+                                    }
+                                } else {
+                                    // missing image type
+                                    System.out.println("Database doesn't have image type: " + modelimage.getImagetype().getName());
                                 }
-                            } else {
-                                // missing image type
-                                System.out.println("Database doesn't have image type: " + modelimage.getImagetype().getName());
                             }
-                        }
-                    } // end for model image
+                        } // end for model image
 
-                    // set list new model images
-                    newModel.setModelimages(newModelImageList);
+                        // set list new model images
+                        newModel.setModelimages(newModelImageList);
 
-                    // return
-                    return newModel;
+                        // return
+                        return newModel;
+                    }
+                } else {
+                    Model responseModel = new Model();
+                    responseModel.setMessage("This model has been existed");
+                    System.out.println("This model has been existed");
+
+                    return responseModel;
                 }
+            } else {
+                Model responseModel = new Model();
+                responseModel.setMessage("Model's code " + model.getCode() + " has been existed");
+                System.out.println("Model's code " + model.getCode() + " has been existed");
+
+                return responseModel;
             }
         }
 
@@ -156,16 +199,41 @@ public class ModelServiceImpl implements ModelService {
         return manufacturerList;
     }
 
-    public boolean checkExistedModel(String name) {
+    public boolean checkExistedCode(String code) {
         // if existed
-        if (modelRepository.findModelByName(name) != null) {
-            System.out.println("Model " + name + " has been existed!");
-
+        if (modelRepository.findModelByCode(code) != null) {
             return true;
         }
 
         // not exist
         return false;
+    }
+
+    public boolean checkExistedModel(String md5Hash, List<String> md5List) {
+        // if existed
+        if (md5Hash != null && md5List != null) {
+
+            for (int i = 0; i < md5List.size(); i++) {
+                if (md5List.get(i).equals(md5Hash)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public String hashMD5(String name, String manufacturer, String productseries, String seriestitle) {
+
+        if (manufacturer == null) {
+            manufacturer = "";
+        }
+
+        String input = name + manufacturer + productseries + seriestitle;
+
+        String md5 = StringHelper.hashMd5(input);
+
+        return md5;
     }
 
     // check exist or create new
@@ -300,7 +368,7 @@ public class ModelServiceImpl implements ModelService {
         int countTotal = 0;
         int lastPage = 0;
 
-        int[] resultList = getCountResultAndLastPage(AppConstant.PAGE_SIZE);
+        int[] resultList = getCountResultAndLastPagePending(AppConstant.PAGE_SIZE);
         countTotal = (int) resultList[0];
         lastPage = (int) resultList[1];
 
@@ -375,7 +443,415 @@ public class ModelServiceImpl implements ModelService {
         return model;
     }
 
-    public int[] getCountResultAndLastPage(int pageSize) {
+    @Override
+    public ModelDTO findModelByID(int id) {
+        Model model = modelRepository.findModelByID(id);
+
+        if (model != null) {
+            List<Modelimage> modelimageList = modelimageRepository.findImagesByModelID(id);
+
+            ModelDTO modelDTO = new ModelDTO();
+            modelDTO.setModel(model);
+            modelDTO.setModelimageList(modelimageList);
+
+            return modelDTO;
+        }
+
+        return null;
+    }
+
+    @Override
+    public ModelSDTO searchModel(ModelSDTO modelSDTO) {
+
+        List<ModelDTO> modelDTOList = new ArrayList<ModelDTO>();
+
+        Pagination currentPagination = modelSDTO.getPagination();
+        String type = currentPagination.getType();
+        int pageNumber = currentPagination.getCurrentPage();
+
+        int beginPage = 0;
+        int currentPage = 0;
+        int countTotal = 0;
+        int lastPage = 0;
+
+        int[] resultList = getCounResultAndLastPageSearch(AppConstant.PAGE_SIZE, modelSDTO);
+        countTotal = (int) resultList[0];
+        lastPage = (int) resultList[1];
+
+        // calculate current page if have type
+        if (type.equals("First")) {
+            currentPage = 1;
+        } else if (type.equals("Prev")) {
+            currentPage = pageNumber - 1;
+        } else if (type.equals("Next")) {
+            currentPage = pageNumber + 1;
+        } else if (type.equals("Last")) {
+            currentPage = lastPage;
+        } else {
+            currentPage = pageNumber;
+        }
+
+        // calculate beginPage
+        if (currentPage <= 5) {
+            beginPage = 1;
+        } else if (currentPage % 5 != 0) {
+            beginPage = ((int) (currentPage / 5)) * 5 + 1;
+        } else {
+            beginPage = ((currentPage / 5) - 1) * 5 + 1;
+        }
+
+        // re-caculate pagination
+        Pagination new_pagination = new Pagination(countTotal, currentPage, lastPage, beginPage);
+        System.out.println("Total: " + countTotal);
+        System.out.println("Current Page: " + currentPage);
+        System.out.println("Last page: " + lastPage);
+        System.out.println("Begin page: " + beginPage);
+
+        // set new calculated pagination
+        modelSDTO.setPagination(new_pagination);
+
+        // this is magic
+        List<Model> result = modelRepository.searchModel(modelSDTO);
+
+        // get thumbImage
+        for (int i = 0; i < result.size(); i++) {
+            ModelDTO dto = new ModelDTO();
+
+            Model model = result.get(i);
+            List<Modelimage> modelimageList = modelimageRepository.findImagesByModelID(model.getId());
+            // set the first image in galery to be thumbImage
+            if (modelimageList.size() > 0) {
+                String thumbImage = getThumbImage(modelimageList, "Package");
+
+                if (thumbImage == null) {
+                    thumbImage = getThumbImage(modelimageList, "Item picture");
+
+                    if (thumbImage == null) {
+                        thumbImage = getThumbImage(modelimageList, "Other picture");
+
+                        if (thumbImage == null) {
+                            thumbImage = getThumbImage(modelimageList, "Contents");
+
+                            if (thumbImage == null) {
+                                thumbImage = getThumbImage(modelimageList, "About item");
+
+                                if (thumbImage == null) {
+                                    thumbImage = getThumbImage(modelimageList, "Color");
+
+                                    if (thumbImage == null) {
+                                        thumbImage = getThumbImage(modelimageList, "Assembly guide");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                model.setThumbImage(thumbImage);
+            } else {
+                // set default image
+                model.setThumbImage("https://www.1999.co.jp/itbig00/10009254.jpg");
+            }
+
+            // set model
+            dto.setModel(model);
+            // add to list dtos
+            modelDTOList.add(dto);
+        }
+
+        modelSDTO.setModelDTOList(modelDTOList);
+
+        return modelSDTO;
+    }
+
+    @Override
+    public Model updateModel(Model model) {
+
+        boolean checkExistMd5 = false;
+
+        // check existed model
+        String hashMD5 = hashMD5(model.getName(), model.getManufacturer().getName(), model.getProductseries().getName(),
+                model.getSeriestitle().getName());
+        Model checkExist_Model = modelRepository.getModelByMD5(hashMD5);
+
+        // check exist
+        if (checkExist_Model != null) {
+            if (checkExist_Model.getId() != model.getId()) {
+                checkExistMd5 = true;
+            }
+        }
+
+        // if not exist
+        if (!checkExistMd5) {
+            // set md5 hash value
+            model.setMd5Hash(hashMD5);
+
+            // check exist manu or create new
+            String manufacturer_name = model.getManufacturer().getName();
+            Manufacturer manufacturer = processManufacturer(manufacturer_name);
+            model.setManufacturer(manufacturer);
+
+            // check exist product series or create new
+            String productseries_name = model.getProductseries().getName();
+            Productseries productseries = processProductseries(productseries_name);
+            model.setProductseries(productseries);
+
+            // check exist series title or create new
+            String seriestitle_name = model.getSeriestitle().getName();
+            Seriestitle seriestitle = processSeriestitle(seriestitle_name);
+            model.setSeriestitle(seriestitle);
+
+            // create new entity model
+            Model updatedModel = modelRepository.editModel(model);
+
+            if (updatedModel != null) {// to save all new model images which are saved to database
+                return updatedModel;
+            }
+        } else {
+            Model responseModel = new Model();
+            responseModel.setMessage("This model has been existed");
+            System.out.println("This model has been existed");
+
+            return responseModel;
+        }
+
+        return null;
+    }
+
+    @Override
+    public void updatedImage(List<Modelimage> modelimageList) {
+
+        for (int i = 0; i < modelimageList.size(); i++) {
+            Modelimage modelimage = modelimageRepository.findImagesByUrl(modelimageList.get(i).getImageUrl());
+
+            if (modelimage != null) {
+                Imagetype imagetype = imagetypeRepository.findByName(modelimageList.get(i).getImagetype().getName());
+                modelimage.setImagetype(imagetype);
+
+                modelimageRepository.update(modelimage);
+            }
+        }
+
+    }
+
+    @Override
+    public void deleteImage(List<Modelimage> modelimageList) {
+
+        for (int i = 0; i < modelimageList.size(); i++) {
+            // delete file image at server
+            if (modelimageList.get(i).getImageUrl().contains("downloadFile/")) {
+                String[] imageUrlSplit = modelimageList.get(i).getImageUrl().split("/");
+                String imageName = imageUrlSplit[imageUrlSplit.length - 1];
+
+                File file = new File("./uploads/" + imageName);
+                if (file.delete()) {
+                    System.out.println("Deleted file " + imageName);
+                } else {
+                    System.out.println("File " + imageName + " does not exist!");
+                }
+            }
+
+            // delete images in database
+            Modelimage modelimage = modelimageRepository.findImagesByUrl(modelimageList.get(i).getImageUrl());
+            if (modelimage != null) {
+                modelimageRepository.delete(modelimage);
+                System.out.println("Delete model image in database: " + modelimage);
+            }
+        }
+
+    }
+
+    @Override
+    public Modelrating checkExistRating(int modelID, int accountID) {
+
+        Model model = new Model();
+        model.setId(modelID);
+
+        Account account = new Account();
+        account.setId(accountID);
+
+        Modelrating responseModelrating = modelratingRepository.checkExistRating(model, account);
+
+        return responseModelrating;
+    }
+
+    @Override
+    public void createModelRating(Modelrating modelrating) {
+
+        if (modelrating != null) {
+            String date = getCurrentTimeStamp();
+            modelrating.setDate(date);
+
+            modelratingRepository.create(modelrating);
+
+            // update numberOfRater, numberOfRating
+            Model model = modelRepository.findModelByID(modelrating.getModel().getId());
+
+            // plus one rater
+            int numberOfRater = model.getNumberOfRater() + 1;
+            model.setNumberOfRater(numberOfRater);
+
+            // plus number of ratings
+            int numberOfRating = model.getNumberOfRating() + modelrating.getRating();
+            model.setNumberOfRating(numberOfRating);
+            modelRepository.update(model);
+        }
+
+    }
+
+    @Override
+    public List<Object> getAllModelRatingByModelID(int pageNumber, int modelID) {
+
+        List<Object> result = new ArrayList<>();
+
+        Model model = new Model();
+        model.setId(modelID);
+
+        int total = modelratingRepository.getCountModelRatingByModelID(model);
+
+        if (total > 0) {
+            int lastPage = 0;
+
+            if (total % 10 == 0) {
+                lastPage = total / 10;
+            } else {
+                lastPage = ((total / 10) + 1);
+            }
+
+            result.add(lastPage);
+
+            List<Modelrating> modelratingList = modelratingRepository.getListModelRating(pageNumber, model);
+            if (modelratingList != null) {
+                for (int i = 0; i < modelratingList.size(); i++) {
+                    Profile profile = profileRepository.findProfileByAccountID(modelratingList.get(i).getAccount().getId());
+                    modelratingList.get(i).getAccount().setAvatar(profile.getAvatar());
+                }
+                
+                result.add(modelratingList);
+
+                return result;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<Tradepost> getRelatedTradepost(String modelName) {
+
+        List<Tradepost> result = new ArrayList<>();
+
+        boolean checkEnough = false;
+
+        if (modelName != null) {
+            int total = tradepostRepository.getCountAll();
+
+            // similarity algorithm
+            if (total > 0) {
+                int lastPage = 1;
+
+                if (total % 50 == 0) {
+                    lastPage = total / 50;
+                } else {
+                    lastPage = ((total / 50) + 1);
+                }
+
+                for (int i = 1; i <= lastPage && !checkEnough; i++) {
+                    List<Tradepost> tradepostList = tradepostRepository.get50TradePost(i, 50);
+
+                    for (int j = 0; j < tradepostList.size() && !checkEnough; j++) {
+                        // 70% matching
+                        if (StringHelper.similarity(modelName, tradepostList.get(j).getModel()) >= 0.7) {
+                            // log to console
+                            System.out.println("");
+                            System.out.println("Similarity between " + modelName + " vs " + tradepostList.get(j).getModel() + ": "
+                            + StringHelper.similarity(modelName, tradepostList.get(j).getModel()));
+
+                            result.add(tradepostList.get(j));
+
+                            if (result.size() == 5) {
+                                checkEnough = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<Model> getTop5Rating() {
+
+        List<Model> result = modelRepository.getTop5Rating();
+
+        // get thumbImage
+        for (int i = 0; i < result.size(); i++) {
+
+            Model model = result.get(i);
+            List<Modelimage> modelimageList = modelimageRepository.findImagesByModelID(model.getId());
+            // set the first image in galery to be thumbImage
+            if (modelimageList.size() > 0) {
+                String thumbImage = getThumbImage(modelimageList, "Package");
+
+                if (thumbImage == null) {
+                    thumbImage = getThumbImage(modelimageList, "Item picture");
+
+                    if (thumbImage == null) {
+                        thumbImage = getThumbImage(modelimageList, "Other picture");
+
+                        if (thumbImage == null) {
+                            thumbImage = getThumbImage(modelimageList, "Contents");
+
+                            if (thumbImage == null) {
+                                thumbImage = getThumbImage(modelimageList, "About item");
+
+                                if (thumbImage == null) {
+                                    thumbImage = getThumbImage(modelimageList, "Color");
+
+                                    if (thumbImage == null) {
+                                        thumbImage = getThumbImage(modelimageList, "Assembly guide");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                result.get(i).setThumbImage(thumbImage);
+            } else {
+                // set default image
+                result.get(i).setThumbImage("https://www.1999.co.jp/itbig00/10009254.jpg");
+            }
+
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<Article> getTop5ArticleByModelName(String modelName) {
+
+        List<Article> articleList = articleRepository.getTop5ArticleByModelName(modelName);
+
+        return articleList;
+    }
+
+    public String getThumbImage(List<Modelimage> modelimageList, String imagetype) {
+
+        for (int i = 0; i < modelimageList.size(); i++) {
+            if (modelimageList.get(i).getImagetype().getName().equalsIgnoreCase(imagetype)) {
+                return modelimageList.get(i).getImageUrl();
+            }
+        }
+
+        return null;
+    }
+
+    public int[] getCountResultAndLastPagePending(int pageSize) {
 
         int[] listResult = new int[2];
         int countResult = modelRepository.getCountAllPending();
@@ -392,4 +868,23 @@ public class ModelServiceImpl implements ModelService {
 
         return listResult;
     }
+
+    public int[] getCounResultAndLastPageSearch(int pageSize, ModelSDTO modelSDTO) {
+        int[] listResult = new int[2];
+        int countResult = modelRepository.getCountAllSearch(modelSDTO);
+        listResult[0] = countResult;
+
+        int lastPage = 1;
+
+        if (countResult % pageSize == 0) {
+            lastPage = countResult / pageSize;
+        } else {
+            lastPage = ((countResult / pageSize) + 1);
+        }
+        listResult[1] = lastPage;
+
+        return listResult;
+    }
+
+
 }

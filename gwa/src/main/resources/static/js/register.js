@@ -5,7 +5,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/api/user/checkLogin",
+            url: "/api/user/checkLogin",
             complete: function (xhr, status) {
 
                 if (status == "success") {
@@ -62,7 +62,7 @@ $(document).ready(function () {
                 $("#errorfirstname").css("visibility", "visible");
                 $("#errorfirstname").text("Please input valid string");
                 check = false;
-            } else if (firstname.length > 50 || firstname.length < 3) {
+            } else if (firstname.length > 50 || firstname.length < 2) {
                 $("#errorfirstname").css("visibility", "visible");
                 $("#errorfirstname").text("Out of range, maximum: 50 characters, minimum: 3 characters");
                 check = false;
@@ -82,7 +82,7 @@ $(document).ready(function () {
                 $("#errorlastname").css("visibility", "visible");
                 $("#errorlastname").text("Please input valid string");
                 check = false;
-            } else if (lastname.length > 50 || lastname.length < 3) {
+            } else if (lastname.length > 50 || lastname.length < 2) {
                 $("#errorlastname").css("visibility", "visible");
                 $("#errorlastname").text("Out of range, maximum: 50 characters, minimum: 3 characters");
                 check = false;

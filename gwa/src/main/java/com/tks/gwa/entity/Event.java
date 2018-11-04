@@ -48,6 +48,19 @@ public class Event implements Serializable {
     @Column(name = "title")
     private String title;
 
+    @Lob
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "thumbimage")
+    private String thumbImage;
+
+    @Column(name = "regdatestart")
+    private String regDateStart;
+
+    @Column(name = "regdateend")
+    private String regDateEnd;
+
     public Event(){}
 
     public int getId() {
@@ -152,5 +165,37 @@ public class Event implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getThumbImage() {
+        return thumbImage;
+    }
+
+    public void setThumbImage(String thumbImage) {
+        this.thumbImage = thumbImage;
+    }
+
+    public String getRegDateStart() {
+        return regDateStart;
+    }
+
+    public void setRegDateStart(String regDateStart) {
+        this.regDateStart = regDateStart;
+    }
+
+    public String getRegDateEnd() {
+        return regDateEnd;
+    }
+
+    public void setRegDateEnd(String regDateEnd) {
+        this.regDateEnd = regDateEnd;
     }
 }

@@ -1,6 +1,8 @@
 package com.tks.gwa.controller;
 
 import com.tks.gwa.dto.LogCrawl;
+import com.tks.gwa.dto.ModelDTO;
+import com.tks.gwa.dto.ModelSDTO;
 import com.tks.gwa.entity.*;
 import com.tks.gwa.service.ModelService;
 import org.omg.CORBA.Request;
@@ -46,4 +48,38 @@ public interface ModelWS {
 
     @RequestMapping(value = "/approve", method = RequestMethod.GET)
     ResponseEntity<Model> approvePendingModel(@RequestParam("id") int id);
+
+    @RequestMapping(value = "/getDetail", method = RequestMethod.GET)
+    ResponseEntity<ModelDTO> getModelDetail(@RequestParam("id") int id);
+
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    ResponseEntity<ModelSDTO> searchModel(@RequestBody ModelSDTO modelSDTO);
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    ResponseEntity<Model> updateModel(@RequestBody Model model);
+
+    @RequestMapping(value = "/update/updateImage", method = RequestMethod.POST)
+    ResponseEntity<String> updatedExistImage(@RequestBody List<Modelimage> listUpdateImage);
+
+    @RequestMapping(value = "/update/deleteImage", method = RequestMethod.POST)
+    ResponseEntity<String> deleteExistImage(@RequestBody List<Modelimage> modelimageList);
+
+    @RequestMapping(value = "/rating/checkExist", method = RequestMethod.GET)
+    ResponseEntity<String> checkExistedRating(@RequestParam("modelID") int modelID, @RequestParam("accountID") int accountID);
+
+    @RequestMapping(value = "/rating/create", method = RequestMethod.POST)
+    ResponseEntity<String> createModelRating(@RequestBody Modelrating modelrating);
+
+    @RequestMapping(value = "/rating/getAll", method = RequestMethod.GET)
+    ResponseEntity<List<Object>> getAllReviewByModelID(@RequestParam("pageNumber") int pageNumber,
+                                                       @RequestParam("modelID") int modelID);
+
+    @RequestMapping(value = "/getRelatedTradePost", method = RequestMethod.GET)
+    ResponseEntity<List<Tradepost>> getRelatedTradepost(@RequestParam("modelName") String modelName);
+
+    @RequestMapping(value = "/getTop5Rating", method = RequestMethod.GET)
+    ResponseEntity<List<Model>> getTop5Rating();
+
+    @RequestMapping(value = "/getTop5Article", method = RequestMethod.GET)
+    ResponseEntity<List<Article>> getTop5ArticleByModelName(@RequestParam("modelName") String modelName);
 }

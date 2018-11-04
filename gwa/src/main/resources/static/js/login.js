@@ -6,7 +6,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/api/user/checkLogin",
+            url: "/api/user/checkLogin",
             complete: function (xhr, status) {
 
                 if (status == "success") {
@@ -17,7 +17,7 @@ $(document).ready(function () {
                     if (role == "MEMBER") {
                         window.location.href = "/model/"
                     } else if (role == "ADMIN") {
-                        window.location.href = "/admin/model/crawl";
+                        window.location.href = "/admin/model/pending";
                     }
                 } else {
                     console.log("Guest is accessing !");
@@ -72,7 +72,7 @@ $(document).ready(function () {
                     window.location.href = "/model/"
                 } else {
                     if (result.role.name == "ADMIN") {
-                        window.location.href = "/admin/model/create"
+                        window.location.href = "/admin/model/pending";
                     }
                 }
             },

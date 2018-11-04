@@ -62,6 +62,29 @@ public class TradepostRepositoryImpl extends GenericRepositoryImpl<Tradepost, In
     }
 
     @Override
+    public int getCountAll() {
+
+        String sql = "SELECT count(t.id) FROM " + Tradepost.class.getName() + " AS t WHERE t.approvalStatus='approved'";
+
+        Query query = this.entityManager.createQuery(sql);
+
+        return (int) (long) query.getSingleResult();
+    }
+
+    @Override
+    public List<Tradepost> get50TradePost(int pageNumber, int pageSize) {
+
+        String sql = "SELECT t FROM " + Tradepost.class.getName() + " AS t WHERE t.approvalStatus='approved' ORDER BY t.postedDate DESC";
+
+        Query query = this.entityManager.createQuery(sql);
+        query.setFirstResult((pageNumber - 1) * pageSize);
+        query.setMaxResults(pageSize);
+
+        List<Tradepost> tradepostList = query.getResultList();
+
+        return tradepostList;
+    }
+
     public boolean updateQuantityById(int tradepostId, int quantity) {
         Tradepost tradepost = this.read(tradepostId);
         if (tradepost == null) return false;

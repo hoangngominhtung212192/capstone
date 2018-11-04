@@ -2,15 +2,13 @@ $(document).ready(function () {
 
     // process UI
     $(document).click(function (event) {
-        $(".dropdown-menu-custom-profile").css("height", "0");
-        $(".dropdown-menu-custom-profile").css("border", "none");
-        $(".dropdown-menu-custom-logout").css("height", "0");
-        $(".dropdown-menu-custom-logout").css("border", "none");
+        $("#dropdown-profile").css("display", "none");
     })
 
     var account_profile_on_page_id;
     var account_session_id;
     var role_session;
+    var current_role;
     var current_profile_status;
     var profile_id;
     var username;
@@ -60,7 +58,7 @@ $(document).ready(function () {
 
                     role_session = jsonResponse["role"].name;
                     account_session_id = jsonResponse["id"];
-                    
+
                     var username = jsonResponse["username"];
                     var thumbAvatar = jsonResponse["avatar"];
                     console.log(role_session + " " + username + " is on session!");
@@ -68,14 +66,18 @@ $(document).ready(function () {
                     // click profile button
                     profileClick(account_session_id);
 
+                    // display fullname
+                    getSessionProfile(account_session_id);
+
                     // display username, profile and logout button
-                    $("#username").text(username)
-                    $("#username").css("display", "block");
                     if (thumbAvatar) {
-                        $("#thumbAvatar").attr("src", thumbAvatar);
+                        $("#thumbAvatar-new").attr("src", thumbAvatar);
+                        $("#thumbAvatar-dropdown").attr("src", thumbAvatar);
                     }
-                    $(".dropdown-menu-custom-profile").css("display", "block");
-                    $(".dropdown-menu-custom-logout").css("display", "block");
+
+                    if (jsonResponse["role"].name == "ADMIN") {
+                        $("#adminBtn").css("display", "block");
+                    }
 
                     // get current profile
                     account_profile_on_page_id = getUrlParameter('accountID');
@@ -90,17 +92,43 @@ $(document).ready(function () {
         });
     }
 
+    // get session account's profile
+    function getSessionProfile(id) {
+
+        $.ajax({
+            type: "POST",
+            url: "/api/user/profile?accountID=" + id,
+            success: function (result) {
+                //get selected profile's account status
+
+                var displayUsername;
+
+                if (result.middleName) {
+                    displayUsername += result.lastName + ' ' + result.middleName + ' ' + result.firstName;
+                } else {
+                    displayUsername += result.lastName + ' ' + result.firstName;
+                }
+
+                $("#fullname-new").text(displayUsername);
+                $("#fullname-dropdown").text(displayUsername);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
     // get current selected profile
     function getProfile() {
 
         $.ajax({
             type: "POST",
-            url: "http://localhost:8080/api/user/profile?accountID=" + account_profile_on_page_id,
+            url: "/api/user/profile?accountID=" + account_profile_on_page_id,
             success: function (result) {
                 //get selected profile's account status
                 current_profile_status = result.account.status;
-                authorization();
 
+                current_role = result.account.role.name;
                 profile_id = result.id;
                 username = result.account.username;
                 avatar = result.avatar;
@@ -112,6 +140,9 @@ $(document).ready(function () {
                 preLastName = result.lastName;
                 preMobile = result.tel;
 
+                // authorization
+                authorization();
+
                 console.log(result);
                 setField(result);
             },
@@ -122,33 +153,36 @@ $(document).ready(function () {
     }
 
     // logout button click event
-    $("#logout").click(function (event) {
+    $("#logout-new").click(function (event) {
 
         event.preventDefault();
 
         ajaxLogout();
-    })
+    });
+
+    $("#adminBtn").click(function (event) {
+        event.preventDefault();
+
+        window.location.href = "/admin/model/pending";
+    });
 
     function ajaxLogout() {
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/api/user/logout",
+            url: "/api/user/logout",
             success: function (result) {
-                window.location.href = "http://localhost:8080/login";
+                window.location.href = "/login";
             }
         });
     }
 
     // username click event
     function usernameClick() {
-        $("#username").click(function (event) {
+        $("#username-li").click(function (event) {
             // separate from document click
             event.stopPropagation();
 
-            $(".dropdown-menu-custom-profile").css("height", "25px");
-            $(".dropdown-menu-custom-profile").css("border", "1px solid #FF0000");
-            $(".dropdown-menu-custom-logout").css("height", "25px");
-            $(".dropdown-menu-custom-logout").css("border", "1px solid #FF0000");
+            $("#dropdown-profile").css("display", "block");
 
             return false;
         })
@@ -156,7 +190,7 @@ $(document).ready(function () {
 
     // profile button click event
     function profileClick(accountID) {
-        $("#profile").click(function (event) {
+        $("#profile-new").click(function (event) {
             window.location.href = "/pages/profile.html?accountID=" + accountID;
         })
     }
@@ -167,7 +201,10 @@ $(document).ready(function () {
         if (account_profile_on_page_id == account_session_id) {
             $("#editBtn").css("display", "block");
         } else {
-            window.location.href = "/403";
+            if (role_session != "ADMIN") {
+                // render non-own profile area
+
+            }
         }
         if (role_session == "ADMIN") {
             $("#editBtn").css("display", "block");
@@ -264,7 +301,6 @@ $(document).ready(function () {
         $("#lastName").css("width", "280px");
 
         $("#birthday").attr('disabled', true);
-        $("#birthday").css("width", "150px");
 
         $("#mobile").attr('disabled', true);
         $("#mobile").css("width", "250px");
@@ -418,16 +454,16 @@ $(document).ready(function () {
         if (checkValidForm(firstname, middlename, lastname, email, birthday, mobile)) {
 
             var formProfile = {
-                id : profile_id,
-                firstName : firstname,
-                middleName : middlename,
-                lastName : lastname,
-                email : email,
-                birthday : birthday,
-                tel : mobile,
-                accountID : account_profile_on_page_id,
-                address : address,
-                avatar : avatar
+                id: profile_id,
+                firstName: firstname,
+                middleName: middlename,
+                lastName: lastname,
+                email: email,
+                birthday: birthday,
+                tel: mobile,
+                accountID: account_profile_on_page_id,
+                address: address,
+                avatar: avatar
             }
 
             var formData = new FormData();
@@ -462,7 +498,7 @@ $(document).ready(function () {
                 alert("Updated profile successfully !");
                 window.location.href = "/pages/profile.html?accountID=" + result.account.id;
             },
-            complete : function(xhr, textStatus) {
+            complete: function (xhr, textStatus) {
                 if (textStatus == "error") {
                     $("#error").css("display", "block");
 
@@ -473,7 +509,7 @@ $(document).ready(function () {
             }
         });
     }
-    
+
     function ajaxImagePost(formData) {
         $.ajax({
             type: "POST",
@@ -529,9 +565,17 @@ $(document).ready(function () {
 
         $("#saveBtn").css("display", "none");
         $("#resetBtn").css("display", "none");
-        
+
         $("#photoBtn").css("display", "none");
         $("#photoTitle").css("display", "none");
         $("#upload").css("display", "none");
     }
+
+    // birthday datepicker
+    $(function () {
+        $("#datepicker").datepicker({
+            autoclose: true,
+            todayHighlight: true
+        }).datepicker('update', new Date());
+    });
 })

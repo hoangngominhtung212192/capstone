@@ -29,4 +29,6 @@ public interface TradepostRepository extends GenericRepository<Tradepost, Intege
 
     List<Tradepost> searchAllTradepostByAccountStatusAndSortTypeWithKeyword(String tradeType, int sortType, String keyword);
 
+    int getCountAll();
+    List<Tradepost> get50TradePost(int pageNumber, int pageSize);
 }

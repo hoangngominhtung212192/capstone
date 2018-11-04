@@ -18,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
+import java.util.List;
 
 @RestController
 public class UserWsImpl implements UserWS {
@@ -188,6 +189,15 @@ public class UserWsImpl implements UserWS {
         }
 
         return new ResponseEntity<Profile>(profile, HttpStatus.valueOf(400));
+    }
+
+    @Override
+    public ResponseEntity<List<Object>> getAllAccount(int pageNumber, String type) {
+        System.out.println("[UserWS] Begin getAllAccount()");
+
+        List<Object> resultList = userService.getAllAccount(pageNumber, type);
+
+        return new ResponseEntity<>(resultList, HttpStatus.OK);
     }
 
 }

@@ -33,7 +33,6 @@
     display: inline-block;
     border-radius: 3px;
     background-image: linear-gradient(to bottom, #3c96d6 0%, #3481b7 100%);
-    border: solid 1px #2b6b98;
     margin: 0;
     vertical-align: baseline;
     width: 90px;
@@ -77,6 +76,10 @@
 #deleteFiles:focus {
     border: none;
     box-shadow: none;
+}
+
+#deleteFiles:hover {
+    background-color: #CC0000;
 }
 
 .glyphicon-plus:before {
@@ -155,14 +158,21 @@
 
 .table-striped .table-tr .imageSize {
     width: 55px;
+    font-size: 13px;
+    line-height: 1.5em;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
 }
 
 .table-striped .table-tr .imageName {
     width: 100px;
+    font-size: 13px;
+    line-height: 1.5em;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
 }
 
 .table-striped .table-tr .canceltd {
     padding-top: 32px;
+    padding-left: 30px;
 }
 
 .table-striped .table-tr .imageType {
@@ -172,7 +182,7 @@
 .table-striped .table-tr .imageType select {
     overflow: hidden;
     background: transparent;
-    padding: 8px; /* If you add too much padding here, the options won't show in IE */
+    padding: 7px; /* If you add too much padding here, the options won't show in IE */
     background: url(images/2e3ybe1.jpg) no-repeat right center;
     width: 120px;
     float: left;
@@ -345,6 +355,7 @@
 #crawlBtn:hover {
     background-color: #0c5460;
     cursor: pointer;
+    text-decoration: none;
 }
 
 #crawlBtn:active {
@@ -396,7 +407,7 @@ label:active:after {
 
 .approveBtn {
     display: block;
-    width: 65px;
+    width: 70px;
     height: 35px;
     background: #4E9CAF;
     padding: 7px;
@@ -412,6 +423,8 @@ label:active:after {
 .approveBtn:hover {
     background-color: #0c5460;
     cursor: pointer;
+    color: white;
+    text-decoration: none;
 }
 
 .approveBtn:active {
@@ -436,6 +449,8 @@ label:active:after {
 .moreInfoBtn:hover {
     background-color: #0c5460;
     cursor: pointer;
+    color: white;
+    text-decoration: none;
 }
 
 .moreInfoBtn:active {
@@ -443,7 +458,7 @@ label:active:after {
 }
 
 #pendingTable tr td.modelName, #pendingTable tr td.seriesTitle {
-    width: 120px;
+    width: 200px;
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
@@ -474,6 +489,45 @@ label:active:after {
     color: #795548;
 }
 
+#accountTable tr td.fullname, #accountTable tr td.emailTD {
+    width: 150px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+#accountTable tr td.accountID {
+    width: 40px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    color: darkred;
+    text-align: center;
+}
+
+#accountTable tr td.usernameTD a {
+    color: red;
+    transition: none;
+}
+
+#accountTable tr td.usernameTD a:hover {
+    text-decoration: underline;
+}
+
+#accountTable tr td.addressTD {
+    width: 250px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+#accountTable tr td.datetimeTD {
+    width: 90px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+#accountTable tr td.accountRating {
+    color: darkred;
+}
+
 .modal-title {
     float: left;
 }
@@ -481,6 +535,359 @@ label:active:after {
 .modal-content {
     margin-top: 200px;
 }
+
+/*  for admin page  */
+.io-panel-header h3 {
+    color: #3d74b2;
+    font-weight: normal;
+    text-transform: capitalize;
+    display: inline;
+    margin: 0px;
+    vertical-align: middle;
+    line-height: 1.5em;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+}
+
+.io-col-main {
+    padding-bottom:40px;
+    width: 100%;
+}
+
+.io-col-main {
+    position:relative;
+}
+
+.pad-10 {
+    padding: 10px;
+}
+
+.io-panel {
+    background-color: white;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 5px;
+    -moz-box-shadow: 0px 0px 5px #aaa;
+    -webkit-box-shadow: 0px 0px 5px #aaa;
+    box-shadow: 0px 0px 5px #aaa;
+    border: solid 1px #c2c2c2;
+}
+
+.io-panel-header {
+    overflow: hidden;
+    min-height: 27px;
+    padding: 5px 5px 5px 10px;
+    border-bottom: solid 1px #c2c2c2;
+    background-image: -ms-linear-gradient(top, #ffffff 0%, #f5f5f5 100%);
+    background-image: -moz-linear-gradient(top, #ffffff 0%, #f5f5f5 100%);
+    background-image: -o-linear-gradient(top, #ffffff 0%, #f5f5f5 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ffffff), color-stop(1, #f5f5f5));
+    background-image: -webkit-linear-gradient(top, #ffffff 0%, #f5f5f5 100%);
+    background-image: linear-gradient(to bottom, #ffffff 0%, #f5f5f5 100%);
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.io-button-highlight.medium {
+    font-size: 14px;
+    padding: 5px 15px;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 3px;
+}
+
+.io-button-highlight, .io-button-highlight:link, .io-button-highlight:visited {
+    border: solid 1px #007b0c;
+    color: #fff;
+    text-decoration: none;
+    background-image: -ms-linear-gradient(top, #00d100 0%, #009900 100%);
+    background-image: -moz-linear-gradient(top, #00d100 0%, #009900 100%);
+    background-image: -o-linear-gradient(top, #00d100 0%, #009900 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #00d100), color-stop(1, #009900));
+    background-image: -webkit-linear-gradient(top, #00d100 0%, #009900 100%);
+    background-image: linear-gradient(to bottom, #00d100 0%, #009900 100%);
+}
+
+.io-panel-header span {
+    vertical-align: middle;
+    color: #fff;
+    text-decoration: none;
+}
+
+.io-panel-body {
+    padding: 0px;
+    min-height: 550px;
+    height: auto;
+}
+
+.io-contact-information {
+    width: 40%;
+    float: left;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+.pad-20 {
+    padding: 20px;
+}
+
+.io-contact-information h3 {
+    color: #3d74b2;
+    font-weight: normal;
+    text-transform: capitalize;
+    display: inline;
+    margin: 0px;
+    vertical-align: middle;
+}
+
+.io-panel-body h3 {
+    color: #3d74b2;
+    font: normal 18px Arial, Helvetica, sans-serif;
+    margin-bottom: 5px;
+}
+
+.iconContactInfo {
+    background: url(images/uiIcon.png) -30px -210px no-repeat;
+    width: 28px;
+    height: 25px;
+    margin-right: 5px;
+}
+
+.io-table-input {
+    border-collapse: collapse;
+    width: 100%;
+    border-spacing: 0;
+}
+
+.io-table-input.vertical td.label {
+    padding: 10px 10px 0px 0px;
+}
+
+.io-table-input td.label {
+    padding: 5px 5px 5px 0px;
+    font-size: 15px;
+}
+
+.label {
+    color: black;
+    text-align: left;
+    font-weight: 400;
+    padding: 10px 10px 0px 0px;
+    font-size: 15px;
+    line-height: 2;
+    display: block;
+}
+
+.newCandidate {
+    width: 60%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+.io-personal-information {
+    float: left;
+    border-left: solid 1px #c2c2c2;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+.profile-summary, .profile-experience, .profile-skill, .profile-certificate {
+    margin-bottom: 20px;
+}
+
+.profile-summary h3.expand, .profile-experience h3.expand, .profile-skill h3.expand, .profile-education h3.expand {
+    background: url(images/bg_splitter_section.png) no-repeat right 10px;
+    cursor: pointer;
+}
+
+.io-personal-information h3 {
+    color: #3d74b2;
+    font-weight: normal;
+    text-transform: capitalize;
+    display: inline;
+    margin: 0px;
+    vertical-align: middle;
+}
+
+.profile-summary h3 *, .profile-experience h3 *, .profile-skill h3 *, .profile-education h3 * {
+    vertical-align: middle;
+}
+
+.iconSummary {
+    background: url(images/uiIcon.png) 0px -210px no-repeat;
+    width: 24px;
+    height: 24px;
+    background-color: white;
+}
+
+.profile-summary h3 span, .profile-experience h3 span, .profile-skill h3 span, .profile-education h3 span {
+    background-color: white;
+    padding-right: 5px;
+}
+
+.profile-summary h3 *, .profile-experience h3 *, .profile-skill h3 *, .profile-education h3 * {
+    vertical-align: middle;
+}
+
+.io-ta-normal {
+    height: 20px;
+    padding: 4px 10px 4px 10px;
+    border: solid 1px #aaa;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100%;
+    min-height: 100px;
+}
+
+#txtDescription {
+    overflow: auto;
+    vertical-align: top;
+    font-size: 14px;
+    margin: 0;
+    font-family: sans-serif;
+    color: #333333;
+    outline: none;
+    padding: 8px;
+}
+
+.profile-summary, .profile-experience, .profile-skill, .profile-certificate {
+    margin-bottom: 20px;
+}
+
+.profile-summary h3, .profile-experience h3, .profile-skill h3, .profile-education h3 {
+    display: block !important;
+    padding: 0px 0px 10px 0px;
+    margin: 0 !important;
+    height: 35px;
+}
+
+.iconEx {
+    background: url(images/uiIcon.png) 0px -240px no-repeat;
+    width: 27px;
+    height: 20px;
+    background-color: white;
+}
+
+.profile-experience > div {
+    margin-bottom: 10px;
+}
+
+.io-navigation-left ul li.btnMenu a.io-button-highlight:hover,
+.io-navigation-left ul li.btnMenu a.io-button-highlight:active,
+.io-navigation-left ul li.btnMenu a.io-button-highlight:focus,
+.io-button-highlight:hover,
+.io-button-highlight:active,
+.io-button-highlight:focus {
+    color:#fff; text-decoration:none;
+    /*gradient background*/
+    background-image: -ms-linear-gradient(top, #00d100 0%, #75ff75 100%);
+    background-image: -moz-linear-gradient(top, #00d100 0%, #75ff75 100%);
+    background-image: -o-linear-gradient(top, #00d100 0%, #75ff75 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #00d100), color-stop(1, #75ff75));
+    background-image: -webkit-linear-gradient(top, #00d100 0%, #75ff75 100%);
+    background-image: linear-gradient(to bottom, #00d100 0%, #75ff75 100%);
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn {
+    display: inline-block;
+    border-radius: 5px;
+}
+
+.btn-success:hover {
+    color: #fff;
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+table#listImage tr.table-tr td.canceltd .cancel:hover {
+    background-color: #e0a800 !important;
+    border-color: #d39e00 !important;
+}
+
+table#listImage tr.table-tr td.canceltd .cancel {
+    background-color: #ffc107 !important;
+    border-color: #ffc107 !important;
+}
+
+.styled-select {
+    background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
+    height: 29px;
+    overflow: hidden;
+    width: 180px;
+    margin-left: 2%;
+}
+
+.styled-select select {
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    height: 29px;
+    padding: 5px; /* If you add too much padding here, the options won't show in IE */
+    width: 100px;
+}
+
+.styled-select.slate {
+    background: url(images/2e3ybe1.jpg) no-repeat right center;
+    height: 34px;
+    width: 150px;
+    float: left;
+}
+
+.styled-select.slate select {
+    border: 1px solid #ccc;
+    font-size: 14px;
+    height: 34px;
+    width: 268px;
+}
+
+.styled-select.slate select:focus {
+    outline: black;
+    box-shadow: 0px 0px 5px #CCCCCC;
+}
+
+.col-left {
+    float: left;
+    width: 45%;
+}
+
+.col-right {
+    float: right;
+}
+
+.txt {
+    font-family: Cambria;
+    font-size: 14px;
+    font-weight: 600;
+    float: left;
+    margin-top: 2%;
+}
+
+.error_field {
+    font-style: italic;
+    color: red;
+    font-size: 12px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

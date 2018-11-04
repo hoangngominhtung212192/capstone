@@ -24,6 +24,9 @@ public class Eventattendee implements Serializable {
     @Column(name = "rating")
     private int rating;
 
+    @Column(name = "ratingdate")
+    private String ratingDate;
+
     //bi-directional many-to-one association to Account
     @ManyToOne
     @JoinColumn(name="accountid")
@@ -90,5 +93,13 @@ public class Eventattendee implements Serializable {
 
     public void setEvent(Event event) {
         this.event = event;
+    }
+
+    public String getRatingDate() {
+        return ratingDate;
+    }
+
+    public void setRatingDate(String ratingDate) {
+        this.ratingDate = ratingDate;
     }
 }
