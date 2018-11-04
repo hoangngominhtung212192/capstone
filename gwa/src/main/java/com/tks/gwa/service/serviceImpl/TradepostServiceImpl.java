@@ -2,16 +2,16 @@ package com.tks.gwa.service.serviceImpl;
 
 import com.tks.gwa.constant.AppConstant;
 import com.tks.gwa.dto.MyTradeDTO;
+import com.tks.gwa.dto.TradeListingDTO;
 import com.tks.gwa.dto.TradepostRequestData;
-import com.tks.gwa.entity.Orderrequest;
-import com.tks.gwa.entity.Profile;
-import com.tks.gwa.entity.Tradepost;
-import com.tks.gwa.entity.Tradepostimage;
+import com.tks.gwa.dto.ViewTradepostDTO;
+import com.tks.gwa.entity.*;
 import com.tks.gwa.repository.OrderRequestRepository;
 import com.tks.gwa.repository.ProfileRepository;
 import com.tks.gwa.repository.TradepostRepository;
 import com.tks.gwa.repository.TradepostimageRepository;
 import com.tks.gwa.service.TradepostService;
+import com.tks.gwa.utils.DateStringConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,7 +76,7 @@ public class TradepostServiceImpl implements TradepostService {
 
         //Set Account to newTradepost
         newTradepost.setAccount(traderProfile.getAccount());
-        newTradepost.setPostedDate(new Date().toString());
+        newTradepost.setPostedDate(DateStringConverter.dateConvertToString(new Date()));
         Tradepost tradepostResult = null;
 
         try {
@@ -144,7 +144,7 @@ public class TradepostServiceImpl implements TradepostService {
             return false;
         }
 
-        editTradepost.setLastModified(new Date().toString());
+        editTradepost.setLastModified(DateStringConverter.dateConvertToString(new Date()));
         Tradepost tradepostResult = null;
 
         try {
@@ -187,23 +187,68 @@ public class TradepostServiceImpl implements TradepostService {
         return true;
     }
 
-    //Get Trade Post List by Account / Get All Request Per Trade post / Get Thumbnail Image per Trade post
+    //Get Trade Post List by Account / Get All Request Per Trade post / Get Thumbnail Image per Trade post/ On pageNumber/Sorting by
     @Override
-    public List<MyTradeDTO> getMyTradePageDataByAccountId(int accountId) {
+    public List<MyTradeDTO> getMyTradeData(int accountId, String status, int pageNumber, int sortType) {
         List<MyTradeDTO> result = new ArrayList<MyTradeDTO>();
-        List<Tradepost> tradepostList = tradepostRepository.getAllTradepostByAccountID(accountId);
+        List<Tradepost> tradepostList = tradepostRepository.getTradepostPerPageWithSortingAndStatusByAccount(accountId, status, pageNumber, sortType);
         if (tradepostList != null) {
-            MyTradeDTO myTradeDTO = null;
             for (int i = 0; i < tradepostList.size(); i++) {
                 Tradepost tradepost = tradepostList.get(i);
                 String thumbnailImgUrl = tradepostimageRepository.getThumbnailImgUrlByTradepostId(tradepost.getId());
-                List<Orderrequest> orderrequestList = orderRequestRepository.getAllRequestByTradepostId(tradepost.getId());
-                myTradeDTO = new MyTradeDTO(tradepost, orderrequestList, thumbnailImgUrl);
+                int numOfSucceedRequest = orderRequestRepository.countRequestWithStatusByTradepostId(tradepost.getId(), AppConstant.SUCCEED_STATUS);
+                int numOfPendingRequest = orderRequestRepository.countRequestWithStatusByTradepostId(tradepost.getId(), AppConstant.PENDING_STATUS);
+                int numOfOnPaymentRequest = orderRequestRepository.countRequestWithStatusByTradepostId(tradepost.getId(), AppConstant.APPROVED_STATUS);
+                int totalPage = tradepostRepository.countNumberOfTradepostByStatusAndAccount(status, accountId);
+                MyTradeDTO myTradeDTO = new MyTradeDTO(tradepost, numOfSucceedRequest, numOfPendingRequest, numOfOnPaymentRequest, thumbnailImgUrl, totalPage);
+                result.add(myTradeDTO);
             }
-            result.add(myTradeDTO);
+
         }
 
         return result;
+    }
+
+    @Override
+    public boolean updateTradePostQuantity(int tradepostId, int quantity) {
+        return tradepostRepository.updateQuantityById(tradepostId, quantity);
+    }
+
+    @Override
+    public boolean deleteTradePost(int tradepostId) {
+        Tradepost tradepost = tradepostRepository.findTradepostById(tradepostId);
+        if (tradepost == null) return false;
+        tradepostimageRepository.deleteAllImageByTradepostId(tradepostId);
+        return tradepostRepository.removeTradepost(tradepost);
+    }
+
+    @Override
+    public ViewTradepostDTO getViewTradePostData(int tradepostId) {
+        Tradepost tradepost = tradepostRepository.findTradepostById(tradepostId);
+        if (tradepost != null){
+            try {
+                String[] images = this.getImageArrayByTradepostId(tradepostId);
+                ViewTradepostDTO dto = new ViewTradepostDTO(tradepost,images);
+                return dto;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<TradeListingDTO> getTradeListingData(String tradeType, int pageNumber, int sortType) {
+        List<TradeListingDTO> listingDTOList = new ArrayList<TradeListingDTO>();
+        List<Tradepost> tradepostList = tradepostRepository.getTradePostPerPageWithSortingByTradeType(tradeType,pageNumber,sortType);
+        for (int i = 0; i < tradepostList.size(); i++) {
+            Tradepost tradepost = tradepostList.get(i);
+            String thumbnail = tradepostimageRepository.getThumbnailImgUrlByTradepostId(tradepost.getId());
+            int totalPage = tradepostRepository.countNumberOfTradepostByTradeType(tradeType);
+            TradeListingDTO dto = new TradeListingDTO(tradepost,thumbnail,totalPage);
+            listingDTOList.add(dto);
+        }
+        return listingDTOList;
     }
 
     //Get Trade post data for edit form

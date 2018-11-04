@@ -52,6 +52,7 @@ public interface WebController {
     @RequestMapping(value = "/admin/model/edit")
     public ModelAndView editModelPage();
 
+
     @RequestMapping(value = "/admin/model/crawl")
     public ModelAndView crawlModelPage();
 
@@ -87,4 +88,5 @@ public interface WebController {
 
     @RequestMapping(value ={"trade-market/post-new-trade","trade-market/edit-trade"})
     public ModelAndView addEditTradePage();
+
 }

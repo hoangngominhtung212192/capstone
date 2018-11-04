@@ -29,6 +29,10 @@
     color: white;
 }
 
+.tm-navbar .btn-success {
+    color: white;
+}
+
 .tm-searchbox {
     padding: 30px;
     padding-left: 10%;
@@ -137,6 +141,10 @@ section {
 .section-title h4 {
     color: #000;
     font-weight: 500;
+}
+
+.navbar-section {
+    background-color: whitesmoke;
 }
 
 .page {
@@ -310,35 +318,52 @@ section {
     vertical-align: middle;
 }
 
-
-.trademeta .meta-content .dated{
+.trademeta .meta-content .dated {
     margin-right: 20px;
     font-weight: 500;
     color: #9fa4a4;
 }
-.trademeta .meta-content .number-payment{
+
+.trademeta .meta-content .number-payment {
     font-weight: 500;
     color: blue;
     margin-left: 20px;
 }
-.trademeta .meta-content .number-request{
+
+.trademeta .meta-content .number-request {
     font-weight: 500;
     color: orangered;
 }
-.trademeta .meta-content .number-succed{
+
+.trademeta .meta-content .number-succed {
     font-weight: 500;
     color: green;
     margin-left: 20px;
 }
-.trademeta .meta-content .no-trade{
+
+.trademeta .meta-content .no-trade {
     font-weight: 500;
     color: black;
 }
-.trademeta .meta-content .pending-trade{
+
+.trademeta .meta-content .pending-trade {
     font-weight: 500;
     color: blue;
 }
-.trademeta .meta-content .rejected-trade{
+
+.trademeta .meta-content .rejected-trade {
+    font-weight: 500;
+    color: red;
+}
+
+.trademeta .meta-content .Buy-trade {
+    margin-left: 20px;
+    font-weight: 500;
+    color: blue;
+}
+
+.trademeta .meta-content .Sell-trade {
+    margin-left: 20px;
     font-weight: 500;
     color: red;
 }
@@ -827,10 +852,6 @@ a.verified i {
     text-decoration: none;
 }
 
-.home-two .featureds .pagination {
-    margin-bottom: 50px;
-}
-
 .single-cta {
     padding: 0 25px;
 }
@@ -957,10 +978,6 @@ a.verified i {
 
 #services-ad .featureds h4 {
     padding-bottom: 5px;
-}
-
-#services-ad .pagination {
-    margin-bottom: 50px;
 }
 
 #home-section img {
@@ -1185,43 +1202,6 @@ a.verified i {
 
 #accordion .panel-body .category-change {
     min-width: 70px;
-}
-
-/* Pagination */
-.pagination {
-    margin-top: 25px;
-    margin-bottom: 10px;
-}
-
-.pagination > li > a {
-    color: #9a9a9a;
-    font-size: 14px;
-    font-weight: 700;
-    background-color: #e7e8e9;
-    margin: 3px;
-    border: 1px solid #e2e3e3;
-    border-radius: 5px;
-}
-
-.pagination > li > a:hover,
-.pagination > .active > a,
-.pagination > .active > a:focus,
-.pagination > .active > a:hover {
-    color: #fff;
-    background-color: #00a651;
-    border: 1px solid #008c44;
-}
-
-.pagination > li:nth-child(7) a,
-.pagination > li:nth-child(7) a:hover {
-    background-color: transparent;
-    border: none;
-    color: #9a9a99;
-}
-
-.pagination > li:nth-child(7) a {
-    padding: 4px 9px;
-    line-height: 25px;
 }
 
 /* something-sell */
@@ -3733,11 +3713,6 @@ input, select, a, .transition,
         width: 83px;
     }
 
-    #services-ad .pagination {
-        margin-top: 0;
-        margin-bottom: 30px;
-    }
-
     .section.cars-ads .car-info + .car-info {
         margin-left: 0;
     }
@@ -3999,11 +3974,6 @@ input, select, a, .transition,
         margin-right: 0;
     }
 
-    #services-ad .pagination {
-        margin-top: 0;
-        margin-bottom: 30px;
-    }
-
     .home-banner h1 {
         font-size: 50px;
     }
@@ -4213,10 +4183,6 @@ input, select, a, .transition,
         min-width: 100%;
     }
 
-    .pagination > li > a, .pagination > li > span {
-        padding: 3px 8px;
-    }
-
     .banner-form button.form-control {
         margin-left: 0;
         border-radius: 4px;
@@ -4399,10 +4365,6 @@ input, select, a, .transition,
         display: inline;
     }
 
-    .pagination > li > a {
-        font-size: 12px;
-    }
-
     /* sign up */
     .user-account {
         padding: 30px 30px 40px;
@@ -4501,12 +4463,6 @@ input, select, a, .transition,
 
     .short-info li a {
         font-size: 14px;
-    }
-
-    #services-ad .pagination,
-    .pagination {
-        margin-top: 0;
-        margin-bottom: 25px;
     }
 
     #home-section h2 {
@@ -4956,5 +4912,7 @@ input, select, a, .transition,
 
 }
 
-<!--
-------------------------------------------------------- >
+.pagination .page-item.disabled .page-link {
+    background: whitesmoke;
+    color: #9e9e9e;
+}

@@ -32,7 +32,7 @@ public class AppConstant {
 
     public static final String USER_PENDING = "userpending";
     public static final String CRAWL_PENDING = "crawlpending";
-    
+
     //TRADE POST CONSTANT
     public class TRADEPOST {
         public static final String TYPE_SELL = "sell";
@@ -47,6 +47,11 @@ public class AppConstant {
         public static final String NEGOTIABLE_OFF = "off";
         public static final int NEGOTIABLE_ON_INT = 1;
         public static final int NEGOTIABLE_OFF_INT = 0;
+        public static final int MAX_POST_PER_PAGE = 10;
+        public static final int SORT_DATE_DESC = 1;
+        public static final int SORT_DATE_ASC = 2;
+        public static final int SORT_PRICE_DESC = 4;
+        public static final int SORT_PRICE_ASC = 3;
     }
 
     public static final String LOG_FILE_MODEL_CRAWL = "./crawlmodel.dat";
