@@ -43,6 +43,8 @@ $(document).ready(function () {
 
     getAllArticle();
 
+
+
     function getAllArticle() {
         console.log("getting all article");
         $.ajax({
@@ -53,21 +55,25 @@ $(document).ready(function () {
                 console.log(result);
                 console.log(status);
                 for (var i in result){
+
+                    var tus = parseInt(result[i].approvalStatus) - 1;
                     var row = $('<tr>\n' +
                         '                    <td>' + result[i].id + '</td>\n' +
                         '                    <td>' + result[i].title + '</td>\n' +
-                        '                    <td>' + result[i].accountID.id + '</td>\n' +
+                        '                    <td>' + result[i].account.id + '</td>\n' +
                         '                    <td>' + result[i].date + '</td>\n' +
                         '                    <td>' + result[i].category + '</td>\n' +
-                        '                    <td>' + result[i].approvalStatus + '</td>\n' +
-                        '                    <td></td>\n' +
+                        '                    <td><div class="styled-select slate">\n' +
+                        '                   <select onchange="approvalChange(value,' + result[i].id + ' )" id="idx' + result[i].id + '" class="editable-select">\n' +
+                        '                   <option value="1">APPROVED</option>\n' +
+                        '                   <option value="2">DISAPPROVED</option>\n' +
+                        '                   <option value="3">PENDING</option>\n' +
+                        '                   </select></td>\n' +
+                        '                    <td><a href="/admin/article/edit?id=' + result[i].id + '">Read more...</a></td>\n' +
                         '                  </tr>')
                     $('#tblBody').append(row);
+                    document.getElementById("idx" + result[i].id ).options[tus].selected = 'selected';
                 }
-                // for (var i in result){
-                //     $('#search-result').append(article);
-                // }
-
             },
             error : function(e) {
                 alert("No article with matching title found!");
@@ -76,6 +82,10 @@ $(document).ready(function () {
         });
     }
 
+
+
+
+    //search function
     $("#btnSearch").click(function (event) {
         event.preventDefault();
         var searchDiv = document.getElementById("tblBody");
@@ -83,10 +93,15 @@ $(document).ready(function () {
             searchDiv.removeChild(searchDiv.firstChild);
         }
         var searchValue = document.getElementById("txtSearch").value;
-        ajaxPost(searchValue);
+        if (searchValue.length == 0){
+            getAllArticle();
+        } else {
+            searchArticle(searchValue);
+        }
+
     })
 
-    function ajaxPost(data) {
+    function searchArticle(data) {
         console.log(data);
         var displayDiv = document.getElementById("search-result");
 
@@ -98,22 +113,26 @@ $(document).ready(function () {
             success : function(result, status) {
                 console.log(result);
                 console.log(status);
+                console.log("first res: "+ result[0].account.id );
                 for (var i in result){
+                    var tus = parseInt(result[i].approvalStatus) - 1;
                     var row = $('<tr>\n' +
                         '                    <td>' + result[i].id + '</td>\n' +
                         '                    <td>' + result[i].title + '</td>\n' +
-                        '                    <td>' + result[i].accountID + '</td>\n' +
+                        '                    <td>' + result[i].account.id + '</td>\n' +
                         '                    <td>' + result[i].date + '</td>\n' +
                         '                    <td>' + result[i].category + '</td>\n' +
-                        '                    <td>' + result[i].approvalStatus + '</td>\n' +
-                        '                    <td></td>\n' +
+                        '                    <td><div class="styled-select slate">\n' +
+                        '                   <select onchange="approvalChange(value,' + result[i].id + ' )" id="idx' + result[i].id + '" class="editable-select">\n' +
+                        '                   <option value="1">APPROVED</option>\n' +
+                        '                   <option value="2">DISAPPROVED</option>\n' +
+                        '                   <option value="3">PENDING</option>\n' +
+                        '                   </select></td>\n' +
+                        '                    <td><a href="/admin/article/edit?id=' + result[i].id + '">Read more...</a></td>\n' +
                         '                  </tr>')
                     $('#tblBody').append(row);
+                    document.getElementById("idx" + result[i].id ).options[tus].selected = 'selected';
                 }
-                // for (var i in result){
-                //     $('#search-result').append(article);
-                // }
-
             },
             error : function(e) {
                 alert("No article with matching title found!");

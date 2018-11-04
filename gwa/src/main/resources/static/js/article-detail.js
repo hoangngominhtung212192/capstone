@@ -70,6 +70,8 @@ $(document).ready(function () {
             url : "http://localhost:8080/api/user/getArticle",
             data : JSON.stringify(data),
             success : function(result, status) {
+                console.log("id" + result.account.id);
+
                 if (result){
                     var title = result.title;
                     var date = result.date;

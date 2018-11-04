@@ -150,4 +150,29 @@ public class WebControllerImpl implements WebController {
     public ModelAndView addEditTradePage() {
         return new ModelAndView("post-trade");
     }
+
+    @Override
+    public ModelAndView viewAllEventPage() {
+        return new ModelAndView("event-search");
+    }
+
+    @Override
+    public ModelAndView viewEventDetailPage() {
+        return new ModelAndView("event-detail");
+    }
+
+    @Override
+    public ModelAndView viewAllEventAdminPage() {
+        return new ModelAndView("admin-event");
+    }
+
+    @Override
+    public ModelAndView editEventAdminPage() {
+        return new ModelAndView("admin-event-detail");
+    }
+
+    @Override
+    public ModelAndView createEventAdminPage() {
+        return new ModelAndView("admin-event-create");
+    }
 }

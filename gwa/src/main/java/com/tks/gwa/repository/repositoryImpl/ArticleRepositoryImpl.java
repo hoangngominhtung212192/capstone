@@ -21,7 +21,6 @@ public class ArticleRepositoryImpl extends GenericRepositoryImpl<Article, Intege
 
     @Override
     public Article addNewArticle(Article article) {
-        System.out.println("ADDING NEW ARTICLE WITH TITLE: " + article.getTitle());
         Article newArticle = this.create(article);
 
         return newArticle;
@@ -41,7 +40,6 @@ public class ArticleRepositoryImpl extends GenericRepositoryImpl<Article, Intege
 
     @Override
     public Article findArticleByID(Integer id) {
-        System.out.println("repo getarticle id:" + id);
         Article resultArticle = this.read(id);
         return resultArticle;
     }
@@ -83,6 +81,7 @@ public class ArticleRepositoryImpl extends GenericRepositoryImpl<Article, Intege
 
     @Override
     public Article changeStatusArticle(Integer id, String status) {
+        System.out.println("REPO changing status of article idL"+id);
         Article article = this.findArticleByID(id);
         article.setApprovalStatus(status);
         Article updatedArticle = this.update(article);

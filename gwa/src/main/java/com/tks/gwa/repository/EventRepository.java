@@ -12,4 +12,6 @@ public interface EventRepository extends GenericRepository<Event, Integer> {
     Event updateEvent(Event event);
     boolean deleteEvent(Event event);
     Event getEventByID(Integer id);
+    List<Event> getEventByStatus(String status);
+    List<Event> getAvailableEvent();
 }
