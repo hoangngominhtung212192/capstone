@@ -736,6 +736,7 @@ public class ModelServiceImpl implements ModelService {
         return null;
     }
 
+    // levenshtein algorithm
     @Override
     public List<Tradepost> getRelatedTradepost(String modelName) {
 
