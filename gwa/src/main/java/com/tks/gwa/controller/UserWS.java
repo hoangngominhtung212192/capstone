@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
@@ -33,4 +34,8 @@ public interface UserWS {
     @RequestMapping(value = "/profile/update/image", method = RequestMethod.POST)
     ResponseEntity<Profile> updateProfileImage(@RequestParam(value = "photoBtn", required = false) MultipartFile photoBtn,
                                                @RequestParam("id") int id);
+
+    @RequestMapping(value = "/getAllAccount", method = RequestMethod.GET)
+    ResponseEntity<List<Object>> getAllAccount(@RequestParam("pageNumber") int pageNumber,
+                                                    @RequestParam("type") String type);
 }

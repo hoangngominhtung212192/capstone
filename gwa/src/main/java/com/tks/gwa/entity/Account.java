@@ -21,6 +21,9 @@ public class Account implements Serializable {
     @Column(name = "username")
     private String username;
 
+    @Column(name = "createddate")
+    private String createdDate;
+
     @ManyToOne
     @JoinColumn(name="roleid")
     private Role role;
@@ -30,6 +33,12 @@ public class Account implements Serializable {
 
     @Transient
     private String lastname;
+
+    @Transient
+    private String middlename;
+
+    @Transient
+    private String address;
 
     @Transient
     private String email;
@@ -120,5 +129,29 @@ public class Account implements Serializable {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getMiddlename() {
+        return middlename;
+    }
+
+    public void setMiddlename(String middlename) {
+        this.middlename = middlename;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

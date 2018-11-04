@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public interface WebController {
 
@@ -23,7 +25,7 @@ public interface WebController {
     @RequestMapping(value = "/model/")
     public ModelAndView modelPage();
 
-    @RequestMapping(value = "/model/modeldetail")
+    @RequestMapping(value = "/model/detail")
     public ModelAndView modelDetailPage();
 
     @RequestMapping(value = "/user/profile")
@@ -45,7 +47,7 @@ public interface WebController {
     public ModelAndView searchAccountPage();
 
     @RequestMapping(value = "/admin/model/create")
-    public ModelAndView createModelPage();
+    public ModelAndView createModelPage(HttpSession session);
 
     @RequestMapping(value = "/admin/model/edit")
     public ModelAndView editModelPage();

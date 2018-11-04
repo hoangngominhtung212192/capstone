@@ -34,6 +34,10 @@ public class Article implements Serializable {
     @Column(name = "title")
     private String title;
 
+    @Lob
+    @Column(name = "description")
+    private String description;
+
     //bi-directional many-to-one association to Account
     @ManyToOne
     @JoinColumn(name="accountid")
@@ -111,5 +115,13 @@ public class Article implements Serializable {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

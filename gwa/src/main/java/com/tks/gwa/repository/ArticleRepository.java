@@ -17,4 +17,10 @@ public interface ArticleRepository extends GenericRepository<Article, Integer>{
     Article changeStatusArticle(Integer id, String status);
     List<Article> changeStatusManyArticle(List<Integer> idlist, String status);
 
+    /**
+     *
+     * @param modelName
+     * @return
+     */
+    List<Article> getTop5ArticleByModelName(String modelName);
 }

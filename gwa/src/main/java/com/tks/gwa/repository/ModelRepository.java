@@ -1,5 +1,6 @@
 package com.tks.gwa.repository;
 
+import com.tks.gwa.dto.ModelSDTO;
 import com.tks.gwa.entity.Model;
 import org.springframework.stereotype.Repository;
 
@@ -67,4 +68,37 @@ public interface ModelRepository extends GenericRepository<Model, Integer> {
      * @return
      */
     int getCountAllPending();
+
+    /**
+     *
+     * @return
+     */
+    List<String> getAllMd5HashValues();
+
+    /**
+     *
+     * @param modelSDTO
+     * @return
+     */
+    List<Model> searchModel(ModelSDTO modelSDTO);
+
+    /**
+     *
+     * @param modelSDTO
+     * @return
+     */
+    int getCountAllSearch(ModelSDTO modelSDTO);
+
+    /**
+     *
+     * @param md5
+     * @return
+     */
+    Model getModelByMD5(String md5);
+
+    /**
+     *
+     * @return
+     */
+    List<Model> getTop5Rating();
 }

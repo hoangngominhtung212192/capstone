@@ -4,6 +4,8 @@ import com.tks.gwa.entity.Account;
 import com.tks.gwa.entity.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface UserService {
 
@@ -16,4 +18,6 @@ public interface UserService {
     public Account getAccountByUsername(String username);
 
     public Profile updateProfile(Profile profile);
+
+    public List<Object> getAllAccount(int pageNumber, String type);
 }

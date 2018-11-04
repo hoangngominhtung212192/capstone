@@ -21,6 +21,9 @@ public class Traderating implements Serializable {
     @Column(name = "rating")
     private int rating;
 
+    @Column(name = "ratingdate")
+    private String ratingDate;
+
     //bi-directional many-to-one association to Account
     @ManyToOne
     @JoinColumn(name="fromuser")
@@ -33,8 +36,8 @@ public class Traderating implements Serializable {
 
     //bi-directional many-to-one association to Tradepost
     @ManyToOne
-    @JoinColumn(name="tradepostid")
-    private Tradepost tradepost;
+    @JoinColumn(name="orderid")
+    private Orderrequest orderrequest;
 
     public Traderating(){}
 
@@ -86,11 +89,19 @@ public class Traderating implements Serializable {
         this.toUser = toUser;
     }
 
-    public Tradepost getTradepost() {
-        return tradepost;
+    public Orderrequest getOrderrequest() {
+        return orderrequest;
     }
 
-    public void setTradepost(Tradepost tradepost) {
-        this.tradepost = tradepost;
+    public void setOrderrequest(Orderrequest orderrequest) {
+        this.orderrequest = orderrequest;
+    }
+
+    public String getRatingDate() {
+        return ratingDate;
+    }
+
+    public void setRatingDate(String ratingDate) {
+        this.ratingDate = ratingDate;
     }
 }

@@ -14,4 +14,6 @@ public interface TradepostRepository extends GenericRepository<Tradepost, Intege
     boolean removeTradepost(Tradepost tradepost);
     Tradepost findTradepostById(int tradepostID);
 
+    int getCountAll();
+    List<Tradepost> get50TradePost(int pageNumber, int pageSize);
 }

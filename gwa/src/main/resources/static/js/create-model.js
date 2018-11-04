@@ -19,8 +19,7 @@ $(document).ready(function () {
                     var role_session = jsonResponse["role"].name;
 
                     if (role_session != "ADMIN") {
-                        alert("Access denied !")
-                        window.location.href = "/model/";
+                        window.location.href = "/403";
                     } else {
                         var username = jsonResponse["username"];
                         var thumbAvatar = jsonResponse["avatar"];
@@ -160,11 +159,11 @@ $(document).ready(function () {
                 if (!checkExist) {
                     // check totalSize
                     totalSize += value.size;
-                    // maximum total size: 200MB
-                    if (totalSize > 31457280) {
+                    // maximum total size: 5MB
+                    if (totalSize > 5242880) {
                         totalSize -= value.size;
                         $("#error").css("display", "block");
-                        $("#error").text("Maximum size for uploading: 30MB. Your current size: " + totalSize);
+                        $("#error").text("Maximum size for uploading: 5MB. Your current size: " + totalSize);
                     } else { // if not over reach max size
                         // display current total size
                         if (Math.round((totalSize/1024)/1024) == 0) {
@@ -200,8 +199,10 @@ $(document).ready(function () {
                                 '    width: 85px;\n' +
                                 '    font-size: 14px;\n' +
                                 '    height: 34px;\n' +
-                                '    padding-top: 5px;" ' +
-                                'class="high-cancel btn btn-warning cancel ' + value.name + '">\n' +
+                                '    padding-top: 5px;\n' +
+                                '    background-color: #ffc107;\n' +
+                                '    border-color: #ffc107;" ' +
+                                'class="high-cancel btn cancel ' + value.name + '">\n' +
                                 '<i class="glyphicon glyphicon-ban-circle"></i>\n' +
                                 '<span>Cancel</span>\n' +
                                 '</button>\n' +
@@ -262,6 +263,7 @@ $(document).ready(function () {
 
     $("#save").click(function (e) {
         e.preventDefault();
+        $("#serverErr").css("display", "none");
 
         var code = $("#txtCode").val().trim();
         var name = $("#txtName").val().trim();
@@ -291,12 +293,15 @@ $(document).ready(function () {
                 description : description
             }
 
-            $("#mi-modal").modal('show');
+            $("#mi-modal").modal({backdrop: 'static', keyboard: false});
             $("#modal-btn-si").on("click", function(){
                 $("#mi-modal").modal('hide');
+                $("#modal-btn-no").prop("onclick", null).off("click");
+                $("#modal-btn-si").prop("onclick", null).off("click");
             });
 
-            $("#modal-btn-no").on("click", function(){
+            $("#modal-btn-no").on("click", function(e) {
+
                 if (imageFiles.length > 0) {
                     var formData = new FormData();
 
@@ -313,11 +318,15 @@ $(document).ready(function () {
                 }
 
                 $("#mi-modal").modal('hide');
+                $("#modal-btn-no").prop("onclick", null).off("click");
+                $("#modal-btn-si").prop("onclick", null).off("click");
             });
+
         }
     });
 
     function ajaxPostModel(data, images) {
+
         $.ajax({
            type: "POST",
             contentType: "application/json",
@@ -335,11 +344,11 @@ $(document).ready(function () {
             }, 
             complete: function (xhr, txtStatus) {
                 if (txtStatus == "error") {
-                    $("#error").css("display", "block");
+                    $("#serverErr").css("display", "block");
 
                     var xhr_data = xhr.responseText;
                     var jsonResponse = JSON.parse(xhr_data);
-                    $("#error").text(jsonResponse["message"]);
+                    $("#serverErr").text(jsonResponse["message"]);
                 }
             }
         });
@@ -386,6 +395,9 @@ $(document).ready(function () {
             $("#errorname").css("display", "block");
             $("#errorname").text("Please input model name")
             check = false;
+        } else {
+            $("#errorname").css("display", "none");
+            $("#errorname").text("")
         }
 
         if (!productseries) {

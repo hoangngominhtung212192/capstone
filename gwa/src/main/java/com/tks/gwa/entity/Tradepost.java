@@ -21,6 +21,7 @@ public class Tradepost implements Serializable {
     @Column(name = "`condition`")
     private int condition;
 
+    @Lob
     @Column(name = "`description`")
     private String description;
 
@@ -53,6 +54,12 @@ public class Tradepost implements Serializable {
 
     @Column(name = "tradetype")
     private int tradeType;
+
+    @Column(name = "numberofrater")
+    private int numberOfRater;
+
+    @Column(name = "numberofstar")
+    private int numberOfStar;
 
     //bi-directional many-to-one association to Account
     @ManyToOne
@@ -187,5 +194,21 @@ public class Tradepost implements Serializable {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public int getNumberOfRater() {
+        return numberOfRater;
+    }
+
+    public void setNumberOfRater(int numberOfRater) {
+        this.numberOfRater = numberOfRater;
+    }
+
+    public int getNumberOfStar() {
+        return numberOfStar;
+    }
+
+    public void setNumberOfStar(int numberOfStar) {
+        this.numberOfStar = numberOfStar;
     }
 }
