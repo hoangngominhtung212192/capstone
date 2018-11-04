@@ -5,15 +5,8 @@ import com.tks.gwa.entity.Tradepost;
 public class TradeListingDTO {
     private Tradepost tradepost;
     private String thumbnail;
-    private int totalPage;
 
     public TradeListingDTO() {
-    }
-
-    public TradeListingDTO(Tradepost tradepost, String thumbnail, int totalPage) {
-        this.tradepost = tradepost;
-        this.thumbnail = thumbnail;
-        this.totalPage = totalPage;
     }
 
     public Tradepost getTradepost() {
@@ -32,11 +25,11 @@ public class TradeListingDTO {
         this.thumbnail = thumbnail;
     }
 
-    public int getTotalPage() {
-        return totalPage;
-    }
-
-    public void setTotalPage(int totalPage) {
-        this.totalPage = totalPage;
+    public TradeListingDTO(Tradepost tradepost, String thumbnail) {
+        this.tradepost = tradepost;
+        this.thumbnail = thumbnail;
     }
 }
+
+
+

@@ -4,6 +4,8 @@ var currentTabSelected = "approved";
 var currentPage = 1;
 var myTradeAccountId;
 var totalPage = 1;
+var searchValue = "";
+var isSearch = false;
 var $pagination = $("#pagination-mytrade");
 var defaultPaginationOpts = {
     totalPages: totalPage,
@@ -33,7 +35,11 @@ var defaultPaginationOpts = {
 // callback function
     onPageClick: function (event, page) {
         currentPage = page;
-        myTradeData = loadMyTradeData(myTradeAccountId,currentTabSelected,currentPage,currentSortType);
+        if(isSearch){
+            myTradeData = searchMyTradeData(myTradeAccountId,currentTabSelected,currentPage,currentSortType,searchValue);
+        }else {
+            myTradeData = loadMyTradeData(myTradeAccountId,currentTabSelected,currentPage,currentSortType);
+        }
         renderRecord();
     },
 
@@ -57,19 +63,64 @@ $(document).ready(function () {
 function changeTab(ele) {
     currentTabSelected = $(ele).attr("data-status");
     currentPage =1;
-    myTradeData = loadMyTradeData(myTradeAccountId,currentTabSelected,currentPage,currentSortType);
+    if(isSearch){
+        myTradeData = searchMyTradeData(myTradeAccountId,currentTabSelected,currentPage,currentSortType,searchValue);
+    }else {
+        myTradeData = loadMyTradeData(myTradeAccountId,currentTabSelected,currentPage,currentSortType);
+    }
     renderRecord();
     $pagination.twbsPagination('destroy');
-    $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
-        totalPages: totalPage
-    }));
+    if (totalPage > 1){
+        $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+            totalPages: totalPage
+        }));
+    }
 }
 $("#sortTypeSelect").change(function () {
     currentSortType = $("#sortTypeSelect").val();
-    myTradeData = loadMyTradeData(myTradeAccountId,currentTabSelected,currentPage,currentSortType);
+    if(isSearch){
+        myTradeData = searchMyTradeData(myTradeAccountId,currentTabSelected,currentPage,currentSortType,searchValue);
+    }else {
+        myTradeData = loadMyTradeData(myTradeAccountId,currentTabSelected,currentPage,currentSortType);
+    }
     renderRecord();
     $.growl.notice({title: "My trade", message: "Sorting by " + $("option[value='"+currentSortType+"']").text()});
 
+});
+$("#inputSearch").on('keyup', function (e) {
+    if (e.keyCode == 13) {
+        // console.log("Enter");
+        searchValue = $("#inputSearch").val();
+        if (searchValue === ""){
+            if (isSearch === true){
+                $(".notice-section").hide();
+                currentPage = 1;
+                myTradeData = loadMyTradeData(myTradeAccountId,currentTabSelected,currentPage,currentSortType);
+                $pagination.twbsPagination('destroy');
+                if (totalPage > 1){
+                    $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+                        totalPages: totalPage
+                    }));
+                }
+                renderRecord();
+                isSearch = false;
+            }
+        }else {
+            currentPage = 1;
+            myTradeData = searchMyTradeData(myTradeAccountId,currentTabSelected,currentPage,currentSortType,searchValue);
+            $pagination.twbsPagination('destroy');
+            if (totalPage > 1){
+                $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+                    totalPages: totalPage
+                }));
+            }
+            renderRecord();
+            isSearch = true;
+            $(".notice-section").show();
+            $("#noticeTitle").html("You are searching with keyword: " + searchValue);
+            $("#noticeContent").html("Clear your searchbox and enter to remove search.");
+        }
+    }
 });
 function authentication() {
     $.ajax({
@@ -90,9 +141,11 @@ function authentication() {
                     $("#searchDiv").show();
                     $("#paginationDiv").show();
                     $pagination.twbsPagination('destroy');
-                    $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
-                        totalPages: totalPage
-                    }));
+                    if (totalPage > 1){
+                        $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+                            totalPages: totalPage
+                        }));
+                    }
                     
                 } else if (role == "ADMIN") {
                     $(".notice-section").show();
@@ -103,7 +156,7 @@ function authentication() {
                 $(".notice-section").show();
                 $("#noticeTitle").html("Opps! You need login to stay here!");
                 $("#noticeContent").html("Click <a href='/login'>[HERE]</a> to login.");
-                console.log("Guest is accessing !");
+                // console.log("Guest is accessing !");
             }
         }
     });
@@ -127,12 +180,49 @@ function loadMyTradeData(accountId, status, pageNumber, sortType) {
             if (status == "success") {
                 var xhr_data = xhr.responseText;
                 var jsonResponse = JSON.parse(xhr_data);
-                console.log(jsonResponse);
-                result = jsonResponse;
-                totalPage = jsonResponse[0]["totalPage"];
+                // console.log(jsonResponse);
+                result = jsonResponse[1];
+                if (result != ""){
+                    totalPage = jsonResponse[0];
+                }else {
+                    totalPage = 0;
+                }
             } else {
                 result = null;
-                console.log("Trade post not found!");
+                // console.log("Trade post not found!");
+            }
+        }
+    });
+    return result;
+}
+<!-- Search My Trade Data-->
+function searchMyTradeData(accountId, status, pageNumber, sortType, keyword) {
+    var result;
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/tradepost/search-my-trade",
+        data: {
+            accountId : accountId,
+            status : status,
+            pageNumber: pageNumber,
+            sortType: sortType,
+            keyword: keyword
+        },
+        async: false,
+        complete: function (xhr, status) {
+            if (status == "success") {
+                var xhr_data = xhr.responseText;
+                var jsonResponse = JSON.parse(xhr_data);
+                // console.log(jsonResponse);
+                result = jsonResponse[1];
+                if (result != ""){
+                    totalPage = jsonResponse[0];
+                }else {
+                    totalPage = 0;
+                }
+            } else {
+                result = null;
+                // console.log("Trade post not found!");
             }
         }
     });

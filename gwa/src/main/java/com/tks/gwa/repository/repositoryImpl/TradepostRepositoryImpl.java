@@ -37,34 +37,6 @@ public class TradepostRepositoryImpl extends GenericRepositoryImpl<Tradepost, In
         return result;
     }
 
-    @Override
-    public List<Tradepost> getTradepostPerPageWithSortingAndStatusByAccount(int accountId, String status, int pageNumber, int sortType) {
-        String sortSql = "";
-        if (AppConstant.TRADEPOST.SORT_DATE_DESC == sortType) {
-            sortSql = " ORDER BY t.postedDate DESC";
-        } else if (AppConstant.TRADEPOST.SORT_DATE_ASC == sortType) {
-            sortSql = " ORDER BY t.postedDate ASC";
-        } else if (AppConstant.TRADEPOST.SORT_PRICE_DESC == sortType) {
-            sortSql = " ORDER BY t.price DESC";
-        } else if (AppConstant.TRADEPOST.SORT_PRICE_ASC == sortType) {
-            sortSql = " ORDER BY t.price ASC";
-        }
-        String sql = "SELECT t FROM " + Tradepost.class.getName()
-                + " AS t WHERE t.account.id =:accountID AND t.approvalStatus =:status" + sortSql;
-        Query query = this.entityManager.createQuery(sql);
-        //Set param
-        query.setParameter("accountID", accountId);
-        query.setParameter("status", status);
-        query.setFirstResult((pageNumber - 1) * AppConstant.TRADEPOST.MAX_POST_PER_PAGE);
-        query.setMaxResults(AppConstant.TRADEPOST.MAX_POST_PER_PAGE);
-        List<Tradepost> result = null;
-        try {
-            result = (List<Tradepost>) query.getResultList();
-        } catch (NoResultException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
 
     @Override
     public Tradepost addNewTradepost(Tradepost tradepost) {
@@ -121,28 +93,21 @@ public class TradepostRepositoryImpl extends GenericRepositoryImpl<Tradepost, In
         return true;
     }
 
+
+    //GET ALL TRADING POST (APPROVED)
     @Override
-    public List<Tradepost> getTradePostPerPageWithSortingByTradeType(String tradeType, int pageNumber, int sortType) {
-        String sortSql = "";
-        if (AppConstant.TRADEPOST.SORT_DATE_DESC == sortType) {
-            sortSql = " ORDER BY t.postedDate DESC";
-        } else if (AppConstant.TRADEPOST.SORT_DATE_ASC == sortType) {
-            sortSql = " ORDER BY t.postedDate ASC";
-        } else if (AppConstant.TRADEPOST.SORT_PRICE_DESC == sortType) {
-            sortSql = " ORDER BY t.price DESC";
-        } else if (AppConstant.TRADEPOST.SORT_PRICE_ASC == sortType) {
-            sortSql = " ORDER BY t.price ASC";
-        }
-        String whereSql = "";
+    public List<Tradepost> getTradepostByTradeTypeAndSortTypeInPageNumber(String tradeType, int pageNumber, int sortType) {
+        String sortSql = getSortSql(sortType);
+        String typeSql = "";
         if (AppConstant.TRADEPOST.TYPE_SELL.equals(tradeType)) {
-            whereSql = " WHERE t.tradeType =" + AppConstant.TRADEPOST.TYPE_SELL_INT;
+            typeSql = " AND t.tradeType =" + AppConstant.TRADEPOST.TYPE_SELL_INT;
         } else if (AppConstant.TRADEPOST.TYPE_BUY.equals(tradeType)) {
-            whereSql = " WHERE t.tradeType =" + AppConstant.TRADEPOST.TYPE_BUY_INT;
+            typeSql = " AND t.tradeType =" + AppConstant.TRADEPOST.TYPE_BUY_INT;
         }
 
-        String sql = "SELECT t FROM " + Tradepost.class.getName()
-                + " AS t" + whereSql + sortSql;
+        String sql = "SELECT t FROM " + Tradepost.class.getName() + " AS t WHERE t.approvalStatus =:status" + typeSql + sortSql;
         Query query = this.entityManager.createQuery(sql);
+        query.setParameter("status", AppConstant.APPROVED_STATUS);
 
         query.setFirstResult((pageNumber - 1) * AppConstant.TRADEPOST.MAX_POST_PER_PAGE);
         query.setMaxResults(AppConstant.TRADEPOST.MAX_POST_PER_PAGE);
@@ -155,8 +120,10 @@ public class TradepostRepositoryImpl extends GenericRepositoryImpl<Tradepost, In
         return result;
     }
 
+
+    //COUNT TOTAL PAGE TRADING POST
     @Override
-    public int countNumberOfTradepostByTradeType(String tradeType) {
+    public int countTotalPageByTradeType(String tradeType) {
         int tradeTypeInt = 0;
         if (AppConstant.TRADEPOST.TYPE_BUY.equals(tradeType)) {
             tradeTypeInt = AppConstant.TRADEPOST.TYPE_BUY_INT;
@@ -167,12 +134,14 @@ public class TradepostRepositoryImpl extends GenericRepositoryImpl<Tradepost, In
         Query query = null;
         if (tradeTypeInt != 0) {
             sql = "SELECT COUNT(t) FROM " + Tradepost.class.getName()
-                    + " AS t WHERE t.tradeType =:tradeType";
+                    + " AS t WHERE t.tradeType =:tradeType  AND t.approvalStatus =:status";
             query = this.entityManager.createQuery(sql);
             query.setParameter("tradeType", tradeTypeInt);
+            query.setParameter("status", AppConstant.APPROVED_STATUS);
         } else {
-            sql = "SELECT COUNT(t) FROM " + Tradepost.class.getName() + " AS t";
+            sql = "SELECT COUNT(t) FROM " + Tradepost.class.getName() + " AS t WHERE t.approvalStatus =:status";
             query = this.entityManager.createQuery(sql);
+            query.setParameter("status", AppConstant.APPROVED_STATUS);
         }
         long result = 0;
         try {
@@ -187,8 +156,89 @@ public class TradepostRepositoryImpl extends GenericRepositoryImpl<Tradepost, In
         return (int) totalPage;
     }
 
+    //SEARCH ALL TRADING POST
     @Override
-    public int countNumberOfTradepostByStatusAndAccount(String status, int accountId) {
+    public List<Tradepost> searchTradepostByTradeTypeAndSortTypeWithKeywordInPageNumber(String tradeType, int pageNumber, int sortType, String keyword) {
+        String sortSql = getSortSql(sortType);
+        String tradeTypeSql = "";
+        if (AppConstant.TRADEPOST.TYPE_SELL.equals(tradeType)) {
+            tradeTypeSql = " AND t.tradeType =" + AppConstant.TRADEPOST.TYPE_SELL_INT;
+        } else if (AppConstant.TRADEPOST.TYPE_BUY.equals(tradeType)) {
+            tradeTypeSql = " AND t.tradeType =" + AppConstant.TRADEPOST.TYPE_BUY_INT;
+        }
+
+        String sql = "SELECT t FROM " + Tradepost.class.getName()
+                + " AS t WHERE (t.title LIKE :keyword OR t.brand LIKE :keyword OR t.model LIKE :keyword)" +
+                " AND t.approvalStatus =:status" + tradeTypeSql + sortSql;
+        Query query = this.entityManager.createQuery(sql);
+        query.setParameter("status", AppConstant.APPROVED_STATUS);
+        query.setParameter("keyword", "%" + keyword + "%");
+
+        query.setFirstResult((pageNumber - 1) * AppConstant.TRADEPOST.MAX_POST_PER_PAGE);
+        query.setMaxResults(AppConstant.TRADEPOST.MAX_POST_PER_PAGE);
+        List<Tradepost> result = null;
+        try {
+            result = (List<Tradepost>) query.getResultList();
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    //COUNT TOTAL PAGE SEARCH TRADING POST
+    @Override
+    public int countTotalPageByTradeTypeWithKeyword(String tradeType, String keyword) {
+        String tradeTypeSql = "";
+        if (AppConstant.TRADEPOST.TYPE_SELL.equals(tradeType)) {
+            tradeTypeSql = " AND t.tradeType =" + AppConstant.TRADEPOST.TYPE_SELL_INT;
+        } else if (AppConstant.TRADEPOST.TYPE_BUY.equals(tradeType)) {
+            tradeTypeSql = " AND t.tradeType =" + AppConstant.TRADEPOST.TYPE_BUY_INT;
+        }
+
+        String sql = "SELECT COUNT(t) FROM " + Tradepost.class.getName()
+                + " AS t WHERE (t.title LIKE :keyword OR t.brand LIKE :keyword OR t.model LIKE :keyword)" +
+                " AND t.approvalStatus =:status" + tradeTypeSql;
+        Query query = this.entityManager.createQuery(sql);
+        query.setParameter("status", AppConstant.APPROVED_STATUS);
+        query.setParameter("keyword","%" + keyword + "%");
+        long result = 0;
+        try {
+            result = (long) query.getSingleResult();
+        } catch (NonUniqueResultException e) {
+            e.printStackTrace();
+        }
+        long totalPage = result / AppConstant.TRADEPOST.MAX_POST_PER_PAGE;
+        if (result % AppConstant.TRADEPOST.MAX_POST_PER_PAGE > 0) {
+            totalPage = totalPage + 1;
+        }
+        return (int) totalPage;
+    }
+
+
+    //GET ALL TRADE POST IN MY TRADE
+    @Override
+    public List<Tradepost> getTradepostByAccountStatusAndSortTypeInPageNumber(int accountId, String status, int pageNumber, int sortType) {
+        String sortSql = getSortSql(sortType);
+        String sql = "SELECT t FROM " + Tradepost.class.getName()
+                + " AS t WHERE t.account.id =:accountID AND t.approvalStatus =:status" + sortSql;
+        Query query = this.entityManager.createQuery(sql);
+        //Set param
+        query.setParameter("accountID", accountId);
+        query.setParameter("status", status);
+        query.setFirstResult((pageNumber - 1) * AppConstant.TRADEPOST.MAX_POST_PER_PAGE);
+        query.setMaxResults(AppConstant.TRADEPOST.MAX_POST_PER_PAGE);
+        List<Tradepost> result = null;
+        try {
+            result = (List<Tradepost>) query.getResultList();
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    //COUNT TOTAL PAGE OF MY TRADE
+    @Override
+    public int countTotalPageByStatusAndAccount(String status, int accountId) {
         String sql = "SELECT COUNT(t) FROM " + Tradepost.class.getName()
                 + " AS t WHERE t.account.id =:accountID AND t.approvalStatus =:status";
         Query query = this.entityManager.createQuery(sql);
@@ -205,5 +255,90 @@ public class TradepostRepositoryImpl extends GenericRepositoryImpl<Tradepost, In
             totalPage = totalPage + 1;
         }
         return (int) totalPage;
+    }
+
+    //SEARCH IN MY TRADE
+    @Override
+    public List<Tradepost> searchTradepostByAccountStatusAndSortTypeWithKeywordInPageNumber(int accountId, String status, int pageNumber, int sortType, String keyword) {
+        String sortSql = getSortSql(sortType);
+        String sql = "SELECT t FROM " + Tradepost.class.getName()
+                + " AS t WHERE (t.title LIKE :keyword OR t.brand LIKE :keyword OR t.model LIKE :keyword)" +
+                " AND t.account.id =:accountID AND t.approvalStatus =:status" + sortSql;
+        Query query = this.entityManager.createQuery(sql);
+        //Set param
+        query.setParameter("accountID", accountId);
+        query.setParameter("status", status);
+        query.setParameter("keyword", "%"+ keyword + "%");
+        query.setFirstResult((pageNumber - 1) * AppConstant.TRADEPOST.MAX_POST_PER_PAGE);
+        query.setMaxResults(AppConstant.TRADEPOST.MAX_POST_PER_PAGE);
+        List<Tradepost> result = null;
+        try {
+            result = (List<Tradepost>) query.getResultList();
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    //COUNT TOTAL PAGE SEARCH MY TRADE
+    @Override
+    public int countTotalPageByAccountStatusWithKeyword(int accountId, String status, String keyword) {
+        String sql = "SELECT COUNT(t) FROM " + Tradepost.class.getName()
+                + " AS t WHERE (t.title LIKE :keyword OR t.brand LIKE :keyword OR t.model LIKE :keyword)" +
+                " AND t.account.id =:accountID AND t.approvalStatus =:status";
+        Query query = this.entityManager.createQuery(sql);
+        query.setParameter("accountID", accountId);
+        query.setParameter("status", status);
+        query.setParameter("keyword", "%"+ keyword + "%");
+        long result = 0;
+        try {
+            result = (long) query.getSingleResult();
+        } catch (NonUniqueResultException e) {
+            e.printStackTrace();
+        }
+        long totalPage = result / AppConstant.TRADEPOST.MAX_POST_PER_PAGE;
+        if (result % AppConstant.TRADEPOST.MAX_POST_PER_PAGE > 0) {
+            totalPage = totalPage + 1;
+        }
+        return (int) totalPage;
+    }
+
+    @Override
+    public List<Tradepost> searchAllTradepostByAccountStatusAndSortTypeWithKeyword(String tradeType, int sortType, String keyword) {
+        String sortSql = getSortSql(sortType);
+        String tradeTypeSql = "";
+        if (AppConstant.TRADEPOST.TYPE_SELL.equals(tradeType)) {
+            tradeTypeSql = " AND t.tradeType =" + AppConstant.TRADEPOST.TYPE_SELL_INT;
+        } else if (AppConstant.TRADEPOST.TYPE_BUY.equals(tradeType)) {
+            tradeTypeSql = " AND t.tradeType =" + AppConstant.TRADEPOST.TYPE_BUY_INT;
+        }
+
+        String sql = "SELECT t FROM " + Tradepost.class.getName()
+                + " AS t WHERE (t.title LIKE :keyword OR t.brand LIKE :keyword OR t.model LIKE :keyword)" +
+                " AND t.approvalStatus =:status" + tradeTypeSql + sortSql;
+        Query query = this.entityManager.createQuery(sql);
+        query.setParameter("status", AppConstant.APPROVED_STATUS);
+        query.setParameter("keyword", "%" + keyword + "%");
+
+        List<Tradepost> result = null;
+        try {
+            result = (List<Tradepost>) query.getResultList();
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    String getSortSql(int sortType) {
+        String sortSql = "";
+        if (AppConstant.TRADEPOST.SORT_DATE_DESC == sortType) {
+            sortSql = " ORDER BY t.postedDate DESC";
+        } else if (AppConstant.TRADEPOST.SORT_DATE_ASC == sortType) {
+            sortSql = " ORDER BY t.postedDate ASC";
+        } else if (AppConstant.TRADEPOST.SORT_PRICE_DESC == sortType) {
+            sortSql = " ORDER BY t.price DESC";
+        } else if (AppConstant.TRADEPOST.SORT_PRICE_ASC == sortType) {
+            sortSql = " ORDER BY t.price ASC";
+        }
+        return sortSql;
     }
 }
