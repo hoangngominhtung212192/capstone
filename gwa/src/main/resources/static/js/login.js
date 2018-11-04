@@ -6,7 +6,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "/api/user/checkLogin",
+            url: "/gwa/api/user/checkLogin",
             complete: function (xhr, status) {
 
                 if (status == "success") {
@@ -15,9 +15,9 @@ $(document).ready(function () {
                     var role = jsonResponse["role"].name;
 
                     if (role == "MEMBER") {
-                        window.location.href = "/model/"
+                        window.location.href = "/gwa/model/"
                     } else if (role == "ADMIN") {
-                        window.location.href = "/admin/model/pending";
+                        window.location.href = "/gwa/admin/model/pending";
                     }
                 } else {
                     console.log("Guest is accessing !");
@@ -65,14 +65,14 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            url: "/api/user/login",
+            url: "/gwa/api/user/login",
             data: JSON.stringify(data),
             success: function (result, status) {
                 if (result.role.name == "MEMBER") {
-                    window.location.href = "/model/"
+                    window.location.href = "/gwa/model/"
                 } else {
                     if (result.role.name == "ADMIN") {
-                        window.location.href = "/admin/model/pending";
+                        window.location.href = "/gwa/admin/model/pending";
                     }
                 }
             },
