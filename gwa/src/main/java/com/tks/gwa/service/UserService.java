@@ -24,4 +24,6 @@ public interface UserService {
     public List<Profile> getTopRanking();
 
     public List<Object> getStatisticByAccountID(int accountID);
+
+    public List<Object> getAllUserRatingByAccountID(int pageNumber, int accountID);
 }

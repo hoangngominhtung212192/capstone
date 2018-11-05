@@ -75,7 +75,14 @@ $(document).ready(function () {
             success: function (result) {
                 //get selected profile's account status
 
-                var displayUsername = result.lastName + ' ' + result.firstName;
+                var displayUsername = "";
+
+                if (result.middleName) {
+                    displayUsername += result.lastName + ' ' + result.middleName + ' ' + result.firstName;
+                } else {
+                    displayUsername += result.lastName + ' ' + result.firstName;
+                }
+
                 $("#fullname-new").text(displayUsername);
                 $("#fullname-dropdown").text(displayUsername);
             },

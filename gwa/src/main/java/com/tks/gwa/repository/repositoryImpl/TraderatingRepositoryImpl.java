@@ -2,10 +2,12 @@ package com.tks.gwa.repository.repositoryImpl;
 
 import com.tks.gwa.entity.Traderating;
 import com.tks.gwa.repository.TraderatingRepository;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
 import java.util.List;
 
+@Repository
 public class TraderatingRepositoryImpl extends GenericRepositoryImpl<Traderating, Integer> implements TraderatingRepository {
 
     @Override

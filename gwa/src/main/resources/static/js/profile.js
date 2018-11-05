@@ -25,6 +25,7 @@ $(document).ready(function () {
     var preAddress;
     var joinDate;
     var accountStatus;
+    var numberOfRaters;
 
     // authentication
     authentication();
@@ -63,7 +64,7 @@ $(document).ready(function () {
                     account_session_id = jsonResponse["id"];
                     joinDate = jsonResponse["createdDate"];
                     accountStatus = jsonResponse["status"];
-                    $("#membersince").text("Member since "  + jsonResponse["createdDate"].split(" ")[0]);
+                    $("#membersince").text("Member since " + jsonResponse["createdDate"].split(" ")[0]);
 
                     var username = jsonResponse["username"];
                     var thumbAvatar = jsonResponse["avatar"];
@@ -146,10 +147,12 @@ $(document).ready(function () {
                 // profile statistic
                 $("#sell-statistic").text(result[0]);
                 $("#buy-statistic").text(result[1]);
+                $("#proposal-statistic").text(result[2]);
 
                 // current user session's profile statistic
                 $("#sell").text(result[0]);
                 $("#buy").text(result[1]);
+                $("#proposal").text(result[2]);
             },
             error: function (e) {
                 console.log("ERROR: ", e);
@@ -178,6 +181,7 @@ $(document).ready(function () {
                 preMiddleName = result.middleName;
                 preLastName = result.lastName;
                 preMobile = result.tel;
+                numberOfRaters = result.numberOfRaters;
 
                 // authorization
                 authorization();
@@ -256,6 +260,34 @@ $(document).ready(function () {
             } else {
                 $("#banBtn").css("display", "block");
             }
+        }
+
+        // if there is at least one rating about current profile
+        if (numberOfRaters != 0) {
+            $("#review-div").css("display", "block");
+
+            $("#icon-review").click(function (e) {
+                $("#reviewList").empty();
+                pageNumber = 1;
+
+                ajaxGetAllRating();
+            });
+
+            $("#scrollTable").scroll(function () {
+                if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+                    if (pageNumber < lastPage) {
+                        pageNumber += 1;
+
+                        $("#loading").css("display", "block");
+
+                        setTimeout(function () {
+                            ajaxGetAllRating();
+
+                            $("#loading").css("display", "none");
+                        }, 400);
+                    }
+                }
+            })
         }
     }
 
@@ -349,12 +381,12 @@ $(document).ready(function () {
             "                                    </div>\n" +
             "                                </div>\n" +
             "\n" +
-            "                                <div class=\"form-group\" style=\"margin-top: 35px;\">\n" +
+            "                                <div id=\"review-div\" class=\"form-group\" style=\"margin-top: 35px; display: none;\">\n" +
             "                                    <div class=\"col-xs-6\">\n" +
-            "                                        <img id=\"icon-review\" style=\"margin-left: 0px;\"\n" +
+            "                                        <img id=\"icon-review\" style=\"margin-left: 0px; float: left; margin-right: 8px;\"\n" +
             "                                             src=\"/gwa/img/icon-review.png\" data-toggle=\"modal\"\n" +
             "                                             data-target=\"#reviewModel\">\n" +
-            "                                        <span style=\"text-decoration: underline;\">Exchange evaluation</span>\n" +
+            "                                        <span style=\"text-decoration: underline; float: left;\">Exchange evaluation</span>\n" +
             "                                    </div>\n" +
             "                                </div>\n" +
             "                            </div>\n" +
@@ -782,7 +814,9 @@ $(document).ready(function () {
             success: function (result) {
                 console.log("List of top ranking records: " + result);
 
-                renderTopRanking(result);
+                if (result.length > 0) {
+                    renderTopRanking(result);
+                }
             },
             error: function (e) {
                 console.log("ERROR: ", e);
@@ -811,15 +845,15 @@ $(document).ready(function () {
                 } else if (value.rank == 2) {
                     appendTopRanking += "            <div class=\"ranking-container\">\n" +
                         "            <img src=\"/gwa/img/2nd.jpg\" class=\"rankNumber\"/>\n" +
-                        "            <a href='/gwa/pages/profile.html?accountID=\" + value.account.id + \"' class=\"ranking-username\">";
+                        "            <a href='/gwa/pages/profile.html?accountID=" + value.account.id + "' class=\"ranking-username\">";
                 } else if (value.rank == 3) {
                     appendTopRanking += "            <div class=\"ranking-container\">\n" +
                         "            <img src=\"/gwa/img/3rd.jpg\" class=\"rankNumber\"/>\n" +
-                        "            <a href='/gwa/pages/profile.html?accountID=\" + value.account.id + \"' class=\"ranking-username\">";
+                        "            <a href='/gwa/pages/profile.html?accountID=" + value.account.id + "' class=\"ranking-username\">";
                 } else {
                     appendTopRanking += "            <div class=\"ranking-container\">\n" +
                         "            <span class=\"normal-rankNumber\">" + value.rank + "th</span>\n" +
-                        "            <a href='/gwa/pages/profile.html?accountID=\" + value.account.id + \"' class=\"ranking-username\">";
+                        "            <a href='/gwa/pages/profile.html?accountID=" + value.account.id + "' class=\"ranking-username\">";
                 }
 
                 if (value.middleName) {
@@ -836,4 +870,59 @@ $(document).ready(function () {
         appendTopRanking += "</div></div>";
         $("#row-area").append(appendTopRanking);
     }
+
+    /*  Get all user's feedback and rating area */
+    var pageNumber = 1;
+    var lastPage;
+
+    function ajaxGetAllRating() {
+
+        $.ajax({
+            type: "GET",
+            url: "/gwa/api/user/rating/getAll?pageNumber=" + pageNumber + "&accountID=" + account_profile_on_page_id,
+            success: function (result) {
+                lastPage = result[0];
+                renderUserRating(result[1]);
+
+                console.log(result);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    function renderUserRating(result) {
+
+        $.each(result, function (i, value) {
+            var appendReview = "";
+
+            appendReview += "<tr>\n" +
+                "<td style=\"vertical-align: top; padding-top: 10px;\">\n" +
+                "<img src=\"" + value.fromUser.avatar + "\" onerror=\"this.src='/gwa/img/avatar_2x.png'\"/>\n" +
+                " </td>\n" +
+                "<td class=\"review-info\">\n" +
+                "<a href=\"/gwa/pages/profile.html?accountID=" + value.fromUser.id + "\">" + value.fromUser.username +
+                "</a>\n";
+
+            appendReview += "<span class=\"reputation-star-rating\">";
+
+            for (var j = 0; j < value.rating; j++) {
+                appendReview += "&#9733;";
+            }
+
+            appendReview += "</span>\n" +
+                "                                <span class=\"ratingDate\">(" + value.ratingDate + ")</span>\n" +
+                "                                <br/>\n" +
+                "                                <div class=\"review-info-text\">\n" + value.comment +
+                "                                </div>\n" +
+                "                            </td>\n" +
+                "                        </tr>";
+
+            $("#reviewList").append(appendReview);
+        });
+    }
+
+    /*  End feedback and rating  */
+
 })

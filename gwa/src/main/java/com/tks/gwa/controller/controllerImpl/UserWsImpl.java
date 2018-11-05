@@ -218,4 +218,16 @@ public class UserWsImpl implements UserWS {
         return new ResponseEntity<List<Object>>(result, HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<List<Object>> getAllUserRatingByAccountID(int pageNumber, int accountID) {
+
+        System.out.println("[UserWS] Begin getAllUserRatingByAccountID with data:");
+        System.out.println("Page number: " + pageNumber);
+        System.out.println("AccountID: " + accountID);
+
+        List<Object> result = userService.getAllUserRatingByAccountID(pageNumber, accountID);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }

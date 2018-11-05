@@ -44,4 +44,8 @@ public interface UserWS {
 
     @RequestMapping(value = "/getStatistic", method = RequestMethod.GET)
     ResponseEntity<List<Object>> getStatistic(@RequestParam("accountID") int accountID);
+
+    @RequestMapping(value = "/rating/getAll", method = RequestMethod.GET)
+    ResponseEntity<List<Object>> getAllUserRatingByAccountID(@RequestParam("pageNumber") int pageNumber,
+                                                             @RequestParam("accountID") int accountID);
 }

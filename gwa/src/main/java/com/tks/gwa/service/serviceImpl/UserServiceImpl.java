@@ -5,9 +5,8 @@ import com.tks.gwa.dto.Pagination;
 import com.tks.gwa.entity.Account;
 import com.tks.gwa.entity.Profile;
 import com.tks.gwa.entity.Role;
-import com.tks.gwa.repository.AccountRepository;
-import com.tks.gwa.repository.ProfileRepository;
-import com.tks.gwa.repository.TradepostRepository;
+import com.tks.gwa.entity.Traderating;
+import com.tks.gwa.repository.*;
 import com.tks.gwa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +29,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private TradepostRepository tradepostRepository;
+
+    @Autowired
+    private ProposalRepository proposalRepository;
+
+    @Autowired
+    private TraderatingRepository traderatingRepository;
 
     @Override
     public Account checkLogin(Account account) {
@@ -242,8 +247,43 @@ public class UserServiceImpl implements UserService {
         objectList.add(tradepostRepository.getCountTradepostByAccountIDAndTradetype(accountID, 2));
 
         // get count proposal
+        objectList.add(proposalRepository.getCountByAccountID(accountID));
 
         return objectList;
+    }
+
+    @Override
+    public List<Object> getAllUserRatingByAccountID(int pageNumber, int accountID) {
+
+        List<Object> result = new ArrayList<>();
+
+        int total = traderatingRepository.getCountByToUserID(accountID);
+
+        if (total > 0) {
+            int lastPage = 0;
+
+            if (total % 10 == 0) {
+                lastPage = total / 10;
+            } else {
+                lastPage = ((total / 10) + 1);
+            }
+
+            result.add(lastPage);
+
+            List<Traderating> traderatingList = traderatingRepository.getListTradeRatingByToUserID(pageNumber, accountID);
+            if (traderatingList != null) {
+                for (int i = 0; i < traderatingList.size(); i++) {
+                    Profile profile = profileRepository.findProfileByAccountID(traderatingList.get(i).getFromUser().getId());
+                    traderatingList.get(i).getFromUser().setAvatar(profile.getAvatar());
+                }
+
+                result.add(traderatingList);
+
+                return result;
+            }
+        }
+
+        return null;
     }
 
     public String getCurrentTimeStamp() {
