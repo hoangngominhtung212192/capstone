@@ -124,5 +124,6 @@ public class XJCGenerateJavaObj {
 //        printSimilarity("47/2018", "4B.CDEFG");
 //        printSimilarity("47/2018", "AB.CDEFG");
 //        printSimilarity("kitten", "sitting");
+        System.out.println(Math.round((float) 22/ (float) 5));
     }
 }

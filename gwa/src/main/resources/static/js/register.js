@@ -5,7 +5,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "/api/user/checkLogin",
+            url: "/gwa/api/user/checkLogin",
             complete: function (xhr, status) {
 
                 if (status == "success") {
@@ -14,9 +14,9 @@ $(document).ready(function () {
                     var role = jsonResponse["role"].name;
 
                     if (role == "MEMBER") {
-                        window.location.href = "/model/"
+                        window.location.href = "/gwa/model/"
                     } else if (role == "ADMIN") {
-                        window.location.href = "/admin/model/create";
+                        window.location.href = "/gwa/admin/model/create";
                     }
                 } else {
                     console.log("Guest is accessing !");
@@ -64,7 +64,7 @@ $(document).ready(function () {
                 check = false;
             } else if (firstname.length > 50 || firstname.length < 2) {
                 $("#errorfirstname").css("visibility", "visible");
-                $("#errorfirstname").text("Out of range, maximum: 50 characters, minimum: 3 characters");
+                $("#errorfirstname").text("Out of range, maximum: 50 characters, minimum: 2 characters");
                 check = false;
             } else {
                 $("#errorfirstname").css("visibility", "hidden");
@@ -84,7 +84,7 @@ $(document).ready(function () {
                 check = false;
             } else if (lastname.length > 50 || lastname.length < 2) {
                 $("#errorlastname").css("visibility", "visible");
-                $("#errorlastname").text("Out of range, maximum: 50 characters, minimum: 3 characters");
+                $("#errorlastname").text("Out of range, maximum: 50 characters, minimum: 2 characters");
                 check = false;
             } else {
                 $("#errorlastname").css("visibility", "hidden");
@@ -161,13 +161,15 @@ $(document).ready(function () {
         $.ajax({
             type : "POST",
             contentType : "application/json",
-            url : "/api/user/register",
+            url : "/gwa/api/user/register",
             data : JSON.stringify(data),
             success : function(result, status) {
-                alert("Register successfully !")
                 console.log("New profile is created successfully with identifier: " + result.id);
 
-                window.location.href = "/login";
+                $("#myModal").modal({backdrop: 'static', keyboard: false});
+                $("#success-btn").on("click", function() {
+                    window.location.href = "/gwa/login";
+                });
             },
             complete : function(xhr, textStatus) {
                 if (textStatus == "error") {

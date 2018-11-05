@@ -9,17 +9,17 @@
     <title>Gunpla World</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="/img/favicon.ico">
+    <link rel="icon" href="/gwa/img/favicon.ico">
 
     <!-- Core Stylesheet -->
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/model.css">
-    <link rel="stylesheet" href="/css/search-filter.css">
-    <link rel="stylesheet" href="/css/pagination.css">
-    <link rel="stylesheet" href="/css/w3.css">
+    <link rel="stylesheet" href="/gwa/css/style.css">
+    <link rel="stylesheet" href="/gwa/css/model.css">
+    <link rel="stylesheet" href="/gwa/css/search-filter.css">
+    <link rel="stylesheet" href="/gwa/css/pagination.css">
+    <link rel="stylesheet" href="/gwa/css/w3.css">
 
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/model-detail.js"></script>
+    <script type="text/javascript" src="/gwa/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/gwa/js/model-detail.js"></script>
     <style>
         .mySlides {
             display: none
@@ -44,7 +44,7 @@
 </head>
 
 <body onpageshow="scrollToProducts()" style="background-color: whitesmoke;">
-<div id="loading" class="loading" style="display: none;">Loading&#8230;</div>
+<div id="loading" class="loading" style="display: none; z-index: 20000;">Loading&#8230;</div>
 <!--    The Rating Modal   -->
 <div class="modal fade" id="myModal">
     <div class="modal-dialog">
@@ -160,53 +160,96 @@
 
                         <div id="profile-div" class="navbar-custom-menu">
                             <ul class="nav navbar-nav">
+                                <!-- notification -->
+                                <li id="notification-li" class="dropdown notification-menu-custom">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                        <i class="fa fa-bell-o"></i>
+                                        <span class="label label-warning">10</span>
+                                    </a>
+                                    <ul id="dropdown-notification" class="dropdown-menu">
+                                        <li class="header">You have 10 notifications</li>
+                                        <li>
+                                            <!-- inner menu: contains the actual data -->
+                                            <ul class="menu">
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="fa fa-warning text-yellow"></i> Very long description
+                                                        here that may not fit into the
+                                                        page and may cause design problems
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="fa fa-users text-red"></i> 5 new members joined
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="fa fa-shopping-cart text-green"></i> 25 sales made
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="fa fa-user text-red"></i> You changed your username
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <!--    profile     -->
                                 <li id="username-li" class="dropdown user user-menu">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <img id="thumbAvatar-new" src="/img/avatar_2x.png" class="user-image"
+                                        <img id="thumbAvatar-new" src="/gwa/img/avatar_2x.png" class="user-image"
                                              alt="User Image">
                                         <span id="fullname-new" class="hidden-xs">Minh Tung</span>
                                     </a>
                                     <ul id="dropdown-profile" class="dropdown-menu">
                                         <!-- User image -->
                                         <li class="user-header">
-                                            <img id="thumbAvatar-dropdown" src="/img/avatar_2x.png"
-                                                 onerror="this.src='/img/avatar_2x.png'"
+                                            <img id="thumbAvatar-dropdown" src="/gwa/img/avatar_2x.png"
+                                                 onerror="this.src='/gwa/img/avatar_2x.png'"
                                                  class="img-circle" alt="User Image">
                                             <p>
                                                 <span id="fullname-dropdown">Minh Tung</span>
-                                                <small>Member since Nov. 2018</small>
+                                                <small id="membersince">Member since Nov. 2018</small>
                                             </p>
                                         </li>
                                         <!-- Menu Body -->
                                         <li class="user-body">
                                             <div class="statistic">
-                                                <span id="proposal">
+                                                <span>
                                                     Proposal
                                                 </span>
                                             </div>
                                             <div class="statistic">
                                                  <span>
-                                                     Exchange
+                                                     Buy
                                                  </span>
                                             </div>
                                             <div class="statistic">
                                                  <span>
-                                                     Rating
+                                                     Sell
                                                  </span>
                                             </div>
                                             <div class="statistic-detail">
-                                                <span>
+                                                <span id="proposal">
                                                     0
                                                 </span>
                                             </div>
                                             <div class="statistic-detail">
-                                                 <span id="exchange">
+                                                 <span id="buy">
                                                      0
                                                  </span>
                                             </div>
                                             <div class="statistic-detail">
-                                                 <span id="rating">
-                                                     N/A
+                                                 <span id="sell">
+                                                     0
                                                  </span>
                                             </div>
                                             <!-- /.row -->
@@ -234,8 +277,8 @@
                              class="login-search-area d-flex align-items-center">
                             <!-- Login -->
                             <div class="account login d-flex">
-                                <a id="loginbtn" href="/login"><b>Login</b></a>
-                                <a id="register" href="/register"><b>Register</b></a>
+                                <a id="loginbtn" href="/gwa/login"><b>Login</b></a>
+                                <a id="register" href="/gwa/register"><b>Register</b></a>
                             </div>
                         </div>
                     </div>
@@ -253,7 +296,7 @@
 
                     <!-- Logo -->
                     <div class="logo">
-                        <a href="index.html"><img src="/img/logo.png" alt=""></a>
+                        <a href="index.html"><img src="/gwa/img/logo.png" alt=""></a>
                     </div>
 
                     <!-- Navbar Toggler -->
@@ -324,7 +367,7 @@
             <!--    Begin left content  -->
             <div class="col-sm-2">
                 <div class="image-category">
-                    <img class="image-menu" src="/img/4543112620538.jpg"/>
+                    <img class="image-menu" src="/gwa/img/4543112620538.jpg"/>
                 </div>
                 <div class="category-title-div">
                     <strong class="category-title">CATEGORY OPTIONS</strong>
@@ -495,7 +538,7 @@
                                             </span>
 
                                             <!--    To open review list modal   -->
-                                            <img id="icon-review" src="/img/icon-review.png" data-toggle="modal"
+                                            <img id="icon-review" src="/gwa/img/icon-review.png" data-toggle="modal"
                                                  data-target="#reviewModel"/>
                                             <!--    To open my rating modal -->
                                             <button id="my-rating" type="button" class="btn btn-primary"
@@ -504,6 +547,10 @@
                                                 My Rating
                                             </button>
                                         </td>
+                                    </tr>
+                                    <tr id="status-tr" style="display: none;">
+                                        <td><b>Status: </b></td>
+                                        <td id="status" style="color: green;" class="attr-value">Active</td>
                                     </tr>
                                 </table>
                             </div>
@@ -672,15 +719,15 @@
 
 <!-- ##### All Javascript Files ##### -->
 <!-- jQuery-2.2.4 js -->
-<script src="/js/jquery/jquery-2.2.4.min.js"></script>
+<script src="/gwa/js/jquery/jquery-2.2.4.min.js"></script>
 <!-- Popper js -->
-<script src="/js/bootstrap/popper.min.js"></script>
+<script src="/gwa/js/bootstrap/popper.min.js"></script>
 <!-- Bootstrap js -->
-<script src="/js/bootstrap/bootstrap.min.js"></script>
+<script src="/gwa/js/bootstrap/bootstrap.min.js"></script>
 <!-- All Plugins js -->
-<script src="/js/plugins/plugins.js"></script>
+<script src="/gwa/js/plugins/plugins.js"></script>
 <!-- Active js -->
-<script src="/js/active.js"></script>
+<script src="/gwa/js/active.js"></script>
 <script>
     var slideIndex1 = 1;
     var slideIndex2 = 1;

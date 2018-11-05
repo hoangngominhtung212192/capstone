@@ -5,7 +5,7 @@ $(document).ready(function () {
     function ajaxGetAllPending(pageNumber, type) {
         $.ajax({
             type: "GET",
-            url: "/api/model/getAllPending?pageNumber=" + pageNumber + "&type=" + type,
+            url: "/gwa/api/model/getAllPending?pageNumber=" + pageNumber + "&type=" + type,
             success: function (result) {
                 if (result) {
                     console.log(result);
@@ -106,7 +106,7 @@ $(document).ready(function () {
                 "<td class=\"modelStatus\">" + value.status + "</td>\n" +
                 "<td>\n" +
                 "<a class='approveBtn' id=\"" + value.id +"\" href=\"#\">Approve</a>\n" +
-                "<a class=\"moreInfoBtn\" href=\"/model/modeldetail\">More</a>\n" +
+                "<a class=\"moreInfoBtn\" href=\"/pages/modeldetail.html?modelID=" + value.id + "\">More</a>\n" +
                 "</td>\n" +
                 "</tr>");
 
@@ -135,7 +135,7 @@ $(document).ready(function () {
     function approveModel(id) {
         $.ajax({
            type: "GET",
-           url: "/api/model/approve?id=" + id,
+           url: "/gwa/api/model/approve?id=" + id,
            success: function (result) {
                console.log("Approved model: " + result);
                ajaxGetAllPending(1, "");

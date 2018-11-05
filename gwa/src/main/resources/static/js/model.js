@@ -3,6 +3,7 @@ $(document).ready(function () {
     // process UI
     $(document).click(function (event) {
         $("#dropdown-profile").css("display", "none");
+        $("#dropdown-notification").css("display", "none");
     })
 
     authentication();
@@ -11,7 +12,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "/api/user/checkLogin",
+            url: "/gwa/api/user/checkLogin",
             complete: function (xhr, status) {
 
                 if (status == "success") {
@@ -24,10 +25,12 @@ $(document).ready(function () {
                     var username = jsonResponse["username"];
                     var thumbAvatar = jsonResponse["avatar"];
                     console.log(jsonResponse["role"].name + " " + username + " is on session!");
+                    $("#membersince").text("Member since "  + jsonResponse["createdDate"].split(" ")[0]);
 
                     // click profile button
                     profileClick(jsonResponse["id"]);
                     getSessionProfile(jsonResponse["id"]);
+                    ajaxGetStatistic(jsonResponse["id"]);
 
                     // display username, profile and logout button
                     if (thumbAvatar) {
@@ -50,18 +53,47 @@ $(document).ready(function () {
         });
     }
 
+    notificationClick();
+
+    function notificationClick() {
+        $("#notification-li").click(function (event) {
+            // separate from document click
+            event.stopPropagation();
+
+            $("#dropdown-notification").css("display", "block");
+
+            return false;
+        })
+    }
+
     // get session account's profile
     function getSessionProfile(id) {
 
         $.ajax({
             type: "POST",
-            url: "http://localhost:8080/api/user/profile?accountID=" + id,
+            url: "/gwa/api/user/profile?accountID=" + id,
             success: function (result) {
                 //get selected profile's account status
 
                 var displayUsername = result.lastName + ' ' + result.firstName;
                 $("#fullname-new").text(displayUsername);
                 $("#fullname-dropdown").text(displayUsername);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    function ajaxGetStatistic(accountID) {
+
+        $.ajax({
+            type: "GET",
+            url: "/gwa/api/user/getStatistic?accountID=" + accountID,
+            success: function (result) {
+                // current user session's profile statistic
+                $("#sell").text(result[0]);
+                $("#buy").text(result[1]);
             },
             error: function (e) {
                 console.log("ERROR: ", e);
@@ -80,15 +112,15 @@ $(document).ready(function () {
     $("#adminBtn").click(function (event) {
        event.preventDefault();
 
-       window.location.href = "/admin/model/pending";
+       window.location.href = "/gwa/admin/model/pending";
     });
 
     function ajaxLogout() {
         $.ajax({
             type: "GET",
-            url: "/api/user/logout",
+            url: "/gwa/api/user/logout",
             success: function (result) {
-                window.location.href = "/login";
+                window.location.href = "/gwa/login";
             }
         });
     }
@@ -96,7 +128,7 @@ $(document).ready(function () {
     // profile button click event
     function profileClick(accountID) {
         $("#profile-new").click(function (event) {
-            window.location.href = "/pages/profile.html?accountID=" + accountID;
+            window.location.href = "/gwa/pages/profile.html?accountID=" + accountID;
         })
     }
 
@@ -131,7 +163,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "/api/model/getAllProductseries",
+            url: "/gwa/api/model/getAllProductseries",
             success: function (result) {
                 console.log(result);
 
@@ -151,7 +183,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "/api/model/getAllSeriestitle",
+            url: "/gwa/api/model/getAllSeriestitle",
             success: function (result) {
                 console.log(result);
 
@@ -171,7 +203,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "/api/model/getAllManufacturer",
+            url: "/gwa/api/model/getAllManufacturer",
             success: function (result) {
                 console.log(result);
 
@@ -238,7 +270,7 @@ $(document).ready(function () {
         $.ajax({
            type : "POST",
             contentType: "application/json",
-            url : "/api/model/search",
+            url : "/gwa/api/model/search",
             data : JSON.stringify(data),
             success : function (result) {
                 console.log(result);
@@ -363,7 +395,7 @@ $(document).ready(function () {
                     e.preventDefault();
 
                    var id = $(this).attr('id');
-                   window.location.href = "/pages/modeldetail.html?modelID=" + id;
+                   window.location.href = "/gwa/pages/modeldetail.html?modelID=" + id;
                 });
 
             });

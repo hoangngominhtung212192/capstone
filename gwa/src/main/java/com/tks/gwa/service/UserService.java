@@ -20,4 +20,8 @@ public interface UserService {
     public Profile updateProfile(Profile profile);
 
     public List<Object> getAllAccount(int pageNumber, String type);
+
+    public List<Profile> getTopRanking();
+
+    public List<Object> getStatisticByAccountID(int accountID);
 }

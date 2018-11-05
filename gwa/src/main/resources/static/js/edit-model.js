@@ -8,7 +8,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "/api/user/checkLogin",
+            url: "/gwa/api/user/checkLogin",
             complete: function (xhr, status) {
 
                 if (status == "success") {
@@ -19,7 +19,7 @@ $(document).ready(function () {
                     var role_session = jsonResponse["role"].name;
 
                     if (role_session != "ADMIN") {
-                        window.location.href = "/403";
+                        window.location.href = "/gwa/403";
                     } else {
                         var username = jsonResponse["username"];
                         var thumbAvatar = jsonResponse["avatar"];
@@ -28,7 +28,7 @@ $(document).ready(function () {
 
                 } else {
                     alert("Please login as administrator to continue !")
-                    window.location.href = "/login";
+                    window.location.href = "/gwa/login";
                 }
 
             }
@@ -51,7 +51,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "/api/model/getAllProductseries",
+            url: "/gwa/api/model/getAllProductseries",
             success: function (result) {
                 console.log(result);
 
@@ -76,7 +76,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "/api/model/getAllSeriestitle",
+            url: "/gwa/api/model/getAllSeriestitle",
             success: function (result) {
                 console.log(result);
 
@@ -101,7 +101,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "/api/model/getAllManufacturer",
+            url: "/gwa/api/model/getAllManufacturer",
             success: function (result) {
                 console.log(result);
 
@@ -149,7 +149,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "/api/model/getDetail?id=" + modelID,
+            url: "/gwa/api/model/getDetail?id=" + modelID,
             success: function (result) {
                 console.log(result);
 
@@ -303,7 +303,7 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            url: "/api/model/update/updateImage",
+            url: "/gwa/api/model/update/updateImage",
             data: JSON.stringify(data),
             success: function (result) {
                 console.log(result);
@@ -538,7 +538,7 @@ $(document).ready(function () {
             type: "POST",
             contentType: "application/json",
             processData: false,
-            url: "/api/model/update",
+            url: "/gwa/api/model/update",
             data: JSON.stringify(data),
             success: function (result) {
                 console.log(result);
@@ -557,7 +557,7 @@ $(document).ready(function () {
                     ajaxImagePost(images);
                 } else {
                     alert("Update successfully");
-                    window.location.href = "/pages/modeldetail.html?modelID=" + current_model_id;
+                    window.location.href = "/gwa/pages/modeldetail.html?modelID=" + current_model_id;
                 }
             },
             complete: function (xhr, txtStatus) {
@@ -577,13 +577,13 @@ $(document).ready(function () {
             type: "POST",
             contentType: false,
             processData: false,
-            url: "/api/model/create/uploadImages",
+            url: "/gwa/api/model/create/uploadImages",
             data: formData,
             success: function (result) {
                 console.log(result);
 
                 alert("Updated successfully")
-                window.location.href = "/pages/modeldetail.html?modelID=" + result.id;
+                window.location.href = "/gwa/pages/modeldetail.html?modelID=" + result.id;
             },
             error: function (e) {
                 console.log("ERROR: ", e);
@@ -596,7 +596,7 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            url: "/api/model/update/deleteImage",
+            url: "/gwa/api/model/update/deleteImage",
             data: JSON.stringify(data),
             success: function (result) {
                 console.log("Delete successfully");
