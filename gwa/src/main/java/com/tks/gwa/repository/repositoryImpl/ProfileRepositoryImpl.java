@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 @Repository
 public class ProfileRepositoryImpl extends GenericRepositoryImpl<Profile, Integer> implements ProfileRepository {
@@ -60,5 +62,19 @@ public class ProfileRepositoryImpl extends GenericRepositoryImpl<Profile, Intege
         Profile updatedProfile = this.update(profile);
 
         return updatedProfile;
+    }
+
+    @Override
+    public List<Profile> getTopRanking() {
+
+        String sql = "SELECT p FROM " + Profile.class.getName() + " AS p WHERE p.account.status='Active' " +
+                "ORDER BY (p.numberOfStars/p.numberOfRaters) DESC";
+
+        Query query = this.entityManager.createQuery(sql);
+        query.setMaxResults(10);
+
+        List<Profile> profileList = query.getResultList();
+
+        return profileList;
     }
 }

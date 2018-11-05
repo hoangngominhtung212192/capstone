@@ -7,6 +7,7 @@ import com.tks.gwa.entity.Profile;
 import com.tks.gwa.entity.Role;
 import com.tks.gwa.repository.AccountRepository;
 import com.tks.gwa.repository.ProfileRepository;
+import com.tks.gwa.repository.TradepostRepository;
 import com.tks.gwa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ProfileRepository profileRepository;
+
+    @Autowired
+    private TradepostRepository tradepostRepository;
 
     @Override
     public Account checkLogin(Account account) {
@@ -189,6 +193,57 @@ public class UserServiceImpl implements UserService {
         result.add(accountList);
 
         return result;
+    }
+
+    @Override
+    public List<Profile> getTopRanking() {
+
+        List<Profile> profileList = profileRepository.getTopRanking();
+
+        int lastRating = 0;
+        int rank = 0;
+
+        if (profileList != null) {
+            for (int i = 0; i < profileList.size(); i++) {
+                Profile currentProfile = profileList.get(i);
+
+                if (currentProfile.getNumberOfRaters() != 0) {
+                    rank++;
+
+                    int currentRating = Math.round((float) currentProfile.getNumberOfStars()
+                            / (float) currentProfile.getNumberOfRaters());
+
+                    if (currentRating == lastRating) {
+                        rank--;
+                        profileList.get(i).setRank(rank);
+                    } else {
+                        profileList.get(i).setRank(rank);
+                    }
+
+                    lastRating = currentRating;
+                } else {
+                    currentProfile.setRank(0);
+                }
+            }
+        }
+
+        return profileList;
+    }
+
+    @Override
+    public List<Object> getStatisticByAccountID(int accountID) {
+
+        List<Object> objectList = new ArrayList<>();
+
+        // get sell records
+        objectList.add(tradepostRepository.getCountTradepostByAccountIDAndTradetype(accountID, 1));
+
+        // get buy records
+        objectList.add(tradepostRepository.getCountTradepostByAccountIDAndTradetype(accountID, 2));
+
+        // get count proposal
+
+        return objectList;
     }
 
     public String getCurrentTimeStamp() {

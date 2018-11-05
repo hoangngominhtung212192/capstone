@@ -48,6 +48,9 @@ public class Profile implements Serializable {
     private String tel;
 
     @Transient
+    private int rank;
+
+    @Transient
     private String status;
 
     @Transient
@@ -189,6 +192,14 @@ public class Profile implements Serializable {
 
     public void setAccountID(int accountID) {
         this.accountID = accountID;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 
     @Override

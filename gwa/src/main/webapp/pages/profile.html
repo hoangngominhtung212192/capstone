@@ -12,20 +12,20 @@
     <title>Gunpla World</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="/img/favicon.ico">
+    <link rel="icon" href="/gwa/img/favicon.ico">
 
     <!-- Core Stylesheet -->
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/model.css">
-    <link rel="stylesheet" href="/css/search-filter.css">
-    <link rel="stylesheet" href="/css/pagination.css">
-    <link href="/css/datepicker.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="/gwa/css/style.css">
+    <link rel="stylesheet" href="/gwa/css/model.css">
+    <link rel="stylesheet" href="/gwa/css/search-filter.css">
+    <link rel="stylesheet" href="/gwa/css/pagination.css">
+    <link href="/gwa/css/datepicker.css" rel="stylesheet" type="text/css"/>
 
     <!--    my js   -->
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script src="/js/plugins/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="/gwa/js/jquery.min.js"></script>
+    <script src="/gwa/js/plugins/bootstrap-datepicker.js"></script>
 
-    <script type="text/javascript" src="/js/profile.js"></script>
+    <script type="text/javascript" src="/gwa/js/profile.js"></script>
 </head>
 
 <body style="background-color: whitesmoke;">
@@ -46,7 +46,7 @@
                     <table id="reviewList">
                         <tr>
                             <td style="vertical-align: top">
-                                <img src="/img/4543112620538.jpg"/>
+                                <img src="/gwa/img/4543112620538.jpg"/>
                             </td>
                             <td class="review-info">
                                 <a href="#">Minh Tung</a>
@@ -83,53 +83,96 @@
 
                         <div class="navbar-custom-menu">
                             <ul class="nav navbar-nav">
+                                <!-- notification -->
+                                <li id="notification-li" class="dropdown notification-menu-custom">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                        <i class="fa fa-bell-o"></i>
+                                        <span class="label label-warning">10</span>
+                                    </a>
+                                    <ul id="dropdown-notification" class="dropdown-menu">
+                                        <li class="header">You have 10 notifications</li>
+                                        <li>
+                                            <!-- inner menu: contains the actual data -->
+                                            <ul class="menu">
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="fa fa-warning text-yellow"></i> Very long description
+                                                        here that may not fit into the
+                                                        page and may cause design problems
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="fa fa-users text-red"></i> 5 new members joined
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="fa fa-shopping-cart text-green"></i> 25 sales made
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="fa fa-user text-red"></i> You changed your username
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <!--    profile     -->
                                 <li id="username-li" class="dropdown user user-menu">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <img id="thumbAvatar-new" src="/img/avatar_2x.png" class="user-image"
+                                        <img id="thumbAvatar-new" src="/gwa/img/avatar_2x.png" class="user-image"
                                              alt="User Image">
                                         <span id="fullname-new" class="hidden-xs">Minh Tung</span>
                                     </a>
                                     <ul id="dropdown-profile" class="dropdown-menu">
                                         <!-- User image -->
                                         <li class="user-header">
-                                            <img id="thumbAvatar-dropdown" src="/img/avatar_2x.png"
-                                                 onerror="this.src='/img/avatar_2x.png'"
+                                            <img id="thumbAvatar-dropdown" src="/gwa/img/avatar_2x.png"
+                                                 onerror="this.src='/gwa/img/avatar_2x.png'"
                                                  class="img-circle" alt="User Image">
                                             <p>
                                                 <span id="fullname-dropdown">Minh Tung</span>
-                                                <small>Member since Nov. 2018</small>
+                                                <small id="membersince">Member since Nov. 2018</small>
                                             </p>
                                         </li>
                                         <!-- Menu Body -->
                                         <li class="user-body">
                                             <div class="statistic">
-                                                <span id="proposal">
+                                                <span>
                                                     Proposal
                                                 </span>
                                             </div>
                                             <div class="statistic">
                                                  <span>
-                                                     Exchange
+                                                     Buy
                                                  </span>
                                             </div>
                                             <div class="statistic">
                                                  <span>
-                                                     Rating
+                                                     Sell
                                                  </span>
                                             </div>
                                             <div class="statistic-detail">
-                                                <span>
+                                                <span id="proposal">
                                                     0
                                                 </span>
                                             </div>
                                             <div class="statistic-detail">
-                                                 <span id="exchange">
+                                                 <span id="buy">
                                                      0
                                                  </span>
                                             </div>
                                             <div class="statistic-detail">
-                                                 <span id="rating">
-                                                     N/A
+                                                 <span id="sell">
+                                                     0
                                                  </span>
                                             </div>
                                             <!-- /.row -->
@@ -166,7 +209,7 @@
 
                     <!-- Logo -->
                     <div class="logo">
-                        <a href="index.html"><img src="/img/logo.png" alt=""></a>
+                        <a href="index.html"><img src="/gwa/img/logo.png" alt=""></a>
                     </div>
 
                     <!-- Navbar Toggler -->
@@ -213,7 +256,7 @@
 
                                     </div>
                                 </li>
-                                <li><a href="/model/">GUNDAM</a></li>
+                                <li><a href="/gwa/model/">GUNDAM</a></li>
                                 <li><a href="#">Articles</a></li>
                                 <li><a href="#">Events</a></li>
                                 <li><a href="#">Trade market</a></li>
@@ -228,19 +271,19 @@
     </div>
 </header>
 <!-- ##### Header Area End ##### -->
-<div id="loading" class="loading" style="display: none;">Loading&#8230;</div>
+<div id="loading" class="loading" style="display: none; z-index: 20000;">Loading&#8230;</div>
 
 <!-- ##### Begin Body Content ##### -->
 <div class="model-container" id="innerContainer">
     <div class="container">
-        <div class="row"
+        <div id="row-area" class="row"
              style="padding-top: 20px; padding-bottom: 20px; border: 1px solid #f0f0f0;">
-            <div class="col-sm-6">
+            <div id="username-area" class="col-sm-6">
                 <div class="profile-title">
                     <span id="usernameTitle"></span>
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div id="authorization-area" class="col-sm-6">
                 <div class="edit-container">
                     <button id="unbanBtn" style="display: none;" class="io-button-standard-profile" type="submit">
                         <a href="#">UNBAN</a>
@@ -257,7 +300,7 @@
             padding-bottom: 20px; border: 1px solid #f0f0f0;">
                 <div class="profile-left-col">
                     <div class="text-center">
-                        <img id="avatar" src="/img/avatar_2x.png"
+                        <img id="avatar" src="/gwa/img/avatar_2x.png"
                              class="avatar img-circle img-thumbnail" alt="avatar"
                              onError="this.src='/img/avatar_2x.png';"
                              style="width: 202px; height: 202px;">
@@ -265,7 +308,7 @@
 
                         <!--    replaced image for input file button    -->
                         <label for="photoBtn">
-                            <img id="upload" src="/img/upload-image.png"/>
+                            <img id="upload" src="/gwa/img/upload-image.png"/>
                         </label>
 
                         <input id="photoBtn" style="display: none" class="button-file" type="file"
@@ -278,24 +321,27 @@
                     <ul class="list-group">
                         <li class="list-group-item text-muted title-activity">Activity</li>
                         <li class="list-group-item text-right title-activity-item"><span class="pull-left"><strong>Proposal</strong></span>
-                            <span>125</span>
+                            <span id="proposal-statistic">125</span>
                         </li>
                         <li class="list-group-item text-right title-activity-item"><span
-                                class="pull-left"><strong>Buy</strong></span> <span>13</span>
+                                class="pull-left"><strong>Buy</strong></span> <span id="buy-statistic">13</span>
                         </li>
                         <li class="list-group-item text-right title-activity-item"><span
-                                class="pull-left"><strong>Sell</strong></span> <span>37</span>
+                                class="pull-left"><strong>Sell</strong></span> <span id="sell-statistic">37</span>
                         </li>
                         <li class="list-group-item text-right title-activity-item"><span class="pull-left"
                                                                                          style="margin-top: 8px"><strong>Reputation</strong></span>
-                            <span class="reputation-star-rating">&#9733;&#9733;&#9733;&#9733;&#9733;</span></li>
+                            <span id="numberOfRaters">(5)</span>
+                            <span id="reputation"
+                                  class="reputation-star-rating">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                        </li>
                     </ul>
                 </div>
             </div>
             <!--    End Left content-->
 
             <!--    Begin Right content   -->
-            <div class="col-sm-9" style="background-color: white; padding-top: 20px;
+            <div id="ownprofile-area" class="col-sm-9" style="background-color: white; padding-top: 20px;
             padding-bottom: 20px;">
                 <div class="container">
                     <form class="form" id="profileForm">
@@ -370,10 +416,6 @@
                                 <div class="form-group">
                                     <div class="col-xs-6">
                                         <label><h5>Birthday</h5></label>
-                                        <!--<input style="width: 250px;" type="text" class="form-control" name="birthday"-->
-                                               <!--id="birthday"-->
-                                               <!--value="0981875113"-->
-                                               <!--title="enter your birthday" disabled>-->
                                         <div id="datepicker" class="input-group date" style="width: 110px;"
                                              data-date-format="dd-mm-yyyy">
                                             <input id="birthday" class="form-control" style="text-align: center;"
@@ -385,18 +427,20 @@
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <div class="form-group">
-                                    <div class="col-xs-12">
-                                        <br>
-                                        <button id="saveBtn" style="display: none; float: left;"
-                                                class="save-btn btn btn-lg btn-success" type="submit">SAVE
-                                        </button>
-                                        <button id="resetBtn" style="display: none; float: left; margin-left: 10px;"
-                                                class="reset-btn btn btn-lg" type="reset"><i
-                                                class="glyphicon glyphicon-repeat"></i> CANCEL
-                                        </button>
-                                    </div>
-                                </div>
+                                <br>
+                                <button id="saveBtn" style="display: none; float: left;"
+                                        class="save-btn btn btn-lg btn-success" type="submit">SAVE
+                                </button>
+                                <button id="resetBtn" style="display: none; float: left; margin-left: 10px;"
+                                        class="reset-btn btn btn-lg" type="reset"><i
+                                        class="glyphicon glyphicon-repeat"></i> CANCEL
+                                </button>
+                            </div>
+                            <div class="col-sm-6" style="margin-top: 20px;">
+                                <img id="icon-review" style="margin-left: 0px;"
+                                     src="/gwa/img/icon-review.png" data-toggle="modal"
+                                     data-target="#reviewModel">
+                                <span style="text-decoration: underline;">Exchange evaluation</span>
                             </div>
                         </div>
                     </form>
@@ -405,132 +449,53 @@
             </div>
 
             <!--    Other profile area  -->
-            <!--<div class="col-sm-6" style="background-color: white; padding-top: 20px;-->
-                       <!--margin-left: 20px; padding-bottom: 20px; border: 1px solid #f0f0f0; box-shadow: 0px 0px 5px #aaa;-->
-                            <!--height: 400px;">-->
-                <!--<div class="container">-->
-                    <!--<form class="form" id="profileForm">-->
-                        <!--<div class="row">-->
-
-                            <!--<div class="col-sm-12">-->
-                                <!--<div class="form-group">-->
-                                    <!--<div class="col-xs-6">-->
-                                        <!--<h4 class="about-title">About</h4>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                                <!--<br/>-->
-                            <!--</div>-->
-
-                            <!--<div class="col-sm-6">-->
-                                <!--<div class="form-group">-->
-                                    <!--<div class="col-xs-6">-->
-                                        <!--<h5>Full name</h5>-->
-                                        <!--<span style="color: #0066CC; font-size: 15px;">Hoang Ngo Minh Tung</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-
-                                <!--<div class="form-group">-->
-                                    <!--<div class="col-xs-6">-->
-                                        <!--<h5>Email</h5>-->
-                                        <!--<span style="color: #0066CC; font-size: 15px;">Hoang Ngo Minh Tung</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-
-                                <!--<div class="form-group">-->
-                                    <!--<div class="col-xs-6">-->
-                                        <!--<h5>Birthday</h5>-->
-                                        <!--<span style="color: #0066CC; font-size: 15px;">Hoang Ngo Minh Tung</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-
-                                <!--<div class="form-group" style="margin-top: 35px;">-->
-                                    <!--<div class="col-xs-6">-->
-                                        <!--<img id="icon-review" style="margin-left: 0px;"-->
-                                             <!--src="/img/icon-review.png" data-toggle="modal"-->
-                                             <!--data-target="#reviewModel">-->
-                                        <!--<span style="text-decoration: underline;">Exchange evaluation</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<div class="col-sm-6">-->
-                                <!--<div class="form-group">-->
-                                    <!--<div class="col-xs-6">-->
-                                        <!--<h5>Address</h5>-->
-                                        <!--<span style="color: #0066CC; font-size: 15px;">Hoang Ngo Minh Tung</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-
-                                <!--<div class="form-group">-->
-                                    <!--<div class="col-xs-6">-->
-                                        <!--<h5>Tel</h5>-->
-                                        <!--<span style="color: #0066CC; font-size: 15px;">Hoang Ngo Minh Tung</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-
-                                <!--<div class="form-group">-->
-                                    <!--<div class="col-xs-6">-->
-                                        <!--<h5>Join Date</h5>-->
-                                        <!--<span style="color: #0066CC; font-size: 15px;">Hoang Ngo Minh Tung</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-
-                                <!--<div class="form-group">-->
-                                    <!--<div class="col-xs-6">-->
-                                        <!--<h5>Status</h5>-->
-                                        <!--<span style="color: #0066CC; font-size: 15px;">Hoang Ngo Minh Tung</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</form>-->
-                    <!--&lt;!&ndash;    end form    &ndash;&gt;-->
-                <!--</div>-->
-            <!--</div>-->
             <!--<div class="col-sm-2" style="background-color: white; padding-top: 20px; margin-left: 20px;-->
-            <!--padding-bottom: 20px; border: 1px solid #f0f0f0; box-shadow: 0px 0px 5px #aaa;">-->
-                <!--<div class="top-five-title-div" style="margin-bottom: 20px;">-->
-                    <!--<strong class="top-five-title">TOP Ranking</strong>-->
-                <!--</div>-->
-                <!--<div class="ranking-container">-->
-                    <!--<img src="/img/1st.png" class="rankNumber"/>-->
-                    <!--<span class="ranking-username">Minh Tung</span>-->
-                <!--</div>-->
-                <!--<div class="ranking-container">-->
-                    <!--<img src="/img/2nd.jpg" class="rankNumber"/>-->
-                    <!--<span class="ranking-username">Bao Khanh</span>-->
-                <!--</div>-->
-                <!--<div class="ranking-container">-->
-                    <!--<img src="/img/3rd.jpg" class="rankNumber"/>-->
-                    <!--<span class="ranking-username">Ngoc Sang</span>-->
-                <!--</div>-->
-                <!--<div class="ranking-container">-->
-                    <!--<span class="normal-rankNumber">4th.</span>-->
-                    <!--<span class="ranking-username">Ngoc Sang</span>-->
-                <!--</div>-->
-                <!--<div class="ranking-container">-->
-                    <!--<span class="normal-rankNumber">5th.</span>-->
-                    <!--<span class="ranking-username">Ngoc Sang</span>-->
-                <!--</div>-->
-                <!--<div class="ranking-container">-->
-                    <!--<span class="normal-rankNumber">6th.</span>-->
-                    <!--<span class="ranking-username">Ngoc Sang</span>-->
-                <!--</div>-->
-                <!--<div class="ranking-container">-->
-                    <!--<span class="normal-rankNumber">7th.</span>-->
-                    <!--<span class="ranking-username">Ngoc Sang</span>-->
-                <!--</div>-->
-                <!--<div class="ranking-container">-->
-                    <!--<span class="normal-rankNumber">8th.</span>-->
-                    <!--<span class="ranking-username">Ngoc Sang</span>-->
-                <!--</div>-->
-                <!--<div class="ranking-container">-->
-                    <!--<span class="normal-rankNumber">9th.</span>-->
-                    <!--<span class="ranking-username">Ngoc Sang</span>-->
-                <!--</div>-->
-                <!--<div class="ranking-container">-->
-                    <!--<span class="normal-rankNumber">10th.</span>-->
-                    <!--<span class="ranking-username">Ngoc Sang</span>-->
-                <!--</div>-->
+            <!--padding-bottom: 20px; border: 1px solid #f0f0f0; box-shadow: 0px 0px 5px #aaa; padding-right: 0px">-->
+            <!--<div class="top-five-title-div" style="margin-bottom: 20px;">-->
+            <!--<strong class="top-five-title">TOP Ranking</strong>-->
+            <!--</div>-->
+            <!--<div class="ranking-area" style="float: left;width: 100%;overflow-y: auto;height: 450px;">-->
+            <!--<div class="ranking-container">-->
+            <!--<img src="/gwa/img/1st.png" class="rankNumber"/>-->
+            <!--<span class="ranking-username">Minh Tung</span>-->
+            <!--</div>-->
+            <!--<div class="ranking-container">-->
+            <!--<img src="/gwa/img/2nd.jpg" class="rankNumber"/>-->
+            <!--<span class="ranking-username">Bao Khanh</span>-->
+            <!--</div>-->
+            <!--<div class="ranking-container">-->
+            <!--<img src="/gwa/img/3rd.jpg" class="rankNumber"/>-->
+            <!--<span class="ranking-username">Ngoc Sang</span>-->
+            <!--</div>-->
+            <!--<div class="ranking-container">-->
+            <!--<span class="normal-rankNumber">4th.</span>-->
+            <!--<span class="ranking-username">Ngoc Sang</span>-->
+            <!--</div>-->
+            <!--<div class="ranking-container">-->
+            <!--<span class="normal-rankNumber">5th.</span>-->
+            <!--<span class="ranking-username">Ngoc Sang</span>-->
+            <!--</div>-->
+            <!--<div class="ranking-container">-->
+            <!--<span class="normal-rankNumber">6th.</span>-->
+            <!--<span class="ranking-username">Ngoc Sang</span>-->
+            <!--</div>-->
+            <!--<div class="ranking-container">-->
+            <!--<span class="normal-rankNumber">7th.</span>-->
+            <!--<span class="ranking-username">Ngoc Sang</span>-->
+            <!--</div>-->
+            <!--<div class="ranking-container">-->
+            <!--<span class="normal-rankNumber">8th.</span>-->
+            <!--<span class="ranking-username">Ngoc Sang</span>-->
+            <!--</div>-->
+            <!--<div class="ranking-container">-->
+            <!--<span class="normal-rankNumber">9th.</span>-->
+            <!--<span class="ranking-username">Ngoc Sang</span>-->
+            <!--</div>-->
+            <!--<div class="ranking-container">-->
+            <!--<span class="normal-rankNumber">10th.</span>-->
+            <!--<span class="ranking-username">Ngoc Sang</span>-->
+            <!--</div>-->
+            <!--</div>-->
             <!--</div>-->
         </div>
     </div>
@@ -626,7 +591,7 @@
 <!-- Popper js -->
 <!--<script src="/js/bootstrap/popper.min.js"></script>-->
 <!-- Bootstrap js -->
-<script src="/js/bootstrap/bootstrap.min.js"></script>
+<script src="/gwa/js/bootstrap/bootstrap.min.js"></script>
 <!-- All Plugins js -->
 <!--<script src="/js/plugins/plugins.js"></script>-->
 <!-- Active js -->

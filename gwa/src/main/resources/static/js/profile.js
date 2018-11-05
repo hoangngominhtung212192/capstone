@@ -3,6 +3,7 @@ $(document).ready(function () {
     // process UI
     $(document).click(function (event) {
         $("#dropdown-profile").css("display", "none");
+        $("#dropdown-notification").css("display", "none");
     })
 
     var account_profile_on_page_id;
@@ -22,6 +23,8 @@ $(document).ready(function () {
     var preMobile;
     var preBirthday;
     var preAddress;
+    var joinDate;
+    var accountStatus;
 
     // authentication
     authentication();
@@ -46,7 +49,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "/api/user/checkLogin",
+            url: "/gwa/api/user/checkLogin",
             complete: function (xhr, status) {
 
                 if (status == "success") {
@@ -58,6 +61,9 @@ $(document).ready(function () {
 
                     role_session = jsonResponse["role"].name;
                     account_session_id = jsonResponse["id"];
+                    joinDate = jsonResponse["createdDate"];
+                    accountStatus = jsonResponse["status"];
+                    $("#membersince").text("Member since "  + jsonResponse["createdDate"].split(" ")[0]);
 
                     var username = jsonResponse["username"];
                     var thumbAvatar = jsonResponse["avatar"];
@@ -85,11 +91,24 @@ $(document).ready(function () {
                 } else {
                     // display login and register button
                     console.log("Guest is accessing !");
-                    window.location.href = "/login";
+                    window.location.href = "/gwa/login";
                 }
 
             }
         });
+    }
+
+    notificationClick();
+
+    function notificationClick() {
+        $("#notification-li").click(function (event) {
+            // separate from document click
+            event.stopPropagation();
+
+            $("#dropdown-notification").css("display", "block");
+
+            return false;
+        })
     }
 
     // get session account's profile
@@ -97,11 +116,11 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "/api/user/profile?accountID=" + id,
+            url: "/gwa/api/user/profile?accountID=" + id,
             success: function (result) {
                 //get selected profile's account status
 
-                var displayUsername;
+                var displayUsername = "";
 
                 if (result.middleName) {
                     displayUsername += result.lastName + ' ' + result.middleName + ' ' + result.firstName;
@@ -118,12 +137,32 @@ $(document).ready(function () {
         });
     }
 
+    function ajaxGetStatistic() {
+
+        $.ajax({
+            type: "GET",
+            url: "/gwa/api/user/getStatistic?accountID=" + account_profile_on_page_id,
+            success: function (result) {
+                // profile statistic
+                $("#sell-statistic").text(result[0]);
+                $("#buy-statistic").text(result[1]);
+
+                // current user session's profile statistic
+                $("#sell").text(result[0]);
+                $("#buy").text(result[1]);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
     // get current selected profile
     function getProfile() {
 
         $.ajax({
             type: "POST",
-            url: "/api/user/profile?accountID=" + account_profile_on_page_id,
+            url: "/gwa/api/user/profile?accountID=" + account_profile_on_page_id,
             success: function (result) {
                 //get selected profile's account status
                 current_profile_status = result.account.status;
@@ -145,6 +184,7 @@ $(document).ready(function () {
 
                 console.log(result);
                 setField(result);
+                renderStatistic(result.numberOfRaters, result.numberOfStars);
             },
             error: function (e) {
                 console.log("ERROR: ", e);
@@ -163,15 +203,15 @@ $(document).ready(function () {
     $("#adminBtn").click(function (event) {
         event.preventDefault();
 
-        window.location.href = "/admin/model/pending";
+        window.location.href = "/gwa/admin/model/pending";
     });
 
     function ajaxLogout() {
         $.ajax({
             type: "GET",
-            url: "/api/user/logout",
+            url: "/gwa/api/user/logout",
             success: function (result) {
-                window.location.href = "/login";
+                window.location.href = "/gwa/login";
             }
         });
     }
@@ -191,7 +231,7 @@ $(document).ready(function () {
     // profile button click event
     function profileClick(accountID) {
         $("#profile-new").click(function (event) {
-            window.location.href = "/pages/profile.html?accountID=" + accountID;
+            window.location.href = "/gwa/pages/profile.html?accountID=" + accountID;
         })
     }
 
@@ -203,7 +243,9 @@ $(document).ready(function () {
         } else {
             if (role_session != "ADMIN") {
                 // render non-own profile area
-
+                renderNonOwnProfile();
+                // get top ranking users
+                getTopRanking();
             }
         }
         if (role_session == "ADMIN") {
@@ -215,6 +257,159 @@ $(document).ready(function () {
                 $("#banBtn").css("display", "block");
             }
         }
+    }
+
+    function renderStatistic(numberOfRaters, numberOfStars) {
+        $("#reputation").empty();
+        $("#numberOfRaters").empty();
+
+        if (numberOfRaters == 0) {
+            $("#reputation").text("N/A");
+            $("#reputation").css("color", "#212529");
+            $("#reputation").css("font-size", "15px");
+        } else {
+            $("#numberOfRaters").text("(" + numberOfRaters + ")");
+            var rating = Math.round(numberOfStars / numberOfRaters);
+
+            for (var i = 0; i < rating; i++) {
+                $("#reputation").append("&#9733;");
+            }
+        }
+
+        // get statistic (buy & sell & proposal count)
+        ajaxGetStatistic();
+    }
+
+    function renderNonOwnProfile() {
+        $("#username-area").remove();
+        $("#authorization-area").remove();
+        $("#ownprofile-area").remove();
+
+        var appendNonOwn = "";
+
+        appendNonOwn += "<div class=\"col-sm-6\" style=\"background-color: white; padding-top: 20px;\n" +
+            "                       margin-left: 20px; padding-bottom: 20px; border: 1px solid #f0f0f0; box-shadow: 0px 0px 5px #aaa;\n" +
+            "                            height: 400px;margin-top: 50px;\">\n" +
+            "                <div class=\"container\">\n" +
+            "                    <form class=\"form\" id=\"profileForm\">\n" +
+            "                        <div class=\"row\">\n" +
+            "\n" +
+            "                            <div class=\"col-sm-12\">\n" +
+            "                                <div class=\"form-group\">\n" +
+            "                                    <div class=\"col-xs-6\">\n" +
+            "                                        <h4 class=\"about-title\">About</h4>\n" +
+            "                                    </div>\n" +
+            "                                </div>\n" +
+            "                                <br/>\n" +
+            "                            </div>\n" +
+            "\n" +
+            "                            <div class=\"col-sm-6\">\n" +
+            "                                <div class=\"form-group\">\n" +
+            "                                    <div class=\"col-xs-6\">\n" +
+            "                                        <h5>Full name</h5>\n" +
+            "                                        <span style=\"color: indigo; font-size: 15px;\">";
+
+        if (preMiddleName) {
+            appendNonOwn += preLastName + " " + preMiddleName + " " + preFirstName;
+        } else {
+            appendNonOwn += preLastName + " " + preFirstName;
+        }
+
+        appendNonOwn += "</span>\n" +
+            "                                    </div>\n" +
+            "                                </div>\n" +
+            "\n" +
+            "                                <div class=\"form-group\">\n" +
+            "                                    <div class=\"col-xs-6\">\n" +
+            "                                        <h5>Email</h5>\n" +
+            "                                        <span style=\"color: indigo; font-size: 15px;\">";
+
+        if (preEmail) {
+            appendNonOwn += preEmail;
+        } else {
+            appendNonOwn += "N/A";
+        }
+
+        appendNonOwn += "</span>\n" +
+            "                                    </div>\n" +
+            "                                </div>\n" +
+            "\n" +
+            "                                <div class=\"form-group\">\n" +
+            "                                    <div class=\"col-xs-6\">\n" +
+            "                                        <h5>Birthday</h5>\n" +
+            "                                        <span style=\"color: indigo; font-size: 15px;\">";
+
+        if (preBirthday) {
+            appendNonOwn += preBirthday;
+        } else {
+            appendNonOwn += "N/A";
+        }
+
+        appendNonOwn += "</span>\n" +
+            "                                    </div>\n" +
+            "                                </div>\n" +
+            "\n" +
+            "                                <div class=\"form-group\" style=\"margin-top: 35px;\">\n" +
+            "                                    <div class=\"col-xs-6\">\n" +
+            "                                        <img id=\"icon-review\" style=\"margin-left: 0px;\"\n" +
+            "                                             src=\"/gwa/img/icon-review.png\" data-toggle=\"modal\"\n" +
+            "                                             data-target=\"#reviewModel\">\n" +
+            "                                        <span style=\"text-decoration: underline;\">Exchange evaluation</span>\n" +
+            "                                    </div>\n" +
+            "                                </div>\n" +
+            "                            </div>\n" +
+            "                            <div class=\"col-sm-6\">\n" +
+            "                                <div class=\"form-group\">\n" +
+            "                                    <div class=\"col-xs-6\">\n" +
+            "                                        <h5>Address</h5>\n" +
+            "                                        <span style=\"color: indigo; font-size: 15px;\">";
+
+        if (preAddress) {
+            appendNonOwn += preAddress;
+        } else {
+            appendNonOwn += "N/A";
+        }
+
+        appendNonOwn += "</span>\n" +
+            "                                    </div>\n" +
+            "                                </div>\n" +
+            "\n" +
+            "                                <div class=\"form-group\">\n" +
+            "                                    <div class=\"col-xs-6\">\n" +
+            "                                        <h5>Tel</h5>\n" +
+            "                                        <span style=\"color: indigo; font-size: 15px;\">";
+
+        if (preMobile) {
+            appendNonOwn += preMobile;
+        } else {
+            appendNonOwn += "N/A";
+        }
+
+        appendNonOwn += "</span>\n" +
+            "                                    </div>\n" +
+            "                                </div>\n" +
+            "\n" +
+            "                                <div class=\"form-group\">\n" +
+            "                                    <div class=\"col-xs-6\">\n" +
+            "                                        <h5>Join Date</h5>\n" +
+            "<span style=\"color: indigo; font-size: 15px;\">" + joinDate + "</span>\n" +
+            "                                    </div>\n" +
+            "                                </div>\n" +
+            "\n" +
+            "                                <div class=\"form-group\">\n" +
+            "                                    <div class=\"col-xs-6\">\n" +
+            "                                        <h5>Status</h5>\n" +
+            "                                        <span style=\"color: green; font-size: 15px;\">" + accountStatus + "</span>\n" +
+            "                                    </div>\n" +
+            "                                </div>\n" +
+            "                            </div>\n" +
+            "                        </div>\n" +
+            "                    </form>\n" +
+            "                    <!--    end form    -->\n" +
+            "                </div>\n" +
+            "            </div>";
+
+        $("#row-area").append(appendNonOwn);
     }
 
     $("#editBtn").click(function (event) {
@@ -486,7 +681,7 @@ $(document).ready(function () {
             type: "POST",
             contentType: "application/json",
             processData: false,
-            url: "/api/user/profile/update",
+            url: "/gwa/api/user/profile/update",
             data: JSON.stringify(data),
             success: function (result) {
 
@@ -496,7 +691,7 @@ $(document).ready(function () {
                 }
 
                 alert("Updated profile successfully !");
-                window.location.href = "/pages/profile.html?accountID=" + result.account.id;
+                window.location.href = "/gwa/pages/profile.html?accountID=" + result.account.id;
             },
             complete: function (xhr, textStatus) {
                 if (textStatus == "error") {
@@ -515,7 +710,7 @@ $(document).ready(function () {
             type: "POST",
             contentType: false,
             processData: false,
-            url: "/api/user/profile/update/image",
+            url: "/gwa/api/user/profile/update/image",
             data: formData,
             success: function (result) {
                 console.log(result);
@@ -578,4 +773,67 @@ $(document).ready(function () {
             todayHighlight: true
         }).datepicker('update', new Date());
     });
+
+    function getTopRanking() {
+
+        $.ajax({
+            type: "GET",
+            url: "/gwa/api/user/getTopRanking",
+            success: function (result) {
+                console.log("List of top ranking records: " + result);
+
+                renderTopRanking(result);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    function renderTopRanking(result) {
+
+        var appendTopRanking = "";
+
+        appendTopRanking += "<div class=\"col-sm-2\" style=\"background-color: white; padding-top: 20px; margin-left: 20px;\n" +
+            "            padding-bottom: 20px; border: 1px solid #f0f0f0; box-shadow: 0px 0px 5px #aaa;" +
+            "padding-right: 0px;\">\n" +
+            "            <div class=\"top-five-title-div\" style=\"margin-bottom: 20px;\">\n" +
+            "            <strong class=\"top-five-title\">TOP Ranking</strong>\n" +
+            "            </div>\n" +
+            "<div class=\"ranking-area\" style=\"float: left;width: 100%;overflow-y: auto;height: 400px;\">";
+
+        $.each(result, function (i, value) {
+            if (value.rank != 0) {
+                if (value.rank == 1) {
+                    appendTopRanking += "            <div class=\"ranking-container\">\n" +
+                        "            <img src=\"/gwa/img/1st.png\" class=\"rankNumber\"/>\n" +
+                        "            <a href='/gwa/pages/profile.html?accountID=" + value.account.id + "' class=\"ranking-username\">";
+                } else if (value.rank == 2) {
+                    appendTopRanking += "            <div class=\"ranking-container\">\n" +
+                        "            <img src=\"/gwa/img/2nd.jpg\" class=\"rankNumber\"/>\n" +
+                        "            <a href='/gwa/pages/profile.html?accountID=\" + value.account.id + \"' class=\"ranking-username\">";
+                } else if (value.rank == 3) {
+                    appendTopRanking += "            <div class=\"ranking-container\">\n" +
+                        "            <img src=\"/gwa/img/3rd.jpg\" class=\"rankNumber\"/>\n" +
+                        "            <a href='/gwa/pages/profile.html?accountID=\" + value.account.id + \"' class=\"ranking-username\">";
+                } else {
+                    appendTopRanking += "            <div class=\"ranking-container\">\n" +
+                        "            <span class=\"normal-rankNumber\">" + value.rank + "th</span>\n" +
+                        "            <a href='/gwa/pages/profile.html?accountID=\" + value.account.id + \"' class=\"ranking-username\">";
+                }
+
+                if (value.middleName) {
+                    appendTopRanking += value.lastName + " " + value.middleName + " " + value.firstName;
+                } else {
+                    appendTopRanking += value.lastName + " " + value.firstName;
+                }
+
+                appendTopRanking += "</a></div>";
+            }
+        });
+
+        // close col-sm-2 div
+        appendTopRanking += "</div></div>";
+        $("#row-area").append(appendTopRanking);
+    }
 })

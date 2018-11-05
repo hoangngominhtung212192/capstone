@@ -12,7 +12,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "/api/model/crawl/getLog",
+            url: "/gwa/api/model/crawl/getLog",
             success: function (result) {
                 console.log(result);
 
@@ -56,7 +56,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "/api/model/crawl/getStatus",
+            url: "/gwa/api/model/crawl/getStatus",
             success: function (result) {
                 if (result.inProgress) {
                     $("#numOfCrawl").text(result.numberOfRecords);
@@ -104,7 +104,7 @@ $(document).ready(function () {
     function loopforever() {
         if (!crawlStatus) {
             clearInterval(interval);
-            window.location.href = "/admin/model/crawl";
+            window.location.href = "/gwa/admin/model/crawl";
         }
 
         ajaxGetCrawlingStatus();
@@ -132,7 +132,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "/api/model/crawl",
+            url: "/gwa/api/model/crawl",
             success: function (message) {
                 alert(message);
             },

@@ -200,4 +200,22 @@ public class UserWsImpl implements UserWS {
         return new ResponseEntity<>(resultList, HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<List<Profile>> getTopRanking() {
+
+        List<Profile> result = userService.getTopRanking();
+
+        return new ResponseEntity<List<Profile>>(result, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<Object>> getStatistic(int accountID) {
+
+        System.out.println("[UserWS] Begin getStatistic with accountID: " + accountID);
+
+        List<Object> result = userService.getStatisticByAccountID(accountID);
+
+        return new ResponseEntity<List<Object>>(result, HttpStatus.OK);
+    }
+
 }

@@ -5,7 +5,7 @@ $(document).ready(function () {
     function ajaxGetAllAccount(pageNumber, type) {
         $.ajax({
             type: "GET",
-            url: "/api/user/getAllAccount?pageNumber=" + pageNumber + "&type=" + type,
+            url: "/gwa/api/user/getAllAccount?pageNumber=" + pageNumber + "&type=" + type,
             success: function (result) {
                 if (result) {
                     console.log(result);
@@ -100,7 +100,7 @@ $(document).ready(function () {
                 "                                    <td class=\"accountID\">" + value.id + "</td>\n" +
                 "                                    <td class=\"fullname\">" + value.lastmame + " " +  value.middlename
                 + " " + value.firstname + "</td>\n" +
-                "                                    <td class=\"usernameTD\"><a href=\"/pages/profile.html?accountID="
+                "                                    <td class=\"usernameTD\"><a href=\"/gwa/pages/profile.html?accountID="
                 + value.id + "\">" + value.username + "</a></td>\n" +
                 "                                    <td class=\"emailTD\">" + value.email +"</td>\n" +
                 "                                    <td class=\"datetimeTD\">" + value.createdDate + "</td>\n" +

@@ -38,4 +38,10 @@ public interface UserWS {
     @RequestMapping(value = "/getAllAccount", method = RequestMethod.GET)
     ResponseEntity<List<Object>> getAllAccount(@RequestParam("pageNumber") int pageNumber,
                                                     @RequestParam("type") String type);
+
+    @RequestMapping(value = "/getTopRanking", method = RequestMethod.GET)
+    ResponseEntity<List<Profile>> getTopRanking();
+
+    @RequestMapping(value = "/getStatistic", method = RequestMethod.GET)
+    ResponseEntity<List<Object>> getStatistic(@RequestParam("accountID") int accountID);
 }
