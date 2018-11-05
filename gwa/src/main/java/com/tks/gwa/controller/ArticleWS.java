@@ -4,10 +4,7 @@ import com.tks.gwa.controller.controllerImpl.ArticleWSImpl;
 import com.tks.gwa.entity.Article;
 import com.tks.gwa.service.ArticleService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,9 +30,9 @@ public interface ArticleWS {
     ResponseEntity<List<Article>> searchAllArticle();
 
     @RequestMapping(value = "/changeStatusOneArticle", method = RequestMethod.POST)
-    ResponseEntity<Article> changeStatusArticle(@RequestBody Integer id, String status);
+    ResponseEntity<Article> changeStatusArticle(@RequestParam int articleid, @RequestParam String apprstatus);
 
     @RequestMapping(value = "/changeStatusManyArticle", method = RequestMethod.POST)
-    ResponseEntity<List<Article>> changeStatusManyArticle(@RequestBody List<Integer> idlist, String status);
+    ResponseEntity<List<Article>> changeStatusManyArticle(@RequestParam List<Integer> idlist, @RequestParam String status);
 
 }

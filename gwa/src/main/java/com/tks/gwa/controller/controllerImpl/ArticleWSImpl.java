@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -22,10 +23,6 @@ public class ArticleWSImpl implements ArticleWS {
 
     @Override
     public ResponseEntity<Article> createArticle(@RequestBody Article article) {
-        System.out.println("----Adding article with title:" + article.getTitle());
-        article.setApprovalStatus("APPROVED");
-        article.setCategory("news");
-        article.setDate("1/1/2011");
 
 
         Account testacc = new Account();
@@ -61,11 +58,6 @@ public class ArticleWSImpl implements ArticleWS {
 
     @Override
     public ResponseEntity<Article> updateArticle(@RequestBody Article article) {
-        System.out.println("editing article with id:" + article.getId());
-        article.setApprovalStatus("APPROVED");
-        article.setCategory("news");
-        article.setDate("1/1/2011");
-
 
         Account testacc = new Account();
         testacc.setId(1);
@@ -92,8 +84,11 @@ public class ArticleWSImpl implements ArticleWS {
     }
 
     @Override
-    public ResponseEntity<Article> changeStatusArticle(Integer id, String status) {
-        Article resultArticle = articleService.changeStatusArticle(id, status);
+    public ResponseEntity<Article> changeStatusArticle(@RequestParam int articleid
+                                                    , @RequestParam String apprstatus) {
+        System.out.println("WS changing status of article idL"+articleid);
+        System.out.println("WS stt: " + apprstatus);
+        Article resultArticle = articleService.changeStatusArticle(articleid, apprstatus);
         return new ResponseEntity<>(resultArticle, HttpStatus.OK);
     }
 

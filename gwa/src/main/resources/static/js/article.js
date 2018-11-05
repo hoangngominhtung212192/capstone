@@ -85,10 +85,10 @@ $(document).ready(function () {
             searchDiv.removeChild(searchDiv.firstChild);
         }
         var searchValue = document.getElementById("txtSearch").value;
-        ajaxPost(searchValue);
+        searchArticle(searchValue);
     })
 
-    function ajaxPost(data) {
+    function searchArticle(data) {
         console.log(data);
         var displayDiv = document.getElementById("search-result");
 

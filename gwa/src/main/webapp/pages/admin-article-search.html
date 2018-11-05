@@ -72,7 +72,7 @@
             <form class="sidebar-form">
               <div class="input-group">
 
-                <input id="txtSearch" type="text" name="q" class="form-control"
+                <input id="txtSearch" type="text" name="q" class="form-control"style="background-color: white"
                        placeholder="Search..."> <span class="input-group-btn">
 										<button type="submit" name="search" id="btnSearch"
                                                 class="btn btn-flat">
@@ -117,12 +117,12 @@
               </div>
             </div>
             <!--    End ASC/DESC    -->
-
             <!-- /.box-header -->
             <div class="box-body">
               <table id="bookTable" class="table table-bordered table-hover">
                 <thead>
                 <tr>
+
                   <th style="width: 60px;">ID</th>
                   <th>Title</th>
                   <th>Author</th>
@@ -133,16 +133,7 @@
                 </tr>
                 </thead>
                 <tbody id="tblBody">
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-
+                <!-- search result -->
                 </tbody>
                 <tfoot>
                 <tr>
@@ -159,6 +150,28 @@
             </div>
             <!-- /.box-body -->
           </div>
+          <script>
+              function approvalChange(value, id) {
+                  console.log("value: " + value, typeof value);
+                  console.log("id: " + id, typeof id);
+                  $.ajax({
+                      type: "POST",
+                      url: "http://localhost:8080/api/user/changeStatusOneArticle",
+                      // data: '{"id":'+id+', "apprstatus":'+value+'}',
+                      data: {
+                          articleid: id,
+                          apprstatus: value
+                      },
+                      success: function (result, status) {
+                          alert("success");
+                      },
+                      error: function (e) {
+                          alert("Failed!");
+                          console.log("ERROR: ", e);
+                      }
+                  });
+              }
+          </script>
           <!-- /.box -->
 
           <div class="io-list-header" style="margin: 10px; margin-left: 12px;">

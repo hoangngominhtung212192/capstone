@@ -37,7 +37,6 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Article getArticleByID(Integer id) {
-        System.out.println("service getarticle id:" + id);
         return articleRepository.findArticleByID(id);
     }
 

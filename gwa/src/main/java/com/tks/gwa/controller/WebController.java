@@ -89,4 +89,19 @@ public interface WebController {
     @RequestMapping(value ={"trade-market/post-new-trade","trade-market/edit-trade"})
     public ModelAndView addEditTradePage();
 
+    @RequestMapping(value = "/event")
+    public ModelAndView viewAllEventPage();
+
+    @RequestMapping(value = "/event/detail")
+    public ModelAndView viewEventDetailPage();
+
+    @RequestMapping(value = "/admin/event")
+    public ModelAndView viewAllEventAdminPage();
+
+    @RequestMapping(value = "/admin/event/edit")
+    public ModelAndView editEventAdminPage();
+
+    @RequestMapping(value = "/admin/event/create")
+    public ModelAndView createEventAdminPage();
+
 }

@@ -12,6 +12,7 @@ public class Event implements Serializable {
     @Column(name = "id")
     private int id;
 
+    @Lob
     @Column(name = "content")
     private String content;
 
