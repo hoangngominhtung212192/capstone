@@ -7,15 +7,19 @@ import java.util.List;
 
 public class MyTradeDTO {
     private Tradepost myTradePost;
-    private List<Orderrequest> myRequest;
+    private int numOfSucceedRequest;
+    private int numOfPendingRequest;
+    private int numOfOnPaymentRequest;
     private String thumbnail;
 
     public MyTradeDTO() {
     }
 
-    public MyTradeDTO(Tradepost myTradePost, List<Orderrequest> myRequest, String thumbnail) {
+    public MyTradeDTO(Tradepost myTradePost, int numOfSucceedRequest, int numOfPendingRequest, int numOfOnPaymentRequest, String thumbnail) {
         this.myTradePost = myTradePost;
-        this.myRequest = myRequest;
+        this.numOfSucceedRequest = numOfSucceedRequest;
+        this.numOfPendingRequest = numOfPendingRequest;
+        this.numOfOnPaymentRequest = numOfOnPaymentRequest;
         this.thumbnail = thumbnail;
     }
 
@@ -27,12 +31,28 @@ public class MyTradeDTO {
         this.myTradePost = myTradePost;
     }
 
-    public List<Orderrequest> getMyRequest() {
-        return myRequest;
+    public int getNumOfSucceedRequest() {
+        return numOfSucceedRequest;
     }
 
-    public void setMyRequest(List<Orderrequest> myRequest) {
-        this.myRequest = myRequest;
+    public void setNumOfSucceedRequest(int numOfSucceedRequest) {
+        this.numOfSucceedRequest = numOfSucceedRequest;
+    }
+
+    public int getNumOfPendingRequest() {
+        return numOfPendingRequest;
+    }
+
+    public void setNumOfPendingRequest(int numOfPendingRequest) {
+        this.numOfPendingRequest = numOfPendingRequest;
+    }
+
+    public int getNumOfOnPaymentRequest() {
+        return numOfOnPaymentRequest;
+    }
+
+    public void setNumOfOnPaymentRequest(int numOfOnPaymentRequest) {
+        this.numOfOnPaymentRequest = numOfOnPaymentRequest;
     }
 
     public String getThumbnail() {

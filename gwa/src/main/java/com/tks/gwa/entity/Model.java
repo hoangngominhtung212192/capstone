@@ -1,5 +1,7 @@
 package com.tks.gwa.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -35,8 +37,20 @@ public class Model implements Serializable {
     @Column(name = "status")
     private String status;
 
+    @Column(name = "md5hash")
+    private String md5Hash;
+
+    @Column(name = "numberofrating")
+    private int numberOfRating;
+
+    @Column(name = "numberofrater")
+    private int numberOfRater;
+
     @Transient
     private String message;
+
+    @Transient
+    private String thumbImage;
 
     //bi-directional many-to-one association to Manufacturer
     @ManyToOne
@@ -53,7 +67,6 @@ public class Model implements Serializable {
     @JoinColumn(name="seriestitleid")
     private Seriestitle seriestitle;
 
-    //bi-directional many-to-one association to Modelimage
     @Transient
     private List<Modelimage> modelimages;
 
@@ -161,5 +174,37 @@ public class Model implements Serializable {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getMd5Hash() {
+        return md5Hash;
+    }
+
+    public void setMd5Hash(String md5Hash) {
+        this.md5Hash = md5Hash;
+    }
+
+    public String getThumbImage() {
+        return thumbImage;
+    }
+
+    public void setThumbImage(String thumbImage) {
+        this.thumbImage = thumbImage;
+    }
+
+    public int getNumberOfRating() {
+        return numberOfRating;
+    }
+
+    public void setNumberOfRating(int numberOfRating) {
+        this.numberOfRating = numberOfRating;
+    }
+
+    public int getNumberOfRater() {
+        return numberOfRater;
+    }
+
+    public void setNumberOfRater(int numberOfRater) {
+        this.numberOfRater = numberOfRater;
     }
 }

@@ -49,6 +49,13 @@ public class Event implements Serializable {
     @Column(name = "title")
     private String title;
 
+    @Lob
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "thumbimage")
+    private String thumbImage;
+
     @Column(name = "regdatestart")
     private String regDateStart;
 
@@ -159,6 +166,22 @@ public class Event implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getThumbImage() {
+        return thumbImage;
+    }
+
+    public void setThumbImage(String thumbImage) {
+        this.thumbImage = thumbImage;
     }
 
     public String getRegDateStart() {

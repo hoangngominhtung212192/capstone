@@ -19,17 +19,57 @@
     <link rel="stylesheet" href="/css/model.css">
     <link rel="stylesheet" href="/css/search-filter.css">
     <link rel="stylesheet" href="/css/pagination.css">
+    <link href="/css/datepicker.css" rel="stylesheet" type="text/css" />
 
     <!--    my js   -->
     <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/profile.js"></script>
+    <script src="/js/plugins/bootstrap-datepicker.js"></script>
 
+    <script type="text/javascript" src="/js/profile.js"></script>
 </head>
 
 <body style="background-color: whitesmoke;">
+
+<!--    User evaluation area    -->
+<div class="modal fade" id="reviewModel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header" style="padding-top: 5px; padding-right: 10px; height: 20px;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div id="scrollTable" style="width: 100%; height: 500px; overflow: auto">
+                    <table id="reviewList">
+                        <tr>
+                            <td style="vertical-align: top">
+                                <img src="/img/4543112620538.jpg"/>
+                            </td>
+                            <td class="review-info">
+                                <a href="#">Minh Tung</a>
+                                <span class="reputation-star-rating">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                                <span class="ratingDate">2018-11-1</span>
+                                <br/>
+                                <div class="review-info-text">
+                                    It saddened me to see the number of people panning this excellent series on this
+                                    site.
+                                    Gundam wing, for me, was possibly one of the best anime's I have ever see, and YES I
+                                    have seen the original series.
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- ##### Header Area Start ##### -->
 <header class="header-area">
-
     <!-- Top Header Area -->
     <div class="top-header-area">
         <div class="container">
@@ -41,27 +81,75 @@
                             <a href="index.html" style="color: white; font: 3em sans-serif;">Gunpla World</a>
                         </div>
 
-                        <!-- Login Search Area -->
-                        <div class="login-search-area d-flex align-items-center">
-                            <!-- Login -->
-                            <div id="loginForm" class="account login d-flex">
-                                <img id="thumbAvatar" class="thumbAvatar" src="/img/avatar_2x.png"
-                                     onerror="this.src='/img/avatar_2x.png'"/>
-                                <a id="username" href="#" style="display: none;"></a>
-                                <div class="dropdown-menu-custom-profile" style="display:none;">
-                                    <a id="profile" href="#">Profile</a>
-                                </div>
-                                <div class="dropdown-menu-custom-logout" style="display: none;">
-                                    <a id="logout" href="#">Logout</a>
-                                </div>
-                            </div>
-                            <!-- Search Form -->
-                            <div class="search-form">
-                                <form action="#" method="post">
-                                    <input type="search" name="search" class="form-control" placeholder="Search">
-                                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                                </form>
-                            </div>
+                        <div class="navbar-custom-menu">
+                            <ul class="nav navbar-nav">
+                                <li id="username-li" class="dropdown user user-menu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <img id="thumbAvatar-new" src="/img/avatar_2x.png" class="user-image"
+                                             alt="User Image">
+                                        <span id="fullname-new" class="hidden-xs">Minh Tung</span>
+                                    </a>
+                                    <ul id="dropdown-profile" class="dropdown-menu">
+                                        <!-- User image -->
+                                        <li class="user-header">
+                                            <img id="thumbAvatar-dropdown" src="/img/avatar_2x.png"
+                                                 onerror="this.src='/img/avatar_2x.png'"
+                                                 class="img-circle" alt="User Image">
+                                            <p>
+                                                <span id="fullname-dropdown">Minh Tung</span>
+                                                <small>Member since Nov. 2018</small>
+                                            </p>
+                                        </li>
+                                        <!-- Menu Body -->
+                                        <li class="user-body">
+                                            <div class="statistic">
+                                                <span id="proposal">
+                                                    Proposal
+                                                </span>
+                                            </div>
+                                            <div class="statistic">
+                                                 <span>
+                                                     Exchange
+                                                 </span>
+                                            </div>
+                                            <div class="statistic">
+                                                 <span>
+                                                     Rating
+                                                 </span>
+                                            </div>
+                                            <div class="statistic-detail">
+                                                <span>
+                                                    0
+                                                </span>
+                                            </div>
+                                            <div class="statistic-detail">
+                                                 <span id="exchange">
+                                                     0
+                                                 </span>
+                                            </div>
+                                            <div class="statistic-detail">
+                                                 <span id="rating">
+                                                     N/A
+                                                 </span>
+                                            </div>
+                                            <!-- /.row -->
+                                        </li>
+                                        <!-- Menu Footer-->
+                                        <li class="user-footer">
+                                            <div class="pull-left">
+                                                <a id="profile-new" href="#" class="btnProfile">Profile</a>
+                                            </div>
+                                            <div class="pull-left">
+                                                <a id="adminBtn" style="display: none;" href="#"
+                                                   class="btnAdmin">Admin</a>
+                                            </div>
+                                            <div class="pull-right">
+                                                <a id="logout-new" href="" class="btnSignout">Sign out</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -125,7 +213,7 @@
 
                                     </div>
                                 </li>
-                                <li><a href="#">GUNDAM</a></li>
+                                <li><a href="/model/">GUNDAM</a></li>
                                 <li><a href="#">Articles</a></li>
                                 <li><a href="#">Events</a></li>
                                 <li><a href="#">Trade market</a></li>
@@ -141,12 +229,12 @@
 </header>
 <!-- ##### Header Area End ##### -->
 <div id="loading" class="loading" style="display: none;">Loading&#8230;</div>
+
 <!-- ##### Begin Body Content ##### -->
-<div class="model-container">
+<div class="model-container" id="innerContainer">
     <div class="container">
         <div class="row"
-             style="background-color: white; padding-top: 20px; padding-bottom: 20px; border: 1px solid #f0f0f0;">
-            <!--    Begin left content  -->
+             style="padding-top: 20px; padding-bottom: 20px; border: 1px solid #f0f0f0;">
             <div class="col-sm-6">
                 <div class="profile-title">
                     <span id="usernameTitle"></span>
@@ -165,7 +253,8 @@
                     </button>
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-3" style="background-color: white; padding-top: 20px;
+            padding-bottom: 20px; border: 1px solid #f0f0f0;">
                 <div class="profile-left-col">
                     <div class="text-center">
                         <img id="avatar" src="/img/avatar_2x.png"
@@ -206,7 +295,8 @@
             <!--    End Left content-->
 
             <!--    Begin Right content   -->
-            <div class="col-sm-9">
+            <div class="col-sm-9" style="background-color: white; padding-top: 20px;
+            padding-bottom: 20px;">
                 <div class="container">
                     <form class="form" id="profileForm">
                         <div class="row">
@@ -230,7 +320,6 @@
                                         <span id="errormiddlename" class="error_field"></span>
                                     </div>
                                 </div>
-
                                 <div class="form-group">
                                     <div class="col-xs-6">
                                         <label for="lastName"><h5>Last name</h5></label>
@@ -240,7 +329,6 @@
                                         <span id="errorlastname" class="error_field"></span>
                                     </div>
                                 </div>
-
                                 <div class="form-group">
                                     <div class="col-xs-6">
                                         <label for="status"><h5>Status</h5></label>
@@ -252,7 +340,6 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-
                                     <div class="col-xs-6">
                                         <label for="email"><h5>Email</h5></label>
                                         <input type="email" class="form-control" name="email" id="email"
@@ -262,22 +349,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-
                                     <div class="col-xs-6">
                                         <label for="email"><h5>Address</h5></label>
                                         <input type="text" class="form-control" id="address"
                                                value="You can't know"
                                                title="enter a location" disabled>
                                         <span id="erroraddress" class="error_field"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-xs-6">
-                                        <label for="birthday"><h5>Birthday</h5></label>
-                                        <input style="width: 150px;" type="text" class="form-control" name="birthday"
-                                               id="birthday"
-                                               value="2-12-1997" title="enter your password." disabled>
-                                        <span id="errorbirthday" class="error_field"></span>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -290,16 +367,23 @@
                                         <span id="errormobile" class="error_field"></span>
                                     </div>
                                 </div>
-                                <!--<div class="form-group">-->
-                                <!--<div class="col-xs-6">-->
-                                <!--<label for="password"><h5>Password</h5></label>-->
-                                <!--<input type="password" class="form-control" name="password" id="password"-->
-                                <!--value="" title="enter your password2." disabled>-->
-                                <!--</div>-->
-                                <!--</div>-->
+                                <div class="form-group">
+                                    <div class="col-xs-6">
+                                        <label><h5>Birthday</h5></label>
+                                        <!--<input style="width: 250px;" type="text" class="form-control" name="birthday"-->
+                                               <!--id="birthday"-->
+                                               <!--value="0981875113"-->
+                                               <!--title="enter your birthday" disabled>-->
+                                        <div id="datepicker" class="input-group date" style="width: 110px;"
+                                             data-date-format="dd-mm-yyyy">
+                                            <input id="birthday" class="form-control" style="text-align: center;"
+                                                   type="text" readonly name="birthday" disabled/>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                        <span id="errorbirthday" class="error_field"></span>
+                                    </div>
+                                </div>
                             </div>
-                            <span id="error" class="error" style="display: none; margin-left: 15px; font-size: 15px; color: red;
-                                width: 100%; float: left;"></span>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <div class="col-xs-12">
@@ -319,6 +403,135 @@
                     <!--    end form    -->
                 </div>
             </div>
+
+            <!--    Other profile area  -->
+            <!--<div class="col-sm-6" style="background-color: white; padding-top: 20px;-->
+                       <!--margin-left: 20px; padding-bottom: 20px; border: 1px solid #f0f0f0; box-shadow: 0px 0px 5px #aaa;-->
+                            <!--height: 400px;">-->
+                <!--<div class="container">-->
+                    <!--<form class="form" id="profileForm">-->
+                        <!--<div class="row">-->
+
+                            <!--<div class="col-sm-12">-->
+                                <!--<div class="form-group">-->
+                                    <!--<div class="col-xs-6">-->
+                                        <!--<h4 class="about-title">About</h4>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<br/>-->
+                            <!--</div>-->
+
+                            <!--<div class="col-sm-6">-->
+                                <!--<div class="form-group">-->
+                                    <!--<div class="col-xs-6">-->
+                                        <!--<h5>Full name</h5>-->
+                                        <!--<span style="color: #0066CC; font-size: 15px;">Hoang Ngo Minh Tung</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
+                                <!--<div class="form-group">-->
+                                    <!--<div class="col-xs-6">-->
+                                        <!--<h5>Email</h5>-->
+                                        <!--<span style="color: #0066CC; font-size: 15px;">Hoang Ngo Minh Tung</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
+                                <!--<div class="form-group">-->
+                                    <!--<div class="col-xs-6">-->
+                                        <!--<h5>Birthday</h5>-->
+                                        <!--<span style="color: #0066CC; font-size: 15px;">Hoang Ngo Minh Tung</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
+                                <!--<div class="form-group" style="margin-top: 35px;">-->
+                                    <!--<div class="col-xs-6">-->
+                                        <!--<img id="icon-review" style="margin-left: 0px;"-->
+                                             <!--src="/img/icon-review.png" data-toggle="modal"-->
+                                             <!--data-target="#reviewModel">-->
+                                        <!--<span style="text-decoration: underline;">Exchange evaluation</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="col-sm-6">-->
+                                <!--<div class="form-group">-->
+                                    <!--<div class="col-xs-6">-->
+                                        <!--<h5>Address</h5>-->
+                                        <!--<span style="color: #0066CC; font-size: 15px;">Hoang Ngo Minh Tung</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
+                                <!--<div class="form-group">-->
+                                    <!--<div class="col-xs-6">-->
+                                        <!--<h5>Tel</h5>-->
+                                        <!--<span style="color: #0066CC; font-size: 15px;">Hoang Ngo Minh Tung</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
+                                <!--<div class="form-group">-->
+                                    <!--<div class="col-xs-6">-->
+                                        <!--<h5>Join Date</h5>-->
+                                        <!--<span style="color: #0066CC; font-size: 15px;">Hoang Ngo Minh Tung</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
+                                <!--<div class="form-group">-->
+                                    <!--<div class="col-xs-6">-->
+                                        <!--<h5>Status</h5>-->
+                                        <!--<span style="color: #0066CC; font-size: 15px;">Hoang Ngo Minh Tung</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</form>-->
+                    <!--&lt;!&ndash;    end form    &ndash;&gt;-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col-sm-2" style="background-color: white; padding-top: 20px; margin-left: 20px;-->
+            <!--padding-bottom: 20px; border: 1px solid #f0f0f0; box-shadow: 0px 0px 5px #aaa;">-->
+                <!--<div class="top-five-title-div" style="margin-bottom: 20px;">-->
+                    <!--<strong class="top-five-title">TOP Ranking</strong>-->
+                <!--</div>-->
+                <!--<div class="ranking-container">-->
+                    <!--<img src="/img/1st.png" class="rankNumber"/>-->
+                    <!--<span class="ranking-username">Minh Tung</span>-->
+                <!--</div>-->
+                <!--<div class="ranking-container">-->
+                    <!--<img src="/img/2nd.jpg" class="rankNumber"/>-->
+                    <!--<span class="ranking-username">Bao Khanh</span>-->
+                <!--</div>-->
+                <!--<div class="ranking-container">-->
+                    <!--<img src="/img/3rd.jpg" class="rankNumber"/>-->
+                    <!--<span class="ranking-username">Ngoc Sang</span>-->
+                <!--</div>-->
+                <!--<div class="ranking-container">-->
+                    <!--<span class="normal-rankNumber">4th.</span>-->
+                    <!--<span class="ranking-username">Ngoc Sang</span>-->
+                <!--</div>-->
+                <!--<div class="ranking-container">-->
+                    <!--<span class="normal-rankNumber">5th.</span>-->
+                    <!--<span class="ranking-username">Ngoc Sang</span>-->
+                <!--</div>-->
+                <!--<div class="ranking-container">-->
+                    <!--<span class="normal-rankNumber">6th.</span>-->
+                    <!--<span class="ranking-username">Ngoc Sang</span>-->
+                <!--</div>-->
+                <!--<div class="ranking-container">-->
+                    <!--<span class="normal-rankNumber">7th.</span>-->
+                    <!--<span class="ranking-username">Ngoc Sang</span>-->
+                <!--</div>-->
+                <!--<div class="ranking-container">-->
+                    <!--<span class="normal-rankNumber">8th.</span>-->
+                    <!--<span class="ranking-username">Ngoc Sang</span>-->
+                <!--</div>-->
+                <!--<div class="ranking-container">-->
+                    <!--<span class="normal-rankNumber">9th.</span>-->
+                    <!--<span class="ranking-username">Ngoc Sang</span>-->
+                <!--</div>-->
+                <!--<div class="ranking-container">-->
+                    <!--<span class="normal-rankNumber">10th.</span>-->
+                    <!--<span class="ranking-username">Ngoc Sang</span>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
     </div>
 </div>
@@ -326,7 +539,7 @@
 <!-- ##### End Content #####-->
 
 <!-- ##### Footer Add Area Start ##### -->
-<div class="footer-add-area">
+<div id="footer-profile" class="footer-add-area">
     <div class="container">
         <div class="row">
             <div class="col-12">

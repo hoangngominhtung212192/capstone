@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="/css/search-filter.css">
     <link rel="stylesheet" href="/css/pagination.css">
     <link rel="stylesheet" href="/css/w3.css">
+
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/model-detail.js"></script>
     <style>
         .mySlides {
             display: none
@@ -41,6 +44,106 @@
 </head>
 
 <body onpageshow="scrollToProducts()" style="background-color: whitesmoke;">
+<div id="loading" class="loading" style="display: none;">Loading&#8230;</div>
+<!--    The Rating Modal   -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 id="rating-title" style="font-family: 'Cambria'; color: darkred; font-weight: bold;"
+                    class="modal-title">Model
+                    Rating</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form>
+                    <div class="form-group row" style="margin-bottom: 0px;">
+                        <label style="color: darkblue" class="col-sm-2 col-form-label"><b>Rating:</b></label>
+                        <div class="col-sm-10">
+                            <fieldset class="rating" style="margin: 0; padding-top: 5px;">
+                                <input type="radio" id="star5" name="rating" value="5"/><label class="full" for="star5"
+                                                                                               title="Very Good - 5 stars"></label>
+                                <input type="radio" id="star4" name="rating" value="4"/><label class="full" for="star4"
+                                                                                               title="Good - 4 stars"></label>
+                                <input type="radio" id="star3" name="rating" value="3"/><label class="full" for="star3"
+                                                                                               title="Normal - 3 stars"></label>
+                                <input type="radio" id="star2" name="rating" value="2"/><label class="full" for="star2"
+                                                                                               title="Bad - 2 stars"></label>
+                                <input type="radio" id="star1" name="rating" value="1"/><label class="full" for="star1"
+                                                                                               title="Very Bad - 1 star"></label>
+                            </fieldset>
+                            <span id="errorRating" class="error_field"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label style="color: darkblue" for="txtReview"
+                               class="col-sm-2 col-form-label"><b>Review:</b></label>
+                        <div class="col-sm-10">
+                            <textarea style="height: 120px;"
+                                      class="form-control" id="txtReview"
+                                      placeholder="How do you feel about this model?"></textarea>
+                            <span id="errorFeedback" class="error_field"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer" style="padding-top: 0;">
+                <button id="close-rating" style="color: white; background: grey; border-color: grey;"
+                        type="button" class="btn btn-danger" data-dismiss="modal">Close
+                </button>
+                <button id="submit-rating" style="color: white;"
+                        type="button" class="btn btn-danger" data-dismiss="modal">Submit
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- The Review list Modal -->
+<div class="modal fade" id="reviewModel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header" style="padding-top: 5px; padding-right: 10px; height: 20px;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div id="scrollTable" style="width: 100%; height: 500px; overflow: auto">
+                    <table id="reviewList">
+                        <!--<tr>-->
+                            <!--<td style="vertical-align: top">-->
+                                <!--<img src="/img/4543112620538.jpg"/>-->
+                            <!--</td>-->
+                            <!--<td class="review-info">-->
+                                <!--<a href="#">Minh Tung</a>-->
+                                <!--<span class="reputation-star-rating">&#9733;&#9733;&#9733;&#9733;&#9733;</span>-->
+                                <!--<span class="ratingDate">2018-11-1</span>-->
+                                <!--<br/>-->
+                                <!--<div class="review-info-text">-->
+                                    <!--It saddened me to see the number of people panning this excellent series on this-->
+                                    <!--site.-->
+                                    <!--Gundam wing, for me, was possibly one of the best anime's I have ever see, and YES I-->
+                                    <!--have seen the original series.-->
+                                <!--</div>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- ##### Header Area Start ##### -->
 <header class="header-area">
 
@@ -55,25 +158,84 @@
                             <a href="index.html" style="color: white; font: 3em sans-serif;">Gunpla World</a>
                         </div>
 
+                        <div id="profile-div" class="navbar-custom-menu">
+                            <ul class="nav navbar-nav">
+                                <li id="username-li" class="dropdown user user-menu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <img id="thumbAvatar-new" src="/img/avatar_2x.png" class="user-image"
+                                             alt="User Image">
+                                        <span id="fullname-new" class="hidden-xs">Minh Tung</span>
+                                    </a>
+                                    <ul id="dropdown-profile" class="dropdown-menu">
+                                        <!-- User image -->
+                                        <li class="user-header">
+                                            <img id="thumbAvatar-dropdown" src="/img/avatar_2x.png"
+                                                 onerror="this.src='/img/avatar_2x.png'"
+                                                 class="img-circle" alt="User Image">
+                                            <p>
+                                                <span id="fullname-dropdown">Minh Tung</span>
+                                                <small>Member since Nov. 2018</small>
+                                            </p>
+                                        </li>
+                                        <!-- Menu Body -->
+                                        <li class="user-body">
+                                            <div class="statistic">
+                                                <span id="proposal">
+                                                    Proposal
+                                                </span>
+                                            </div>
+                                            <div class="statistic">
+                                                 <span>
+                                                     Exchange
+                                                 </span>
+                                            </div>
+                                            <div class="statistic">
+                                                 <span>
+                                                     Rating
+                                                 </span>
+                                            </div>
+                                            <div class="statistic-detail">
+                                                <span>
+                                                    0
+                                                </span>
+                                            </div>
+                                            <div class="statistic-detail">
+                                                 <span id="exchange">
+                                                     0
+                                                 </span>
+                                            </div>
+                                            <div class="statistic-detail">
+                                                 <span id="rating">
+                                                     N/A
+                                                 </span>
+                                            </div>
+                                            <!-- /.row -->
+                                        </li>
+                                        <!-- Menu Footer-->
+                                        <li class="user-footer">
+                                            <div class="pull-left">
+                                                <a id="profile-new" href="#" class="btnProfile">Profile</a>
+                                            </div>
+                                            <div class="pull-left">
+                                                <a id="adminBtn" style="display: none;" href="#"
+                                                   class="btnAdmin">Admin</a>
+                                            </div>
+                                            <div class="pull-right">
+                                                <a id="logout-new" href="" class="btnSignout">Sign out</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
                         <!-- Login Search Area -->
-                        <div class="login-search-area d-flex align-items-center">
+                        <div id="loginForm" style="margin-right: 50px; display: none!important;"
+                             class="login-search-area d-flex align-items-center">
                             <!-- Login -->
                             <div class="account login d-flex">
-                                <a href="#">Tung</a>
-                                <div class="dropdown-menu-custom-profile">
-                                    <a id="profile" href="#">Profile</a>
-                                </div>
-                                <div class="dropdown-menu-custom-logout">
-                                    <a id="logout" href="#">Logout</a>
-                                </div>
-                                <!--<a href="#">Register</a>-->
-                            </div>
-                            <!-- Search Form -->
-                            <div class="search-form">
-                                <form action="#" method="post">
-                                    <input type="search" name="search" class="form-control" placeholder="Search">
-                                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                                </form>
+                                <a id="loginbtn" href="/login"><b>Login</b></a>
+                                <a id="register" href="/register"><b>Register</b></a>
                             </div>
                         </div>
                     </div>
@@ -274,7 +436,8 @@
                     <div class="row searchFilter">
 
                         <div class="input-group">
-                            <input style="margin-left: 164px;" id="table_filter" type="text" placeholder="Enter a search term"
+                            <input style="margin-left: 164px;" id="table_filter" type="text"
+                                   placeholder="Enter a search term"
                                    aria-label="Text input with segmented button dropdown">
                             <input type="submit" value="" class="search-box-button"/>
                         </div>
@@ -289,49 +452,57 @@
                             <!--    End page title  -->
 
                             <div class="model-information-bigimage">
-                                <img src="https://www.1999.co.jp/itbig52/10522238p.jpg">
+                                <img id="thumbImage" src="https://www.1999.co.jp/itbig52/10522238p.jpg">
                             </div>
 
                             <div class="model-information-detail">
                                 <table class="model-information-detail-table">
                                     <tr>
                                         <td><b>Name: </b></td>
-                                        <td class="attr-value">AMX-103 Hamma-Hamma</td>
+                                        <td id="modelName" class="attr-value">AMX-103 Hamma-Hamma</td>
                                     </tr>
                                     <tr>
                                         <td><b>Manufacturer: </b></td>
-                                        <td class="attr-value">Bandai</td>
+                                        <td id="manufacturer" class="attr-value">Bandai</td>
                                     </tr>
                                     <tr>
                                         <td><b>Scale: </b></td>
-                                        <td class="attr-value">Master Grade , 1/100</td>
+                                        <td id="productseries" class="attr-value">Master Grade , 1/100</td>
                                     </tr>
                                     <tr>
                                         <td><b>Series: </b></td>
-                                        <td class="attr-value">MG Other Gundam</td>
+                                        <td id="seriestitle" class="attr-value">MG Other Gundam</td>
                                     </tr>
                                     <tr>
                                         <td><b>Release Date: </b></td>
-                                        <td class="attr-value">Mid May, 2018</td>
+                                        <td id="releasedDate" class="attr-value">Mid May, 2018</td>
                                     </tr>
                                     <tr>
                                         <td><b>Sales Price: </b></td>
-                                        <td class="attr-value">3,600yen</td>
+                                        <td id="price" class="attr-value">3,600yen</td>
                                     </tr>
                                     <tr>
                                         <td><b>Item Code: </b></td>
-                                        <td class="attr-value">257516</td>
+                                        <td id="modelCode" class="attr-value">257516</td>
                                     </tr>
                                     <tr>
                                         <td><b>Rating: </b></td>
                                         <td class="attr-value">
-                                            <ul class="rating">
-                                                <li class="one"><a title="1 Star">1</a></li>
-                                                <li class="two"><a title="2 Stars">2</a></li>
-                                                <li class="three"><a title="3 Stars">3</a></li>
-                                                <li class="four"><a title="4 Stars">4</a></li>
-                                                <li class="five"><a title="5 Stars">5</a></li>
-                                            </ul>
+                                            <span id="ratingValue" style="float: left;" class="reputation-star-rating"></span>
+
+                                            <span id="numberOfRater" style="color: darkblue;
+                                                float: left; margin-left: 10px; margin-right: 10px; font-size: 14px;margin-top: 4px;">
+                                            </span>
+
+                                            <!--    To open review list modal   -->
+                                            <img id="icon-review" src="/img/icon-review.png" data-toggle="modal"
+                                                 data-target="#reviewModel"/>
+                                            <!--    To open my rating modal -->
+                                            <button id="my-rating" type="button" class="btn btn-primary"
+                                                    data-toggle="modal"
+                                                    data-target="#myModal">
+                                                My Rating
+                                            </button>
                                         </td>
                                     </tr>
                                 </table>
@@ -341,217 +512,12 @@
                                 <h1 class="page-title-image"><span>IMAGES</span></h1>
                             </div>
 
-                            <div class="model-information-image-container">
-                                <div class="model-information-image-grid">
-                                    <div class="model-information-image-type">
-                                        Package
-                                    </div>
-
-                                    <div class="model-information-image-items">
-                                        <div class="w3-content w3-display-container"
-                                             style="max-width:220px;height:100%">
-                                            <img class="mySlides" src="/img/vf31a1.jpg" style="width:100%; height:100%">
-                                            <img class="mySlides" src="/img/10522238.jpg"
-                                                 style="width:100%; height:100%">
-                                            <img class="mySlides" src="/img/Gundam-Virsago-Hg-1-100-Model-Kit.jpg"
-                                                 style="width:100%; height:100%">
-                                            <img class="mySlides" src="/img/4543112620538.jpg"
-                                                 style="width:100%; height:100%">
-                                            <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle"
-                                                 style="width:100%">
-                                                <div class="w3-left w3-hover-text-khaki" onclick="plusDivs1(-1)">
-                                                    &#10094;
-                                                </div>
-                                                <div class="w3-right w3-hover-text-khaki" onclick="plusDivs1(1)">
-                                                    &#10095;
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="model-information-image-grid">
-                                    <div class="model-information-image-type">
-                                        Item picture
-                                    </div>
-
-                                    <div class="model-information-image-items">
-                                        <div class="w3-content w3-display-container"
-                                             style="max-width:220px;height:100%">
-                                            <img class="mySlides2" src="/img/10522238.jpg"
-                                                 style="width:100%; height:100%">
-                                            <img class="mySlides2" src="/img/vf31a1.jpg" style="width:100%; height:100%">
-                                            <img class="mySlides2" src="/img/Gundam-Virsago-Hg-1-100-Model-Kit.jpg"
-                                                 style="width:100%; height:100%">
-                                            <img class="mySlides2" src="/img/4543112620538.jpg"
-                                                 style="width:100%; height:100%">
-                                            <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle"
-                                                 style="width:100%">
-                                                <div class="w3-left w3-hover-text-khaki" onclick="plusDivs2(-1)">
-                                                    &#10094;
-                                                </div>
-                                                <div class="w3-right w3-hover-text-khaki" onclick="plusDivs2(1)">
-                                                    &#10095;
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="model-information-image-grid">
-                                    <div class="model-information-image-type">
-                                        Other picture
-                                    </div>
-
-                                    <div class="model-information-image-items">
-                                        <div class="w3-content w3-display-container"
-                                             style="max-width:220px;height:100%">
-                                            <img class="mySlides3" src="/img/Gundam-Virsago-Hg-1-100-Model-Kit.jpg"
-                                                 style="width:100%; height:100%">
-                                            <img class="mySlides3" src="/img/vf31a1.jpg" style="width:100%; height:100%">
-                                            <img class="mySlides3" src="/img/10522238.jpg"
-                                                 style="width:100%; height:100%">
-                                            <img class="mySlides3" src="/img/4543112620538.jpg"
-                                                 style="width:100%; height:100%">
-                                            <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle"
-                                                 style="width:100%">
-                                                <div class="w3-left w3-hover-text-khaki" onclick="plusDivs3(-1)">
-                                                    &#10094;
-                                                </div>
-                                                <div class="w3-right w3-hover-text-khaki" onclick="plusDivs3(1)">
-                                                    &#10095;
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="model-information-image-grid">
-                                    <div class="model-information-image-type">
-                                        Contents
-                                    </div>
-
-                                    <div class="model-information-image-items">
-                                        <div class="w3-content w3-display-container"
-                                             style="max-width:220px;height:100%">
-                                            <img class="mySlides4" src="/img/4543112620538.jpg"
-                                                 style="width:100%; height:100%">
-                                            <img class="mySlides4" src="/img/vf31a1.jpg" style="width:100%; height:100%">
-                                            <img class="mySlides4" src="/img/10522238.jpg"
-                                                 style="width:100%; height:100%">
-                                            <img class="mySlides4" src="/img/Gundam-Virsago-Hg-1-100-Model-Kit.jpg"
-                                                 style="width:100%; height:100%">
-                                            <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle"
-                                                 style="width:100%">
-                                                <div class="w3-left w3-hover-text-khaki" onclick="plusDivs4(-1)">
-                                                    &#10094;
-                                                </div>
-                                                <div class="w3-right w3-hover-text-khaki" onclick="plusDivs4(1)">
-                                                    &#10095;
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="model-information-image-grid">
-                                    <div class="model-information-image-type">
-                                        About item
-                                    </div>
-
-                                    <div class="model-information-image-items">
-                                        <div class="w3-content w3-display-container"
-                                             style="max-width:220px;height:100%">
-                                            <img class="mySlides5" src="/img/4543112620538.jpg"
-                                                 style="width:100%; height:100%">
-                                            <img class="mySlides5" src="/img/vf31a1.jpg" style="width:100%; height:100%">
-                                            <img class="mySlides5" src="/img/10522238.jpg"
-                                                 style="width:100%; height:100%">
-                                            <img class="mySlides5" src="/img/Gundam-Virsago-Hg-1-100-Model-Kit.jpg"
-                                                 style="width:100%; height:100%">
-                                            <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle"
-                                                 style="width:100%">
-                                                <div class="w3-left w3-hover-text-khaki" onclick="plusDivs5(-1)">
-                                                    &#10094;
-                                                </div>
-                                                <div class="w3-right w3-hover-text-khaki" onclick="plusDivs5(1)">
-                                                    &#10095;
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="model-information-image-grid">
-                                    <div class="model-information-image-type">
-                                        Color
-                                    </div>
-
-                                    <div class="model-information-image-items">
-                                        <div class="w3-content w3-display-container"
-                                             style="max-width:220px;height:100%">
-                                            <img class="mySlides6" src="/img/4543112620538.jpg"
-                                                 style="width:100%; height:100%">
-                                            <img class="mySlides6" src="/img/vf31a1.jpg" style="width:100%; height:100%">
-                                            <img class="mySlides6" src="/img/10522238.jpg"
-                                                 style="width:100%; height:100%">
-                                            <img class="mySlides6" src="/img/Gundam-Virsago-Hg-1-100-Model-Kit.jpg"
-                                                 style="width:100%; height:100%">
-                                            <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle"
-                                                 style="width:100%">
-                                                <div class="w3-left w3-hover-text-khaki" onclick="plusDivs6(-1)">
-                                                    &#10094;
-                                                </div>
-                                                <div class="w3-right w3-hover-text-khaki" onclick="plusDivs6(1)">
-                                                    &#10095;
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="model-information-image-grid">
-                                    <div class="model-information-image-type">
-                                        Assembly guide
-                                    </div>
-
-                                    <div class="model-information-image-items">
-                                        <div class="w3-content w3-display-container"
-                                             style="max-width:220px;height:100%">
-                                            <img class="mySlides7" src="/img/4543112620538.jpg"
-                                                 style="width:100%; height:100%">
-                                            <img class="mySlides7" src="/img/vf31a1.jpg" style="width:100%; height:100%">
-                                            <img class="mySlides7" src="/img/10522238.jpg"
-                                                 style="width:100%; height:100%">
-                                            <img class="mySlides7" src="/img/Gundam-Virsago-Hg-1-100-Model-Kit.jpg"
-                                                 style="width:100%; height:100%">
-                                            <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle"
-                                                 style="width:100%">
-                                                <div class="w3-left w3-hover-text-khaki" onclick="plusDivs7(-1)">
-                                                    &#10094;
-                                                </div>
-                                                <div class="w3-right w3-hover-text-khaki" onclick="plusDivs7(1)">
-                                                    &#10095;
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div id="image-container" class="model-information-image-container">
                             </div>
 
                             <div class="page-title-wrapper">
                                 <h1 class="page-title-image"><span>DESCRIPTION</span></h1>
-                                <div class="model-information-description-cotainer">
-                                    <br>── Gundam F 91 appeared in Ver.<br><br>- While reproducing the flowing
-                                    silhouette of F91 designed with F1 as a motif, it condenses the technology
-                                    cultivated in the evolution project in a small aircraft.<br>- Adopting multiple
-                                    structures in the abdominal duct, directing the sense of density. I use parts
-                                    with extra finish for internal parts.<br>- Deepening the setting of Sanary 's
-                                    latest high - performance MS F91, sculptures detailing the circuit as a motif in
-                                    the inner frame.<br>- By adopting the light guiding parts inside the fuselage
-                                    and setting the separately sold [light emitting unit (white) 2 light type] on
-                                    the pedestal, heat discharged from the abdominal duct or backpack duct in
-                                    maximum movable mode and [MEPE] Directed. Head with a face open gimmick and two
-                                    non-deformed heads are included.
+                                <div id="description" class="model-information-description-cotainer">
                                 </div>
                             </div>
                             <!--    End model information   -->
@@ -562,374 +528,357 @@
             <!--    End middle content   -->
 
             <!--    Begin right content  -->
-            <div class="col-sm-2">
-                <div class="edit-container">
-                <button class="io-button-standard-2" type="submit">
-                <a href="#">EDIT</a>
-                </button>
-                <button class="io-button-standard-2" style="width: 85px;" type="submit">
-                <a href="#">DELETE</a>
-                </button>
+            <div id="right-container" class="col-sm-2">
+                <div id="admin-buttons" class="edit-container" style="display: none;">
+                    <button class="io-button-standard-2" type="submit">
+                        <a id="edit-btn" href="#">EDIT</a>
+                    </button>
+                    <button class="io-button-standard-2" style="width: 85px;" type="submit">
+                        <a href="#">DELETE</a>
+                    </button>
                 </div>
                 <div class="top-five-title-div">
                     <strong class="top-five-title">TOP FIVE</strong>
                 </div>
 
                 <!--    Begin Model   -->
-                <div class="ul-category-title-content">
-                    <ul class="ul-category-contents">
-                        <li class="lead-top-five">
-                            <strong>Model
-                            </strong></li>
-                    </ul>
-                </div>
-                <div class="image-top-five">
-                    <img class="image-top-five-items" src="/img/4543112620538.jpg"/>
-                </div>
-                <div class="image-top-five">
-                    <img class="image-top-five-items" src="/img/vf31a1.jpg"/>
-                </div>
-                <div class="image-top-five">
-                    <img class="image-top-five-items" src="/img/eb13a49fafa860b5d88138db105305e0.jpg"/>
-                </div>
-                <div class="image-top-five">
-                    <img class="image-top-five-items" src="/img/10522238p.jpg"/>
-                </div>
-                <div class="image-top-five">
-                    <img class="image-top-five-items" src="/img/Gundam-Virsago-Hg-1-100-Model-Kit.jpg"/>
-                </div>
-                <!--    End model   -->
+                <!--<div class="ul-category-title-content">-->
+                    <!--<ul class="ul-category-contents">-->
+                        <!--<li class="lead-top-five">-->
+                            <!--<strong>Model-->
+                            <!--</strong></li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+                <!--<div class="image-top-five">-->
+                    <!--<img class="image-top-five-items" src="/img/4543112620538.jpg"/>-->
+                <!--</div>-->
+                <!--<div class="image-top-five">-->
+                    <!--<img class="image-top-five-items" src="/img/vf31a1.jpg"/>-->
+                <!--</div>-->
+                <!--<div class="image-top-five">-->
+                    <!--<img class="image-top-five-items" src="/img/eb13a49fafa860b5d88138db105305e0.jpg"/>-->
+                <!--</div>-->
+                <!--<div class="image-top-five">-->
+                    <!--<img class="image-top-five-items" src="/img/10522238p.jpg"/>-->
+                <!--</div>-->
+                <!--<div class="image-top-five">-->
+                    <!--<img class="image-top-five-items" src="/img/Gundam-Virsago-Hg-1-100-Model-Kit.jpg"/>-->
+                <!--</div>-->
+                <!--&lt;!&ndash;    End model   &ndash;&gt;-->
 
-                <!--    Begin Article   -->
-                <div class="ul-category-title-content">
-                    <ul class="ul-category-contents">
-                        <li class="lead-top-five">
-                            <strong>Article
-                            </strong></li>
-                    </ul>
-                </div>
-                <div class="image-top-five">
-                    <img class="image-top-five-items" src="/img/4543112620538.jpg"/>
-                </div>
-                <div class="image-top-five">
-                    <img class="image-top-five-items" src="/img/vf31a1.jpg"/>
-                </div>
-                <div class="image-top-five">
-                    <img class="image-top-five-items" src="/img/eb13a49fafa860b5d88138db105305e0.jpg"/>
-                </div>
-                <div class="image-top-five">
-                    <img class="image-top-five-items" src="/img/10522238p.jpg"/>
-                </div>
-                <div class="image-top-five">
-                    <img class="image-top-five-items" src="/img/Gundam-Virsago-Hg-1-100-Model-Kit.jpg"/>
-                </div>
+                <!--&lt;!&ndash;    Begin Article   &ndash;&gt;-->
+                <!--<div class="ul-category-title-content">-->
+                    <!--<ul class="ul-category-contents">-->
+                        <!--<li class="lead-top-five">-->
+                            <!--<strong>Related Trade Post-->
+                            <!--</strong></li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+                <!--<div class="words-top-five">-->
+                    <!--<a href="#">aaaaaaaaaaaaaaaa</a>-->
+                <!--</div>-->
+
+
                 <!--    End Article -->
             </div>
             <!--    End right content-->
         </div>
     </div>
 </div>
-    <!-- ##### End Content #####-->
+<!-- ##### End Content #####-->
 
-    <!-- ##### Footer Add Area Start ##### -->
-    <div class="footer-add-area">
+<!-- ##### Footer Add Area Start ##### -->
+<div class="footer-add-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="footer-add">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Footer Add Area End ##### -->
+
+<!-- ##### Footer Area Start ##### -->
+<footer class="footer-area">
+
+    <!-- Main Footer Area -->
+    <div class="main-footer-area">
         <div class="container">
             <div class="row">
-                <div class="col-12">
-                    <div class="footer-add">
+
+                <!-- Footer Widget Area -->
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="footer-widget-area mt-80">
+                        <!-- Footer Logo -->
+                        <div class="footer-logo">
+                            <a href="index.html" style="color: white; font: 3em sans-serif;">Gunpla World</a>
+                        </div>
+                        <!-- List -->
+                        <ul class="list">
+                            <li><a href="mailto:contact@youremail.com">contact@youremail.com</a></li>
+                            <li><a href="tel:+4352782883884">+43 5278 2883 884</a></li>
+                            <li><a href="http://yoursitename.com">www.yoursitename.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Footer Widget Area -->
+                <div class="col-12 col-sm-6 col-lg-2">
+                    <div class="footer-widget-area mt-80">
+                        <!-- Title -->
+                        <h4 class="widget-title">Quick Links</h4>
+                        <!-- List -->
+                        <ul class="list">
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Articles</a></li>
+                            <li><a href="#">Events</a></li>
+                            <li><a href="#">Trade market</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Footer Widget Area -->
+                <div class="col-12 col-sm-4 col-lg-2">
+                    <div class="footer-widget-area mt-80">
+                        <!-- Title -->
+                        <h4 class="widget-title">Follow us</h4>
+                        <!-- List -->
+                        <ul class="list">
+                            <li><a href="#">Facebook</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <!-- Bottom Footer Area -->
+                <div class="bottom-footer-area">
+                    <div class="container h-100">
+                        <div class="row h-100 align-items-center">
+                            <div class="col-12">
+                                <!-- Copywrite -->
+                                <p>copywrite lol</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- ##### Footer Add Area End ##### -->
 
-    <!-- ##### Footer Area Start ##### -->
-    <footer class="footer-area">
+</footer>
+<!-- ##### Footer Area Start ##### -->
 
-        <!-- Main Footer Area -->
-        <div class="main-footer-area">
-            <div class="container">
-                <div class="row">
+<!-- ##### All Javascript Files ##### -->
+<!-- jQuery-2.2.4 js -->
+<script src="/js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="/js/bootstrap/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="/js/bootstrap/bootstrap.min.js"></script>
+<!-- All Plugins js -->
+<script src="/js/plugins/plugins.js"></script>
+<!-- Active js -->
+<script src="/js/active.js"></script>
+<script>
+    var slideIndex1 = 1;
+    var slideIndex2 = 1;
+    var slideIndex3 = 1;
+    var slideIndex4 = 1;
+    var slideIndex5 = 1;
+    var slideIndex6 = 1;
+    var slideIndex7 = 1;
 
-                    <!-- Footer Widget Area -->
-                    <div class="col-12 col-sm-6 col-lg-4">
-                        <div class="footer-widget-area mt-80">
-                            <!-- Footer Logo -->
-                            <div class="footer-logo">
-                                <a href="index.html" style="color: white; font: 3em sans-serif;">Gunpla World</a>
-                            </div>
-                            <!-- List -->
-                            <ul class="list">
-                                <li><a href="mailto:contact@youremail.com">contact@youremail.com</a></li>
-                                <li><a href="tel:+4352782883884">+43 5278 2883 884</a></li>
-                                <li><a href="http://yoursitename.com">www.yoursitename.com</a></li>
-                            </ul>
-                        </div>
-                    </div>
+    function plusDivs1(n) {
+        showDivs1(slideIndex1 += n);
+    }
 
-                    <!-- Footer Widget Area -->
-                    <div class="col-12 col-sm-6 col-lg-2">
-                        <div class="footer-widget-area mt-80">
-                            <!-- Title -->
-                            <h4 class="widget-title">Quick Links</h4>
-                            <!-- List -->
-                            <ul class="list">
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Articles</a></li>
-                                <li><a href="#">Events</a></li>
-                                <li><a href="#">Trade market</a></li>
-                            </ul>
-                        </div>
-                    </div>
+    function currentDiv1(n) {
+        showDivs1(slideIndex1 = n);
+    }
 
-                    <!-- Footer Widget Area -->
-                    <div class="col-12 col-sm-4 col-lg-2">
-                        <div class="footer-widget-area mt-80">
-                            <!-- Title -->
-                            <h4 class="widget-title">Follow us</h4>
-                            <!-- List -->
-                            <ul class="list">
-                                <li><a href="#">Facebook</a></li>
-                            </ul>
-                        </div>
-                    </div>
+    function plusDivs2(n) {
+        showDivs2(slideIndex2 += n);
+    }
 
+    function currentDiv2(n) {
+        showDivs2(slideIndex2 = n);
+    }
 
-                    <!-- Bottom Footer Area -->
-                    <div class="bottom-footer-area">
-                        <div class="container h-100">
-                            <div class="row h-100 align-items-center">
-                                <div class="col-12">
-                                    <!-- Copywrite -->
-                                    <p>copywrite lol</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    function plusDivs3(n) {
+        showDivs3(slideIndex3 += n);
+    }
 
-    </footer>
-    <!-- ##### Footer Area Start ##### -->
+    function currentDiv3(n) {
+        showDivs3(slideIndex3 = n);
+    }
 
-    <!-- ##### All Javascript Files ##### -->
-    <!-- jQuery-2.2.4 js -->
-    <script src="/js/jquery/jquery-2.2.4.min.js"></script>
-    <!-- Popper js -->
-    <script src="/js/bootstrap/popper.min.js"></script>
-    <!-- Bootstrap js -->
-    <script src="/js/bootstrap/bootstrap.min.js"></script>
-    <!-- All Plugins js -->
-    <script src="/js/plugins/plugins.js"></script>
-    <!-- Active js -->
-    <script src="/js/active.js"></script>
-    <script>
-        var slideIndex1 = 1;
-        var slideIndex2 = 1;
-        var slideIndex3 = 1;
-        var slideIndex4 = 1;
-        var slideIndex5 = 1;
-        var slideIndex6 = 1;
-        var slideIndex7 = 1;
-        showDivs1(slideIndex1);
-        showDivs2(slideIndex2);
-        showDivs3(slideIndex3);
-        showDivs4(slideIndex4);
-        showDivs5(slideIndex5);
-        showDivs6(slideIndex6);
-        showDivs7(slideIndex7);
+    function plusDivs4(n) {
+        showDivs4(slideIndex4 += n);
+    }
 
-        function plusDivs1(n) {
-            showDivs1(slideIndex1 += n);
+    function currentDiv2(n) {
+        showDivs4(slideIndex4 = n);
+    }
+
+    function plusDivs5(n) {
+        showDivs5(slideIndex5 += n);
+    }
+
+    function currentDiv5(n) {
+        showDivs5(slideIndex5 = n);
+    }
+
+    function plusDivs6(n) {
+        showDivs6(slideIndex6 += n);
+    }
+
+    function currentDiv6(n) {
+        showDivs6(slideIndex6 = n);
+    }
+
+    function plusDivs7(n) {
+        showDivs7(slideIndex7 += n);
+    }
+
+    function currentDiv7(n) {
+        showDivs7(slideIndex7 = n);
+    }
+
+    function showDivs1(n) {
+        var i;
+        var x = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("demo");
+        if (n > x.length) {
+            slideIndex1 = 1
         }
-
-        function currentDiv1(n) {
-            showDivs1(slideIndex1 = n);
+        if (n < 1) {
+            slideIndex1 = x.length
         }
-
-        function plusDivs2(n) {
-            showDivs2(slideIndex2 += n);
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
         }
-
-        function currentDiv2(n) {
-            showDivs2(slideIndex2 = n);
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" w3-white", "");
         }
+        x[slideIndex1 - 1].style.display = "block";
+    }
 
-        function plusDivs3(n) {
-            showDivs3(slideIndex3 += n);
+    function showDivs2(n) {
+        var i;
+        var x = document.getElementsByClassName("mySlides2");
+        var dots = document.getElementsByClassName("demo");
+        if (n > x.length) {
+            slideIndex2 = 1
         }
+        if (n < 1) {
+            slideIndex2 = x.length
+        }
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" w3-white", "");
+        }
+        x[slideIndex2 - 1].style.display = "block";
+    }
 
-        function currentDiv3(n) {
-            showDivs3(slideIndex3 = n);
+    function showDivs3(n) {
+        var i;
+        var x = document.getElementsByClassName("mySlides3");
+        var dots = document.getElementsByClassName("demo");
+        if (n > x.length) {
+            slideIndex3 = 1
         }
+        if (n < 1) {
+            slideIndex3 = x.length
+        }
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" w3-white", "");
+        }
+        x[slideIndex3 - 1].style.display = "block";
+    }
 
-        function plusDivs4(n) {
-            showDivs4(slideIndex4 += n);
+    function showDivs4(n) {
+        var i;
+        var x = document.getElementsByClassName("mySlides4");
+        var dots = document.getElementsByClassName("demo");
+        if (n > x.length) {
+            slideIndex4 = 1
         }
+        if (n < 1) {
+            slideIndex4 = x.length
+        }
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" w3-white", "");
+        }
+        x[slideIndex4 - 1].style.display = "block";
+    }
 
-        function currentDiv2(n) {
-            showDivs4(slideIndex4 = n);
+    function showDivs5(n) {
+        var i;
+        var x = document.getElementsByClassName("mySlides5");
+        var dots = document.getElementsByClassName("demo");
+        if (n > x.length) {
+            slideIndex5 = 1
         }
+        if (n < 1) {
+            slideIndex5 = x.length
+        }
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" w3-white", "");
+        }
+        x[slideIndex5 - 1].style.display = "block";
+    }
 
-        function plusDivs5(n) {
-            showDivs5(slideIndex5 += n);
+    function showDivs6(n) {
+        var i;
+        var x = document.getElementsByClassName("mySlides6");
+        var dots = document.getElementsByClassName("demo");
+        if (n > x.length) {
+            slideIndex6 = 1
         }
+        if (n < 1) {
+            slideIndex6 = x.length
+        }
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" w3-white", "");
+        }
+        x[slideIndex6 - 1].style.display = "block";
+    }
 
-        function currentDiv5(n) {
-            showDivs5(slideIndex5 = n);
+    function showDivs7(n) {
+        var i;
+        var x = document.getElementsByClassName("mySlides7");
+        var dots = document.getElementsByClassName("demo");
+        if (n > x.length) {
+            slideIndex7 = 1
         }
-
-        function plusDivs6(n) {
-            showDivs6(slideIndex6 += n);
+        if (n < 1) {
+            slideIndex7 = x.length
         }
-
-        function currentDiv6(n) {
-            showDivs6(slideIndex6 = n);
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
         }
-
-        function plusDivs7(n) {
-            showDivs7(slideIndex7 += n);
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" w3-white", "");
         }
-
-        function currentDiv7(n) {
-            showDivs7(slideIndex7 = n);
-        }
-
-        function showDivs1(n) {
-            var i;
-            var x = document.getElementsByClassName("mySlides");
-            var dots = document.getElementsByClassName("demo");
-            if (n > x.length) {
-                slideIndex1 = 1
-            }
-            if (n < 1) {
-                slideIndex1 = x.length
-            }
-            for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
-            }
-            for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" w3-white", "");
-            }
-            x[slideIndex1 - 1].style.display = "block";
-        }
-
-        function showDivs2(n) {
-            var i;
-            var x = document.getElementsByClassName("mySlides2");
-            var dots = document.getElementsByClassName("demo");
-            if (n > x.length) {
-                slideIndex2 = 1
-            }
-            if (n < 1) {
-                slideIndex2 = x.length
-            }
-            for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
-            }
-            for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" w3-white", "");
-            }
-            x[slideIndex2 - 1].style.display = "block";
-        }
-
-        function showDivs3(n) {
-            var i;
-            var x = document.getElementsByClassName("mySlides3");
-            var dots = document.getElementsByClassName("demo");
-            if (n > x.length) {
-                slideIndex3 = 1
-            }
-            if (n < 1) {
-                slideIndex3 = x.length
-            }
-            for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
-            }
-            for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" w3-white", "");
-            }
-            x[slideIndex3 - 1].style.display = "block";
-        }
-
-        function showDivs4(n) {
-            var i;
-            var x = document.getElementsByClassName("mySlides4");
-            var dots = document.getElementsByClassName("demo");
-            if (n > x.length) {
-                slideIndex4 = 1
-            }
-            if (n < 1) {
-                slideIndex4 = x.length
-            }
-            for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
-            }
-            for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" w3-white", "");
-            }
-            x[slideIndex4 - 1].style.display = "block";
-        }
-
-        function showDivs5(n) {
-            var i;
-            var x = document.getElementsByClassName("mySlides5");
-            var dots = document.getElementsByClassName("demo");
-            if (n > x.length) {
-                slideIndex5 = 1
-            }
-            if (n < 1) {
-                slideIndex5 = x.length
-            }
-            for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
-            }
-            for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" w3-white", "");
-            }
-            x[slideIndex5 - 1].style.display = "block";
-        }
-
-        function showDivs6(n) {
-            var i;
-            var x = document.getElementsByClassName("mySlides6");
-            var dots = document.getElementsByClassName("demo");
-            if (n > x.length) {
-                slideIndex6 = 1
-            }
-            if (n < 1) {
-                slideIndex6 = x.length
-            }
-            for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
-            }
-            for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" w3-white", "");
-            }
-            x[slideIndex6 - 1].style.display = "block";
-        }
-
-        function showDivs7(n) {
-            var i;
-            var x = document.getElementsByClassName("mySlides7");
-            var dots = document.getElementsByClassName("demo");
-            if (n > x.length) {
-                slideIndex7 = 1
-            }
-            if (n < 1) {
-                slideIndex7 = x.length
-            }
-            for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
-            }
-            for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" w3-white", "");
-            }
-            x[slideIndex7 - 1].style.display = "block";
-        }
-    </script>
+        x[slideIndex7 - 1].style.display = "block";
+    }
+</script>
 </body>
 
 </html>

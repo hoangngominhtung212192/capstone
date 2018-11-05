@@ -88,7 +88,7 @@
                         <!-- Nav Start -->
                         <div class="classynav">
                             <ul>
-                                <li class="active"><a href="index.html">Home</a></li>
+                                <li><a href="index.html">Home</a></li>
                                 <li><a href="#">Pages</a>
                                     <ul class="dropdown">
                                         <li><a href="index.html">Home</a></li>
@@ -118,7 +118,7 @@
                                 </li>
                                 <li><a href="#">Articles</a></li>
                                 <li><a href="#">Events</a></li>
-                                <li><a href="#">Trade market</a></li>
+                                <li class="active"><a href="/trade-market">Trade market</a></li>
                                 <li><a href="contact.html">Contact</a></li>
                             </ul>
                         </div>
@@ -133,337 +133,336 @@
 
 <div class="container trade-body">
     <!-- Trade navbar -->
-    <div class="row">
+    <div class="row navbar-section">
         <div class="col-12 tm-navbar">
             <ul>
-                <li><a class="active" href="trade-listing.html">Trade Listing</a></li>
-                <li><a href="#mytrade">My Trade</a></li>
-                <li><a href="#myorder">My Order</a></li>
-                <li style="float: right">
-                    <button type="button" class="btn btn-lg btn-success" onclick="location.href='/trade-market/post-new-trade';"><i
-                            class="fa fa-plus"></i> Post new trade
-                    </button>
+                <li><a class="active" href="#">Trade Listing</a></li>
+                <li><a href="/trade-market/my-trade">My Trade</a></li>
+                <li><a href="/trade-market/my-order">My Order</a></li>
+                <li style="float: right;">
+                    <a class="btn-success" href="/trade-market/post-new-trade"><i class="fa fa-plus-circle"></i> Post
+                        new trade</a>
                 </li>
             </ul>
         </div>
     </div>
     <!-- End trade navbar -->
-
     <!-- Search form -->
-    <div class="row">
+    <div class="row" id="searchDiv">
         <div class=" col-12 tm-searchbox">
-            <form class="form">
+            <div class="form-row">
+                <div class="col-11">
+                    <input type="search" id="inputSearch" class="form-control form-control-lg"
+                           aria-describedby="searchHelpBlock" placeholder="Search a trade...">
+                    <small id="searchHelpBlock" class="form-text text-muted" style="text-align: center;">
+                        Enter your keyword and press enter. If you need search with location and range, click on
+                        more button and fills out your information.
+                    </small>
+                </div>
+                <div class="col-1">
+                    <button data-toggle="collapse" data-target="#collapseSearchForm" aria-expanded="false"
+                            aria-controls="collapseSearchForm" class="btn btn-lg" type="button"><i
+                            class="fa fa-plus"></i> More
+                    </button>
+                </div>
+            </div>
+            <div class="collapse more-content card card-body" id="collapseSearchForm">
                 <div class="form-row">
-                    <div class="col-11">
-                        <input type="search" id="inputSearch" class="form-control form-control-lg"
-                               aria-describedby="searchHelpBlock" placeholder="Search a trade...">
-                        <small id="searchHelpBlock" class="form-text text-muted" style="text-align: center;">
-                            Enter your keyword and press enter. If you need search with location and range, click on
-                            more button and fills out your information.
-                        </small>
-                    </div>
-                    <div class="col-1">
-                        <button data-toggle="collapse" data-target="#collapseSearchForm" aria-expanded="false"
-                                aria-controls="collapseSearchForm" class="btn btn-lg" type="button"><i
-                                class="fa fa-plus"></i> More
-                        </button>
+                    <div class="custom-control custom-checkbox mb-2">
+                        <input type="checkbox" class="custom-control-input" id="searchWithLocation">
+                        <label class="custom-control-label" for="searchWithLocation">Search with location and
+                            range</label>
                     </div>
                 </div>
-                <div class="collapse more-content card card-body" id="collapseSearchForm">
-                    <div class="form-row">
-                        <div class="custom-control custom-checkbox mb-2">
-                            <input type="checkbox" class="custom-control-input" id="customCheck1">
-                            <label class="custom-control-label" for="customCheck1">Search with location and
-                                range</label>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-8">
-                            <div class="input-group mb-2 mr-sm-2">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text"><i class="fa fa-map-marker"> </i></div>
-                                </div>
-                                <input type="text" class="form-control" id="locationInput"
-                                       value="1358/24/14 Quang Trung, Go Vap, TPHCM" readonly="true"/>
+                <div class="form-row">
+                    <div class="col-8">
+                        <div class="input-group mb-2 mr-sm-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text"><i class="fa fa-map-marker"> </i></div>
                             </div>
+                            <input type="text" class="form-control" id="locationInput"
+                                   value="" readonly="true"/>
                         </div>
-                        <div class="col">
-                            <button type="button" class="btn mb-2"><i class="fa fa-edit"></i></button>
-                        </div>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn mb-2" data-toggle="modal" data-target="#addressModal"><i
+                                class="fa fa-edit"></i></button>
+                    </div>
 
-                    </div>
-                    <div class="form-row">
-                        <label for="distance">Range: <span id="distanceValue"></span> meters</label>
-                        <input type="range" min="500" max="20000" step="500" value="500" name="distance" id="distance"
-                               class="form-control-range custom-range">
-                    </div>
                 </div>
-
-            </form>
-            <script>
-                <!---->
-                var slider = document.getElementById("distance");
-                var output = document.getElementById("distanceValue");
-                output.innerHTML = slider.value;
-
-                slider.oninput = function() {
-                    output.innerHTML = this.value;
-                }
-                <!-- End range slide -->
-
-
-            </script>
+                <div class="form-row">
+                    <label for="distance">Range: <span id="distanceValue"></span> KM</label>
+                    <input type="range" min="1" max="50" step="1" value="1" name="distance" id="distance"
+                           class="form-control-range custom-range">
+                </div>
+            </div>
         </div>
     </div>
     <!-- End search form -->
 
+    <div class="notice-section section">
+        <h4 id="noticeTitle"></h4>
+        <span id="noticeContent"></span>
+    </div>
+
     <!-- Trade container -->
-    <div class="row">
-        <div class="section trade-container">
-            <div class="section-title tab-manu">
-                <!-- Sorting -->
-                <form class="form-inline">
-                    <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Sorting by: </label>
-                    <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
-                        <option selected value="1">Date Descending</option>
-                        <option value="2">Date Ascending</option>
-                        <option value="3">Price Ascending</option>
-                        <option value="4">Price Descending</option>
-                    </select>
-                </form>
-                <!--End sorting -->
-                <!-- Nav tabs -->
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="active"><a href="#alltrade">All</a></li>
-                    <li><a href="#buytrade">Buying</a></li>
-                    <li><a href="#selltrade">Selling</a></li>
-                </ul>
-                <!-- End nav tab -->
-            </div>
-            <!-- List Trade -->
-            <div class="tab-content">
-
-                <!-- tradeitem -->
-                <div class="tradeitem row">
-                    <!-- item-image -->
-                    <div class="item-image-box col-sm-4">
-                        <div class="item-image">
-                            <a href="trade-details.html"><img
-                                    src="https://3.bp.blogspot.com/-iNjvrgCz-p4/W7jXhJsZGxI/AAAAAAAHB2A/LP1GI9dfU0UQM389o5Wik0XrrvyBtYyDwCLcBGAs/s1600/HGUC-narrative-gundam-equipment-a%2B%25281%2529.jpg"
-                                    alt="Image" class="img-responsive"></a>
-                        </div><!-- item-image -->
-                    </div>
-
-                    <!-- rending-text -->
-                    <div class="item-info col-sm-8">
-                        <!-- tradeinfo -->
-                        <div class="tradeinfo">
-                            <h3 class="item-price">$50.00</h3>
-                            <h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>
-                            <div class="item-cat">
-                                <span><a href="#">Brand here</a></span> /
-                                <span><a href="#">Model here</a></span>
-                            </div>
-                        </div><!-- tradeinfo -->
-
-                        <!-- trademeta -->
-                        <div class="trademeta">
-                            <div class="meta-content">
-                                <span class="dated"><a href="#">7 Jan, 16 10:10 pm </a></span>
-                                <a href="#" class="tag" data-toggle="tooltip" data-placement="top"
-                                   title="This product is used"><i class="fa fa-tags"></i> Used</a>
-                            </div>
-                            <!-- item-info-right -->
-                            <div class="user-option pull-right">
-                                <a href="#" data-toggle="tooltip" data-placement="top" title="Go vap, Ho Chi Minh"><i
-                                        class="fa fa-map-marker"></i> </a>
-                                <a href="#" data-toggle="tooltip" data-placement="top" title="Le Nguyen Ngoc Sang"><i
-                                        class="fa fa-address-card"></i> </a>
-                            </div><!-- item-info-right -->
-                        </div><!-- trademeta -->
-                    </div><!-- item-info -->
-                </div><!-- tradeitem -->
-                <!-- tradeitem -->
-                <div class="tradeitem row">
-                    <!-- item-image -->
-                    <div class="item-image-box col-sm-4">
-                        <div class="item-image">
-                            <a href="trade-details.html"><img
-                                    src="https://2.bp.blogspot.com/-pQ7ked2ayUI/W7aA8q180AI/AAAAAAAHBx8/AHbxH6sKiC4foYi4iyfrDBdYgTwjFMhtQCLcBGAs/s1600/mg-origin-gundam-conversion%2B%25281%2529.jpg"
-                                    alt="Image" class="img-responsive"></a>
-                        </div><!-- item-image -->
-                    </div>
-
-                    <!-- rending-text -->
-                    <div class="item-info col-sm-8">
-                        <!-- tradeinfo -->
-                        <div class="tradeinfo">
-                            <h3 class="item-price">$50.00</h3>
-                            <h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>
-                            <div class="item-cat">
-                                <span><a href="#">Brand here</a></span> /
-                                <span><a href="#">Model here</a></span>
-                            </div>
-                        </div><!-- tradeinfo -->
-
-                        <!-- trademeta -->
-                        <div class="trademeta">
-                            <div class="meta-content">
-                                <span class="dated"><a href="#">7 Jan, 16 10:10 pm </a></span>
-                                <a href="#" class="tag" data-toggle="tooltip" data-placement="top"
-                                   title="This product is used"><i class="fa fa-tags"></i> Used</a>
-                            </div>
-                            <!-- item-info-right -->
-                            <div class="user-option pull-right">
-                                <a href="#" data-toggle="tooltip" data-placement="top" title="Go vap, Ho Chi Minh"><i
-                                        class="fa fa-map-marker"></i> </a>
-                                <a href="#" data-toggle="tooltip" data-placement="top" title="Le Nguyen Ngoc Sang"><i
-                                        class="fa fa-address-card"></i> </a>
-                            </div><!-- item-info-right -->
-                        </div><!-- trademeta -->
-                    </div><!-- item-info -->
-                </div><!-- tradeitem -->
-                <!-- tradeitem -->
-                <div class="tradeitem row">
-                    <!-- item-image -->
-                    <div class="item-image-box col-sm-4">
-                        <div class="item-image">
-                            <a href="trade-details.html"><img
-                                    src="https://1.bp.blogspot.com/-LHILK_kV93g/W7WZTyefzVI/AAAAAAAHBts/O0lcGT571wIgbdSJIjbG7aIQayPNb3EzgCLcBGAs/s1600/hgbd-gundam-love-phantom%2B%25282%2529.jpg"
-                                    alt="Image" class="img-responsive"></a>
-                        </div><!-- item-image -->
-                    </div>
-
-                    <!-- rending-text -->
-                    <div class="item-info col-sm-8">
-                        <!-- tradeinfo -->
-                        <div class="tradeinfo">
-                            <h3 class="item-price">$50.00</h3>
-                            <h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>
-                            <div class="item-cat">
-                                <span><a href="#">Brand here</a></span> /
-                                <span><a href="#">Model here</a></span>
-                            </div>
-                        </div><!-- tradeinfo -->
-
-                        <!-- trademeta -->
-                        <div class="trademeta">
-                            <div class="meta-content">
-                                <span class="dated"><a href="#">7 Jan, 16 10:10 pm </a></span>
-                                <a href="#" class="tag" data-toggle="tooltip" data-placement="top"
-                                   title="This product is used"><i class="fa fa-tags"></i> Used</a>
-                            </div>
-                            <!-- item-info-right -->
-                            <div class="user-option pull-right">
-                                <a href="#" data-toggle="tooltip" data-placement="top" title="Go vap, Ho Chi Minh"><i
-                                        class="fa fa-map-marker"></i> </a>
-                                <a href="#" data-toggle="tooltip" data-placement="top" title="Le Nguyen Ngoc Sang"><i
-                                        class="fa fa-address-card"></i> </a>
-                            </div><!-- item-info-right -->
-                        </div><!-- trademeta -->
-                    </div><!-- item-info -->
-                </div><!-- tradeitem -->
-                <!-- tradeitem -->
-                <div class="tradeitem row">
-                    <!-- item-image -->
-                    <div class="item-image-box col-sm-4">
-                        <div class="item-image">
-                            <a href="trade-details.html"><img
-                                    src="https://1.bp.blogspot.com/-LAJ-9iMWxNc/W7QKldbv7xI/AAAAAAAHBmE/HLpa1WIDhAIxvsiZRzaNGmbuol6MAf0igCLcBGAs/s1600/hgbd-gundam-love-phantom%2B%25281%2529.jpg"
-                                    alt="Image" class="img-responsive"></a>
-                        </div><!-- item-image -->
-                    </div>
-
-                    <!-- rending-text -->
-                    <div class="item-info col-sm-8">
-                        <!-- tradeinfo -->
-                        <div class="tradeinfo">
-                            <h3 class="item-price">$50.00</h3>
-                            <h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>
-                            <div class="item-cat">
-                                <span><a href="#">Brand here</a></span> /
-                                <span><a href="#">Model here</a></span>
-                            </div>
-                        </div><!-- tradeinfo -->
-
-                        <!-- trademeta -->
-                        <div class="trademeta">
-                            <div class="meta-content">
-                                <span class="dated"><a href="#">7 Jan, 16 10:10 pm </a></span>
-                                <a href="#" class="tag" data-toggle="tooltip" data-placement="top"
-                                   title="This product is used"><i class="fa fa-tags"></i> Used</a>
-                            </div>
-                            <!-- item-info-right -->
-                            <div class="user-option pull-right">
-                                <a href="#" data-toggle="tooltip" data-placement="top" title="Go vap, Ho Chi Minh"><i
-                                        class="fa fa-map-marker"></i> </a>
-                                <a href="#" data-toggle="tooltip" data-placement="top" title="Le Nguyen Ngoc Sang"><i
-                                        class="fa fa-address-card"></i> </a>
-                            </div><!-- item-info-right -->
-                        </div><!-- trademeta -->
-                    </div><!-- item-info -->
-                </div><!-- tradeitem -->
-                <!-- tradeitem -->
-                <div class="tradeitem row">
-                    <!-- item-image -->
-                    <div class="item-image-box col-sm-4">
-                        <div class="item-image">
-                            <a href="trade-details.html"><img
-                                    src="https://3.bp.blogspot.com/-SGc1OTdR3DU/W7ecZ5od_UI/AAAAAAAHBzM/nG791HfgguUe4oVSc-8qVnXgs-Vkw-BgQCLcBGAs/s1600/rg-wing-gundam-zero-custom-ew-clear-color%2B%25281%2529.jpg"
-                                    alt="Image" class="img-responsive"></a>
-                        </div><!-- item-image -->
-                    </div>
-
-                    <!-- rending-text -->
-                    <div class="item-info col-sm-8">
-                        <!-- tradeinfo -->
-                        <div class="tradeinfo">
-                            <h3 class="item-price">$50.00</h3>
-                            <h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>
-                            <div class="item-cat">
-                                <span><a href="#">Brand here</a></span> /
-                                <span><a href="#">Model here</a></span>
-                            </div>
-                        </div><!-- tradeinfo -->
-
-                        <!-- trademeta -->
-                        <div class="trademeta">
-                            <div class="meta-content">
-                                <span class="dated"><a href="#">7 Jan, 16 10:10 pm </a></span>
-                                <a href="#" class="tag" data-toggle="tooltip" data-placement="top"
-                                   title="This product is used"><i class="fa fa-tags"></i> Used</a>
-                            </div>
-                            <!-- item-info-right -->
-                            <div class="user-option pull-right">
-                                <a href="#" data-toggle="tooltip" data-placement="top" title="Go vap, Ho Chi Minh"><i
-                                        class="fa fa-map-marker"></i> </a>
-                                <a href="#" data-toggle="tooltip" data-placement="top" title="Le Nguyen Ngoc Sang"><i
-                                        class="fa fa-address-card"></i> </a>
-                            </div><!-- item-info-right -->
-                        </div><!-- trademeta -->
-                    </div><!-- item-info -->
-                </div><!-- tradeitem -->
-            </div>
-            <!-- End list Trade -->
+    <div class="section trending-ads">
+        <div class="section-title tab-manu">
+            <!-- Sorting -->
+            <form class="form-inline">
+                <label class="my-1 mr-2" for="sortTypeSelect">Sorting by: </label>
+                <select class="custom-select my-1 mr-sm-2" id="sortTypeSelect">
+                    <option selected value="1">Date Descending</option>
+                    <option value="2">Date Ascending</option>
+                    <option value="3">Price Ascending</option>
+                    <option value="4">Price Descending</option>
+                </select>
+            </form>
+            <!--End sorting -->
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a role="tab" href="#alltrade" data-toggle="tab" aria-selected="true"
+                       class="active show" data-tradeType="all" onclick="changeTab(this);">All</a>
+                </li>
+                <li role="presentation">
+                    <a role="tab" href="#buytrade" data-toggle="tab" aria-selected="false"
+                       data-tradeType="buy" onclick="changeTab(this);">Buying</a>
+                </li>
+                <li role="presentation">
+                    <a role="tab" href="#selltrade" data-toggle="tab" aria-selected="false"
+                       data-tradeType="sell" onclick="changeTab(this);">Selling</a>
+                </li>
+            </ul>
+            <!-- End nav tab -->
         </div>
+        <!-- List Trade -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active show" id="alltrade">
+                <h4>No record</h4>
+                <!--&lt;!&ndash; tradeitem &ndash;&gt;-->
+                <!--<div class="tradeitem row">-->
+                <!--&lt;!&ndash; item-image &ndash;&gt;-->
+                <!--<div class="item-image-box col-sm-4">-->
+                <!--<div class="item-image">-->
+                <!--<a href="trade-details.html"><img-->
+                <!--src="https://3.bp.blogspot.com/-iNjvrgCz-p4/W7jXhJsZGxI/AAAAAAAHB2A/LP1GI9dfU0UQM389o5Wik0XrrvyBtYyDwCLcBGAs/s1600/HGUC-narrative-gundam-equipment-a%2B%25281%2529.jpg"-->
+                <!--alt="Image" class="img-responsive"></a>-->
+                <!--</div>&lt;!&ndash; item-image &ndash;&gt;-->
+                <!--</div>-->
+
+                <!--&lt;!&ndash; rending-text &ndash;&gt;-->
+                <!--<div class="item-info col-sm-8">-->
+                <!--&lt;!&ndash; tradeinfo &ndash;&gt;-->
+                <!--<div class="tradeinfo">-->
+                <!--<h3 class="item-price">$50.00</h3>-->
+                <!--<h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>-->
+                <!--<div class="item-cat">-->
+                <!--<span><a href="#">Brand here</a></span> /-->
+                <!--<span><a href="#">Model here</a></span>-->
+                <!--</div>-->
+                <!--</div>&lt;!&ndash; tradeinfo &ndash;&gt;-->
+
+                <!--&lt;!&ndash; trademeta &ndash;&gt;-->
+                <!--<div class="trademeta">-->
+                <!--<div class="meta-content">-->
+                <!--<span class="dated"><a href="#">7 Jan, 16 10:10 pm </a></span>-->
+                <!--<a href="#" class="tag" data-title="tooltip" data-placement="top"-->
+                <!--title="This product is used"><i class="fa fa-tags"></i> Used</a>-->
+                <!--</div>-->
+                <!--&lt;!&ndash; item-info-right &ndash;&gt;-->
+                <!--<div class="user-option pull-right">-->
+                <!--<a href="#" data-title="tooltip" data-placement="top"-->
+                <!--title="Go vap, Ho Chi Minh"><i class="fa fa-map-marker"></i></a>-->
+                <!--<a href="#" data-title="tooltip" data-placement="top"-->
+                <!--title="Le Nguyen Ngoc Sang"><i class="fa fa-address-card"></i></a>-->
+                <!--</div>&lt;!&ndash; item-info-right &ndash;&gt;-->
+                <!--</div>&lt;!&ndash; trademeta &ndash;&gt;-->
+                <!--</div>&lt;!&ndash; item-info &ndash;&gt;-->
+                <!--</div>&lt;!&ndash; tradeitem &ndash;&gt;-->
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="buytrade">
+                <!--&lt;!&ndash; tradeitem &ndash;&gt;-->
+                <!--<div class="tradeitem row">-->
+                <!--&lt;!&ndash; item-image &ndash;&gt;-->
+                <!--<div class="item-image-box col-sm-4">-->
+                <!--<div class="item-image">-->
+                <!--<a href="trade-details.html"><img-->
+                <!--src="https://3.bp.blogspot.com/-iNjvrgCz-p4/W7jXhJsZGxI/AAAAAAAHB2A/LP1GI9dfU0UQM389o5Wik0XrrvyBtYyDwCLcBGAs/s1600/HGUC-narrative-gundam-equipment-a%2B%25281%2529.jpg"-->
+                <!--alt="Image" class="img-responsive"></a>-->
+                <!--</div>&lt;!&ndash; item-image &ndash;&gt;-->
+                <!--</div>-->
+
+                <!--&lt;!&ndash; rending-text &ndash;&gt;-->
+                <!--<div class="item-info col-sm-8">-->
+                <!--&lt;!&ndash; tradeinfo &ndash;&gt;-->
+                <!--<div class="tradeinfo">-->
+                <!--<h3 class="item-price">$50.00</h3>-->
+                <!--<h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>-->
+                <!--<div class="item-cat">-->
+                <!--<span><a href="#">Brand here</a></span> /-->
+                <!--<span><a href="#">Model here</a></span>-->
+                <!--</div>-->
+                <!--</div>&lt;!&ndash; tradeinfo &ndash;&gt;-->
+
+                <!--&lt;!&ndash; trademeta &ndash;&gt;-->
+                <!--<div class="trademeta">-->
+                <!--<div class="meta-content">-->
+                <!--<span class="dated"><a href="#">7 Jan, 16 10:10 pm </a></span>-->
+                <!--<a href="#" class="tag" data-title="tooltip" data-placement="top"-->
+                <!--title="This product is used"><i class="fa fa-tags"></i> Used</a>-->
+                <!--</div>-->
+                <!--&lt;!&ndash; item-info-right &ndash;&gt;-->
+                <!--<div class="user-option pull-right">-->
+                <!--<a href="#" data-title="tooltip" data-placement="top"-->
+                <!--title="Go vap, Ho Chi Minh"><i-->
+                <!--class="fa fa-map-marker"></i> </a>-->
+                <!--<a href="#" data-title="tooltip" data-placement="top"-->
+                <!--title="Le Nguyen Ngoc Sang"><i-->
+                <!--class="fa fa-address-card"></i> </a>-->
+                <!--</div>&lt;!&ndash; item-info-right &ndash;&gt;-->
+                <!--</div>&lt;!&ndash; trademeta &ndash;&gt;-->
+                <!--</div>&lt;!&ndash; item-info &ndash;&gt;-->
+                <!--</div>&lt;!&ndash; tradeitem &ndash;&gt;-->
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="selltrade">
+                <!--&lt;!&ndash; tradeitem &ndash;&gt;-->
+                <!--<div class="tradeitem row">-->
+                <!--&lt;!&ndash; item-image &ndash;&gt;-->
+                <!--<div class="item-image-box col-sm-4">-->
+                <!--<div class="item-image">-->
+                <!--<a href="trade-details.html"><img-->
+                <!--src="https://3.bp.blogspot.com/-iNjvrgCz-p4/W7jXhJsZGxI/AAAAAAAHB2A/LP1GI9dfU0UQM389o5Wik0XrrvyBtYyDwCLcBGAs/s1600/HGUC-narrative-gundam-equipment-a%2B%25281%2529.jpg"-->
+                <!--alt="Image" class="img-responsive"></a>-->
+                <!--</div>&lt;!&ndash; item-image &ndash;&gt;-->
+                <!--</div>-->
+
+                <!--&lt;!&ndash; rending-text &ndash;&gt;-->
+                <!--<div class="item-info col-sm-8">-->
+                <!--&lt;!&ndash; tradeinfo &ndash;&gt;-->
+                <!--<div class="tradeinfo">-->
+                <!--<h3 class="item-price">$50.00</h3>-->
+                <!--<h4 class="item-title"><a href="#">Gundam abc - Title here!</a></h4>-->
+                <!--<div class="item-cat">-->
+                <!--<span><a href="#">Brand here</a></span> /-->
+                <!--<span><a href="#">Model here</a></span>-->
+                <!--</div>-->
+                <!--</div>&lt;!&ndash; tradeinfo &ndash;&gt;-->
+
+                <!--&lt;!&ndash; trademeta &ndash;&gt;-->
+                <!--<div class="trademeta">-->
+                <!--<div class="meta-content">-->
+                <!--<span class="dated"><a href="#">7 Jan, 16 10:10 pm </a></span>-->
+                <!--<a href="#" class="tag" data-title="tooltip" data-placement="top"-->
+                <!--title="This product is used"><i class="fa fa-tags"></i> Used</a>-->
+                <!--</div>-->
+                <!--&lt;!&ndash; item-info-right &ndash;&gt;-->
+                <!--<div class="user-option pull-right">-->
+                <!--<a href="#" data-title="tooltip" data-placement="top"-->
+                <!--title="Go vap, Ho Chi Minh"><i-->
+                <!--class="fa fa-map-marker"></i> </a>-->
+                <!--<a href="#" data-title="tooltip" data-placement="top"-->
+                <!--title="Le Nguyen Ngoc Sang"><i-->
+                <!--class="fa fa-address-card"></i> </a>-->
+                <!--</div>&lt;!&ndash; item-info-right &ndash;&gt;-->
+                <!--</div>&lt;!&ndash; trademeta &ndash;&gt;-->
+                <!--</div>&lt;!&ndash; item-info &ndash;&gt;-->
+                <!--</div>&lt;!&ndash; tradeitem &ndash;&gt;-->
+            </div>
+        </div>
+        <!-- End list Trade -->
     </div>
     <!-- End trade container -->
 
     <!-- Pagination -->
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" style="margin-bottom: 20px">
         <nav aria-label="Page navigation">
-            <ul class="pagination mt-50">
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                <li class="page-item"><a class="page-link" href="#">...</a></li>
-                <li class="page-item"><a class="page-link" href="#">10</a></li>
+            <ul class="pagination mt-50" id="pagination-trading">
             </ul>
         </nav>
     </div>
     <!-- End pagination -->
+</div>
+<!----------------------------------------------- Modal Section --------------------------------------------------->
+<!-- Select Address modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="addressModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form id="addressSelectForm">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Select your address</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row form-group">
+                        <div class="col-sm-4">
+                            <select class="form-control custom-select" id="provinceSel" name="provinceSel">
+                                <option value="">Select Province/City</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <select class="form-control custom-select" id="districtSel" name="districtSel">
+                                <option value="">Select District</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <select class="form-control custom-select" id="wardSel" name="wardSel">
+                                <option value="">Select Ward</option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row form-group">
+                        <div class="col-sm-5">
+                            <input type="text" name="selectAddressDeptNum" class="form-control"
+                                   id="selectAddressDeptNum"
+                                   placeholder="Apartment number, ex: 1358/28/14">
+                        </div>
+                        <div class="col-sm-7">
+                            <input type="text" name="selectAddressStreetName" class="form-control"
+                                   id="selectAddressStreetName" placeholder="Street name, ex: Quang Trung">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row justify-content-center">
+                        <span class="label text-info">Your Selected Address</span>
+                    </div>
+                    <div class="row form-group justify-content-center">
+                        <div class="col-sm-10">
+                            <input type="text" name="selectAddressFull" class="form-control" id="selectAddressFull"
+                                   readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Use this address
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End Select Address modal -->
+<!-- Direction Modal -->
+<div class="modal fade" id="directionModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Direction</h4>
+            </div>
+            <div class="modal-body">
+                <div id="map-canvas"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -545,20 +544,19 @@
 <script src="/js/bootstrap/bootstrap.min.js"></script>
 <!-- All Plugins js -->
 <script src="/js/plugins/plugins.js"></script>
-<!-- Active js -->
-<script src="/js/active.js"></script>
 <!-- jQuery validation js -->
 <script src="/js/plugins/jquery.validate.min.js"></script>
-<!-- jQuery File Upload js -->
-<script src="/js/plugins/fileup.min.js"></script>
+<!-- Active js -->
+<script src="/js/active.js"></script>
 <script src="/js/plugins/jquery.growl.js"></script>
+<script src="/js/plugins/jquery.twbsPagination.js"></script>
+<script src="/js/trading.js"></script>
+<script src="/js/address-selector.js"></script>
+<script src="/js/waiting-dialog.js"></script>
 
-<script>
-    $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-    });
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASrDg7CwB0GQ_XGzWfbkP4RUE_31YCy1M"
+        type="text/javascript"></script>
 
-</script>
 </body>
 
 </html>

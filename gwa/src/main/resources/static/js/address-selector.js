@@ -29,7 +29,7 @@ window.onload = function () {
         }
         streetNameText = streetName.value.trim();
         if (streetNameText.length > 0) {
-            streetNameText = "Đường " + streetNameText + ", ";
+            streetNameText = streetNameText + ", ";
         }
         wardText = wardSel.value + ", ";
         console.log(wardText.trim());

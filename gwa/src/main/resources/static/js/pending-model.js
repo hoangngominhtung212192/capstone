@@ -115,14 +115,18 @@ $(document).ready(function () {
 
                 var id = $(this).attr('id');
 
-                $("#mi-modal").modal('show');
-                $("#modal-btn-si").on("click", function(){
+                $("#mi-modal").modal({backdrop: 'static', keyboard: false});
+                $("#modal-btn-si").on("click", function(e){
                     $("#mi-modal").modal('hide');
+                    $("#modal-btn-no").prop("onclick", null).off("click");
+                    $("#modal-btn-si").prop("onclick", null).off("click");
                 });
 
-                $("#modal-btn-no").on("click", function(){
+                $("#modal-btn-no").on("click", function(e){
                     approveModel(id);
                     $("#mi-modal").modal('hide');
+                    $("#modal-btn-no").prop("onclick", null).off("click");
+                    $("#modal-btn-si").prop("onclick", null).off("click");
                 });
             });
         });
@@ -141,20 +145,5 @@ $(document).ready(function () {
            }
         });
     }
-
-    function confirm() {
-
-        $("#mi-modal").modal('show');
-
-        $("#modal-btn-si").on("click", function(){
-            $("#mi-modal").modal('hide');
-            return false;
-        });
-
-        $("#modal-btn-no").on("click", function(){
-            $("#mi-modal").modal('hide');
-            return true;
-        });
-    };
 
 })

@@ -1,9 +1,10 @@
 package com.tks.gwa.controller.controllerImpl;
 
 import com.tks.gwa.controller.WebController;
-import com.tks.gwa.entity.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class WebControllerImpl implements WebController {
@@ -68,7 +69,18 @@ public class WebControllerImpl implements WebController {
     }
 
     @Override
-    public ModelAndView createModelPage() {
+    public ModelAndView createModelPage(HttpSession session) {
+
+        String role = (String) session.getAttribute("ROLE");
+        if (role == null) {
+            return new ModelAndView("access-denied");
+        } else {
+            System.out.println(role);
+            if (!role.equalsIgnoreCase("ADMIN")) {
+                return new ModelAndView("access-denied");
+            }
+        }
+
         return new ModelAndView("create-model");
     }
 
@@ -109,7 +121,7 @@ public class WebControllerImpl implements WebController {
 
     @Override
     public ModelAndView forbiddenPage() {
-        return new ModelAndView("403");
+        return new ModelAndView("access-denied");
     }
 
     @Override

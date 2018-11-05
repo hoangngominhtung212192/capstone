@@ -1,5 +1,7 @@
 package com.tks.gwa.service.serviceImpl;
 
+import com.tks.gwa.constant.AppConstant;
+import com.tks.gwa.dto.Pagination;
 import com.tks.gwa.entity.Account;
 import com.tks.gwa.entity.Profile;
 import com.tks.gwa.entity.Role;
@@ -10,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -53,6 +59,9 @@ public class UserServiceImpl implements UserService {
         role.setId(1);
         account.setRole(role);
         account.setStatus("Active");
+
+        String createdDate = getCurrentTimeStamp();
+        account.setCreatedDate(createdDate);
 
         Account newAccount = accountRepository.saveUser(account);
 
@@ -120,5 +129,90 @@ public class UserServiceImpl implements UserService {
         }
 
         return null;
+    }
+
+    @Override
+    public List<Object> getAllAccount(int pageNumber, String type) {
+        List<Object> result = new ArrayList<>();
+
+        int beginPage = 0;
+        int currentPage = 0;
+        int countTotal = 0;
+        int lastPage = 0;
+
+        int[] resultList = getCountResultAndLastpageAccount(AppConstant.PAGE_SIZE);
+        countTotal = (int) resultList[0];
+        lastPage = (int) resultList[1];
+
+        if (type.equals("First")) {
+            currentPage = 1;
+        } else if (type.equals("Prev")) {
+            currentPage = pageNumber - 1;
+        } else if (type.equals("Next")) {
+            currentPage = pageNumber + 1;
+        } else if (type.equals("Last")) {
+            currentPage = lastPage;
+        } else {
+            currentPage = pageNumber;
+        }
+
+        if (currentPage <= 5) {
+            beginPage = 1;
+        } else if (currentPage % 5 != 0) {
+            beginPage = ((int) (currentPage / 5)) * 5 + 1;
+        } else {
+            beginPage = ((currentPage / 5) - 1) * 5 + 1;
+        }
+
+        Pagination pagination = new Pagination(countTotal, currentPage, lastPage, beginPage);
+        result.add(pagination);
+
+        List<Account> accountList = accountRepository.getAllAccount(currentPage, AppConstant.PAGE_SIZE);
+
+        if (accountList != null) {
+            for (int i = 0; i < accountList.size(); i++) {
+                Profile profile = profileRepository.findProfileByAccountID(accountList.get(i).getId());
+
+                if (profile != null) {
+                    accountList.get(i).setFirstname(profile.getFirstName());
+                    accountList.get(i).setMiddlename(profile.getMiddleName());
+                    accountList.get(i).setLastname(profile.getLastName());
+                    accountList.get(i).setEmail(profile.getEmail());
+                    accountList.get(i).setAddress(profile.getAddress());
+                }
+            }
+        }
+
+        if (accountList == null) {
+            accountList = new ArrayList<Account>();
+        }
+        result.add(accountList);
+
+        return result;
+    }
+
+    public String getCurrentTimeStamp() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now = new Date();
+        String strDate = sdf.format(now);
+        return strDate;
+    }
+
+    public int[] getCountResultAndLastpageAccount(int pageSize) {
+
+        int[] listResult = new int[2];
+        int countResult = accountRepository.getCountAllAccount();
+        listResult[0] = countResult;
+
+        int lastPage = 1;
+
+        if (countResult % pageSize == 0) {
+            lastPage = countResult / pageSize;
+        } else {
+            lastPage = ((countResult / pageSize) + 1);
+        }
+        listResult[1] = lastPage;
+
+        return listResult;
     }
 }
