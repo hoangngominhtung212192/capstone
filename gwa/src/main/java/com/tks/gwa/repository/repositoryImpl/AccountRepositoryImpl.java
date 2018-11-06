@@ -63,11 +63,29 @@ public class AccountRepositoryImpl extends GenericRepositoryImpl<Account, Intege
     }
 
     @Override
-    public List<Account> getAllAccount(int pageNumber, int pageSize) {
+    public List<Account> searchAccount(int pageNumber, int pageSize, String txtValue, String orderBy) {
 
-        String sql = "SELECT a FROM " + Account.class.getName() + " AS a ORDER BY a.createdDate DESC";
+        boolean txtSearch_flag = false;
+
+        String sql = "SELECT a FROM " + Account.class.getName() + " AS a";
+
+        if (txtValue.length() != 0) {
+            sql += " WHERE a.username LIKE :username";
+            txtSearch_flag = true;
+        }
+
+        if (orderBy.equalsIgnoreCase("Ascending")) {
+            sql += " ORDER BY a.createdDate ASC";
+        } else {
+            sql += " ORDER BY a.createdDate DESC";
+        }
 
         Query query = this.entityManager.createQuery(sql);
+
+        if (txtSearch_flag) {
+            query.setParameter("username", "%" + txtValue + "%");
+        }
+
         query.setFirstResult((pageNumber - 1) * pageSize);
         query.setMaxResults(pageSize);
 
@@ -77,10 +95,21 @@ public class AccountRepositoryImpl extends GenericRepositoryImpl<Account, Intege
     }
 
     @Override
-    public int getCountAllAccount() {
+    public int getCountSearchAccount(String txtValue) {
+        boolean txtSearch_flag = false;
+
         String sql = "SELECT count(a.id) FROM " + Account.class.getName() + " AS a";
 
+        if (txtValue.length() != 0) {
+            txtSearch_flag = true;
+            sql += " WHERE a.username LIKE :username";
+        }
+
         Query query = this.entityManager.createQuery(sql);
+
+        if (txtSearch_flag) {
+            query.setParameter("username", "%" + txtValue + "%");
+        }
 
         return (int) (long) query.getSingleResult();
     }

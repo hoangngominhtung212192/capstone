@@ -141,7 +141,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Object> getAllAccount(int pageNumber, String type) {
+    public List<Object> searchAccount(int pageNumber, String type, String txtSearch, String orderBy) {
         List<Object> result = new ArrayList<>();
 
         int beginPage = 0;
@@ -149,7 +149,7 @@ public class UserServiceImpl implements UserService {
         int countTotal = 0;
         int lastPage = 0;
 
-        int[] resultList = getCountResultAndLastpageAccount(AppConstant.PAGE_SIZE);
+        int[] resultList = getCountResultAndLastpageAccount(AppConstant.PAGE_SIZE, txtSearch);
         countTotal = (int) resultList[0];
         lastPage = (int) resultList[1];
 
@@ -176,7 +176,7 @@ public class UserServiceImpl implements UserService {
         Pagination pagination = new Pagination(countTotal, currentPage, lastPage, beginPage);
         result.add(pagination);
 
-        List<Account> accountList = accountRepository.getAllAccount(currentPage, AppConstant.PAGE_SIZE);
+        List<Account> accountList = accountRepository.searchAccount(currentPage, AppConstant.PAGE_SIZE, txtSearch, orderBy);
 
         if (accountList != null) {
             for (int i = 0; i < accountList.size(); i++) {
@@ -286,6 +286,28 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Override
+    public void banAccount(int accountID) {
+        Account account = accountRepository.read(accountID);
+
+        if (account != null) {
+            account.setStatus("Banned");
+
+            accountRepository.update(account);
+        }
+    }
+
+    @Override
+    public void unbanAccount(int accountID) {
+        Account account = accountRepository.read(accountID);
+
+        if (account != null) {
+            account.setStatus("Active");
+
+            accountRepository.update(account);
+        }
+    }
+
     public String getCurrentTimeStamp() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
@@ -293,10 +315,10 @@ public class UserServiceImpl implements UserService {
         return strDate;
     }
 
-    public int[] getCountResultAndLastpageAccount(int pageSize) {
+    public int[] getCountResultAndLastpageAccount(int pageSize, String txtSearch) {
 
         int[] listResult = new int[2];
-        int countResult = accountRepository.getCountAllAccount();
+        int countResult = accountRepository.getCountSearchAccount(txtSearch);
         listResult[0] = countResult;
 
         int lastPage = 1;

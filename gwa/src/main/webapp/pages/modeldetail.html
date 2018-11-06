@@ -34,6 +34,107 @@
             width: 13px;
             padding: 0
         }
+
+        .modal-confirm {
+            color: #434e65;
+            width: 525px;
+        }
+
+        .modal-confirm .modal-content {
+            padding: 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .modal-confirm .modal-header {
+            background: #47c9a2;
+            border-bottom: none;
+            position: relative;
+            text-align: center;
+            margin: -20px -20px 0;
+            border-radius: 5px 5px 0 0;
+            padding: 35px;
+        }
+
+        .modal-confirm h4 {
+            text-align: center;
+            font-size: 36px;
+            margin: 10px 0;
+        }
+
+        .modal-confirm .form-control, .modal-confirm .btn {
+            min-height: 40px;
+            border-radius: 3px;
+        }
+
+        .modal-confirm .close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: #fff;
+            text-shadow: none;
+            opacity: 0.5;
+        }
+
+        .modal-confirm .close:hover {
+            opacity: 0.8;
+        }
+
+        .modal-confirm .icon-box {
+            color: #fff;
+            width: 95px;
+            height: 95px;
+            display: inline-block;
+            border-radius: 50%;
+            z-index: 9;
+            border: 5px solid #fff;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .modal-confirm .icon-box i {
+            font-size: 64px;
+            margin: -4px 0 0 -4px;
+        }
+
+        .modal-confirm.modal-dialog {
+            margin-top: 80px;
+        }
+
+        .modal-confirm .btn {
+            color: #fff;
+            border-radius: 4px;
+            background: #eeb711;
+            text-decoration: none;
+            transition: all 0.4s;
+            line-height: normal;
+            border-radius: 30px;
+            margin-top: 10px;
+            padding: 6px 20px;
+            border: none;
+        }
+
+        .modal-confirm .btn:hover, .modal-confirm .btn:focus {
+            background: #eda645;
+            outline: none;
+        }
+
+        .modal-confirm .btn span {
+            margin: 1px 3px 0;
+            float: left;
+        }
+
+        .modal-confirm .btn i {
+            margin-left: 1px;
+            font-size: 20px;
+            float: right;
+        }
+
+        .trigger-btn {
+            display: inline-block;
+            margin: 100px auto;
+        }
     </style>
 
     <script>
@@ -45,6 +146,38 @@
 
 <body onpageshow="scrollToProducts()" style="background-color: whitesmoke;">
 <div id="loading" class="loading" style="display: none; z-index: 20000;">Loading&#8230;</div>
+<div style="z-index: 20000; margin-top: 160px;" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 style="margin: 0; font-weight: 700; font-size: 1.5em;
+                        " class="modal-title" id="myModalLabel">Are you sure?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="modal-btn-si">No</button>
+                <button style="color: white;" type="button" class="btn btn-primary" id="modal-btn-no">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="success-modal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div id="modal-head" class="modal-header" style="padding-left: 200px;">
+                <div class="icon-box">
+                    <i class="material-icons">&#10004;</i>
+                </div>
+            </div>
+            <div class="modal-body text-center">
+                <h4 id="modal-h4">Nice!</h4>
+                <p id="modal-p">Your rating has been submitted successfully.</p>
+                <button id="success-btn" class="btn btn-success" data-dismiss="modal"><span id="modal-span">OK</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <!--    The Rating Modal   -->
 <div class="modal fade" id="myModal">
     <div class="modal-dialog">
@@ -121,21 +254,21 @@
                 <div id="scrollTable" style="width: 100%; height: 500px; overflow: auto">
                     <table id="reviewList">
                         <!--<tr>-->
-                            <!--<td style="vertical-align: top">-->
-                                <!--<img src="/img/4543112620538.jpg"/>-->
-                            <!--</td>-->
-                            <!--<td class="review-info">-->
-                                <!--<a href="#">Minh Tung</a>-->
-                                <!--<span class="reputation-star-rating">&#9733;&#9733;&#9733;&#9733;&#9733;</span>-->
-                                <!--<span class="ratingDate">2018-11-1</span>-->
-                                <!--<br/>-->
-                                <!--<div class="review-info-text">-->
-                                    <!--It saddened me to see the number of people panning this excellent series on this-->
-                                    <!--site.-->
-                                    <!--Gundam wing, for me, was possibly one of the best anime's I have ever see, and YES I-->
-                                    <!--have seen the original series.-->
-                                <!--</div>-->
-                            <!--</td>-->
+                        <!--<td style="vertical-align: top">-->
+                        <!--<img src="/img/4543112620538.jpg"/>-->
+                        <!--</td>-->
+                        <!--<td class="review-info">-->
+                        <!--<a href="#">Minh Tung</a>-->
+                        <!--<span class="reputation-star-rating">&#9733;&#9733;&#9733;&#9733;&#9733;</span>-->
+                        <!--<span class="ratingDate">2018-11-1</span>-->
+                        <!--<br/>-->
+                        <!--<div class="review-info-text">-->
+                        <!--It saddened me to see the number of people panning this excellent series on this-->
+                        <!--site.-->
+                        <!--Gundam wing, for me, was possibly one of the best anime's I have ever see, and YES I-->
+                        <!--have seen the original series.-->
+                        <!--</div>-->
+                        <!--</td>-->
                         <!--</tr>-->
                     </table>
                 </div>
@@ -164,40 +297,20 @@
                                 <li id="notification-li" class="dropdown notification-menu-custom">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                         <i class="fa fa-bell-o"></i>
-                                        <span class="label label-warning">10</span>
+                                        <span id="numberOfNew" class="label label-warning">10</span>
                                     </a>
                                     <ul id="dropdown-notification" class="dropdown-menu">
-                                        <li class="header">You have 10 notifications</li>
+                                        <li id="notice-new" class="header">You have 10 notifications</li>
                                         <li>
                                             <!-- inner menu: contains the actual data -->
-                                            <ul class="menu">
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fa fa-warning text-yellow"></i> Very long description
-                                                        here that may not fit into the
-                                                        page and may cause design problems
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fa fa-users text-red"></i> 5 new members joined
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fa fa-user text-red"></i> You changed your username
-                                                    </a>
-                                                </li>
+                                            <ul id="ul-notification" class="menu">
+                                                <!--<li>-->
+                                                <!--<a href="#">-->
+                                                <!--<i class="fa fa-warning text-yellow" style="color: red;"></i> Very long description-->
+                                                <!--here that may not fit into the-->
+                                                <!--page and may cause design problems-->
+                                                <!--</a>-->
+                                                <!--</li>-->
                                             </ul>
                                         </li>
                                     </ul>
@@ -373,100 +486,13 @@
                     <strong class="category-title">CATEGORY OPTIONS</strong>
                 </div>
                 <div class="ul-category-title-content">
-                    <ul class="ul-category-contents">
+                    <ul id="series-title-ul" class="ul-category-contents">
                         <li class="lead-title">
-                            <strong>Product Series
+                            <strong>Series Title
                             </strong></li>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Master Grade (25)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Perfect Grade (20)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Real Grade (89)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">High Grade (50)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Other Grade (200)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">SD Gundam (30)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Premium Web Exclusives</li>
-                        </a>
                     </ul>
-                    <ul class="ul-category-contents">
-                        <li class="lead-title"><strong>Series Title</strong></li>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">First Gundam(12)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Mobile Suit Variation MSV(20)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">0080 War in the Pocket (4)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">0083 Stardust Memory (20)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">New Mobile Report Gundam Wing (10)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Mobile Suit Gundam AGE (30)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Crossbone Gundam (2)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Thunderbolt</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">0083: Stardust Memory</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Z / ZZ Gundam</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Char`s Counter Attack</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Gundam UC</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Gundam F91 Series</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">V Gundam</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">G Gundam</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Gundam W</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Gundam X</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Turn A Gundam</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Gundam 00</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Gundam AGE</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Gundam Builders</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Iron-Blooded Orphans</li>
-                        </a>
+                    <ul id="product-series-ul" class="ul-category-contents">
+                        <li class="lead-title"><strong>Product Series</strong></li>
                     </ul>
                 </div>
             </div>
@@ -531,7 +557,8 @@
                                     <tr>
                                         <td><b>Rating: </b></td>
                                         <td class="attr-value">
-                                            <span id="ratingValue" style="float: left;" class="reputation-star-rating"></span>
+                                            <span id="ratingValue" style="float: left;"
+                                                  class="reputation-star-rating"></span>
 
                                             <span id="numberOfRater" style="color: darkblue;
                                                 float: left; margin-left: 10px; margin-right: 10px; font-size: 14px;margin-top: 4px;">
@@ -540,12 +567,6 @@
                                             <!--    To open review list modal   -->
                                             <img id="icon-review" src="/gwa/img/icon-review.png" data-toggle="modal"
                                                  data-target="#reviewModel"/>
-                                            <!--    To open my rating modal -->
-                                            <button id="my-rating" type="button" class="btn btn-primary"
-                                                    data-toggle="modal"
-                                                    data-target="#myModal">
-                                                My Rating
-                                            </button>
                                         </td>
                                     </tr>
                                     <tr id="status-tr" style="display: none;">
@@ -553,6 +574,12 @@
                                         <td id="status" style="color: green;" class="attr-value">Active</td>
                                     </tr>
                                 </table>
+                                <!--    To open my rating modal -->
+                                <button id="my-rating" type="button" class="btn btn-primary"
+                                        data-toggle="modal"
+                                        data-target="#myModal">
+                                    My Rating
+                                </button>
                             </div>
 
                             <div class="page-title-wrapper">
@@ -581,7 +608,7 @@
                         <a id="edit-btn" href="#">EDIT</a>
                     </button>
                     <button class="io-button-standard-2" style="width: 85px;" type="submit">
-                        <a href="#">DELETE</a>
+                        <a id="deleteBtn" href="#">DELETE</a>
                     </button>
                 </div>
                 <div class="top-five-title-div">
@@ -590,39 +617,39 @@
 
                 <!--    Begin Model   -->
                 <!--<div class="ul-category-title-content">-->
-                    <!--<ul class="ul-category-contents">-->
-                        <!--<li class="lead-top-five">-->
-                            <!--<strong>Model-->
-                            <!--</strong></li>-->
-                    <!--</ul>-->
+                <!--<ul class="ul-category-contents">-->
+                <!--<li class="lead-top-five">-->
+                <!--<strong>Model-->
+                <!--</strong></li>-->
+                <!--</ul>-->
                 <!--</div>-->
                 <!--<div class="image-top-five">-->
-                    <!--<img class="image-top-five-items" src="/img/4543112620538.jpg"/>-->
+                <!--<img class="image-top-five-items" src="/img/4543112620538.jpg"/>-->
                 <!--</div>-->
                 <!--<div class="image-top-five">-->
-                    <!--<img class="image-top-five-items" src="/img/vf31a1.jpg"/>-->
+                <!--<img class="image-top-five-items" src="/img/vf31a1.jpg"/>-->
                 <!--</div>-->
                 <!--<div class="image-top-five">-->
-                    <!--<img class="image-top-five-items" src="/img/eb13a49fafa860b5d88138db105305e0.jpg"/>-->
+                <!--<img class="image-top-five-items" src="/img/eb13a49fafa860b5d88138db105305e0.jpg"/>-->
                 <!--</div>-->
                 <!--<div class="image-top-five">-->
-                    <!--<img class="image-top-five-items" src="/img/10522238p.jpg"/>-->
+                <!--<img class="image-top-five-items" src="/img/10522238p.jpg"/>-->
                 <!--</div>-->
                 <!--<div class="image-top-five">-->
-                    <!--<img class="image-top-five-items" src="/img/Gundam-Virsago-Hg-1-100-Model-Kit.jpg"/>-->
+                <!--<img class="image-top-five-items" src="/img/Gundam-Virsago-Hg-1-100-Model-Kit.jpg"/>-->
                 <!--</div>-->
                 <!--&lt;!&ndash;    End model   &ndash;&gt;-->
 
                 <!--&lt;!&ndash;    Begin Article   &ndash;&gt;-->
                 <!--<div class="ul-category-title-content">-->
-                    <!--<ul class="ul-category-contents">-->
-                        <!--<li class="lead-top-five">-->
-                            <!--<strong>Related Trade Post-->
-                            <!--</strong></li>-->
-                    <!--</ul>-->
+                <!--<ul class="ul-category-contents">-->
+                <!--<li class="lead-top-five">-->
+                <!--<strong>Related Trade Post-->
+                <!--</strong></li>-->
+                <!--</ul>-->
                 <!--</div>-->
                 <!--<div class="words-top-five">-->
-                    <!--<a href="#">aaaaaaaaaaaaaaaa</a>-->
+                <!--<a href="#">aaaaaaaaaaaaaaaa</a>-->
                 <!--</div>-->
 
 
