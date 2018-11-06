@@ -95,7 +95,7 @@ $(document).ready(function () {
                 } else {
                     // display login and register button
                     console.log("Guest is accessing !");
-                    window.location.href = "/gwa/login";
+                    window.location.href = "/gwa/login?goBack=1";
                 }
 
             }
@@ -874,6 +874,7 @@ $(document).ready(function () {
         }, 500);
 
         $("#usernameTitle").text(result.account.username);
+        $("#status").val(result.account.status);
 
         $("#saveBtn").css("display", "none");
         $("#resetBtn").css("display", "none");
@@ -1177,4 +1178,78 @@ $(document).ready(function () {
     }
 
     /* End notification */
+
+    // ban account
+    $("#banBtn").click(function (e) {
+        e.preventDefault();
+
+        $("#mi-modal").modal({backdrop: 'static', keyboard: false});
+        $("#modal-btn-si").on("click", function () {
+            $("#mi-modal").modal('hide');
+            $("#modal-btn-no").prop("onclick", null).off("click");
+            $("#modal-btn-si").prop("onclick", null).off("click");
+        });
+
+        $("#modal-btn-no").on("click", function (e) {
+            ajaxBanAccount();
+
+            $("#mi-modal").modal('hide');
+            $("#modal-btn-no").prop("onclick", null).off("click");
+            $("#modal-btn-si").prop("onclick", null).off("click");
+        });
+    })
+
+    function ajaxBanAccount() {
+
+        $.ajax({
+           type: "POST",
+           url: "/gwa/api/user/ban?accountID=" + account_profile_on_page_id,
+           success: function () {
+               $("#success-modal").modal({backdrop: 'static', keyboard: false});
+               $("#success-btn").on("click", function () {
+                   window.location.href = "/gwa/pages/profile.html?accountID=" + account_profile_on_page_id;
+               });
+           },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    // unban account
+    $("#unbanBtn").click(function (e) {
+        e.preventDefault();
+
+        $("#mi-modal").modal({backdrop: 'static', keyboard: false});
+        $("#modal-btn-si").on("click", function () {
+            $("#mi-modal").modal('hide');
+            $("#modal-btn-no").prop("onclick", null).off("click");
+            $("#modal-btn-si").prop("onclick", null).off("click");
+        });
+
+        $("#modal-btn-no").on("click", function (e) {
+            ajaxUnbanAccount();
+
+            $("#mi-modal").modal('hide');
+            $("#modal-btn-no").prop("onclick", null).off("click");
+            $("#modal-btn-si").prop("onclick", null).off("click");
+        });
+    })
+
+    function ajaxUnbanAccount() {
+
+        $.ajax({
+            type: "POST",
+            url: "/gwa/api/user/unban?accountID=" + account_profile_on_page_id,
+            success: function () {
+                $("#success-modal").modal({backdrop: 'static', keyboard: false});
+                $("#success-btn").on("click", function () {
+                    window.location.href = "/gwa/pages/profile.html?accountID=" + account_profile_on_page_id;
+                });
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
 })

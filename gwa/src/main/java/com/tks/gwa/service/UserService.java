@@ -26,4 +26,8 @@ public interface UserService {
     public List<Object> getStatisticByAccountID(int accountID);
 
     public List<Object> getAllUserRatingByAccountID(int pageNumber, int accountID);
+
+    public void banAccount(int accountID);
+
+    public void unbanAccount(int accountID);
 }

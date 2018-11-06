@@ -1,5 +1,20 @@
 $(document).ready(function () {
 
+    function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    };
+
     authentication();
 
     function authentication() {
@@ -15,7 +30,7 @@ $(document).ready(function () {
                     var role = jsonResponse["role"].name;
 
                     if (role == "MEMBER") {
-                        window.location.href = "/gwa/model/"
+                        window.location.href = "/gwa/model/";
                     } else if (role == "ADMIN") {
                         window.location.href = "/gwa/admin/model/pending";
                     }
@@ -68,11 +83,18 @@ $(document).ready(function () {
             url: "/gwa/api/user/login",
             data: JSON.stringify(data),
             success: function (result, status) {
-                if (result.role.name == "MEMBER") {
-                    window.location.href = "/gwa/model/"
+
+                // get goBack parameter value from previous page which required to login
+                var goBack = getUrlParameter("goBack");
+                if (goBack) {
+                    history.back(goBack);
                 } else {
-                    if (result.role.name == "ADMIN") {
-                        window.location.href = "/gwa/admin/model/pending";
+                    if (result.role.name == "MEMBER") {
+                        window.location.href = "/gwa/model/"
+                    } else {
+                        if (result.role.name == "ADMIN") {
+                            window.location.href = "/gwa/admin/model/pending";
+                        }
                     }
                 }
             },

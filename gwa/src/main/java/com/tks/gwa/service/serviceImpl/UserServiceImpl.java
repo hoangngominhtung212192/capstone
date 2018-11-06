@@ -286,6 +286,28 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Override
+    public void banAccount(int accountID) {
+        Account account = accountRepository.read(accountID);
+
+        if (account != null) {
+            account.setStatus("Banned");
+
+            accountRepository.update(account);
+        }
+    }
+
+    @Override
+    public void unbanAccount(int accountID) {
+        Account account = accountRepository.read(accountID);
+
+        if (account != null) {
+            account.setStatus("Active");
+
+            accountRepository.update(account);
+        }
+    }
+
     public String getCurrentTimeStamp() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();

@@ -50,4 +50,10 @@ public interface UserWS {
     @RequestMapping(value = "/rating/getAll", method = RequestMethod.GET)
     ResponseEntity<List<Object>> getAllUserRatingByAccountID(@RequestParam("pageNumber") int pageNumber,
                                                              @RequestParam("accountID") int accountID);
+
+    @RequestMapping(value = "/ban", method = RequestMethod.POST)
+    ResponseEntity<String> banAccount(@RequestParam("accountID") int accountID);
+
+    @RequestMapping(value = "/unban", method = RequestMethod.POST)
+    ResponseEntity<String> unbanAccount(@RequestParam("accountID") int accountID);
 }

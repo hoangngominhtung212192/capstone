@@ -38,6 +38,7 @@ $(document).ready(function () {
         }
     }
 
+    // begin authentication area
     // process UI
     $(document).click(function (event) {
         $("#dropdown-profile").css("display", "none");
@@ -198,6 +199,7 @@ $(document).ready(function () {
             return false;
         })
     }
+    // end authentication area
 
     function getAllDropdownValues() {
         $("#loading").css("display", "block");
@@ -355,7 +357,11 @@ $(document).ready(function () {
                 $("#pagination-content").empty();
                 $("#ul-records-container").empty();
                 $("#no-records").css("display", "none");
-                pagination(result.pagination);
+
+                if (result.modelDTOList.length > 0) {
+                    pagination(result.pagination);
+                }
+
                 renderData(result.modelDTOList);
             },
             error: function (e) {

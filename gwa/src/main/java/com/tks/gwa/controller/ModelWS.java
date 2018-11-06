@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.xml.ws.Response;
 import java.util.List;
 
 @RestController
@@ -84,4 +85,10 @@ public interface ModelWS {
 
     @RequestMapping(value = "/getTop5Article", method = RequestMethod.GET)
     ResponseEntity<List<Article>> getTop5ArticleByModelName(@RequestParam("modelName") String modelName);
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    ResponseEntity<String> deleteModel(@RequestParam("modelID") int modelID);
+
+    @RequestMapping(value = "/updateError", method = RequestMethod.POST)
+    ResponseEntity<String> updateErrorModel(@RequestParam("modelID") int modelID);
 }

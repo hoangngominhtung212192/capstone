@@ -234,4 +234,23 @@ public class UserWsImpl implements UserWS {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<String> banAccount(int accountID) {
+
+        System.out.println("[UserWS] Begin banAccount with accountID: " + accountID);
+
+        userService.banAccount(accountID);
+
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> unbanAccount(int accountID) {
+        System.out.println("[UserWS] Begin unbanAccount with accountID: " + accountID);
+
+        userService.unbanAccount(accountID);
+
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
 }

@@ -374,4 +374,24 @@ public class ModelWSImpl implements ModelWS {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<String> deleteModel(int modelID) {
+
+        System.out.println("[ModelWS] Begin deleteModel with modelID: " + modelID);
+
+        modelService.deleteModelByModelID(modelID);
+
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> updateErrorModel(int modelID) {
+
+        System.out.println("[ModelWS] Begin updateErrorModel with modelID: " + modelID);
+
+        modelService.updateStatusErrorModel(modelID);
+
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
 }

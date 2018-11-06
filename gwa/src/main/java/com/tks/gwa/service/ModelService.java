@@ -137,4 +137,16 @@ public interface ModelService {
      * @return
      */
     public List<Article> getTop5ArticleByModelName(String modelName);
+
+    /**
+     *
+     * @param modelID
+     */
+    public void deleteModelByModelID(int modelID);
+
+    /**
+     *
+     * @param modelID
+     */
+    public void updateStatusErrorModel(int modelID);
 }

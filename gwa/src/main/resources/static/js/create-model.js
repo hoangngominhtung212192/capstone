@@ -488,4 +488,10 @@ $(document).ready(function () {
 
         return check;
     }
+
+    $("#cancel").click(function (e) {
+        e.preventDefault();
+
+        history.back(1);
+    })
 })

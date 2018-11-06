@@ -164,15 +164,15 @@
 <div id="success-modal" class="modal fade">
     <div class="modal-dialog modal-confirm">
         <div class="modal-content">
-            <div class="modal-header" style="padding-left: 200px;">
+            <div id="modal-head" class="modal-header" style="padding-left: 200px;">
                 <div class="icon-box">
                     <i class="material-icons">&#10004;</i>
                 </div>
             </div>
             <div class="modal-body text-center">
-                <h4>Nice!</h4>
-                <p>Your rating has been submitted successfully.</p>
-                <button id="success-btn" class="btn btn-success" data-dismiss="modal"><span>OK</span>
+                <h4 id="modal-h4">Nice!</h4>
+                <p id="modal-p">Your rating has been submitted successfully.</p>
+                <button id="success-btn" class="btn btn-success" data-dismiss="modal"><span id="modal-span">OK</span>
                 </button>
             </div>
         </div>
@@ -608,7 +608,7 @@
                         <a id="edit-btn" href="#">EDIT</a>
                     </button>
                     <button class="io-button-standard-2" style="width: 85px;" type="submit">
-                        <a href="#">DELETE</a>
+                        <a id="deleteBtn" href="#">DELETE</a>
                     </button>
                 </div>
                 <div class="top-five-title-div">

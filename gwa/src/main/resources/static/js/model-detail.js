@@ -16,9 +16,7 @@ $(document).ready(function () {
     };
 
     // get modelID param
-    // get model detail
     var current_model_id = getUrlParameter('modelID');
-    ajaxGetDetail(current_model_id);
 
     // process UI
     $(document).click(function (event) {
@@ -29,6 +27,7 @@ $(document).ready(function () {
     authentication();
 
     var account_session_id;
+    var current_model_id;
 
     function authentication() {
 
@@ -80,6 +79,8 @@ $(document).ready(function () {
                     $("#loginForm").css("display", "block");
                 }
 
+                // get model detail
+                ajaxGetDetail(current_model_id);
             }
         });
     }
@@ -342,8 +343,11 @@ $(document).ready(function () {
 
     var listAssemblyImage = "";
     var thumbImage;
+    var listImageSize;
 
     function renderImage(result) {
+
+        listImageSize = result.length;
 
         if (result) {
             $.each(result, function (i, value) {
@@ -520,10 +524,10 @@ $(document).ready(function () {
             }
 
             if (role != "ADMIN") {
+                console.log(role);
                 $('img').on("error", function () {
                     countErrorImage++;
-
-                    alert(countErrorImage);
+                    checkErrorImage();
                 });
             }
         }
@@ -531,6 +535,7 @@ $(document).ready(function () {
 
     var role;
     var countErrorImage = 0;
+    var flagErrorImage = false;
 
     function showDivs(classSlide) {
         var i;
@@ -543,6 +548,36 @@ $(document).ready(function () {
             dots[i].className = dots[i].className.replace(" w3-white", "");
         }
         x[0].style.display = "block";
+    }
+
+    function checkErrorImage() {
+        if (countErrorImage > (listImageSize / 3) && !flagErrorImage) {
+            addNewNotification();
+            ajaxUpdateStatusModel();
+            flagErrorImage = true;
+        }
+    }
+
+    function ajaxUpdateStatusModel() {
+
+        $.ajax({
+            type: "POST",
+            url: "/gwa/api/model/updateError?modelID=" + current_model_id,
+            success: function (result) {
+                $("#modal-head").remove();
+                $("#modal-h4").text("Oops!");
+                $("#modal-p").text("This model is unavailable right now, we are sorry !");
+                $("#modal-span").text("Return to Model Page");
+
+                $("#success-modal").modal({backdrop: 'static', keyboard: false});
+                $("#success-btn").on("click", function () {
+                    window.location.href = "/gwa/model/";
+                });
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
     }
 
     /* This is for rating model */
@@ -572,13 +607,13 @@ $(document).ready(function () {
         if (checkValid(txtReview)) {
 
             $("#mi-modal").modal({backdrop: 'static', keyboard: false});
-            $("#modal-btn-si").on("click", function(){
+            $("#modal-btn-si").on("click", function () {
                 $("#mi-modal").modal('hide');
                 $("#modal-btn-no").prop("onclick", null).off("click");
                 $("#modal-btn-si").prop("onclick", null).off("click");
             });
 
-            $("#modal-btn-no").on("click", function(e) {
+            $("#modal-btn-no").on("click", function (e) {
 
                 console.log("Rating: " + ratingValue);
                 console.log("Feedback: " + txtReview);
@@ -648,7 +683,7 @@ $(document).ready(function () {
                 console.log(result);
 
                 $("#success-modal").modal({backdrop: 'static', keyboard: false});
-                $("#success-btn").on("click", function() {
+                $("#success-btn").on("click", function () {
                     window.location.href = "/gwa/pages/modeldetail.html?modelID=" + current_model_id;
                 });
             },
@@ -658,6 +693,7 @@ $(document).ready(function () {
         });
     }
 
+    // begin get all rating area
     var pageNumber = 1;
     var lastPage;
 
@@ -731,6 +767,7 @@ $(document).ready(function () {
 
         ajaxGetAllRating();
     });
+    // end get all rating
 
     ajaxGetTop5Rating();
 
@@ -1006,16 +1043,16 @@ $(document).ready(function () {
     }
 
     function addNewNotification() {
-        var description = $("#txtReason").val();
+        var description = "Model " + current_model_id + " loading image 404 error!";
 
         var formNotification = {
             description: description,
-            objectID: account_profile_on_page_id,
+            objectID: current_model_id,
             account: {
-                id: account_profile_on_page_id
+                id: 3 // to admin
             },
             notificationtype: {
-                id: 1
+                id: 2
             }
         }
 
@@ -1053,4 +1090,38 @@ $(document).ready(function () {
     }
 
     /* End notification */
+
+    $("#deleteBtn").click(function (e) {
+        e.preventDefault();
+
+        $("#mi-modal").modal({backdrop: 'static', keyboard: false});
+        $("#modal-btn-si").on("click", function () {
+            $("#mi-modal").modal('hide');
+            $("#modal-btn-no").prop("onclick", null).off("click");
+            $("#modal-btn-si").prop("onclick", null).off("click");
+        });
+
+        $("#modal-btn-no").on("click", function (e) {
+            ajaxDeleteModel();
+
+            $("#mi-modal").modal('hide');
+            $("#modal-btn-no").prop("onclick", null).off("click");
+            $("#modal-btn-si").prop("onclick", null).off("click");
+        });
+    });
+
+    function ajaxDeleteModel() {
+
+        $.ajax({
+            type: "POST",
+            url: "/gwa/api/model/delete?modelID=" + modelID,
+            success: function (result) {
+                alert("Delete successfully !");
+                window.location.href = "/gwa/model/";
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
 })

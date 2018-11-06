@@ -583,8 +583,6 @@ public class ModelServiceImpl implements ModelService {
 
         // if not exist
         if (!checkExistMd5) {
-            // set md5 hash value
-            model.setMd5Hash(hashMD5);
 
             // check exist manu or create new
             String manufacturer_name = model.getManufacturer().getName();
@@ -839,6 +837,35 @@ public class ModelServiceImpl implements ModelService {
         List<Article> articleList = articleRepository.getTop5ArticleByModelName(modelName);
 
         return articleList;
+    }
+
+    @Override
+    public void deleteModelByModelID(int modelID) {
+
+        Model model = modelRepository.read(modelID);
+
+        if (model != null) {
+            List<Modelimage> modelimageList = modelimageRepository.findImagesByModelID(model.getId());
+
+            if (modelimageList != null) {
+                // delete in folder /uploads on server and in database
+                deleteImage(modelimageList);
+            }
+
+            modelRepository.delete(model);
+        }
+    }
+
+    @Override
+    public void updateStatusErrorModel(int modelID) {
+
+        Model model = modelRepository.read(modelID);
+
+        if (model != null) {
+            model.setStatus("Unavailable");
+
+            modelRepository.update(model);
+        }
     }
 
     public String getThumbImage(List<Modelimage> modelimageList, String imagetype) {
