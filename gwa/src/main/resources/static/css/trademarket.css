@@ -416,6 +416,18 @@ section {
 .trademeta .user-option a.notify-item:hover {
     color: cadetblue;
 }
+.trademeta .user-option a.rated-item:hover {
+    color: #ff8e00;
+}
+.trademeta .user-option a.rated-item{
+    color: #ff8e00;
+}
+.trademeta .user-option a.unrated-item:hover {
+    color: #ff8e00;
+}
+.trademeta .user-option a.unrated-item{
+    color: rgba(29,19,1,0.92);
+}
 
 .featured .trademeta span a {
     margin-top: 7px;

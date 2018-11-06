@@ -15,11 +15,13 @@ public class MyOrderDTO {
     private String orderReason;
     private String orderStatus;
     private int orderId;
+    private  boolean isRated;
+
 
     public MyOrderDTO() {
     }
 
-    public MyOrderDTO(int tradepostId, String tradepostTitle, String tradepostThumbnail, String ownerName, String ownerPhone, String ownerEmail, String ownerAddress, int orderQuantity, double orderPay, String orderedDate, String orderSetDate, String orderReason, String orderStatus, int orderId) {
+    public MyOrderDTO(int tradepostId, String tradepostTitle, String tradepostThumbnail, String ownerName, String ownerPhone, String ownerEmail, String ownerAddress, int orderQuantity, double orderPay, String orderedDate, String orderSetDate, String orderReason, String orderStatus, int orderId, boolean isRated) {
         this.tradepostId = tradepostId;
         this.tradepostTitle = tradepostTitle;
         this.tradepostThumbnail = tradepostThumbnail;
@@ -34,6 +36,15 @@ public class MyOrderDTO {
         this.orderReason = orderReason;
         this.orderStatus = orderStatus;
         this.orderId = orderId;
+        this.isRated = isRated;
+    }
+
+    public boolean isRated() {
+        return isRated;
+    }
+
+    public void setRated(boolean rated) {
+        isRated = rated;
     }
 
     public int getOrderId() {

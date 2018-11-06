@@ -419,7 +419,7 @@
                         <ul>
                             <li><i class="fa fa-shopping-cart"></i><a href="#">Delivery: Meet in person</a></li>
                             <li><i class="fa fa-address-book"></i><a href="#">Contact: Send order to see</a></li>
-                            <li><i class="fa fa-exclamation-triangle"></i>
+                            <li id="reportBtn"><i class="fa fa-exclamation-triangle"></i>
                                 <a href="#reportModal" data-toggle="modal">Report this trade</a>
                             </li>
                         </ul><!-- social-icon -->
@@ -744,17 +744,17 @@
                     <div class="row form-group">
                         <label class="col-sm-3 label-title">Rating<span
                                 class="required">*</span></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-9 input-group">
                             <fieldset class="rating">
-                                <input type="radio" id="star5" name="rating" value="5"/><label class="full" for="star5"
+                                <input type="radio" id="star5" name="ratingStar" value="5" required><label class="full" for="star5"
                                                                                                title="Awesome"></label>
-                                <input type="radio" id="star4" name="rating" value="4"/><label class="full" for="star4"
+                                <input type="radio" id="star4" name="ratingStar" value="4" required><label class="full" for="star4"
                                                                                                title="Pretty good"></label>
-                                <input type="radio" id="star3" name="rating" value="3"/><label class="full" for="star3"
+                                <input type="radio" id="star3" name="ratingStar" value="3" required><label class="full" for="star3"
                                                                                                title="Average"></label>
-                                <input type="radio" id="star2" name="rating" value="2"/><label class="full" for="star2"
+                                <input type="radio" id="star2" name="ratingStar" value="2" required><label class="full" for="star2"
                                                                                                title="Not Good"></label>
-                                <input type="radio" id="star1" name="rating" value="1"/><label class="full" for="star1"
+                                <input type="radio" id="star1" name="ratingStar" value="1" required><label class="full" for="star1"
                                                                                                title="Terrible"></label>
                             </fieldset>
                         </div>
@@ -794,7 +794,7 @@
                         <label class="col-sm-3 label-title">Mobile Phone<span
                                 class="required">*</span></label>
                         <div class="col-sm-9">
-                            <input type="text" id="reporterMobile" class="form-control"
+                            <input type="text" id="reporterPhone" name="reporterPhone" class="form-control"
                                    value="">
                         </div>
                     </div>
@@ -802,7 +802,7 @@
                         <label class="col-sm-3 label-title">Email<span
                                 class="required">*</span></label>
                         <div class="col-sm-9">
-                            <input type="text" id="reporterEmail" class="form-control"
+                            <input type="email" id="reporterEmail" name="reporterEmail" class="form-control"
                                    value="">
                         </div>
                     </div>

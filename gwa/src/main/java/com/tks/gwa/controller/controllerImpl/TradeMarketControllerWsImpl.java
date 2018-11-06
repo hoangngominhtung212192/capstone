@@ -455,10 +455,13 @@ public class TradeMarketControllerWsImpl implements TradeMarketControllerWs {
     }
 
     @Override
-    public ResponseEntity<String> reportTrade(@RequestParam("tradepostId") int tradepostId, @RequestParam("reason") String reason) {
+    public ResponseEntity<String> reportTrade(@RequestParam("tradepostId") int tradepostId,
+                                              @RequestParam("reason") String reason,
+                                              @RequestParam("phone") String phone,
+                                              @RequestParam("email") String email) {
         boolean result = false;
         try{
-            result = trademarketService.reportTrade(tradepostId, reason);
+            result = trademarketService.reportTrade(tradepostId, reason, phone, email);
         }catch (Exception e){
             System.out.println("[TRADEPOST CONTROLLER][REPORT TRADE]: ERROR on EXECUTE database server" );
             e.printStackTrace();
@@ -467,10 +470,7 @@ public class TradeMarketControllerWsImpl implements TradeMarketControllerWs {
                     , HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if (!result) {
-            System.out.println("[TRADEPOST CONTROLLER][REPORT TRADE]: ERROR on EXECUTE database server - NULL RESULT" );
-            return new ResponseEntity<String>(
-                    "Something went wrong when report trade! Please contact Administrator for more information"
-                    , HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.ok("You already reported this trade.");
         }
         return ResponseEntity.ok("Your report has been submitted");
     }
@@ -491,6 +491,27 @@ public class TradeMarketControllerWsImpl implements TradeMarketControllerWs {
             return new ResponseEntity<List<Object>>(result,HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<List<Object>>(result,HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> ratingTrade(@RequestParam("orderId") int orderId,
+                                              @RequestParam("feedbackType") int feedbackType,
+                                              @RequestParam("rating") int value,
+                                              @RequestParam("comment") String comment) {
+        boolean result = false;
+        try{
+            result = trademarketService.ratingTrade(orderId,feedbackType,value,comment);
+        }catch (Exception e){
+            System.out.println("[TRADEPOST CONTROLLER][RATING TRADE]: ERROR on EXECUTE database server" );
+            e.printStackTrace();
+            return new ResponseEntity<String>(
+                    "Something went wrong when report trade! Please contact Administrator for more information"
+                    , HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (!result) {
+            return ResponseEntity.ok("You already rating this trade.");
+        }
+        return ResponseEntity.ok("Your rating has been submitted");
     }
 
 

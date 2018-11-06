@@ -36,9 +36,11 @@ public interface TrademarketService {
 
     boolean sendOrder(NewOrderDTO orderDTO);
 
-    boolean reportTrade(int tradepostId, String reason);
+    boolean reportTrade(int tradepostId, String reason, String phone, String email);
 
     List<Object> getMyOrderData(int accountId, String status, int pageNumber, int sortType);
+
+    boolean ratingTrade(int orderId, int feedbackType, int value, String comment);
 
 
 }

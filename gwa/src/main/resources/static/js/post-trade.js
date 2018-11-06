@@ -149,7 +149,7 @@ function authentication() {
             } else {
                 $("#noticeTitle").css("color", "red");
                 noticeTitle = "Opps! You need login to stay here!";
-                noticeContent = 'Click <a href="/gwa/login">[HERE]</a> to login.';
+                noticeContent = 'Click <a href="/gwa/login?goBack=1">[HERE]</a> to login.';
                 $("#tradePostDiv").hide();
                 console.log("Guest is accessing !");
             }
@@ -209,8 +209,10 @@ function loadProfileData(accountID) {
         success: function (result) {
             // console.log(result);
             //get selected profile's account status
-            var traderName = result["firstName"].trim() + " " + result["middleName"].trim() + " " + result["lastName"].trim();
-            var traderPhone = result["tel"].trim();
+            var traderName = result["lastName"];
+            if (result["middleName"]) traderName = traderName + " " + result["middleName"];
+            traderName = traderName + " " + result["firstName"];
+            var traderPhone = result["tel"];
             var traderEmail = result["email"];
             var traderAddress = result["address"];
             $("#traderName").val(traderName);
@@ -326,7 +328,8 @@ $("#tradepostForm").validate({
     rules: {
         tradeTitle: {
             required: true,
-            minlength: 3
+            minlength: 3,
+            maxlength: 100
         },
         tradePrice: {
             required: true,
@@ -362,7 +365,7 @@ $("#tradepostForm").validate({
         traderAddress: {
             required: true
         },
-        tradeType123: {
+        tradeType: {
             required: true
 
         },
@@ -379,7 +382,8 @@ $("#tradepostForm").validate({
     messages: {
         tradeTitle: {
             required: "You missing your title here.",
-            minlength: "Your title too short, request at least 3 characters."
+            minlength: "Your title too short, request at least 3 characters.",
+            maxlength: "Your title too long, request maximum 100 characters."
         },
         tradePrice: {
             required: "You missing your price here.",

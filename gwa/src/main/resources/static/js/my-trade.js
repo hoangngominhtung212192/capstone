@@ -134,7 +134,7 @@ function authentication() {
                 var role = jsonResponse["role"].name;
                 myTradeAccountId = jsonResponse["id"];
 
-                if (role == "MEMBER" || role == "BUYERSELLER") {
+                if (role == "BUYERSELLER") {
                     myTradeData = loadMyTradeData(myTradeAccountId,currentTabSelected,currentPage,currentSortType);
                     renderRecord();
                     $("#tradepostContainerDiv").show();
@@ -151,6 +151,10 @@ function authentication() {
                     $(".notice-section").show();
                     $("#noticeTitle").html("Opps! You are administrator, why you stay here...");
                     $("#noticeContent").html("Click <a href='/gwa/admin'>[HERE]</a> to back to your site.");
+                }else if (role == "MEMBER") {
+                    $(".notice-section").show();
+                    $("#noticeTitle").html("You are not buyer or seller so you can't not stay here...");
+                    $("#noticeContent").html("Try post a trade and waiting administrator approve to become buyer/seller.");
                 }
             } else {
                 $(".notice-section").show();
