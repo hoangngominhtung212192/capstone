@@ -3,7 +3,7 @@ var addressObject = loadLocationData();
 function loadLocationData(){
     var obj ={};
     $.ajax({
-        url: "/js/address-data.json",
+        url: "/gwa/js/address-data.json",
         async: false,
         success: function (data) {
             obj = data;

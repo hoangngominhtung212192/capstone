@@ -72,7 +72,7 @@ $("#sortTypeSelect").change(function () {
 function authentication() {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/user/checkLogin",
+        url: "http://localhost:8080/gwa/api/user/checkLogin",
         // async: false,
         complete: function (xhr, status) {
             if (status == "success") {
@@ -96,12 +96,12 @@ function authentication() {
                 } else if (role == "ADMIN") {
                     $(".notice-section").show();
                     $("#noticeTitle").html("Opps! You are administrator, why you stay here...");
-                    $("#noticeContent").html("Click <a href='/admin'>[HERE]</a> to back to your site.");
+                    $("#noticeContent").html("Click <a href='/gwa/admin'>[HERE]</a> to back to your site.");
                 }
             } else {
                 $(".notice-section").show();
                 $("#noticeTitle").html("Opps! You need login to stay here!");
-                $("#noticeContent").html("Click <a href='/login'>[HERE]</a> to login.");
+                $("#noticeContent").html("Click <a href='/gwa/login'>[HERE]</a> to login.");
                 // console.log("Guest is accessing !");
             }
         }
@@ -111,7 +111,7 @@ function authentication() {
 function loadMyOrderData() {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/tradepost/get-my-order",
+        url: "http://localhost:8080/gwa/api/tradepost/get-my-order",
         data: {
             accountId : loginAccount,
             status : currentTabSelected,
@@ -166,7 +166,7 @@ function renderData(data) {
             //Thumbnail box
             var itemImageBox = $('<div class="item-image-box col-sm-4"></div>');
             var itemImage = $('<div class="item-image"></div>');
-            var image = $('<a href="details.html"><img src="'+rowData["tradepostThumbnail"]+'" alt="Image" class="img-responsive"></a>');
+            var image = $('<a href="/gwa/trade-market/view-trade?tradepostId='+rowData["tradepostId"]+'"><img src="'+rowData["tradepostThumbnail"]+'" alt="Image" class="img-responsive"></a>');
             itemImage.html(image);
             itemImageBox.html(itemImage);
             itemRow.append(itemImageBox);
@@ -175,7 +175,7 @@ function renderData(data) {
             var itemInfo = $('<div class="item-info col-sm-8"></div>');
             //Trade info
             var tradeInfo = $('<div class="tradeinfo"></div>');
-            var title = $('<h3 class="item-price">Order From: <a href="/trade-market/view-trade?tradepostId='+rowData["tradepostId"]+'">'+rowData["tradepostTitle"]+'</a></h3>');
+            var title = $('<h3 class="item-price">Order From: <a href="/gwa/trade-market/view-trade?tradepostId='+rowData["tradepostId"]+'">'+rowData["tradepostTitle"]+'</a></h3>');
             tradeInfo.append(title);
             var itemCat =$('<div class="item-cat"></div>');
             if(status === "declined" || status === "cancelled"){
@@ -253,7 +253,7 @@ function renderData(data) {
 function cancelOrder(orderID, reason) {
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/api/tradepost/cancel-order",
+        url: "http://localhost:8080/gwa/api/tradepost/cancel-order",
         data: {
             orderId: orderID,
             reason: reason

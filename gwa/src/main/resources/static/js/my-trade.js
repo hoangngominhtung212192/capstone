@@ -125,7 +125,7 @@ $("#inputSearch").on('keyup', function (e) {
 function authentication() {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/user/checkLogin",
+        url: "http://localhost:8080/gwa/api/user/checkLogin",
         // async: false,
         complete: function (xhr, status) {
             if (status == "success") {
@@ -150,12 +150,12 @@ function authentication() {
                 } else if (role == "ADMIN") {
                     $(".notice-section").show();
                     $("#noticeTitle").html("Opps! You are administrator, why you stay here...");
-                    $("#noticeContent").html("Click <a href='/admin'>[HERE]</a> to back to your site.");
+                    $("#noticeContent").html("Click <a href='/gwa/admin'>[HERE]</a> to back to your site.");
                 }
             } else {
                 $(".notice-section").show();
                 $("#noticeTitle").html("Opps! You need login to stay here!");
-                $("#noticeContent").html("Click <a href='/login'>[HERE]</a> to login.");
+                $("#noticeContent").html("Click <a href='/gwa/login'>[HERE]</a> to login.");
                 // console.log("Guest is accessing !");
             }
         }
@@ -168,7 +168,7 @@ function loadMyTradeData(accountId, status, pageNumber, sortType) {
     var result;
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/tradepost/get-my-trade",
+        url: "http://localhost:8080/gwa/api/tradepost/get-my-trade",
         data: {
             accountId : accountId,
             status : status,
@@ -200,7 +200,7 @@ function searchMyTradeData(accountId, status, pageNumber, sortType, keyword) {
     var result;
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/tradepost/search-my-trade",
+        url: "http://localhost:8080/gwa/api/tradepost/search-my-trade",
         data: {
             accountId : accountId,
             status : status,
@@ -249,7 +249,7 @@ function renderRecord() {
             /* Thumbnail Div contain */
             var itemImgBoxWrap = $('<div class="item-image-box col-sm-4"></div>');
             var itemImgBox = $('<div class="item-image"></div>');
-            var itemImgLink = $('<a href="/trade-market/view-trade?tradepostId=' + postData["id"] + '"></a>');
+            var itemImgLink = $('<a href="/gwa/trade-market/view-trade?tradepostId=' + postData["id"] + '"></a>');
             var itemImgSrc = $('<img src="' + rowData["thumbnail"] + '" alt="Image" class="img-responsive"/>');
             itemImgLink.html(itemImgSrc);
             itemImgBox.html(itemImgLink);
@@ -264,7 +264,7 @@ function renderRecord() {
             var isNegotiableText = (postData["priceNegotiable"] === 1) ? "(Negotiable)": "";
             var itemPrice = $('<h3 class="item-price">$' + postData["price"] + '<span>' + isNegotiableText + '</span></h3>');
             var itemTitle = $('<h4 class="item-title"></h4>');
-            var itemTitleLink = $('<a href="/trade-market/view-trade?tradepostId=' + postData["id"] + '"></a>');
+            var itemTitleLink = $('<a href="/gwa/trade-market/view-trade?tradepostId=' + postData["id"] + '"></a>');
             itemTitleLink.html(postData["title"]);
             itemTitle.html(itemTitleLink);
             var itemCat = $('<div class="item-cat"></div>');
@@ -306,7 +306,7 @@ function renderRecord() {
 
             /* Item info Meta button action */
             var metaAction = $('<div class="user-option pull-right"></div>');
-            var editButton = $('<a class="edit-item" href="/trade-market/edit-trade?tradepostID=' +postData["id"]+ '" data-title="tooltip" data-placement="top" ' +
+            var editButton = $('<a class="edit-item" href="/gwa/trade-market/edit-trade?tradepostID=' +postData["id"]+ '" data-title="tooltip" data-placement="top" ' +
                 '                                   title="Edit this trade"><i class="fa fa-pencil"></i></a>');
             var delButton = $('<a class="delete-item" href="#" data-title="tooltip" data-placement="top" ' +
                 '                                   title="Delete this trade" data-id="'+postData["id"]+'" ' +
@@ -353,7 +353,7 @@ function updateQuantity(tradepostId) {
     var updateQuantityVal = $("#updateQuantityValue").val();
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/api/tradepost/update-quantity",
+        url: "http://localhost:8080/gwa/api/tradepost/update-quantity",
         data: {
             tradepostId : tradepostId,
             newQuantity : updateQuantityVal
@@ -373,7 +373,7 @@ function updateQuantity(tradepostId) {
 function deleteTradePost(tradepostId) {
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/api/tradepost/delete-trade-post",
+        url: "http://localhost:8080/gwa/api/tradepost/delete-trade-post",
         data: {
             tradepostId : tradepostId
         },

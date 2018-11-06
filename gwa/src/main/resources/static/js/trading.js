@@ -176,7 +176,7 @@ $("#searchWithLocation").click(function () {
 function loadSearchData() {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/tradepost/search-trade-listing",
+        url: "http://localhost:8080/gwa/api/tradepost/search-trade-listing",
         async: false,
         data: {
             tradeType: currentTabSelected,
@@ -208,7 +208,7 @@ function loadSearchData() {
 function loadLocationSearchData() {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/tradepost/search-location-trade-listing",
+        url: "http://localhost:8080/gwa/api/tradepost/search-location-trade-listing",
         async: false,
         data: {
             tradeType: currentTabSelected,
@@ -242,7 +242,7 @@ function loadLocationSearchData() {
 function loadTradingData() {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/tradepost/get-trade-listing",
+        url: "http://localhost:8080/gwa/api/tradepost/get-trade-listing",
         async: false,
         data: {
             tradeType: currentTabSelected,
@@ -291,7 +291,7 @@ function renderRecord() {
             /* Thumbnail Div contain */
             var itemImgBoxWrap = $('<div class="item-image-box col-sm-4"></div>');
             var itemImgBox = $('<div class="item-image"></div>');
-            var itemImgLink = $('<a href="/trade-market/view-trade?tradepostId=' + postData["id"] + '"></a>');
+            var itemImgLink = $('<a href="/gwa/trade-market/view-trade?tradepostId=' + postData["id"] + '"></a>');
             var itemImgSrc = $('<img src="' + rowData["thumbnail"] + '" alt="Image" class="img-responsive"/>');
             itemImgLink.html(itemImgSrc);
             itemImgBox.html(itemImgLink);
@@ -306,7 +306,7 @@ function renderRecord() {
             var isNegotiableText = (postData["priceNegotiable"] === 1) ? "(Negotiable)" : "";
             var itemPrice = $('<h3 class="item-price">$' + postData["price"] + '<span>' + isNegotiableText + '</span></h3>');
             var itemTitle = $('<h4 class="item-title"></h4>');
-            var itemTitleLink = $('<a href="/trade-market/view-trade?tradepostId=' + postData["id"] + '"></a>');
+            var itemTitleLink = $('<a href="/gwa/trade-market/view-trade?tradepostId=' + postData["id"] + '"></a>');
             itemTitleLink.html(postData["title"]);
             itemTitle.html(itemTitleLink);
             var itemCat = $('<div class="item-cat"></div>');
