@@ -26,6 +26,7 @@ $(document).ready(function () {
     var joinDate;
     var accountStatus;
     var numberOfRaters;
+    var numberOfStars;
 
     // authentication
     authentication();
@@ -62,6 +63,7 @@ $(document).ready(function () {
 
                     role_session = jsonResponse["role"].name;
                     account_session_id = jsonResponse["id"];
+                    ajaxGetAllNotification(jsonResponse["id"]);
                     joinDate = jsonResponse["createdDate"];
                     accountStatus = jsonResponse["status"];
                     $("#membersince").text("Member since " + jsonResponse["createdDate"].split(" ")[0]);
@@ -75,6 +77,7 @@ $(document).ready(function () {
 
                     // display fullname
                     getSessionProfile(account_session_id);
+
 
                     // display username, profile and logout button
                     if (thumbAvatar) {
@@ -182,6 +185,7 @@ $(document).ready(function () {
                 preLastName = result.lastName;
                 preMobile = result.tel;
                 numberOfRaters = result.numberOfRaters;
+                numberOfStars = result.numberOfStars;
 
                 // authorization
                 authorization();
@@ -198,10 +202,15 @@ $(document).ready(function () {
 
     // logout button click event
     $("#logout-new").click(function (event) {
-
         event.preventDefault();
 
-        ajaxLogout();
+        $("#loading").css("display", "block");
+
+        setTimeout(function () {
+            $("#loading").css("display", "none");
+
+            ajaxLogout();
+        }, 300);
     });
 
     $("#adminBtn").click(function (event) {
@@ -255,10 +264,12 @@ $(document).ready(function () {
         if (role_session == "ADMIN") {
             $("#editBtn").css("display", "block");
 
-            if (current_profile_status == "Banned") {
-                $("#unbanBtn").css("display", "block");
-            } else {
-                $("#banBtn").css("display", "block");
+            if (account_profile_on_page_id != account_session_id) {
+                if (current_profile_status == "Banned") {
+                    $("#unbanBtn").css("display", "block");
+                } else {
+                    $("#banBtn").css("display", "block");
+                }
             }
         }
 
@@ -680,30 +691,102 @@ $(document).ready(function () {
 
         if (checkValidForm(firstname, middlename, lastname, email, birthday, mobile)) {
 
-            var formProfile = {
-                id: profile_id,
-                firstName: firstname,
-                middleName: middlename,
-                lastName: lastname,
-                email: email,
-                birthday: birthday,
-                tel: mobile,
-                accountID: account_profile_on_page_id,
-                address: address,
-                avatar: avatar
-            }
+            $("#mi-modal").modal({backdrop: 'static', keyboard: false});
+            $("#modal-btn-si").on("click", function () {
+                $("#mi-modal").modal('hide');
+                $("#modal-btn-no").prop("onclick", null).off("click");
+                $("#modal-btn-si").prop("onclick", null).off("click");
+            });
 
-            var formData = new FormData();
-            if (checkImage) {
-                var type = imagetype.split("/")[1];
-                // $("#photoBtn").get(0).files[0]
-                if (imageFile) {
-                    formData.append("photoBtn", imageFile, username + "." + type);
+            $("#modal-btn-no").on("click", function (e) {
+
+                var formProfile = {
+                    id: profile_id,
+                    firstName: firstname,
+                    middleName: middlename,
+                    lastName: lastname,
+                    email: email,
+                    birthday: birthday,
+                    tel: mobile,
+                    accountID: account_profile_on_page_id,
+                    address: address,
+                    avatar: avatar,
+                    numberOfRaters: numberOfRaters,
+                    numberOfStars: numberOfStars
                 }
-                ajaxPost(formProfile, formData);
-            } else {
-                ajaxPost(formProfile, null);
-            }
+
+                var formData = new FormData();
+                if (checkImage) {
+                    var type = imagetype.split("/")[1];
+                    // $("#photoBtn").get(0).files[0]
+                    if (imageFile) {
+                        formData.append("photoBtn", imageFile, username + "." + type);
+                    }
+
+                    // admin role, input reason of modification user's profile
+                    // if admin's profile, ignore this
+                    if (role_session == "ADMIN" && account_session_id != account_profile_on_page_id) {
+                        $("#myModal").modal({backdrop: 'static', keyboard: false});
+                        $("#close-reason").on("click", function () {
+                            $("#myModal").modal('hide');
+                            $("#close-reason").prop("onclick", null).off("click");
+                            $("#submit-reason").prop("onclick", null).off("click");
+                        });
+
+                        $("#submit-reason").on("click", function (e) {
+                            // valid reason
+                            e.preventDefault();
+
+                            if (checkValidReason($("#txtReason").val())) {
+                                addNewNotification();
+                                ajaxPost(formProfile, formData);
+
+                                $("#myModal").modal('hide');
+                                $("#close-reason").prop("onclick", null).off("click");
+                                $("#submit-reason").prop("onclick", null).off("click");
+                            }
+
+                            return false;
+                        });
+                    } else {
+                        // member role
+                        ajaxPost(formProfile, formData);
+                    }
+                } else { // don't update image
+                    // admin role, input reason of modification user's profile
+                    // if admin's profile, ignore this
+                    if (role_session == "ADMIN" && account_session_id != account_profile_on_page_id) {
+                        $("#myModal").modal({backdrop: 'static', keyboard: false});
+                        $("#close-reason").on("click", function () {
+                            $("#myModal").modal('hide');
+                            $("#close-reason").prop("onclick", null).off("click");
+                            $("#submit-reason").prop("onclick", null).off("click");
+                        });
+
+                        $("#submit-reason").on("click", function () {
+                            // valid reason
+                            e.preventDefault();
+
+                            if (checkValidReason($("#txtReason").val())) {
+                                addNewNotification();
+                                ajaxPost(formProfile, null);
+
+                                $("#myModal").modal('hide');
+                                $("#close-reason").prop("onclick", null).off("click");
+                                $("#submit-reason").prop("onclick", null).off("click");
+                            }
+
+                            return false;
+                        });
+                    } else {
+                        ajaxPost(formProfile, null);
+                    }
+                }
+
+                $("#mi-modal").modal('hide');
+                $("#modal-btn-no").prop("onclick", null).off("click");
+                $("#modal-btn-si").prop("onclick", null).off("click");
+            });
         }
     });
 
@@ -722,8 +805,10 @@ $(document).ready(function () {
                     ajaxImagePost(images);
                 }
 
-                alert("Updated profile successfully !");
-                window.location.href = "/gwa/pages/profile.html?accountID=" + result.account.id;
+                $("#success-modal").modal({backdrop: 'static', keyboard: false});
+                $("#success-btn").on("click", function () {
+                    window.location.href = "/gwa/pages/profile.html?accountID=" + result.account.id;
+                });
             },
             complete: function (xhr, textStatus) {
                 if (textStatus == "error") {
@@ -796,6 +881,26 @@ $(document).ready(function () {
         $("#photoBtn").css("display", "none");
         $("#photoTitle").css("display", "none");
         $("#upload").css("display", "none");
+    }
+
+    function checkValidReason(value) {
+        var check = true;
+
+        $("#errorReason").css("display", "none");
+
+        if (!value) {
+            check = false;
+            $("#errorReason").css("display", "block");
+            $("#errorReason").text("Please input reason")
+        } else {
+            if (value.length > 100) {
+                check = false;
+                $("#errorReason").css("display", "block");
+                $("#errorReason").text("Maximum length: 100")
+            }
+        }
+
+        return check;
     }
 
     // birthday datepicker
@@ -925,4 +1030,151 @@ $(document).ready(function () {
 
     /*  End feedback and rating  */
 
+    /*   This is for notification area   */
+    var pageNumber = 1;
+    var lastPage;
+
+    function ajaxGetAllNotification(accountID) {
+
+        $.ajax({
+            type: "GET",
+            url: "/gwa/api/notification/getAll?pageNumber=" + pageNumber + "&accountID=" + accountID,
+            success: function (result) {
+                console.log(result);
+
+                lastPage = result[0];
+                renderNotification(result[1]);
+            }
+        })
+    }
+
+    // scroll to bottom event
+    $("#ul-notification").scroll(function () {
+        if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+            if (pageNumber < lastPage) {
+                pageNumber += 1;
+
+                $("#loading").css("display", "block");
+
+                setTimeout(function () {
+                    ajaxGetAllNotification(account_session_id);
+
+                    $("#loading").css("display", "none");
+                }, 400);
+            }
+        }
+    });
+
+    var countNotSeen = 0;
+
+    function renderNotification(result) {
+
+        $.each(result, function (index, value) {
+
+            var appendNotification = "";
+
+            if (!value.seen) {
+                // not seen yet
+                countNotSeen++;
+                appendNotification += "<li>\n"
+            } else {
+                // already seen
+                appendNotification += "<li style='background-color: white;'>\n"
+            }
+
+            appendNotification += "<a id='" + value.id + "-" + value.notificationtype.name + "-" + value.objectID +
+                "' href=\"#\">\n" +
+                "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> " + value.description + "</a>\n" +
+                "</li>";
+
+            $("#ul-notification").append(appendNotification);
+
+            // click event
+            $("a[id='" + value.id + "-" + value.notificationtype.name + "-" + value.objectID + "'").click(function (e) {
+                e.preventDefault();
+
+                // get parameters saved in attribute id of current notification
+                var notificationID = $(this).attr('id').split("-")[0];
+                var type = $(this).attr('id').split("-")[1];
+                var objectID = $(this).attr('id').split("-")[2];
+
+                // log to console
+                console.log("Notification ID: " + notificationID);
+                console.log("Type: " + type);
+                console.log("ObjectID: " + objectID);
+
+                // set seen status to 0 --> means user has seen this current notification
+                ajaxUpdateNotificationStatus(notificationID);
+
+                if (type == "Profile") {
+                    window.location.href = "/gwa/pages/profile.html?accountID=" + objectID;
+                } else if (type == "Model") {
+                    window.location.href = "/gwa/pages/modeldetail.html?modelID=" + objectID;
+                }
+            });
+        });
+
+        if (countNotSeen == 1 || countNotSeen == 0) {
+            $("#notice-new").text("You have " + countNotSeen + " new notification");
+        } else {
+            // plural
+            $("#notice-new").text("You have " + countNotSeen + " new notifications");
+        }
+
+        if (countNotSeen == 0) {
+            $("#numberOfNew").text("");
+        } else {
+            $("#numberOfNew").text(countNotSeen);
+        }
+
+    }
+
+    function addNewNotification() {
+        var description = $("#txtReason").val();
+
+        var formNotification = {
+            description: description,
+            objectID: account_profile_on_page_id,
+            account: {
+                id: account_profile_on_page_id
+            },
+            notificationtype: {
+                id: 1
+            }
+        }
+
+        ajaxPostNewNotification(formNotification);
+    }
+
+    function ajaxPostNewNotification(data) {
+
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/gwa/api/notification/addNew",
+            data: JSON.stringify(data),
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    function ajaxUpdateNotificationStatus(notificationID) {
+
+        $.ajax({
+            type: "POST",
+            url: "/gwa/api/notification/update?notificationID=" + notificationID,
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    /* End notification */
 })

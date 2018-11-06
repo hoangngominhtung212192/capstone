@@ -1,25 +1,140 @@
 $(document).ready(function () {
 
-    ajaxGetAllPending(1, "");
+    authentication();
 
-    function ajaxGetAllPending(pageNumber, type) {
+    var createdDate;
+    var account_session_id;
+
+    function authentication() {
+
         $.ajax({
             type: "GET",
-            url: "/gwa/api/model/getAllPending?pageNumber=" + pageNumber + "&type=" + type,
-            success: function (result) {
-                if (result) {
-                    console.log(result);
-                    // reset data and pagination
-                    $("#pagination-content").empty();
-                    $("#pendingBody").empty();
-                    pagination(result[0]);
-                    renderData(result[1]);
+            url: "/gwa/api/user/checkLogin",
+            complete: function (xhr, status) {
+                if (status == "success") {
+
+                    var xhr_data = xhr.responseText;
+                    console.log(xhr_data);
+                    var jsonResponse = JSON.parse(xhr_data);
+
+                    var role_session = jsonResponse["role"].name;
+                    account_session_id = jsonResponse["id"];
+
+                    if (role_session != "ADMIN") {
+                        window.location.href = "/gwa/403";
+                    } else {
+                        console.log(role_session + " " + jsonResponse["username"] + " is on session!");
+                        $("#profileBtn").attr("href", "/gwa/pages/profile.html?accountID=" + jsonResponse["id"]);
+                        $("#user-out-avatar").attr("src", jsonResponse["avatar"]);
+                        $("#user-in-avatar").attr("src", jsonResponse["avatar"]);
+                        $("#left-avatar").attr("src", jsonResponse["avatar"]);
+
+                        createdDate = jsonResponse["createdDate"].split(" ")[0];
+                        getSessionProfile(jsonResponse["id"]);
+                    }
+
+                } else {
+                    window.location.href = "/gwa/login";
                 }
+
+            }
+        });
+    }
+
+    // get session account's profile
+    function getSessionProfile(id) {
+
+        $.ajax({
+            type: "POST",
+            url: "/gwa/api/user/profile?accountID=" + id,
+            success: function (result) {
+                //get selected profile's account status
+
+                var displayUsername = "";
+
+                if (result.middleName) {
+                    displayUsername += result.lastName + ' ' + result.middleName + ' ' + result.firstName;
+                } else {
+                    displayUsername += result.lastName + ' ' + result.firstName;
+                }
+
+                $("#user-in-name").text(displayUsername);
+                $("#user-out-name").text(displayUsername);
+                $("#user-in-name").append("<small>Member since " + createdDate + "</small>");
+
+                $("#left-name").text(displayUsername);
             },
             error: function (e) {
                 console.log("ERROR: ", e);
             }
         });
+    }
+
+    $("#signoutBtn").click(function (e) {
+        e.preventDefault();
+
+        $("#loading").css("display", "block");
+
+        setTimeout(function () {
+            $("#loading").css("display", "none");
+
+            ajaxLogout();
+        }, 300);
+    })
+
+    function ajaxLogout() {
+        $.ajax({
+            type: "GET",
+            url: "/gwa/api/user/logout",
+            success: function (result) {
+                window.location.href = "/gwa/login";
+            }
+        });
+    }
+
+    ajaxGetAllPending(1, "");
+
+    var txtSearch;
+    var orderBy;
+
+    function ajaxGetAllPending(pageNumber, type) {
+        $("#loading").css("display", "block");
+
+        txtSearch = $("#txtSearch").val();
+        orderBy = $("select[id='cbo-orderBy'] option:selected").text();
+
+        if (!txtSearch) {
+            txtSearch = "";
+        }
+
+        setTimeout(function () {
+            $.ajax({
+                type: "GET",
+                url: "/gwa/api/model/searchPending?pageNumber=" + pageNumber + "&type=" + type + "&txtSearch=" + txtSearch +
+                "&orderBy=" + orderBy,
+                success: function (result) {
+                    if (result) {
+                        console.log(result);
+                        // reset data and pagination
+                        $("#pagination-content").empty();
+                        $("#pendingBody").empty();
+                        $("#no-record").css("display", "none");
+
+                        if (result[1].length > 0) {
+                            pagination(result[0]);
+                            renderData(result[1]);
+                        } else {
+                            $("#no-record").css("display", "block");
+                        }
+                    }
+                },
+                error: function (e) {
+                    console.log("ERROR: ", e);
+                }
+            });
+
+            $("#loading").css("display", "none");
+        }, 300);
     }
 
     function pagination(value) {
@@ -98,7 +213,7 @@ $(document).ready(function () {
         $.each(data, function (index, value) {
             $("#pendingBody").append("<tr>\n" +
                 "<td class=\"modelCode\">" + value.code + "</td>\n" +
-                "<td class=\"modelName\"><a href=\"#\">" + value.name + "</a></td>\n" +
+                "<td class=\"modelName\"><a href=\"/gwa/pages/modeldetail.html?modelID=" + value.id + "\">" + value.name + "</a></td>\n" +
                 "<td class=\"productSeries\">" + value.productseries.name + "</td>\n" +
                 "<td class=\"seriesTitle\">" + value.seriestitle.name + "</td>\n" +
                 "<td class=\"modelManu\">" + value.manufacturer.name + "</td>\n" +
@@ -106,7 +221,7 @@ $(document).ready(function () {
                 "<td class=\"modelStatus\">" + value.status + "</td>\n" +
                 "<td>\n" +
                 "<a class='approveBtn' id=\"" + value.id +"\" href=\"#\">Approve</a>\n" +
-                "<a class=\"moreInfoBtn\" href=\"/pages/modeldetail.html?modelID=" + value.id + "\">More</a>\n" +
+                "<a class=\"moreInfoBtn\" href=\"/gwa/pages/modeldetail.html?modelID=" + value.id + "\">More</a>\n" +
                 "</td>\n" +
                 "</tr>");
 
@@ -138,12 +253,28 @@ $(document).ready(function () {
            url: "/gwa/api/model/approve?id=" + id,
            success: function (result) {
                console.log("Approved model: " + result);
-               ajaxGetAllPending(1, "");
+
+               $("#myModal").modal({backdrop: 'static', keyboard: false});
+               $("#success-btn").on("click", function() {
+                   ajaxGetAllPending(1, "");
+               });
+
+               $('body').css("padding-right", "0px");
            },
            error: function (e) {
                console.log("ERROR: ", e);
            }
         });
     }
+
+    $("#search-btn").click(function (e) {
+        e.preventDefault();
+
+        ajaxGetAllPending(1, "");
+    })
+
+    $("#cbo-orderBy").on('change', function () {
+        ajaxGetAllPending(1, "");
+    });
 
 })

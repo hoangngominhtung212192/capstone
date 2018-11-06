@@ -28,6 +28,8 @@ $(document).ready(function () {
 
     authentication();
 
+    var account_session_id;
+
     function authentication() {
 
         $.ajax({
@@ -51,6 +53,8 @@ $(document).ready(function () {
                     profileClick(jsonResponse["id"]);
                     getSessionProfile(jsonResponse["id"]);
                     accountID = jsonResponse["id"];
+                    account_session_id = jsonResponse["id"];
+                    ajaxGetAllNotification(jsonResponse["id"]);
                     ajaxGetStatistic(jsonResponse["id"]);
                     role = jsonResponse["role"].name;
 
@@ -128,6 +132,7 @@ $(document).ready(function () {
                 // current user session's profile statistic
                 $("#sell").text(result[0]);
                 $("#buy").text(result[1]);
+                $("#proposal").text(result[2]);
             },
             error: function (e) {
                 console.log("ERROR: ", e);
@@ -137,10 +142,15 @@ $(document).ready(function () {
 
     // logout button click event
     $("#logout-new").click(function (event) {
-
         event.preventDefault();
 
-        ajaxLogout();
+        $("#loading").css("display", "block");
+
+        setTimeout(function () {
+            $("#loading").css("display", "none");
+
+            ajaxLogout();
+        }, 300);
     });
 
     $("#adminBtn").click(function (event) {
@@ -561,23 +571,37 @@ $(document).ready(function () {
 
         if (checkValid(txtReview)) {
 
-            console.log("Rating: " + ratingValue);
-            console.log("Feedback: " + txtReview);
+            $("#mi-modal").modal({backdrop: 'static', keyboard: false});
+            $("#modal-btn-si").on("click", function(){
+                $("#mi-modal").modal('hide');
+                $("#modal-btn-no").prop("onclick", null).off("click");
+                $("#modal-btn-si").prop("onclick", null).off("click");
+            });
 
-            var formRating = {
-                model: {
-                    id: modelID
-                },
-                account: {
-                    id: accountID
-                },
-                rating: ratingValue,
-                feedback: txtReview
-            }
+            $("#modal-btn-no").on("click", function(e) {
 
-            ajaxRating(formRating);
+                console.log("Rating: " + ratingValue);
+                console.log("Feedback: " + txtReview);
 
-            $("#myModal").modal('hide');
+                var formRating = {
+                    model: {
+                        id: modelID
+                    },
+                    account: {
+                        id: accountID
+                    },
+                    rating: ratingValue,
+                    feedback: txtReview
+                }
+
+                ajaxRating(formRating);
+
+                $("#myModal").modal('hide');
+
+                $("#mi-modal").modal('hide');
+                $("#modal-btn-no").prop("onclick", null).off("click");
+                $("#modal-btn-si").prop("onclick", null).off("click");
+            });
         }
 
         return false;
@@ -622,9 +646,11 @@ $(document).ready(function () {
             data: JSON.stringify(data),
             success: function (result) {
                 console.log(result);
-                alert("Submit successfully");
 
-                window.location.href = "/gwa/pages/modeldetail.html?modelID=" + current_model_id;
+                $("#success-modal").modal({backdrop: 'static', keyboard: false});
+                $("#success-btn").on("click", function() {
+                    window.location.href = "/gwa/pages/modeldetail.html?modelID=" + current_model_id;
+                });
             },
             error: function (e) {
                 console.log("ERROR: ", e);
@@ -666,7 +692,7 @@ $(document).ready(function () {
                 }, 400);
             }
         }
-    })
+    });
 
     function renderModelRatings(result) {
 
@@ -819,4 +845,212 @@ $(document).ready(function () {
 
         $("#right-container").append(appendRelatedArticle);
     }
+
+    /* This is for left nav-bar */
+    ajaxGetProductseries();
+    ajaxGetSeriestitle();
+
+    function ajaxGetProductseries() {
+
+        $.ajax({
+            type: "GET",
+            url: "/gwa/api/model/getAllProductseries",
+            success: function (result) {
+                console.log(result);
+
+                renderProductSeries(result);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    function renderProductSeries(result) {
+
+        $.each(result, function (key, entry) {
+            $("#product-series-ul").append("<a class=\"title-li-a\" href=\"/gwa/pages/model.html?categoryName=" +
+                entry.name + "&categoryType=ProductSeries\">\n" +
+                "                            <li class=\"title-li\">" + entry.name + "</li>\n" +
+                "                        </a>");
+        })
+    }
+
+    function ajaxGetSeriestitle() {
+
+        $("#cbo-seriestitle").append($('<option></option>').attr('value', 'All').text('All'));
+
+        $.ajax({
+            type: "GET",
+            url: "/gwa/api/model/getAllSeriestitle",
+            success: function (result) {
+                console.log(result);
+
+                renderSeriesTitle(result);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    function renderSeriesTitle(result) {
+
+        $.each(result, function (key, entry) {
+            $("#series-title-ul").append("<a class=\"title-li-a\" href=\"/gwa/pages/model.html?categoryName=" +
+                entry.name + "&categoryType=SeriesTitle\">\n" +
+                "                            <li class=\"title-li\">" + entry.name + "</li>\n" +
+                "                        </a>");
+        })
+    }
+
+    /* End left nav-bar */
+
+    /*   This is for notification area   */
+    var pageNumber = 1;
+    var lastPage;
+
+    function ajaxGetAllNotification(accountID) {
+
+        $.ajax({
+            type: "GET",
+            url: "/gwa/api/notification/getAll?pageNumber=" + pageNumber + "&accountID=" + accountID,
+            success: function (result) {
+                console.log(result);
+
+                lastPage = result[0];
+                renderNotification(result[1]);
+            }
+        })
+    }
+
+    // scroll to bottom event
+    $("#ul-notification").scroll(function () {
+        if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+            if (pageNumber < lastPage) {
+                pageNumber += 1;
+
+                $("#loading").css("display", "block");
+
+                setTimeout(function () {
+                    ajaxGetAllNotification(account_session_id);
+
+                    $("#loading").css("display", "none");
+                }, 400);
+            }
+        }
+    });
+
+    var countNotSeen = 0;
+
+    function renderNotification(result) {
+
+        $.each(result, function (index, value) {
+
+            var appendNotification = "";
+
+            if (!value.seen) {
+                // not seen yet
+                countNotSeen++;
+                appendNotification += "<li>\n"
+            } else {
+                // already seen
+                appendNotification += "<li style='background-color: white;'>\n"
+            }
+
+            appendNotification += "<a id='" + value.id + "-" + value.notificationtype.name + "-" + value.objectID +
+                "' href=\"#\">\n" +
+                "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> " + value.description + "</a>\n" +
+                "</li>";
+
+            $("#ul-notification").append(appendNotification);
+
+            // click event
+            $("a[id='" + value.id + "-" + value.notificationtype.name + "-" + value.objectID + "'").click(function (e) {
+                e.preventDefault();
+
+                // get parameters saved in attribute id of current notification
+                var notificationID = $(this).attr('id').split("-")[0];
+                var type = $(this).attr('id').split("-")[1];
+                var objectID = $(this).attr('id').split("-")[2];
+
+                // log to console
+                console.log("Notification ID: " + notificationID);
+                console.log("Type: " + type);
+                console.log("ObjectID: " + objectID);
+
+                // set seen status to 0 --> means user has seen this current notification
+                ajaxUpdateNotificationStatus(notificationID);
+
+                if (type == "Profile") {
+                    window.location.href = "/gwa/pages/profile.html?accountID=" + objectID;
+                } else if (type == "Model") {
+                    window.location.href = "/gwa/pages/modeldetail.html?modelID=" + objectID;
+                }
+            });
+        });
+
+        if (countNotSeen == 1 || countNotSeen == 0) {
+            $("#notice-new").text("You have " + countNotSeen + " new notification");
+        } else {
+            // plural
+            $("#notice-new").text("You have " + countNotSeen + " new notifications");
+        }
+
+        if (countNotSeen == 0) {
+            $("#numberOfNew").text("");
+        } else {
+            $("#numberOfNew").text(countNotSeen);
+        }
+
+    }
+
+    function addNewNotification() {
+        var description = $("#txtReason").val();
+
+        var formNotification = {
+            description: description,
+            objectID: account_profile_on_page_id,
+            account: {
+                id: account_profile_on_page_id
+            },
+            notificationtype: {
+                id: 1
+            }
+        }
+
+        ajaxPostNewNotification(formNotification);
+    }
+
+    function ajaxPostNewNotification(data) {
+
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/gwa/api/notification/addNew",
+            data: JSON.stringify(data),
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    function ajaxUpdateNotificationStatus(notificationID) {
+
+        $.ajax({
+            type: "POST",
+            url: "/gwa/api/notification/update?notificationID=" + notificationID,
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    /* End notification */
 })

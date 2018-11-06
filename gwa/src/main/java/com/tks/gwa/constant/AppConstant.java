@@ -60,4 +60,19 @@ public class AppConstant {
     public static final String LOG_FILE_MODEL_CRAWL = "./crawlmodel.dat";
 
     public static final int PAGE_SIZE = 24;
+
+    // This notification is for updating member's profile
+    public static final String NOTIFICATION_TYPE_PROFILE = "Profile";
+
+    // This notification is for notice model's error images
+    public static final String NOTIFICATION_TYPE_MODEL = "Model";
+
+    // seen
+    public static final int NOTIFICATION_SEEN = 1;
+
+    // not seen
+    public static final int NOTIFICATION_NOT_SEEN = 0;
+
+    // max display
+    public static final int NOTIFICATION_MAX_DISPLAY = 10;
 }

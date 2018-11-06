@@ -163,11 +163,15 @@ public class ModelWSImpl implements ModelWS {
     }
 
     @Override
-    public ResponseEntity<List<Object>> getAllPendingModel(int pageNumber, String type) {
+    public ResponseEntity<List<Object>> searchPendingModel(int pageNumber, String type, String txtSearch, String orderBy) {
 
-        System.out.println("[ModelWS] Begin getAllPendingModel()");
+        System.out.println("[ModelWS] Begin searchPendingModel() with data:");
+        System.out.println("Page number: " + pageNumber);
+        System.out.println("Type: " + type);
+        System.out.println("Search value: " + txtSearch);
+        System.out.println("OrderBy: " + orderBy);
 
-        List<Object> resultList = modelService.getAllPendingModel(pageNumber, type);
+        List<Object> resultList = modelService.searchPendingModel(pageNumber, type, txtSearch, orderBy);
 
         return new ResponseEntity<>(resultList, HttpStatus.OK);
     }

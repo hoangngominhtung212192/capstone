@@ -1,8 +1,10 @@
 $(document).ready(function () {
 
-    // authentication();
+    // Begin authentication
+    authentication();
 
-    getAllDropdownValues();
+    var createdDate;
+    var account_session_id;
 
     function authentication() {
 
@@ -10,30 +12,89 @@ $(document).ready(function () {
             type: "GET",
             url: "/gwa/api/user/checkLogin",
             complete: function (xhr, status) {
-
                 if (status == "success") {
 
                     var xhr_data = xhr.responseText;
+                    console.log(xhr_data);
                     var jsonResponse = JSON.parse(xhr_data);
 
                     var role_session = jsonResponse["role"].name;
+                    account_session_id = jsonResponse["id"];
 
                     if (role_session != "ADMIN") {
                         window.location.href = "/gwa/403";
                     } else {
-                        var username = jsonResponse["username"];
-                        var thumbAvatar = jsonResponse["avatar"];
-                        console.log(role_session + " " + username + " is on session!");
+                        console.log(role_session + " " + jsonResponse["username"] + " is on session!");
+                        $("#profileBtn").attr("href", "/gwa/pages/profile.html?accountID=" + jsonResponse["id"]);
+                        $("#user-out-avatar").attr("src", jsonResponse["avatar"]);
+                        $("#user-in-avatar").attr("src", jsonResponse["avatar"]);
+                        $("#left-avatar").attr("src", jsonResponse["avatar"]);
+
+                        createdDate = jsonResponse["createdDate"].split(" ")[0];
+                        getSessionProfile(jsonResponse["id"]);
                     }
 
                 } else {
-                    alert("Please login as administrator to continue !")
                     window.location.href = "/gwa/login";
                 }
 
             }
         });
     }
+
+    // get session account's profile
+    function getSessionProfile(id) {
+
+        $.ajax({
+            type: "POST",
+            url: "/gwa/api/user/profile?accountID=" + id,
+            success: function (result) {
+                //get selected profile's account status
+
+                var displayUsername = "";
+
+                if (result.middleName) {
+                    displayUsername += result.lastName + ' ' + result.middleName + ' ' + result.firstName;
+                } else {
+                    displayUsername += result.lastName + ' ' + result.firstName;
+                }
+
+                $("#user-in-name").text(displayUsername);
+                $("#user-out-name").text(displayUsername);
+                $("#user-in-name").append("<small>Member since " + createdDate + "</small>");
+
+                $("#left-name").text(displayUsername);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    $("#signoutBtn").click(function (e) {
+        e.preventDefault();
+
+        $("#loading").css("display", "block");
+
+        setTimeout(function () {
+            $("#loading").css("display", "none");
+
+            ajaxLogout();
+        }, 300);
+    })
+
+    function ajaxLogout() {
+        $.ajax({
+            type: "GET",
+            url: "/gwa/api/user/logout",
+            success: function (result) {
+                window.location.href = "/gwa/login";
+            }
+        });
+    }
+    // End authentication
+
+    getAllDropdownValues();
 
     function getAllDropdownValues() {
         $("#loading").css("display", "block");
@@ -556,8 +617,10 @@ $(document).ready(function () {
 
                     ajaxImagePost(images);
                 } else {
-                    alert("Update successfully");
-                    window.location.href = "/gwa/pages/modeldetail.html?modelID=" + current_model_id;
+                    $("#myModal").modal({backdrop: 'static', keyboard: false});
+                    $("#success-btn").on("click", function() {
+                        window.location.href = "/gwa/pages/modeldetail.html?modelID=" + current_model_id;
+                    });
                 }
             },
             complete: function (xhr, txtStatus) {
@@ -582,8 +645,10 @@ $(document).ready(function () {
             success: function (result) {
                 console.log(result);
 
-                alert("Updated successfully")
-                window.location.href = "/gwa/pages/modeldetail.html?modelID=" + result.id;
+                $("#myModal").modal({backdrop: 'static', keyboard: false});
+                $("#success-btn").on("click", function() {
+                    window.location.href = "/gwa/pages/modeldetail.html?modelID=" + current_model_id;
+                });
             },
             error: function (e) {
                 console.log("ERROR: ", e);

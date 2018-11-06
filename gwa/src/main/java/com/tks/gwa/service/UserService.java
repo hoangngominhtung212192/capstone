@@ -19,7 +19,7 @@ public interface UserService {
 
     public Profile updateProfile(Profile profile);
 
-    public List<Object> getAllAccount(int pageNumber, String type);
+    public List<Object> searchAccount(int pageNumber, String type, String txtSearch, String orderBy);
 
     public List<Profile> getTopRanking();
 

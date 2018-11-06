@@ -192,10 +192,14 @@ public class UserWsImpl implements UserWS {
     }
 
     @Override
-    public ResponseEntity<List<Object>> getAllAccount(int pageNumber, String type) {
-        System.out.println("[UserWS] Begin getAllAccount()");
+    public ResponseEntity<List<Object>> searchAccount(int pageNumber, String type, String txtSearch, String orderBy) {
+        System.out.println("[UserWS] Begin searchAccount() with data:");
+        System.out.println("Page number: " + pageNumber);
+        System.out.println("Type: " + type);
+        System.out.println("TxtSearch: " + txtSearch);
+        System.out.println("OrderBy: " + orderBy);
 
-        List<Object> resultList = userService.getAllAccount(pageNumber, type);
+        List<Object> resultList = userService.searchAccount(pageNumber, type, txtSearch, orderBy);
 
         return new ResponseEntity<>(resultList, HttpStatus.OK);
     }

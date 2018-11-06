@@ -48,7 +48,7 @@ public interface ModelService {
      *
      * @return
      */
-    public List<Object> getAllPendingModel(int pageNumber, String type);
+    public List<Object> searchPendingModel(int pageNumber, String type, String txtSearch, String orderBy);
 
     /**
      *

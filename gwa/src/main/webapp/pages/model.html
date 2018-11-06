@@ -42,6 +42,7 @@
 </head>
 
 <body onpageshow="scrollToProducts()" style="background-color: whitesmoke;">
+<div id="loading" class="loading" style="display: none; z-index: 20000;">Loading&#8230;</div>
 <!-- ##### Header Area Start ##### -->
 <header class="header-area">
 
@@ -62,40 +63,20 @@
                                 <li id="notification-li" class="dropdown notification-menu-custom">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                         <i class="fa fa-bell-o"></i>
-                                        <span class="label label-warning">10</span>
+                                        <span id="numberOfNew" class="label label-warning">10</span>
                                     </a>
                                     <ul id="dropdown-notification" class="dropdown-menu">
-                                        <li class="header">You have 10 notifications</li>
+                                        <li id="notice-new" class="header">You have 10 notifications</li>
                                         <li>
                                             <!-- inner menu: contains the actual data -->
-                                            <ul class="menu">
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fa fa-warning text-yellow"></i> Very long description
-                                                        here that may not fit into the
-                                                        page and may cause design problems
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fa fa-users text-red"></i> 5 new members joined
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fa fa-user text-red"></i> You changed your username
-                                                    </a>
-                                                </li>
+                                            <ul id="ul-notification" class="menu">
+                                                <!--<li>-->
+                                                <!--<a href="#">-->
+                                                <!--<i class="fa fa-warning text-yellow" style="color: red;"></i> Very long description-->
+                                                <!--here that may not fit into the-->
+                                                <!--page and may cause design problems-->
+                                                <!--</a>-->
+                                                <!--</li>-->
                                             </ul>
                                         </li>
                                     </ul>
@@ -273,55 +254,13 @@
                     <strong class="category-title">CATEGORY OPTIONS</strong>
                 </div>
                 <div class="ul-category-title-content">
-                    <ul class="ul-category-contents">
+                    <ul id="series-title-ul" class="ul-category-contents">
                         <li class="lead-title">
-                            <strong>Product Series
+                            <strong>Series Title
                             </strong></li>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Master Grade (25)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Perfect Grade (20)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Real Grade (89)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">High Grade (50)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Other Grade (200)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">SD Gundam (30)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Premium Web Exclusives</li>
-                        </a>
                     </ul>
-                    <ul class="ul-category-contents">
-                        <li class="lead-title"><strong>Series Title</strong></li>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">First Gundam(12)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Mobile Suit Variation MSV(20)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">0080 War in the Pocket (4)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">0083 Stardust Memory (20)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">New Mobile Report Gundam Wing (10)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Mobile Suit Gundam AGE (30)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Crossbone Gundam (2)</li>
-                        </a>
+                    <ul id="product-series-ul" class="ul-category-contents">
+                        <li class="lead-title"><strong>Product Series</strong></li>
                     </ul>
                 </div>
             </div>

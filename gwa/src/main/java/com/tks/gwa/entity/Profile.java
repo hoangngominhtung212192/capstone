@@ -212,6 +212,8 @@ public class Profile implements Serializable {
                 + "\nAddress: " + this.address
                 + "\nBirthday: " + this.birthday
                 + "\nMobile: " + this.tel
-                + "\nAvatar: " + this.avatar;
+                + "\nAvatar: " + this.avatar
+                + "\nNumber of raters: " + this.numberOfRaters
+                + "\nNumber of stars: " + this.numberOfStars;
     }
 }

@@ -42,9 +42,11 @@ public interface ModelWS {
     @RequestMapping(value = "/crawl/getStatus", method = RequestMethod.GET)
     ResponseEntity<LogCrawl> getCrawlStatus();
 
-    @RequestMapping(value = "/getAllPending", method = RequestMethod.GET)
-    ResponseEntity<List<Object>> getAllPendingModel(@RequestParam("pageNumber") int pageNumber,
-                                                   @RequestParam("type") String type);
+    @RequestMapping(value = "/searchPending", method = RequestMethod.GET)
+    ResponseEntity<List<Object>> searchPendingModel(@RequestParam("pageNumber") int pageNumber,
+                                                   @RequestParam("type") String type,
+                                                    @RequestParam("txtSearch") String txtSearch,
+                                                    @RequestParam("orderBy") String orderBy);
 
     @RequestMapping(value = "/approve", method = RequestMethod.GET)
     ResponseEntity<Model> approvePendingModel(@RequestParam("id") int id);

@@ -129,11 +129,29 @@ public class ModelRepositoryImpl extends GenericRepositoryImpl<Model, Integer> i
     }
 
     @Override
-    public List<Model> getAllPending(int pageNumber, int pageSize) {
+    public List<Model> searchPending(int pageNumber, int pageSize, String txtSearch, String orderBy) {
 
-        String sql = "SELECT m FROM " + Model.class.getName() + " AS m WHERE m.status='crawlpending' ORDER BY m.createdDate DESC";
+        boolean txtSearch_flag = false;
+
+        String sql = "SELECT m FROM " + Model.class.getName() + " AS m WHERE m.status='crawlpending'";
+
+        if (txtSearch.length() > 0) {
+            sql += " AND m.name LIKE :name";
+            txtSearch_flag = true;
+        }
+
+        if (orderBy.equalsIgnoreCase("Ascending")) {
+            sql += " ORDER BY m.createdDate ASC";
+        } else {
+            sql += " ORDER BY m.createdDate DESC";
+        }
 
         Query query = this.entityManager.createQuery(sql);
+
+        if (txtSearch_flag) {
+            query.setParameter("name", "%" + txtSearch + "%");
+        }
+
         query.setFirstResult((pageNumber - 1) * pageSize);
         query.setMaxResults(pageSize);
 
@@ -143,11 +161,22 @@ public class ModelRepositoryImpl extends GenericRepositoryImpl<Model, Integer> i
     }
 
     @Override
-    public int getCountAllPending() {
+    public int getCountSearchPending(String txtSearch) {
+
+        boolean txtSearch_flag = false;
 
         String sql = "SELECT count(m.id) FROM " + Model.class.getName() + " AS m WHERE m.status='crawlpending'";
 
+        if (txtSearch.length() > 0) {
+            sql += " AND m.name LIKE :name";
+            txtSearch_flag = true;
+        }
+
         Query query = this.entityManager.createQuery(sql);
+
+        if (txtSearch_flag) {
+            query.setParameter("name", "%" + txtSearch + "%");
+        }
 
         return (int) (long) query.getSingleResult();
     }

@@ -458,7 +458,7 @@ label:active:after {
 }
 
 #pendingTable tr td.modelName, #pendingTable tr td.seriesTitle {
-    width: 200px;
+    width: 180px;
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
