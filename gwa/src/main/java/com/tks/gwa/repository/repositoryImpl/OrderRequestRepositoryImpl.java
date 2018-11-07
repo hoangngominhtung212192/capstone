@@ -146,6 +146,11 @@ public class OrderRequestRepositoryImpl extends GenericRepositoryImpl<Orderreque
         return (int) result;
     }
 
+    @Override
+    public Orderrequest getOrderrequestById(int orderId) {
+        return this.read(orderId);
+    }
+
     String getSortSql(int sortType) {
         String sortSql = "";
         if (AppConstant.TRADEPOST.SORT_DATE_DESC == sortType) {

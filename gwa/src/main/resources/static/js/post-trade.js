@@ -35,7 +35,7 @@ function getUrlParameter(sParam) {
 
 function checkEditRequest() {
     var uriPath = window.location.pathname;
-    if (uriPath == "/trade-market/edit-trade") {
+    if (uriPath == "/gwa/trade-market/edit-trade") {
         return true;
     }
     return false;
@@ -71,7 +71,7 @@ function checkAuthorization(userId) {
     var tradepostID = getUrlParameter("tradepostID");
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/tradepost/get-trade-post-edit-form-data?tradepostID=" + tradepostID,
+        url: "http://localhost:8080/gwa/api/tradepost/get-trade-post-edit-form-data?tradepostID=" + tradepostID,
         async: false,
         complete: function (xhr, status) {
             if (status == "success") {
@@ -102,7 +102,7 @@ function authentication() {
     var noticeContent = "";
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/user/checkLogin",
+        url: "http://localhost:8080/gwa/api/user/checkLogin",
         complete: function (xhr, status) {
 
             if (status == "success") {
@@ -142,14 +142,14 @@ function authentication() {
                 } else if (role == "ADMIN") {
                     noticeTitle = "Opps! You are administrator, why you stay here...";
                     $("#noticeTitle").css("color", "orange");
-                    noticeContent = 'Click <a href="/admin">[HERE]</a> to back to your site.';
+                    noticeContent = 'Click <a href="/gwa/admin">[HERE]</a> to back to your site.';
                     $("#tradePostDiv").hide();
                 }
                 console.log("Login as " + role);
             } else {
                 $("#noticeTitle").css("color", "red");
                 noticeTitle = "Opps! You need login to stay here!";
-                noticeContent = 'Click <a href="/login">[HERE]</a> to login.';
+                noticeContent = 'Click <a href="/gwa/login?goBack=1">[HERE]</a> to login.';
                 $("#tradePostDiv").hide();
                 console.log("Guest is accessing !");
             }
@@ -163,7 +163,7 @@ function authentication() {
 function loadEditForm(editformData) {
     console.log(editformData);
     //SET EDIT API TO FORM
-    $("#tradepostForm").attr("action", "/api/tradepost/edit-trade-post");
+    $("#tradepostForm").attr("action", "/gwa/api/tradepost/edit-trade-post");
     //SET NAME OF BUTTOM
     $("#submitTradeBtn").html("Save Your Trade");
 
@@ -205,12 +205,14 @@ function loadEditForm(editformData) {
 function loadProfileData(accountID) {
     $.ajax({
         type: "POST",
-        url: "/api/user/profile?accountID=" + accountID,
+        url: "/gwa/api/user/profile?accountID=" + accountID,
         success: function (result) {
             // console.log(result);
             //get selected profile's account status
-            var traderName = result["firstName"].trim() + " " + result["middleName"].trim() + " " + result["lastName"].trim();
-            var traderPhone = result["tel"].trim();
+            var traderName = result["lastName"];
+            if (result["middleName"]) traderName = traderName + " " + result["middleName"];
+            traderName = traderName + " " + result["firstName"];
+            var traderPhone = result["tel"];
             var traderEmail = result["email"];
             var traderAddress = result["address"];
             $("#traderName").val(traderName);
@@ -326,7 +328,8 @@ $("#tradepostForm").validate({
     rules: {
         tradeTitle: {
             required: true,
-            minlength: 3
+            minlength: 3,
+            maxlength: 100
         },
         tradePrice: {
             required: true,
@@ -362,7 +365,7 @@ $("#tradepostForm").validate({
         traderAddress: {
             required: true
         },
-        tradeType123: {
+        tradeType: {
             required: true
 
         },
@@ -379,7 +382,8 @@ $("#tradepostForm").validate({
     messages: {
         tradeTitle: {
             required: "You missing your title here.",
-            minlength: "Your title too short, request at least 3 characters."
+            minlength: "Your title too short, request at least 3 characters.",
+            maxlength: "Your title too long, request maximum 100 characters."
         },
         tradePrice: {
             required: "You missing your price here.",
@@ -451,7 +455,7 @@ $("#tradepostForm").validate({
                 $("#noticeTitle").html("Trade post has been submited.").css("color", "green");
                 $("#noticeContent").html("Redirecting to your trade post list page...");
                 setTimeout(function () {
-                    window.location.href = "/trade-market/my-trade";
+                    window.location.href = "/gwa/trade-market/my-trade";
                 }, 3000);
             },
             error: function (xhr, textStatus, errorThrown) {
@@ -464,7 +468,7 @@ var countFileSuccess = 0;
 var countFileSelect = 0;
 var FiletoSubmit = [];
 $.fileup({
-    url: "/uploadFile",
+    url: "/gwa/uploadFile",
     inputID: 'upload-2',
     queueID: 'upload-2-queue',
     dropzoneID: '',

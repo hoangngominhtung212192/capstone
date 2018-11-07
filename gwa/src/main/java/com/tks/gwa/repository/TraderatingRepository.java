@@ -22,4 +22,20 @@ public interface TraderatingRepository extends GenericRepository<Traderating, In
      * @return
      */
     public List<Traderating> getListTradeRatingByToUserID(int pageNumber, int accountID);
+
+    /**
+     * Execute update to add new trade rating record
+     * @param traderating
+     * @return new traderating
+     */
+    Traderating addNewTraderating(Traderating traderating);
+
+    /**
+     * check rating existed by orderId and feedbackType
+     * @param orderID
+     * @param feedbackType
+     * @return true if existed.
+     */
+    boolean checkTraderatingExistByOrderIdAndFeedbackType(int orderID, int feedbackType);
+
 }

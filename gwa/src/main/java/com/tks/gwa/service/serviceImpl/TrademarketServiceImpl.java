@@ -35,6 +35,9 @@ public class TrademarketServiceImpl implements TrademarketService {
     @Autowired
     private TradereportRepository tradereportRepository;
 
+    @Autowired
+    private  TraderatingRepository traderatingRepository;
+
     //Save New Trade Post / Update Profile / Save Image List
     @Override
     public boolean postNewTradePost(TradepostRequestData tradePostData) {
@@ -411,6 +414,11 @@ public class TrademarketServiceImpl implements TrademarketService {
                 orderRequestRepository.getTradepostRequestDataByStatusAndInPageNumberWithSorting(
                         tradepostId,status,pageNumber,sortType);
         for (int i = 0; i < orderrequestList.size(); i++) {
+            //Check rated by owner
+            orderrequestList.get(i).setRated(
+                    traderatingRepository.checkTraderatingExistByOrderIdAndFeedbackType(orderrequestList.get(i).getId(),
+                            AppConstant.TRADEPOST.FEEDBACK_TYPE_OWNER_TO_TRADER));
+
             Account emptyAcc = new Account();
             emptyAcc.setUsername(orderrequestList.get(i).getAccount().getUsername());
             emptyAcc.setId(orderrequestList.get(i).getAccount().getId());
@@ -486,13 +494,19 @@ public class TrademarketServiceImpl implements TrademarketService {
     }
 
     @Override
-    public boolean reportTrade(int tradepostId, String reason) {
-        Tradereport newReport = new Tradereport();
+    public boolean reportTrade(int tradepostId, String reason, String phone, String email) {
+
+        Tradereport newReport = tradereportRepository.findReportByTradepostIdAndEmail(tradepostId, email);
+        if (newReport != null){
+            return false;
+        }
+        newReport = new Tradereport();
         newReport.setReason(reason);
+        newReport.setTel(phone);
+        newReport.setEmail(email);
         Tradepost tradepost = tradepostRepository.findTradepostById(tradepostId);
         newReport.setTradepost(tradepost);
         tradereportRepository.addNewReport(newReport);
-
         return true;
     }
 
@@ -570,10 +584,67 @@ public class TrademarketServiceImpl implements TrademarketService {
             }
             orderDTO.setOwnerName(fullname);
             orderDTO.setOrderId(orderrequestList.get(i).getId());
+            //Check rated Trader -> owner
+            orderDTO.setRated(traderatingRepository.checkTraderatingExistByOrderIdAndFeedbackType(
+                    orderrequestList.get(i).getId(),AppConstant.TRADEPOST.FEEDBACK_TYPE_TRADER_TO_OWNER));
             orderDTOList.add(orderDTO);
 
         }
         result.add(orderDTOList);
+        return result;
+    }
+
+    @Override
+    public boolean ratingTrade(int orderId, int feedbackType, int value, String comment) {
+        boolean result = traderatingRepository.checkTraderatingExistByOrderIdAndFeedbackType(orderId, feedbackType);
+        if (!result){
+            Traderating traderating = new Traderating();
+            Orderrequest orderrequest = orderRequestRepository.getOrderrequestById(orderId);
+            traderating.setOrderrequest(orderrequest);
+            traderating.setFeedbackType(feedbackType);
+            traderating.setComment(comment);
+            traderating.setRating(value);
+            traderating.setRatingDate(DateStringConverter.dateConvertToString(new Date()));
+            if(feedbackType == AppConstant.TRADEPOST.FEEDBACK_TYPE_OWNER_TO_TRADER){
+                traderating.setFromUser(orderrequest.getTradepost().getAccount());
+                traderating.setToUser(orderrequest.getAccount());
+
+                //Update Profile Rating
+                Profile updateProfileRating = profileRepository.findProfileByAccountID(orderrequest.getAccount().getId());
+                updateProfileRating.setNumberOfRaters(updateProfileRating.getNumberOfRaters() + 1);
+                updateProfileRating.setNumberOfStars(updateProfileRating.getNumberOfStars() + value);
+
+                profileRepository.updateProfile(updateProfileRating);
+
+            }else if(feedbackType == AppConstant.TRADEPOST.FEEDBACK_TYPE_TRADER_TO_OWNER) {
+                traderating.setFromUser(orderrequest.getAccount());
+                traderating.setToUser(orderrequest.getTradepost().getAccount());
+
+                //Update Profile Rating
+                Profile updateProfileRating = profileRepository.findProfileByAccountID(orderrequest.getTradepost().getAccount().getId());
+                updateProfileRating.setNumberOfRaters(updateProfileRating.getNumberOfRaters() + 1);
+                updateProfileRating.setNumberOfStars(updateProfileRating.getNumberOfStars() + value);
+
+                profileRepository.updateProfile(updateProfileRating);
+
+                //Update Tradepost Rating
+                Tradepost updateTradepostRating = tradepostRepository.findTradepostById(orderrequest.getTradepost().getId());
+                updateTradepostRating.setNumberOfRater(updateTradepostRating.getNumberOfRater() + 1);
+                updateTradepostRating.setNumberOfStar(updateTradepostRating.getNumberOfStar() + value);
+
+                tradepostRepository.update(updateTradepostRating);
+
+            }
+
+            if (traderatingRepository.addNewTraderating(traderating)!= null){
+                result = true;
+            }else {
+                result = false;
+            }
+        }else {
+            result = false;
+        }
+
         return result;
     }
 

@@ -50,6 +50,7 @@ $(document).ready(function () {
     $("#myOrderContainerDiv").hide();
     $(".notice-section").hide();
     authentication();
+    <!-- Tooltip -->
 });
 function changeTab(ele) {
     currentTabSelected = $(ele).attr("data-status");
@@ -72,7 +73,7 @@ $("#sortTypeSelect").change(function () {
 function authentication() {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/user/checkLogin",
+        url: "http://localhost:8080/gwa/api/user/checkLogin",
         // async: false,
         complete: function (xhr, status) {
             if (status == "success") {
@@ -96,12 +97,12 @@ function authentication() {
                 } else if (role == "ADMIN") {
                     $(".notice-section").show();
                     $("#noticeTitle").html("Opps! You are administrator, why you stay here...");
-                    $("#noticeContent").html("Click <a href='/admin'>[HERE]</a> to back to your site.");
+                    $("#noticeContent").html("Click <a href='/gwa/admin'>[HERE]</a> to back to your site.");
                 }
             } else {
                 $(".notice-section").show();
                 $("#noticeTitle").html("Opps! You need login to stay here!");
-                $("#noticeContent").html("Click <a href='/login'>[HERE]</a> to login.");
+                $("#noticeContent").html("Click <a href='/gwa/login'>[HERE]</a> to login.");
                 // console.log("Guest is accessing !");
             }
         }
@@ -111,7 +112,7 @@ function authentication() {
 function loadMyOrderData() {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/tradepost/get-my-order",
+        url: "http://localhost:8080/gwa/api/tradepost/get-my-order",
         data: {
             accountId : loginAccount,
             status : currentTabSelected,
@@ -166,7 +167,7 @@ function renderData(data) {
             //Thumbnail box
             var itemImageBox = $('<div class="item-image-box col-sm-4"></div>');
             var itemImage = $('<div class="item-image"></div>');
-            var image = $('<a href="details.html"><img src="'+rowData["tradepostThumbnail"]+'" alt="Image" class="img-responsive"></a>');
+            var image = $('<a href="/gwa/trade-market/view-trade?tradepostId='+rowData["tradepostId"]+'"><img src="'+rowData["tradepostThumbnail"]+'" alt="Image" class="img-responsive"></a>');
             itemImage.html(image);
             itemImageBox.html(itemImage);
             itemRow.append(itemImageBox);
@@ -175,7 +176,7 @@ function renderData(data) {
             var itemInfo = $('<div class="item-info col-sm-8"></div>');
             //Trade info
             var tradeInfo = $('<div class="tradeinfo"></div>');
-            var title = $('<h3 class="item-price">Order From: <a href="/trade-market/view-trade?tradepostId='+rowData["tradepostId"]+'">'+rowData["tradepostTitle"]+'</a></h3>');
+            var title = $('<h3 class="item-price">Order From: <a href="/gwa/trade-market/view-trade?tradepostId='+rowData["tradepostId"]+'">'+rowData["tradepostTitle"]+'</a></h3>');
             tradeInfo.append(title);
             var itemCat =$('<div class="item-cat"></div>');
             if(status === "declined" || status === "cancelled"){
@@ -185,8 +186,9 @@ function renderData(data) {
             }else {
                 itemCat.append('<span>Owner: </span><span style="color: green">'+rowData["ownerName"]+'</span><br/>');
                 itemCat.append('<span>Phone: </span><span style="color: black">'+rowData["ownerPhone"]+'</span> /');
+                itemCat.append('<span  style="float: right"><span>Quantity: </span><span style="color: red">'+rowData["orderQuantity"]+'</span> - <span>Total: </span><span style="color: red">'+rowData["orderPay"]+'$</span></span>');
                 itemCat.append('<span>Email: </span><span style="color: black">'+rowData["ownerEmail"]+'</span><br/>');
-                itemCat.append('<span>Quantity: </span><span style="color: red">'+rowData["orderQuantity"]+'</span> - <span>Total: </span><span style="color: red">'+rowData["orderPay"]+'$</span>');
+
             }
             tradeInfo.append(itemCat);
             itemInfo.append(tradeInfo);
@@ -232,8 +234,16 @@ function renderData(data) {
                 metaAction.append(cancelBtn);
             }
             if(status === "succeed"){
-                var ratingBtn = $('<a class="edit-item" href="#ratingModal" data-title="tooltip" data-placement="top" data-toggle="modal" ' +
-                    'title="Rating this trade"><i class="fa fa-star"></i></a>');
+                var ratingBtn;
+                var isRated = rowData["rated"];
+                if (!isRated){
+                    ratingBtn = $('<a class="unrated-item" href="#ratingModal" data-title="tooltip" data-placement="top" data-toggle="modal" ' +
+                        'title="Rating this trade"  data-orderid="'+rowData["orderId"]+'"><i class="fa fa-star"></i></a>');
+                }else {
+                    ratingBtn = $('<a class="rated-item" data-title="tooltip" data-placement="top" ' +
+                        'title="This trade is rated"><i class="fa fa-star"></i></a>');
+                }
+
                 metaAction.append(ratingBtn);
             }
             if(status === "declined" || status === "cancelled"){
@@ -248,12 +258,13 @@ function renderData(data) {
             tabContentDiv.append(itemRow);
         }
     }
+    $('[data-title="tooltip"]').tooltip();
 }
 
 function cancelOrder(orderID, reason) {
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/api/tradepost/cancel-order",
+        url: "http://localhost:8080/gwa/api/tradepost/cancel-order",
         data: {
             orderId: orderID,
             reason: reason
@@ -268,6 +279,26 @@ function cancelOrder(orderID, reason) {
         }
     });
     $('#cancelModal').modal('hide');
+}
+function ratingTrader(orderId, feedbackType, rating, comment) {
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/gwa/api/tradepost/rating-trade",
+        data: {
+            orderId: orderId,
+            feedbackType: feedbackType,
+            rating: rating,
+            comment: comment
+        },
+        async: false,
+        success: function (result, txtStatus, xhr) {
+            $.growl.notice({message: result});
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            $.growl.error({title: textStatus, message: xhr.responseText});
+        }
+    });
+    $('#ratingModal').modal('hide');
 }
 
 $('#cancelModal').on('show.bs.modal', function (event) {
@@ -302,8 +333,44 @@ $('#reasonModal').on('show.bs.modal', function (event) {
     var modal = $(this);
     modal.find('.modal-body').html('<strong style="color: red">' + reason + '</strong>');
 });
-<!-- Tooltip -->
-$('[data-title="tooltip"]').tooltip();
+$('#ratingModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var orderId = button.data('orderid');
+    var traderId = button.data('userid');
+    var modal = $(this);
+    modal.find('textarea').val('');
+    $('input:radio[name="ratingStar"]').prop('checked', false);
+    modal.find('label .error').remove();
+    $("#ratingForm").validate({
+        ignore: [],
+        rules: {
+            feedbackText: {
+                required: true,
+                minlength: 10
+            },
+            ratingStar: {
+                required: true,
+            }
+        },
+        messages: {
+            feedbackText: {
+                required: "You need tell a feedback",
+                minlength: "feedback too short."
+            },
+            ratingStar: {
+                required: "Please select your rating"
+            }
+        },
+        submitHandler: function (form) {
+            var rating = $("input:radio[name='ratingStar']:checked").val();
+            var comment = $("#feedbackText").val();
+            ratingTrader(orderId,2,rating,comment);
+        }
+    })
+
+
+});
+
 
 <!-- Tab panel  -->
 $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {

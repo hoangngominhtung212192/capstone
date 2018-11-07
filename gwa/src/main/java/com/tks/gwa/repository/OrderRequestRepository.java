@@ -18,4 +18,6 @@ public interface OrderRequestRepository {
 
     List<Orderrequest> getAllOrderRequestByAccountId(int accountId, String status, int pageNumber, int sortType);
     int countRequestWithStatusByAccountId(int accountId, String status);
+
+    Orderrequest getOrderrequestById(int orderId);
 }

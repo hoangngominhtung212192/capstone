@@ -4,6 +4,7 @@ import com.tks.gwa.entity.Traderating;
 import com.tks.gwa.repository.TraderatingRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
 
@@ -34,5 +35,24 @@ public class TraderatingRepositoryImpl extends GenericRepositoryImpl<Traderating
         List<Traderating> traderatingList = query.getResultList();
 
         return traderatingList;
+    }
+
+    @Override
+    public Traderating addNewTraderating(Traderating traderating) {
+        return this.create(traderating);
+    }
+
+    @Override
+    public boolean checkTraderatingExistByOrderIdAndFeedbackType(int orderID, int feedbackType) {
+        String sql = "SELECT tr FROM " + Traderating.class.getName() + " AS tr WHERE tr.orderrequest.id =:orderID AND tr.feedbackType =:feedbackType";
+        Query query = this.entityManager.createQuery(sql);
+        query.setParameter("orderID", orderID);
+        query.setParameter("feedbackType", feedbackType);
+        try {
+            query.getSingleResult();
+            return true;
+        }catch (NoResultException e){
+            return false;
+        }
     }
 }
