@@ -920,7 +920,7 @@
     top: -18px;
     opacity: 1;
     cursor: pointer;
-    background-position: 12px -371px;
+    background-position: 12px -429px;
 }
 
 .btn {
@@ -937,7 +937,7 @@
 
 .io-panel-body {
     padding: 0px;
-    display: block;
+    display: none;
     font-size: 13px;
     line-height: 1.5em;
     font-family: Arial, Verdana, Helvetica, sans-serif;

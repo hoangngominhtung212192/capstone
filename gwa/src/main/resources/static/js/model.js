@@ -363,6 +363,15 @@ $(document).ready(function () {
                 }
 
                 renderData(result.modelDTOList);
+
+                var jsonArr = [];
+                jsonArr.push(result);
+                jsonArr.push(result);
+
+                sessionStorage.setItem('data', JSON.stringify(jsonArr));
+
+                var data = JSON.parse(sessionStorage.getItem('data'));
+                console.log(data.length);
             },
             error: function (e) {
                 console.log("ERROR: ", e);
