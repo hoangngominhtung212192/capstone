@@ -183,10 +183,6 @@ public class TradepostRequestData {
         System.out.println("ID:" + this.tradeId);
         System.out.println("Type:" + this.tradeType);
         System.out.println("Title: " + this.tradeTitle);
-        System.out.println("List Images:");
-        for (int i = 0; i < this.imageUploadedList.length; i++) {
-            System.out.println("- " + this.imageUploadedList[i]);
-        }
         System.out.println("Condition: " + this.tradeCondition);
         System.out.println("Price: " + this.tradePrice);
         System.out.println("Price Negotiable: " + this.tradeNegotiable);
