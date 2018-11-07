@@ -367,11 +367,7 @@ $(document).ready(function () {
             "                                        <h5>Email</h5>\n" +
             "                                        <span style=\"color: indigo; font-size: 15px;\">";
 
-        if (preEmail) {
-            appendNonOwn += preEmail;
-        } else {
-            appendNonOwn += "N/A";
-        }
+        appendNonOwn += "N/A";
 
         appendNonOwn += "</span>\n" +
             "                                    </div>\n" +
@@ -422,11 +418,8 @@ $(document).ready(function () {
             "                                        <h5>Tel</h5>\n" +
             "                                        <span style=\"color: indigo; font-size: 15px;\">";
 
-        if (preMobile) {
-            appendNonOwn += preMobile;
-        } else {
-            appendNonOwn += "N/A";
-        }
+
+        appendNonOwn += "N/A";
 
         appendNonOwn += "</span>\n" +
             "                                    </div>\n" +
@@ -1202,14 +1195,14 @@ $(document).ready(function () {
     function ajaxBanAccount() {
 
         $.ajax({
-           type: "POST",
-           url: "/gwa/api/user/ban?accountID=" + account_profile_on_page_id,
-           success: function () {
-               $("#success-modal").modal({backdrop: 'static', keyboard: false});
-               $("#success-btn").on("click", function () {
-                   window.location.href = "/gwa/pages/profile.html?accountID=" + account_profile_on_page_id;
-               });
-           },
+            type: "POST",
+            url: "/gwa/api/user/ban?accountID=" + account_profile_on_page_id,
+            success: function () {
+                $("#success-modal").modal({backdrop: 'static', keyboard: false});
+                $("#success-btn").on("click", function () {
+                    window.location.href = "/gwa/pages/profile.html?accountID=" + account_profile_on_page_id;
+                });
+            },
             error: function (e) {
                 console.log("ERROR: ", e);
             }
