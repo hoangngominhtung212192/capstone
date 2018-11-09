@@ -52,21 +52,26 @@ $(document).ready(function () {
     authentication();
     <!-- Tooltip -->
 });
+
 function changeTab(ele) {
     currentTabSelected = $(ele).attr("data-status");
-    currentPage =1;
+    currentPage = 1;
     loadMyOrderData();
     $pagination.twbsPagination('destroy');
-    if (totalPage > 1){
+    if (totalPage > 1) {
         $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
             totalPages: totalPage
         }));
     }
 }
+
 $("#sortTypeSelect").change(function () {
     currentSortSelected = $("#sortTypeSelect").val();
     loadMyOrderData();
-    $.growl.notice({title: "My Order", message: "Sorting by " + $("option[value='"+currentSortSelected+"']").text()});
+    $.growl.notice({
+        title: "My Order",
+        message: "Sorting by " + $("option[value='" + currentSortSelected + "']").text()
+    });
 
 });
 
@@ -87,7 +92,7 @@ function authentication() {
                     $("#myOrderContainerDiv").show();
 
                     $pagination.twbsPagination('destroy');
-                    if (totalPage > 1){
+                    if (totalPage > 1) {
                         $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
                             totalPages: totalPage
                         }));
@@ -109,13 +114,14 @@ function authentication() {
     });
 
 }
+
 function loadMyOrderData() {
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/gwa/api/tradepost/get-my-order",
         data: {
-            accountId : loginAccount,
-            status : currentTabSelected,
+            accountId: loginAccount,
+            status: currentTabSelected,
             pageNumber: currentPage,
             sortType: currentSortSelected
         },
@@ -126,9 +132,9 @@ function loadMyOrderData() {
                 var jsonResponse = JSON.parse(xhr_data);
                 console.log(jsonResponse);
                 var data = jsonResponse[2];
-                if (data != ""){
+                if (data != "") {
                     totalPage = jsonResponse[0];
-                }else {
+                } else {
                     totalPage = 0;
                 }
                 renderData(data);
@@ -140,23 +146,24 @@ function loadMyOrderData() {
         }
     });
 }
+
 function renderData(data) {
     var tabContentDiv;
-    if(currentTabSelected === "approved"){
+    if (currentTabSelected === "approved") {
         tabContentDiv = $("#onpayment");
     }
-    if(currentTabSelected === "pending"){
+    if (currentTabSelected === "pending") {
         tabContentDiv = $("#pendingorders");
     }
-    if(currentTabSelected === "succeed"){
+    if (currentTabSelected === "succeed") {
         tabContentDiv = $("#succeedorders");
     }
-    if(currentTabSelected === "others"){
+    if (currentTabSelected === "others") {
         tabContentDiv = $("#otherorders");
     }
     if (data.length <= 0) {
         tabContentDiv.html("<h4>No record.</h4>")
-    }else {
+    } else {
         tabContentDiv.html("");
         for (var i = 0; i < data.length; i++) {
             var rowData = data[i];
@@ -167,7 +174,7 @@ function renderData(data) {
             //Thumbnail box
             var itemImageBox = $('<div class="item-image-box col-sm-4"></div>');
             var itemImage = $('<div class="item-image"></div>');
-            var image = $('<a href="/gwa/trade-market/view-trade?tradepostId='+rowData["tradepostId"]+'"><img src="'+rowData["tradepostThumbnail"]+'" alt="Image" class="img-responsive"></a>');
+            var image = $('<a href="/gwa/trade-market/view-trade?tradepostId=' + rowData["tradepostId"] + '"><img src="' + rowData["tradepostThumbnail"] + '" alt="Image" class="img-responsive"></a>');
             itemImage.html(image);
             itemImageBox.html(itemImage);
             itemRow.append(itemImageBox);
@@ -176,19 +183,15 @@ function renderData(data) {
             var itemInfo = $('<div class="item-info col-sm-8"></div>');
             //Trade info
             var tradeInfo = $('<div class="tradeinfo"></div>');
-            var title = $('<h3 class="item-price">Order From: <a href="/gwa/trade-market/view-trade?tradepostId='+rowData["tradepostId"]+'">'+rowData["tradepostTitle"]+'</a></h3>');
+            var title = $('<h3 class="item-price">Order From: <a href="/gwa/trade-market/view-trade?tradepostId=' + rowData["tradepostId"] + '">' + rowData["tradepostTitle"] + '</a></h3>');
             tradeInfo.append(title);
-            var itemCat =$('<div class="item-cat"></div>');
-            if(status === "declined" || status === "cancelled"){
-                itemCat.append('<span>Quantity: </span><span style="color: red">'+rowData["orderQuantity"]+'</span> - ' +
-                    '<span>Total: </span><span style="color: red">'+rowData["orderPay"]+'$</span><br/>' +
-                    '<span>This order has been '+rowData["orderStatus"]+'.</span>');
-            }else {
-                itemCat.append('<span>Owner: </span><span style="color: green">'+rowData["ownerName"]+'</span><br/>');
-                itemCat.append('<span>Phone: </span><span style="color: black">'+rowData["ownerPhone"]+'</span> /');
-                itemCat.append('<span  style="float: right"><span>Quantity: </span><span style="color: red">'+rowData["orderQuantity"]+'</span> - <span>Total: </span><span style="color: red">'+rowData["orderPay"]+'$</span></span>');
-                itemCat.append('<span>Email: </span><span style="color: black">'+rowData["ownerEmail"]+'</span><br/>');
-
+            var itemCat = $('<div class="item-cat"></div>');
+            if (status === "declined" || status === "cancelled") {
+                itemCat.append('<span>Quantity: </span><span style="color: red">' + rowData["orderQuantity"] + '</span> - ' +
+                    '<span>Total: </span><span style="color: red">' + rowData["orderPay"] + '$</span><br/>' +
+                    '<span>This order has been ' + rowData["orderStatus"] + '.</span>');
+            } else {
+                itemCat.append('<span>Quantity: </span><span style="color: red">' + rowData["orderQuantity"] + '</span> - <span>Total: </span><span style="color: red">' + rowData["orderPay"] + '$</span>');
             }
             tradeInfo.append(itemCat);
             itemInfo.append(tradeInfo);
@@ -198,57 +201,60 @@ function renderData(data) {
             var tradeMeta = $('<div class="trademeta"></div>');
 
             var metaContent = $('<div class="meta-content"></div>');
-            metaContent.append('<span class="dated">Ordered On: <a href="#">'+rowData["orderedDate"]+'</a></span>');
-            if(status === "pending"){
+            metaContent.append('<span class="dated">Ordered On: <a href="#">' + rowData["orderedDate"] + '</a></span>');
+            if (status === "pending") {
                 metaContent.append('<span class="number-succed">Waiting approve</span>');
             }
-            if(status === "approved"){
-                metaContent.append('<span class="number-payment">Accepted On: <a href="#">'+rowData["orderSetDate"]+'</a></span>');
+            if (status === "approved") {
+                metaContent.append('<span class="number-payment">Accepted On: <a href="#">' + rowData["orderSetDate"] + '</a></span>');
             }
-            if(status === "succeed"){
-                metaContent.append('<span class="number-succed">Succeed On: <a href="#">'+rowData["orderSetDate"]+'</a></span>');
+            if (status === "succeed") {
+                metaContent.append('<span class="number-succed">Succeed On: <a href="#">' + rowData["orderSetDate"] + '</a></span>');
             }
-            if(status === "declined"){
-                metaContent.append('<span class="number-request">Declined On: <a href="#">'+rowData["orderSetDate"]+'</a></span>');
+            if (status === "declined") {
+                metaContent.append('<span class="number-request">Declined On: <a href="#">' + rowData["orderSetDate"] + '</a></span>');
             }
-            if(status === "cancelled"){
-                metaContent.append('<span class="number-request">Cancelled On: <a href="#">'+rowData["orderSetDate"]+'</a></span>');
+            if (status === "cancelled") {
+                metaContent.append('<span class="number-request">Cancelled On: <a href="#">' + rowData["orderSetDate"] + '</a></span>');
             }
             tradeMeta.append(metaContent);
 
             var metaAction = $('<div class="user-option pull-right"></div>');
-            if(status === "pending"){
+            var viewContactBtn = $('<a href="#contactModal" data-title="tooltip" data-placement="top" data-toggle="modal"  ' +
+                'title="View contact information" data-fullname="' + rowData["ownerName"] + '"  data-phone="' + rowData["ownerPhone"] + '"  data-email="' + rowData["ownerEmail"] + '"><i class="fa fa-eye"></i></a>');
+            if (status === "pending") {
                 var updateBtn = $('<a href="#updateModal" data-title="tooltip" data-placement="top" data-toggle="modal" ' +
-                    'title="Update request" data-orderid="'+rowData["orderId"]+'" data-quantity="'+rowData["orderQuantity"]+'"><i class="fa fa-cart-plus"></i></a>');
+                    'title="Update request" data-orderid="' + rowData["orderId"] + '" data-quantity="' + rowData["orderQuantity"] + '"><i class="fa fa-cart-plus"></i></a>');
                 var cancelBtn = $('<a class="delete-item" href="#cancelModal" data-title="tooltip" data-placement="top" data-toggle="modal"  ' +
-                    'title="Cancel this order" data-orderid="'+rowData["orderId"]+'"><i class="fa fa-share-square"></i></a>');
+                    'title="Cancel this order" data-orderid="' + rowData["orderId"] + '"><i class="fa fa-share-square"></i></a>');
                 metaAction.append(updateBtn);
                 metaAction.append(cancelBtn);
             }
-            if(status === "approved"){
+            if (status === "approved") {
                 var directionBtn = $('<a href="#directionModal" data-title="tooltip" data-placement="top" data-toggle="modal"  ' +
-                    'title="'+rowData["ownerAddress"]+'"><i class="fa fa-map-marker"></i></a>');
+                    'title="' + rowData["ownerAddress"] + '"><i class="fa fa-map-marker"></i></a>');
                 var cancelBtn = $('<a class="delete-item" href="#cancelModal" data-title="tooltip" data-placement="top" data-toggle="modal"  ' +
-                    'title="Cancel this order" data-orderid="'+rowData["orderId"]+'"><i class="fa fa-share-square"></i></a>');
+                    'title="Cancel this order" data-orderid="' + rowData["orderId"] + '"><i class="fa fa-share-square"></i></a>');
+                metaAction.append(viewContactBtn);
                 metaAction.append(directionBtn);
                 metaAction.append(cancelBtn);
             }
-            if(status === "succeed"){
+            if (status === "succeed") {
                 var ratingBtn;
                 var isRated = rowData["rated"];
-                if (!isRated){
+                if (!isRated) {
                     ratingBtn = $('<a class="unrated-item" href="#ratingModal" data-title="tooltip" data-placement="top" data-toggle="modal" ' +
-                        'title="Rating this trade"  data-orderid="'+rowData["orderId"]+'"><i class="fa fa-star"></i></a>');
-                }else {
+                        'title="Rating this trade"  data-orderid="' + rowData["orderId"] + '"><i class="fa fa-star"></i></a>');
+                } else {
                     ratingBtn = $('<a class="rated-item" data-title="tooltip" data-placement="top" ' +
                         'title="This trade is rated"><i class="fa fa-star"></i></a>');
                 }
-
+                metaAction.append(viewContactBtn);
                 metaAction.append(ratingBtn);
             }
-            if(status === "declined" || status === "cancelled"){
+            if (status === "declined" || status === "cancelled") {
                 var reasonBtn = $('<a class="delete-item" href="#reasonModal" data-title="tooltip" data-placement="top" data-toggle="modal" ' +
-                    'title="View reason" data-reason="'+rowData["orderReason"]+'"><i class="fa fa-book"></i></a>');
+                    'title="View reason" data-reason="' + rowData["orderReason"] + '"><i class="fa fa-book"></i></a>');
                 metaAction.append(reasonBtn);
             }
 
@@ -280,6 +286,7 @@ function cancelOrder(orderID, reason) {
     });
     $('#cancelModal').modal('hide');
 }
+
 function ratingTrader(orderId, feedbackType, rating, comment) {
     $.ajax({
         type: "POST",
@@ -364,7 +371,7 @@ $('#ratingModal').on('show.bs.modal', function (event) {
         submitHandler: function (form) {
             var rating = $("input:radio[name='ratingStar']:checked").val();
             var comment = $("#feedbackText").val();
-            ratingTrader(orderId,2,rating,comment);
+            ratingTrader(orderId, 2, rating, comment);
         }
     })
 

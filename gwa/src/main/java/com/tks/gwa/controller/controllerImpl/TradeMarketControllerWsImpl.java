@@ -22,15 +22,15 @@ public class TradeMarketControllerWsImpl implements TradeMarketControllerWs {
     private TrademarketService trademarketService;
 
     @Override
-    public ResponseEntity<String> addTradepost(@RequestBody TradepostRequestData addRequestData) {
+    public ResponseEntity<Integer> addTradepost(@RequestBody TradepostRequestData addRequestData) {
         System.out.println("[TRADEPOST CONTROLLER][ADD TRADE POST REQUEST]: Accessing" );
         if (addRequestData == null) {
             System.out.println("[TRADEPOST CONTROLLER][ADD TRADE POST REQUEST]: Request Data is null" );
-            return (ResponseEntity<String>) ResponseEntity.status(HttpStatus.BAD_REQUEST);
+            return (ResponseEntity<Integer>) ResponseEntity.status(HttpStatus.BAD_REQUEST);
         }
         System.out.println("---------------REQUEST ADD FORM DATA:");
         addRequestData.printContent();
-        boolean result = false;
+        int result = -1;
         try {
             result = trademarketService.postNewTradePost(addRequestData);
         } catch (Exception ex) {
@@ -38,14 +38,12 @@ public class TradeMarketControllerWsImpl implements TradeMarketControllerWs {
             ex.printStackTrace();
         }
 
-        if (!result) {
+        if (result == -1) {
             System.out.println("[TRADEPOST CONTROLLER][ADD TRADE POST REQUEST]:  ERROR on EXECUTE database server - NULL RESULT" );
-            return new ResponseEntity<String>(
-                    "Something went wrong when submit your trade post! Please contact Administrator for more information"
-                    , HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<Integer>(-1, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         System.out.println("[TRADEPOST CONTROLLER][ADD TRADE POST REQUEST]: Successfully!" );
-        return ResponseEntity.ok("Your trade post has been posted successfully! Please wait admin approve it!");
+        return ResponseEntity.ok(result);
     }
 
     @Override
@@ -78,33 +76,42 @@ public class TradeMarketControllerWsImpl implements TradeMarketControllerWs {
     }
 
     @Override
-    public ResponseEntity<String> editTradepost(@RequestBody TradepostRequestData editRequestData) {
+    public ResponseEntity<Integer> editTradepost(@RequestBody TradepostRequestData editRequestData) {
         System.out.println("[TRADEPOST CONTROLLER][EDIT REQUEST]: Accessing" );
         if (editRequestData == null) {
             System.out.println("[TRADEPOST CONTROLLER][EDIT REQUEST]: Request Data is null" );
-            return (ResponseEntity<String>) ResponseEntity.status(HttpStatus.BAD_REQUEST);
+            return (ResponseEntity<Integer>) ResponseEntity.status(HttpStatus.BAD_REQUEST);
         }
         System.out.println("---------------REQUEST EDIT FORM DATA:");
         editRequestData.printContent();
-        boolean result = false;
+        int result = -1;
         try {
             result = trademarketService.editTradePost(editRequestData);
         } catch (Exception ex) {
             System.out.println("[TRADEPOST CONTROLLER][EDIT REQUEST]: ERROR on EXECUTE database server" );
             ex.printStackTrace();
-            return new ResponseEntity<String>(
-                    "Something went wrong when submit your trade post! Please contact Administrator for more information"
-                    , HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<Integer>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        if (!result) {
+        if (result == -1) {
             System.out.println("[TRADEPOST CONTROLLER][EDIT REQUEST]: ERROR on EXECUTE database server - NULL RESULT" );
-            return new ResponseEntity<String>(
-                    "Something went wrong when submit your trade post! Please contact Administrator for more information"
-                    , HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<Integer>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         System.out.println("[TRADEPOST CONTROLLER][EDIT REQUEST]: Successfully !" );
-        return ResponseEntity.ok("Your trade post has been edited successfully! Please wait admin approve it!");
+        return ResponseEntity.ok(result);
+    }
+
+    @Override
+    public ResponseEntity<String> updateImagesToDatabase(@RequestParam("tradepostId") int tradepostId,
+                                                         @RequestParam("images[]") String[] images) {
+        System.out.println(images);
+        boolean result = trademarketService.updateTradepostImagesByTradepostID(tradepostId, images);
+        if (!result){
+            return new ResponseEntity<String>(
+                    "Something went wrong when update images to database! Please contact Administrator for more information"
+                    , HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return ResponseEntity.ok("Add images link to database success");
     }
 
     @Override
