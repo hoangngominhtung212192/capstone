@@ -877,6 +877,112 @@ table#listImage tr.table-tr td.canceltd .cancel {
     font-size: 12px;
 }
 
+/*  Manage schedule CSS area    */
+.stopBtn {
+    display: block;
+    width: 100px;
+    height: 35px;
+    background: #CC0000;
+    padding: 7px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    transition: none;
+    float: right;
+    z-index: 20000;
+}
+
+.stopBtn:hover {
+    background-color: #0c5460;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+}
+
+.stopBtn:active {
+    background-color: #0c5460;
+}
+
+.startBtn {
+    display: block;
+    width: 115px;
+    height: 35px;
+    background: #4E9CAF;
+    padding: 7px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    transition: none;
+    float: left;
+}
+
+.startBtn:hover {
+    background-color: #0c5460;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+}
+
+.startBtn:active {
+    background-color: #0c5460;
+}
+
+/*  countdown area  */
+.one-third {
+    height: 100px;
+    float: left;
+    width: 20%;
+}
+
+div#countdown{
+    font: normal 16px 'Roboto', sans-serif;
+    color: #353535;
+    width: 60%;
+    float: left;
+}
+
+div#countdown p{
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+}
+
+p.numbers{
+    width: 100%;
+    height: 85%;
+    background: #FFFFFF;
+    margin-bottom: 0px;
+    font-size: 25px;
+}
+
+p.strings{
+    width: 100%;
+    height: auto;
+    padding: 12px 0;
+    background: darkgreen;
+    color: #FFFFFF;
+}
+
+div.cd-box{
+    width: 22%;
+    height: 70px;
+    background: #FFFFFF;
+    float: left;
+    padding: 15px 0 0 0;
+    margin: 30px 10px 0 0;
+    -webkit-box-shadow: 5px 6px 9px 1px rgba(53, 53, 53, 0.5);
+    -moz-box-shadow: 5px 6px 9px 1px rgba(53, 53, 53, 0.5);
+    box-shadow: 5px 6px 9px 1px rgba(53, 53, 53, 0.5);
+}
+
+.schedule-description {
+    width: 600px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
 
 
 

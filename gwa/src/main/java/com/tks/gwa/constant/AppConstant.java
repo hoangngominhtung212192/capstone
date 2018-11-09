@@ -59,6 +59,8 @@ public class AppConstant {
 
     public static final String LOG_FILE_MODEL_CRAWL = "./crawlmodel.dat";
 
+    public static final String LOG_FILE_SCHEDULE = "./logschedule.dat";
+
     public static final int PAGE_SIZE = 24;
 
     // This notification is for updating member's profile

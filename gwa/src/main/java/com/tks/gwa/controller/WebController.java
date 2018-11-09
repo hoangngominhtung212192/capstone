@@ -22,7 +22,7 @@ public interface WebController {
     @RequestMapping(value = "/")
     public ModelAndView indexPage();
 
-    @RequestMapping(value = "/model/")
+    @RequestMapping(value = "/model")
     public ModelAndView modelPage();
 
     @RequestMapping(value = "/model/detail")
@@ -104,4 +104,6 @@ public interface WebController {
     @RequestMapping(value = "/admin/event/create")
     public ModelAndView createEventAdminPage();
 
+    @RequestMapping(value = "/admin/schedule/manage")
+    public ModelAndView manageSchedule();
 }

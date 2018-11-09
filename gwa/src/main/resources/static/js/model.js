@@ -199,6 +199,7 @@ $(document).ready(function () {
             return false;
         })
     }
+
     // end authentication area
 
     function getAllDropdownValues() {
@@ -340,6 +341,11 @@ $(document).ready(function () {
     $("#searchBtn").click(function (e) {
         e.preventDefault();
 
+        // clear session
+        sessionStorage.removeItem('data');
+        sessionArr = [];
+        console.log("Clear session");
+
         updateFilter();
         search(1, "");
     });
@@ -364,14 +370,13 @@ $(document).ready(function () {
 
                 renderData(result.modelDTOList);
 
-                var jsonArr = [];
-                jsonArr.push(result);
-                jsonArr.push(result);
+                // push to array
+                sessionArr.push(result);
+                // save to session
+                sessionStorage.setItem('data', JSON.stringify(sessionArr));
 
-                sessionStorage.setItem('data', JSON.stringify(jsonArr));
-
-                var data = JSON.parse(sessionStorage.getItem('data'));
-                console.log(data.length);
+                // get next by page's data
+                calculateNextByPage(result.pagination.beginPage, result.pagination.lastPage, result.pagination.currentPage);
             },
             error: function (e) {
                 console.log("ERROR: ", e);
@@ -421,7 +426,27 @@ $(document).ready(function () {
 
                     var index = $(this).attr('id').replace('page', '');
 
-                    search(index, "");
+                    // check exist in session storage
+                    // if exist
+                    if (checkExistInSessionStorage(index)) {
+                        console.log("Current page " + index + " existed in sessionStorage - Data in session storage: ");
+                        console.log(global_value);
+
+                        // reset pagination and data records
+                        $("#pagination-content").empty();
+                        $("#ul-records-container").empty();
+                        $("#no-records").css("display", "none");
+
+                        pagination(global_value.pagination);
+                        renderData(global_value.modelDTOList);
+
+                        // get next by page's data
+                        calculateNextByPage(global_value.pagination.beginPage, global_value.pagination.lastPage,
+                            global_value.pagination.currentPage);
+                    } else {
+                        console.log("Current page " + index + " not exist in sessionStorage!!!");
+                        search(index, "");
+                    }
                 });
             }
         }
@@ -429,34 +454,117 @@ $(document).ready(function () {
         $("#next").click(function (e) {
             e.preventDefault();
 
-            search(value.currentPage, "Next");
+            if (checkExistInSessionStorage(value.currentPage + 1)) {
+                console.log("Current page " + (value.currentPage + 1) + " existed in sessionStorage - Data in session storage: ");
+                console.log(global_value);
+
+                // reset pagination and data records
+                $("#pagination-content").empty();
+                $("#ul-records-container").empty();
+                $("#no-records").css("display", "none");
+
+                pagination(global_value.pagination);
+                renderData(global_value.modelDTOList);
+
+                // get next by page's data
+                calculateNextByPage(global_value.pagination.beginPage, global_value.pagination.lastPage,
+                    global_value.pagination.currentPage);
+            } else {
+                console.log("Current page " + (value.currentPage + 1) + " not exist in sessionStorage!!!");
+                search(value.currentPage, "Next");
+            }
+
         });
 
         $("#last").click(function (e) {
             e.preventDefault();
 
-            search(value.currentPage, "Last");
+            if (checkExistInSessionStorage(value.lastPage)) {
+                console.log("Current page " + value.lastPage + " existed in sessionStorage - Data in session storage: ");
+                console.log(global_value);
+
+                // reset pagination and data records
+                $("#pagination-content").empty();
+                $("#ul-records-container").empty();
+                $("#no-records").css("display", "none");
+
+                pagination(global_value.pagination);
+                renderData(global_value.modelDTOList);
+
+                // get next by page's data
+                calculateNextByPage(global_value.pagination.beginPage, global_value.pagination.lastPage,
+                    global_value.pagination.currentPage);
+            } else {
+                console.log("Current page " + value.lastPage + " not exist in sessionStorage");
+                search(value.currentPage, "Last");
+            }
         });
 
         $("#first").click(function (e) {
             e.preventDefault();
 
-            search(value.currentPage, "First");
+            if (checkExistInSessionStorage(1)) {
+                console.log("Current page " + 1 + " existed in sessionStorage - Data in session storage: ");
+                console.log(global_value);
+
+                // reset pagination and data records
+                $("#pagination-content").empty();
+                $("#ul-records-container").empty();
+                $("#no-records").css("display", "none");
+
+                pagination(global_value.pagination);
+                renderData(global_value.modelDTOList);
+
+                // get next by page's data
+                calculateNextByPage(global_value.pagination.beginPage, global_value.pagination.lastPage,
+                    global_value.pagination.currentPage);
+            } else {
+                console.log("Current page " + 1 + " not exist in sessionStorage");
+                search(value.currentPage, "First");
+            }
         });
 
         $("#prev").click(function (e) {
             e.preventDefault();
 
-            search(value.currentPage, "Prev");
+            if (checkExistInSessionStorage(value.currentPage - 1)) {
+                console.log("Current page " + (value.currentPage - 1) + " existed in sessionStorage - Data in session storage: ");
+                console.log(global_value);
+
+                // reset pagination and data records
+                $("#pagination-content").empty();
+                $("#ul-records-container").empty();
+                $("#no-records").css("display", "none");
+
+                pagination(global_value.pagination);
+                renderData(global_value.modelDTOList);
+
+                // get next by page's data
+                calculateNextByPage(global_value.pagination.beginPage, global_value.pagination.lastPage,
+                    global_value.pagination.currentPage);
+            } else {
+                console.log("Current page " + (value.currentPage - 1) + " not exist in sessionStorage");
+                search(value.currentPage, "Prev");
+            }
         });
     };
 
     $("#cbo-order-1").on('change', function () {
+        // clear session
+        sessionStorage.removeItem('data');
+        sessionArr = [];
+        console.log("Clear session");
+
         filterOrderBy = this.value;
         search(1, "");
     });
 
     $("#cbo-order-2").on('change', function () {
+        // clear session
+        sessionStorage.removeItem('data');
+        sessionArr = [];
+        console.log("Clear session");
+
         filterCending = this.value;
         search(1, "");
     })
@@ -642,4 +750,89 @@ $(document).ready(function () {
     }
 
     /* End notification */
+
+    /*  This is for sessionStorage area */
+    var sessionArr = [];
+    // on reload page
+    sessionStorage.removeItem('data');
+    // for current value exist in sessionStorage
+    var global_value;
+
+    function checkExistInSessionStorage(currentPage) {
+        // get data from sessionStorage and parse to JSON
+        var data = JSON.parse(sessionStorage.getItem('data'));
+
+        var found = false;
+
+        if (data) {
+            $.each(data, function (index, value) {
+                if (value.pagination.currentPage == currentPage) {
+                    global_value = value;
+                    found = true;
+                }
+            })
+        }
+
+        return found;
+    }
+
+    function calculateNextByPage(beginPage, lastPage, pageNumber) {
+        if ((pageNumber - 1) >= 1) {
+            if (!checkExistInSessionStorage(pageNumber - 1)) {
+                console.log("Page next by left: " + (pageNumber - 1) + " --> doesn't exist in sessionStorage!!!");
+                searchNextBy(pageNumber - 1);
+            } else {
+                console.log("Page next by left: " + (pageNumber - 1) + " --> existed in sessionStorage!!!");
+            }
+        }
+        if ((pageNumber + 1) <= lastPage) {
+            if (!checkExistInSessionStorage(pageNumber + 1)) {
+                console.log("Page next by right: " + (pageNumber + 1) + " --> doesn't exist in sessionStorage!!!");
+                searchNextBy(pageNumber + 1);
+            } else {
+                console.log("Page next by right: " + (pageNumber + 1) + " --> existed in sessionStorage!!!");
+            }
+        }
+    }
+
+    function searchNextBy(pageNumber) {
+        console.log("Ajax call to get page: " + pageNumber);
+
+        var formSearch = {
+            searchValue: txtSearchValue,
+            productseries: filterProductseries,
+            seriestitle: filterSeriestitle,
+            price: filterPrice,
+            manufacturer: filterManufacturer,
+            pagination: {
+                currentPage: pageNumber,
+                type: ""
+            },
+            orderBy: filterOrderBy,
+            cending: filterCending
+        }
+
+        ajaxCallNextByPage(formSearch);
+    }
+
+    function ajaxCallNextByPage(data) {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/gwa/api/model/search",
+            data: JSON.stringify(data),
+            success: function (result) {
+
+                // push to array
+                sessionArr.push(result);
+                // save to session
+                sessionStorage.setItem('data', JSON.stringify(sessionArr));
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    /*  End sessionStorage area */
 })

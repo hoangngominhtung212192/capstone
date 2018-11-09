@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="/gwa/css/index/jquery.fileupload-ui.css">
 
     <script type="text/javascript" src="/gwa/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/gwa/js/pending-model.js"></script>
+    <script type="text/javascript" src="/gwa/js/admin-manage-schedule.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -47,12 +47,14 @@
             color: #434e65;
             width: 525px;
         }
+
         .modal-confirm .modal-content {
             padding: 20px;
             font-size: 16px;
             border-radius: 5px;
             border: none;
         }
+
         .modal-confirm .modal-header {
             background: #47c9a2;
             border-bottom: none;
@@ -62,15 +64,18 @@
             border-radius: 5px 5px 0 0;
             padding: 35px;
         }
+
         .modal-confirm h4 {
             text-align: center;
             font-size: 36px;
             margin: 10px 0;
         }
+
         .modal-confirm .form-control, .modal-confirm .btn {
             min-height: 40px;
             border-radius: 3px;
         }
+
         .modal-confirm .close {
             position: absolute;
             top: 15px;
@@ -79,9 +84,11 @@
             text-shadow: none;
             opacity: 0.5;
         }
+
         .modal-confirm .close:hover {
             opacity: 0.8;
         }
+
         .modal-confirm .icon-box {
             color: #fff;
             width: 95px;
@@ -93,13 +100,16 @@
             padding: 15px;
             text-align: center;
         }
+
         .modal-confirm .icon-box i {
             font-size: 64px;
             margin: -4px 0 0 -4px;
         }
+
         .modal-confirm.modal-dialog {
             margin-top: 80px;
         }
+
         .modal-confirm .btn {
             color: #fff;
             border-radius: 4px;
@@ -112,19 +122,23 @@
             padding: 6px 20px;
             border: none;
         }
+
         .modal-confirm .btn:hover, .modal-confirm .btn:focus {
             background: #eda645;
             outline: none;
         }
+
         .modal-confirm .btn span {
             margin: 1px 3px 0;
             float: left;
         }
+
         .modal-confirm .btn i {
             margin-left: 1px;
             font-size: 20px;
             float: right;
         }
+
         .trigger-btn {
             display: inline-block;
             margin: 100px auto;
@@ -137,7 +151,8 @@
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div id="loading" class="loading" style="display: none;">Loading&#8230;</div>
-<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"
+     id="mi-modal">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -161,9 +176,49 @@
             </div>
             <div class="modal-body text-center">
                 <h4>Great!</h4>
-                <p>Approve successfully.</p>
+                <p id="success-p">Successfully.</p>
                 <button id="success-btn" class="btn btn-success" data-dismiss="modal"><span>OK</span></button>
             </div>
+        </div>
+    </div>
+</div>
+<!--    for admin modification notification -->
+<div class="modal fade" id="miModal">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 400px; margin: 120px auto;">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 id="rating-title" style="font-family: 'Cambria'; color: darkred; font-weight: bold;"
+                    class="modal-title">Cycle
+                </h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <b>Cycle (hours):</b>
+                        </div>
+                        <div class="col-sm-8">
+                            <input style="width: 100px;" class="form-control" id="txtCycle" placeholder="">
+                            <span id="errorCycle" class="error_field" style="display: none;"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer" style="padding-top: 0;">
+                <button id="close-reason" style="color: white; background: grey; border-color: grey;"
+                        type="button" class="btn btn-danger" data-dismiss="modal">Close
+                </button>
+                <button id="submit-reason" style="color: white;"
+                        type="button" class="btn btn-danger" data-dismiss="modal">Submit
+                </button>
+            </div>
+
         </div>
     </div>
 </div>
@@ -200,9 +255,9 @@
                                 <!-- inner menu: contains the actual data -->
                                 <ul id="ul-notification" class="menu">
                                     <!--<li>-->
-                                        <!--<a href="#">-->
-                                            <!--<i class="fa fa-users text-aqua"></i> 5 new members joined today-->
-                                        <!--</a>-->
+                                    <!--<a href="#">-->
+                                    <!--<i class="fa fa-users text-aqua"></i> 5 new members joined today-->
+                                    <!--</a>-->
                                     <!--</li>-->
                                 </ul>
                             </li>
@@ -214,32 +269,17 @@
                             <img id="user-out-avatar" src="/gwa/img/avatar_2x.png" class="user-image" alt="User Image">
                             <span id="user-out-name" class="hidden-xs">Minh Tung</span>
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu"  style="z-index: 100">
                             <!-- User image -->
                             <li class="user-header">
-                                <img id="user-in-avatar" src="/gwa/img/avatar_2x.png" class="img-circle" alt="User Image">
+                                <img id="user-in-avatar" src="/gwa/img/avatar_2x.png" class="img-circle"
+                                     alt="User Image">
 
                                 <p id="user-in-name">
                                     Minh Tung
                                     <small>Member since Nov. 2018</small>
                                 </p>
                             </li>
-                            <!-- Menu Body -->
-                            <!--<li class="user-body">-->
-                            <!--<div class="row">-->
-                            <!--<div class="col-xs-4 text-center">-->
-                            <!--<a href="#">Buy</a>-->
-                            <!--</div>-->
-                            <!--<div class="col-xs-4 text-center">-->
-                            <!--<a href="#">Sale</a>-->
-                            <!--</div>-->
-                            <!--<div class="col-xs-4 text-center">-->
-                            <!--<a href="#">Rating</a>-->
-                            <!--</div>-->
-                            <!--</div>-->
-                            <!--&lt;!&ndash; /.row &ndash;&gt;-->
-                            <!--</li>-->
-                            <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
                                     <a id="profileBtn" href="#" class="btn btn-default btn-flat">Profile</a>
@@ -341,18 +381,7 @@
                         <li><a href="pages/tables/data.html"><i class="fa fa-circle-o"></i> Pending trade post</a></li>
                     </ul>
                 </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-table"></i>
-                        <span>Schedule</span>
-                        <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="/gwa/admin/schedule/manage"><i class="fa fa-circle-o"></i> Manage Schedule</a></li>
-                    </ul>
-                </li>
+
 
                 <li class="header">LABELS</li>
                 <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
@@ -367,12 +396,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                GUNDAM
-                <small>Pending model</small>
+                SCHEDULE
+                <small>Update cycle</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li class="active">Pending Model</li>
+                <li class="active">Manage Schedule</li>
             </ol>
         </section>
 
@@ -381,86 +410,142 @@
             <div class="row">
                 <div class="col-xs-12" style="width: 100%;">
                     <div class="box">
-                        <div class="box-header">
-                            <h3 class="box-title" style="font-weight: normal;">Latest Models</h3>
+                        <div class="box-header" style="z-index: 5;">
+                            <h3 class="box-title" style="font-weight: normal; float: left; width: 100%;"><b>Gundam Crawl
+                                Schedule</b> <span style="font-style: italic; font-size: 15px; color: green;"
+                                                   id="modelScheduleStatus">(Is Running)</span></h3>
+                            <a id="startCrawlBtn" class="startBtn" style="margin-top: 20px; width: 100px;" href="#">START</a>
+                            <a id="stopCrawlBtn" class="stopBtn" style="margin-top: 20px; width: 100px;"
+                               href="#">STOP</a>
                         </div>
-                        <form action="#" method="get" class="sidebar-form">
-                            <div class="input-group">
-                                <input id="txtSearch" type="text" name="q" class="form-control"
-                                       placeholder="Search..."> <span class="input-group-btn">
-										<button type="submit" name="search" id="search-btn"
-                                                class="btn btn-flat">
-											<i class="fa fa-search"></i>
-										</button>
-									</span>
-                            </div>
-                        </form>
-
-                        <div class="io-list-header" style="margin-top: 25px; margin-left: 12px;">
-
-                            <div class="col-left">
-                                <span class="txt">Order by</span>&nbsp;
-                                <div class="styled-select slate">
-                                    <select id="cbo-order-1" class="editable-select">
-                                        <option value="Crawled Date">Crawled Date</option>
-                                    </select>&nbsp;
+                        <div id="crawlRecordsDiv" style="width: 100%; position: absolute; top: 0px; z-index: 0"
+                             class="box-header">
+                            <div class="one-third"></div>
+                            <div id="countdown">
+                                <div class="cd-box">
+                                    <p id="modelSDay" class="numbers days">00</p><br>
+                                    <p class="strings timeRefHours">Days</p>
                                 </div>
-
-                                <!--    Begin ASC/DESC    -->
-                                <div class="styled-select slate">
-                                    <select id="cbo-orderBy" class="editable-select">
-                                        <option value="Descending">Descending</option>s
-                                        <option value="Ascending">Ascending</option>
-                                    </select>&nbsp;
+                                <div class="cd-box">
+                                    <p id="modelSHour" class="numbers hours">00</p><br>
+                                    <p class="strings timeRefHours">Hours</p>
+                                </div>
+                                <div class="cd-box">
+                                    <p id="modelSMinute" class="numbers minutes">00</p><br>
+                                    <p class="strings timeRefMinutes">Minutes</p>
+                                </div>
+                                <div class="cd-box">
+                                    <p id="modelSSecond" class="numbers seconds">00</p><br>
+                                    <p class="strings timeRefSeconds">Seconds</p>
                                 </div>
                             </div>
-                            <div class="col-right">
-                                <div id="pagination-content" class="my-pagination" style="margin-right: 17px;">
+                            <div class="one-third"></div>
+                        </div>
+
+                    </div>
+
+                    <div class="box" style="margin-top: 120px;">
+                        <div class="box-header" style="z-index: 5;">
+                            <h3 class="box-title" style="font-weight: normal; float: left; width: 100%;"><b>Trade Market
+                                Schedule</b> <span style="font-style: italic; font-size: 15px; color: green;"
+                                                   id="tradeScheduleStatus">(Is Running)</span></h3>
+                            <a id="startUpdateTradePostBtn" class="startBtn" style="margin-top: 20px; width: 100px;"
+                               href="#">START</a>
+                            <a id="stopUpdateTradePostBtn" class="stopBtn" style="margin-top: 20px; width: 100px;"
+                               href="#">STOP</a>
+                        </div>
+                        <div id="crawlRecordsDiv" style="width: 100%; position: absolute; top: 0px; z-index: 0"
+                             class="box-header">
+                            <div class="one-third"></div>
+                            <div id="countdown">
+                                <div class="cd-box">
+                                    <p id="tradeSDay" class="numbers hours">00</p><br>
+                                    <p class="strings timeRefHours" style="background-color: darkmagenta;">Days</p>
+                                </div>
+                                <div class="cd-box">
+                                    <p id="tradeSHour" class="numbers hours">00</p><br>
+                                    <p class="strings timeRefHours" style="background-color: darkmagenta;">Hours</p>
+                                </div>
+                                <div class="cd-box">
+                                    <p id="tradeSMinute" class="numbers minutes">00</p><br>
+                                    <p class="strings timeRefMinutes" style="background-color: darkmagenta;">Minutes</p>
+                                </div>
+                                <div class="cd-box">
+                                    <p id="tradeSSecond" class="numbers seconds">00</p><br>
+                                    <p class="strings timeRefSeconds" style="background-color: darkmagenta;">Seconds</p>
                                 </div>
                             </div>
+                            <div class="one-third"></div>
                         </div>
-                        <!--    End ASC/DESC    -->
 
-                        <!-- /.box-header -->
-                        <div class="box-body" style="margin-top: 65px;">
-                            <table id="pendingTable" class="table table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th>Code</th>
-                                    <th>Name</th>
-                                    <th>Product Series</th>
-                                    <th>Series Title</th>
-                                    <th>Manufacturer</th>
-                                    <th>DateTime</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody id="pendingBody">
-                                <!--<tr>-->
-                                    <!--<td class="modelCode">2428532</td>-->
-                                    <!--<td class="modelName"><a href="#">00 QAN[T] Full Saber</a></td>-->
-                                    <!--<td class="productSeries">1/100</td>-->
-                                    <!--<td class="seriesTitle">Master Grade</td>-->
-                                    <!--<td class="modelManu">Bandai</td>-->
-                                    <!--<td class="crawlDate">2018-10-25 00:36:33</td>-->
-                                    <!--<td class="modelStatus">crawlpending</td>-->
-                                    <!--<td>-->
-                                        <!--<a class="approveBtn" href="#">Approve</a>-->
-                                        <!--<a class="moreInfoBtn" href="#">More</a>-->
-                                    <!--</td>-->
-                                <!--</tr>-->
-                                </tbody>
-                            </table>
-                            <h3 id="no-record" style="display: none;">No record match !!</h3>
+                    </div>
+
+                    <div class="box" style="margin-top: 120px;">
+                        <div class="box-header" style="z-index: 5;">
+                            <h3 class="box-title" style="font-weight: normal; float: left; width: 100%;"><b>Event Update
+                                Schedule</b> <span style="font-style: italic; font-size: 15px; color: green;"
+                                                   id="eventScheduleStatus">(Is Running)</span></h3>
+                            <a id="startUpdateEventBtn" class="startBtn" style="margin-top: 20px; width: 100px;"
+                               href="#">START</a>
+                            <a id="stopUpdateEventBtn" class="stopBtn" style="margin-top: 20px; width: 100px;"
+                               href="#">STOP</a>
                         </div>
-                        <!-- /.box-body -->
+                        <div id="crawlRecordsDiv" style="width: 100%; position: absolute; top: 0px; z-index: 0"
+                             class="box-header">
+                            <div class="one-third"></div>
+                            <div id="countdown">
+                                <div class="cd-box">
+                                    <p id="eventSDay" class="numbers hours">00</p><br>
+                                    <p class="strings timeRefHours" style="background-color: darkblue;">Days</p>
+                                </div>
+                                <div class="cd-box">
+                                    <p id="eventSHour" class="numbers hours">00</p><br>
+                                    <p class="strings timeRefHours" style="background-color: darkblue;">Hours</p>
+                                </div>
+                                <div class="cd-box">
+                                    <p id="eventSMinute" class="numbers minutes">00</p><br>
+                                    <p class="strings timeRefMinutes" style="background-color: darkblue;">Minutes</p>
+                                </div>
+                                <div class="cd-box">
+                                    <p id="eventSSecond" class="numbers seconds">00</p><br>
+                                    <p class="strings timeRefSeconds" style="background-color: darkblue;">Seconds</p>
+                                </div>
+                            </div>
+                            <div class="one-third"></div>
+                        </div>
+
                     </div>
                     <!-- /.box -->
                 </div>
                 <!-- /.col -->
             </div>
             <!-- /.row -->
+        </section>
+        <section class="content"  style="margin-top: 80px">
+            <div class="row">
+                <div class="col-xs-12" style="width: 100%;">
+                    <div class="box">
+                        <div class="box-header" style="z-index: 20000;">
+                            <h3 class="box-title" style="font-weight: normal; float: left; width: 100%;"><b>Schedule Log</b></h3>
+                        </div>
+                        <div class="box-body">
+                            <table id="bookTable" class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th style="width: 60px;">ID</th>
+                                    <th>Description</th>
+                                    <th>Cycle</th>
+                                    <th>Date</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbody-schedule-log">
+                                <!-- this is ajax load content-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- /.content -->
