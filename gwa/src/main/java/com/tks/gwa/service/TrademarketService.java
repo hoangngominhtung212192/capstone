@@ -46,6 +46,10 @@ public interface TrademarketService {
 
     List<Object> getMyOrderData(int accountId, String status, int pageNumber, int sortType);
 
+    List<Object> searchPendingTradepost(int pageNumber, String type, String txtSearch, String orderBy);
+    Tradepost approveTradepost(int tradepostId);
+    Tradepost declineTradepost(int tradepostId, String reason);
+
 
 
 

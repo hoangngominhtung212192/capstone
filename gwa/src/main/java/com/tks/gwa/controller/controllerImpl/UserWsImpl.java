@@ -253,4 +253,14 @@ public class UserWsImpl implements UserWS {
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<String> updateAccountRole(int accountID, String roleName) {
+
+        System.out.println("[UserWS] Begin uupdateAccountRole with accountID: " + accountID + " and Role: " + roleName);
+
+        userService.updateAccountRole(accountID, roleName);
+
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
 }

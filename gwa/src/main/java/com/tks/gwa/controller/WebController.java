@@ -104,4 +104,7 @@ public interface WebController {
     @RequestMapping(value = "/admin/event/create")
     public ModelAndView createEventAdminPage();
 
+    @RequestMapping(value = "/admin/tradepost/pending")
+    public ModelAndView pendingTradepostPage();
+
 }

@@ -3,6 +3,7 @@ var currentTabSelected = "approved";
 var currentSortSelected = 1;
 var currentPage = 1;
 var totalPage = 1;
+var currentAddress;
 var $pagination = $("#pagination-my-order");
 var defaultPaginationOpts = {
     totalPages: totalPage,
@@ -50,6 +51,7 @@ $(document).ready(function () {
     $("#myOrderContainerDiv").hide();
     $(".notice-section").hide();
     authentication();
+    autoGetYourLocation();
     <!-- Tooltip -->
 });
 
@@ -227,12 +229,12 @@ function renderData(data) {
                     'title="Update request" data-orderid="' + rowData["orderId"] + '" data-quantity="' + rowData["orderQuantity"] + '"><i class="fa fa-cart-plus"></i></a>');
                 var cancelBtn = $('<a class="delete-item" href="#cancelModal" data-title="tooltip" data-placement="top" data-toggle="modal"  ' +
                     'title="Cancel this order" data-orderid="' + rowData["orderId"] + '"><i class="fa fa-share-square"></i></a>');
-                metaAction.append(updateBtn);
+                // metaAction.append(updateBtn);
                 metaAction.append(cancelBtn);
             }
             if (status === "approved") {
                 var directionBtn = $('<a href="#directionModal" data-title="tooltip" data-placement="top" data-toggle="modal"  ' +
-                    'title="' + rowData["ownerAddress"] + '"><i class="fa fa-map-marker"></i></a>');
+                    'title="' + rowData["ownerAddress"] + '" data-address="' + rowData["ownerAddress"] + '"><i class="fa fa-map-marker"></i></a>');
                 var cancelBtn = $('<a class="delete-item" href="#cancelModal" data-title="tooltip" data-placement="top" data-toggle="modal"  ' +
                     'title="Cancel this order" data-orderid="' + rowData["orderId"] + '"><i class="fa fa-share-square"></i></a>');
                 metaAction.append(viewContactBtn);
@@ -313,7 +315,7 @@ $('#cancelModal').on('show.bs.modal', function (event) {
     var id = button.data('orderid');
     var modal = $(this);
     modal.find('input,textarea').val('');
-    modal.find('label .error').remove();
+    modal.find('span .error').remove();
     $("#cancelForm").validate({
         rules: {
             cancelReasonText: {
@@ -332,6 +334,19 @@ $('#cancelModal').on('show.bs.modal', function (event) {
             cancelOrder(id, reason);
         }
     })
+});
+
+$('#contactModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var fullname = button.data('fullname');
+    var phone = button.data('phone');
+    var email = button.data('email');
+    var infoContainer = $('<p></p>');
+    infoContainer.append($('<strong>Owner Fullname: </strong><strong style="color: blue">' + fullname + '</strong><br/>'));
+    infoContainer.append($('<strong>Phone: </strong><strong style="color: blue">' + phone + '</strong><br/>'));
+    infoContainer.append($('<strong>Email: </strong><strong style="color: blue">' + email + '</strong>'));
+    var modal = $(this);
+    modal.find('.modal-body').html(infoContainer);
 });
 
 $('#reasonModal').on('show.bs.modal', function (event) {
@@ -374,6 +389,62 @@ $('#ratingModal').on('show.bs.modal', function (event) {
             ratingTrader(orderId, 2, rating, comment);
         }
     })
+
+
+});
+function autoGetYourLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        $.growl.notice({title: "Location Error", message: "Geolocation is not supported by this browser."});
+    }
+}
+
+function showPosition(position) {
+    var lat = position.coords.latitude;
+    var lng = position.coords.longitude;
+    var google_map_pos = new google.maps.LatLng(lat, lng);
+
+    /* Use Geocoder to get address */
+    var google_maps_geocoder = new google.maps.Geocoder();
+    google_maps_geocoder.geocode(
+        {'latLng': google_map_pos},
+        function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK && results[0]) {
+                currentAddress = results[0].formatted_address;
+                // console.log(results[0].formatted_address);
+
+            }
+        }
+    );
+}
+function initialize_direction(start, end) {
+    var directionDisplay;
+    var directionsService = new google.maps.DirectionsService();
+    var direction_map;
+
+    directionDisplay = new google.maps.DirectionsRenderer();
+    var myOptions = {
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+    }
+    direction_map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+    directionDisplay.setMap(direction_map);
+
+    var request = {
+        origin:start,
+        destination:end,
+        travelMode: google.maps.DirectionsTravelMode.DRIVING
+    };
+    directionsService.route(request, function(response, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+            directionDisplay.setDirections(response);
+        }
+    });
+}
+$('#directionModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var toAddress = button.data("address");
+    initialize_direction(currentAddress, toAddress);
 
 
 });

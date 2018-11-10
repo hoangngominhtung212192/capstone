@@ -56,4 +56,8 @@ public interface UserWS {
 
     @RequestMapping(value = "/unban", method = RequestMethod.POST)
     ResponseEntity<String> unbanAccount(@RequestParam("accountID") int accountID);
+
+    @RequestMapping(value = "/update-role", method = RequestMethod.POST)
+    ResponseEntity<String> updateAccountRole(@RequestParam("accountID") int accountID,
+                                             @RequestParam("roleName") String roleName);
 }

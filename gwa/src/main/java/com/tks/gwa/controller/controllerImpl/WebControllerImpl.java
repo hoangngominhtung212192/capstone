@@ -187,4 +187,9 @@ public class WebControllerImpl implements WebController {
     public ModelAndView createEventAdminPage() {
         return new ModelAndView("admin-event-create");
     }
+
+    @Override
+    public ModelAndView pendingTradepostPage() {
+        return new ModelAndView("manipulate-tradepost");
+    }
 }
