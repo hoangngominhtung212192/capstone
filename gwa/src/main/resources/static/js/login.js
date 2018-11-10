@@ -30,7 +30,7 @@ $(document).ready(function () {
                     var role = jsonResponse["role"].name;
 
                     if (role == "MEMBER") {
-                        window.location.href = "/gwa/";
+                        window.location.href = "/gwa/model";
                     } else if (role == "ADMIN") {
                         window.location.href = "/gwa/admin/model/pending";
                     }
@@ -90,7 +90,7 @@ $(document).ready(function () {
                     window.location.reload(history.back(goBack));
                 } else {
                     if (result.role.name == "MEMBER") {
-                        window.location.href = "/gwa/"
+                        window.location.href = "/gwa/model"
                     } else {
                         if (result.role.name == "ADMIN") {
                             window.location.href = "/gwa/admin/model/pending";
