@@ -359,7 +359,7 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public List<Object> getAllPendingModel(int pageNumber, String type) {
+    public List<Object> searchPendingModel(int pageNumber, String type, String txtSearch, String orderBy) {
 
         List<Object> result = new ArrayList<>();
 
@@ -368,7 +368,7 @@ public class ModelServiceImpl implements ModelService {
         int countTotal = 0;
         int lastPage = 0;
 
-        int[] resultList = getCountResultAndLastPagePending(AppConstant.PAGE_SIZE);
+        int[] resultList = getCountResultAndLastPagePending(AppConstant.PAGE_SIZE, txtSearch);
         countTotal = (int) resultList[0];
         lastPage = (int) resultList[1];
 
@@ -395,7 +395,7 @@ public class ModelServiceImpl implements ModelService {
         Pagination pagination = new Pagination(countTotal, currentPage, lastPage, beginPage);
         result.add(pagination);
 
-        List<Model> modelList = modelRepository.getAllPending(currentPage, AppConstant.PAGE_SIZE);
+        List<Model> modelList = modelRepository.searchPending(currentPage, AppConstant.PAGE_SIZE, txtSearch, orderBy);
 
         if (modelList == null) {
             modelList = new ArrayList<Model>();
@@ -583,8 +583,6 @@ public class ModelServiceImpl implements ModelService {
 
         // if not exist
         if (!checkExistMd5) {
-            // set md5 hash value
-            model.setMd5Hash(hashMD5);
 
             // check exist manu or create new
             String manufacturer_name = model.getManufacturer().getName();
@@ -841,6 +839,35 @@ public class ModelServiceImpl implements ModelService {
         return articleList;
     }
 
+    @Override
+    public void deleteModelByModelID(int modelID) {
+
+        Model model = modelRepository.read(modelID);
+
+        if (model != null) {
+            List<Modelimage> modelimageList = modelimageRepository.findImagesByModelID(model.getId());
+
+            if (modelimageList != null) {
+                // delete in folder /uploads on server and in database
+                deleteImage(modelimageList);
+            }
+
+            modelRepository.delete(model);
+        }
+    }
+
+    @Override
+    public void updateStatusErrorModel(int modelID) {
+
+        Model model = modelRepository.read(modelID);
+
+        if (model != null) {
+            model.setStatus("Unavailable");
+
+            modelRepository.update(model);
+        }
+    }
+
     public String getThumbImage(List<Modelimage> modelimageList, String imagetype) {
 
         for (int i = 0; i < modelimageList.size(); i++) {
@@ -852,10 +879,10 @@ public class ModelServiceImpl implements ModelService {
         return null;
     }
 
-    public int[] getCountResultAndLastPagePending(int pageSize) {
+    public int[] getCountResultAndLastPagePending(int pageSize, String txtSearch) {
 
         int[] listResult = new int[2];
-        int countResult = modelRepository.getCountAllPending();
+        int countResult = modelRepository.getCountSearchPending(txtSearch);
         listResult[0] = countResult;
 
         int lastPage = 1;

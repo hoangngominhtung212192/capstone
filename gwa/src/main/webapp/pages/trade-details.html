@@ -12,14 +12,14 @@
     <title>Gunpla World</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="/img/favicon.ico">
+    <link rel="icon" href="/gwa/img/favicon.ico">
 
     <!-- Core Stylesheet -->
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/gwa/css/style.css">
     <!-- Trademarket Stylesheet -->
-    <link rel="stylesheet" href="/css/trademarket.css">
+    <link rel="stylesheet" href="/gwa/css/trademarket.css">
     <!-- UploadFile Plugin Stylesheet -->
-    <link rel="stylesheet" href="/css/jquery.growl.css">
+    <link rel="stylesheet" href="/gwa/css/jquery.growl.css">
 
 
 </head>
@@ -69,7 +69,7 @@
 
                     <!-- Logo -->
                     <div class="logo">
-                        <a href="index.html"><img src="/img/logo.png" alt=""></a>
+                        <a href="index.html"><img src="/gwa/img/logo.png" alt=""></a>
                     </div>
 
                     <!-- Navbar Toggler -->
@@ -118,7 +118,7 @@
                                 </li>
                                 <li><a href="#">Articles</a></li>
                                 <li><a href="#">Events</a></li>
-                                <li class="active"><a href="/trade-market">Trade market</a></li>
+                                <li class="active"><a href="/gwa/trade-market">Trade market</a></li>
                                 <li><a href="contact.html">Contact</a></li>
                             </ul>
                         </div>
@@ -419,7 +419,7 @@
                         <ul>
                             <li><i class="fa fa-shopping-cart"></i><a href="#">Delivery: Meet in person</a></li>
                             <li><i class="fa fa-address-book"></i><a href="#">Contact: Send order to see</a></li>
-                            <li><i class="fa fa-exclamation-triangle"></i>
+                            <li id="reportBtn"><i class="fa fa-exclamation-triangle"></i>
                                 <a href="#reportModal" data-toggle="modal">Report this trade</a>
                             </li>
                         </ul><!-- social-icon -->
@@ -744,17 +744,17 @@
                     <div class="row form-group">
                         <label class="col-sm-3 label-title">Rating<span
                                 class="required">*</span></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-9 input-group">
                             <fieldset class="rating">
-                                <input type="radio" id="star5" name="rating" value="5"/><label class="full" for="star5"
+                                <input type="radio" id="star5" name="ratingStar" value="5" required><label class="full" for="star5"
                                                                                                title="Awesome"></label>
-                                <input type="radio" id="star4" name="rating" value="4"/><label class="full" for="star4"
+                                <input type="radio" id="star4" name="ratingStar" value="4" required><label class="full" for="star4"
                                                                                                title="Pretty good"></label>
-                                <input type="radio" id="star3" name="rating" value="3"/><label class="full" for="star3"
+                                <input type="radio" id="star3" name="ratingStar" value="3" required><label class="full" for="star3"
                                                                                                title="Average"></label>
-                                <input type="radio" id="star2" name="rating" value="2"/><label class="full" for="star2"
+                                <input type="radio" id="star2" name="ratingStar" value="2" required><label class="full" for="star2"
                                                                                                title="Not Good"></label>
-                                <input type="radio" id="star1" name="rating" value="1"/><label class="full" for="star1"
+                                <input type="radio" id="star1" name="ratingStar" value="1" required><label class="full" for="star1"
                                                                                                title="Terrible"></label>
                             </fieldset>
                         </div>
@@ -794,7 +794,7 @@
                         <label class="col-sm-3 label-title">Mobile Phone<span
                                 class="required">*</span></label>
                         <div class="col-sm-9">
-                            <input type="text" id="reporterMobile" class="form-control"
+                            <input type="text" id="reporterPhone" name="reporterPhone" class="form-control"
                                    value="">
                         </div>
                     </div>
@@ -802,7 +802,7 @@
                         <label class="col-sm-3 label-title">Email<span
                                 class="required">*</span></label>
                         <div class="col-sm-9">
-                            <input type="text" id="reporterEmail" class="form-control"
+                            <input type="email" id="reporterEmail" name="reporterEmail" class="form-control"
                                    value="">
                         </div>
                     </div>
@@ -896,23 +896,23 @@
 
 <!-- ##### All Javascript Files ##### -->
 <!-- jQuery-2.2.4 js -->
-<script src="/js/jquery/jquery-2.2.4.min.js"></script>
+<script src="/gwa/js/jquery/jquery-2.2.4.min.js"></script>
 <!-- Popper js -->
-<script src="/js/bootstrap/popper.min.js"></script>
+<script src="/gwa/js/bootstrap/popper.min.js"></script>
 <!-- Bootstrap js -->
-<script src="/js/bootstrap/bootstrap.min.js"></script>
+<script src="/gwa/js/bootstrap/bootstrap.min.js"></script>
 <!-- All Plugins js -->
-<script src="/js/plugins/plugins.js"></script>
+<script src="/gwa/js/plugins/plugins.js"></script>
 <!-- Active js -->
-<script src="/js/active.js"></script>
-<script src="/js/plugins/jquery.growl.js"></script>
-<script src="/js/plugins/jquery.twbsPagination.js"></script>
+<script src="/gwa/js/active.js"></script>
+<script src="/gwa/js/plugins/jquery.growl.js"></script>
+<script src="/gwa/js/plugins/jquery.twbsPagination.js"></script>
 <!-- jQuery validation js -->
-<script src="/js/plugins/jquery.validate.min.js"></script>
+<script src="/gwa/js/plugins/jquery.validate.min.js"></script>
 <!-------------------->
-<script src="/js/view-trade.js"></script>
-<script src="/js/address-selector.js"></script>
-<script src="/js/waiting-dialog.js"></script>
+<script src="/gwa/js/view-trade.js"></script>
+<script src="/gwa/js/address-selector.js"></script>
+<script src="/gwa/js/waiting-dialog.js"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASrDg7CwB0GQ_XGzWfbkP4RUE_31YCy1M"
         type="text/javascript"></script>
 </body>

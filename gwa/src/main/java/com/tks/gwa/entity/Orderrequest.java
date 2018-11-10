@@ -33,6 +33,17 @@ public class Orderrequest implements Serializable {
     @Column(name = "status")
     private String status;
 
+    @Transient
+    private boolean isRated;
+
+    public boolean isRated() {
+        return isRated;
+    }
+
+    public void setRated(boolean rated) {
+        isRated = rated;
+    }
+
     //bi-directional many-to-one association to Account
     @ManyToOne
     @JoinColumn(name="traderid")

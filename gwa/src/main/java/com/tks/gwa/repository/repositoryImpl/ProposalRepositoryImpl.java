@@ -43,4 +43,14 @@ public class ProposalRepositoryImpl extends GenericRepositoryImpl<Proposal, Inte
     public Proposal getProposalById(int id) {
         return this.read(id);
     }
+    @Override
+    public int getCountByAccountID(int accountID) {
+
+        String sql = "SELECT count(p.id) FROM " + Proposal.class.getName() + " AS p WHERE p.account.id =:accountID";
+
+        Query query = this.entityManager.createQuery(sql);
+        query.setParameter("accountID", accountID);
+
+        return (int) (long) query.getSingleResult();
+    }
 }

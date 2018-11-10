@@ -2,6 +2,7 @@ package com.tks.gwa.listener;
 
 import com.tks.gwa.crawler.ModelCrawl;
 import com.tks.gwa.service.ModelService;
+import com.tks.gwa.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;

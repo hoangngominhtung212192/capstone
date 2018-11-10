@@ -61,13 +61,13 @@ public interface ModelRepository extends GenericRepository<Model, Integer> {
      *
      * @return
      */
-    List<Model> getAllPending(int pageNumber, int pageSize);
+    List<Model> searchPending(int pageNumber, int pageSize, String txtSearch, String orderBy);
 
     /**
      *
      * @return
      */
-    int getCountAllPending();
+    int getCountSearchPending(String txtSearch);
 
     /**
      *

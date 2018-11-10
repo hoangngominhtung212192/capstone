@@ -71,7 +71,7 @@
 
                     <!-- Logo -->
                     <div class="logo">
-                        <a href="index.html"><img src="/img/logo.png" alt=""></a>
+                        <a href="index.html"><img src="/gwa/img/logo.png" alt=""></a>
                     </div>
 
                     <!-- Navbar Toggler -->
@@ -120,7 +120,7 @@
                                 </li>
                                 <li><a href="#">Articles</a></li>
                                 <li><a href="#">Events</a></li>
-                                <li class="active"><a href="/trade-market">Trade market</a></li>
+                                <li class="active"><a href="/gwa/trade-market">Trade market</a></li>
                                 <li><a href="contact.html">Contact</a></li>
                             </ul>
                         </div>
@@ -145,7 +145,7 @@
 
             <div class="row">
                 <div class="col-md-8">
-                    <form action="/api/tradepost/add-trade-post" method="post" id="tradepostForm" enctype='application/json'>
+                    <form action="/gwa/api/tradepost/add-trade-post" method="post" id="tradepostForm">
                         <fieldset>
                             <input type="hidden" name="tradeId" id="tradeId">
                             <!--Trade Post Section -->
@@ -190,20 +190,24 @@
                                         <h5><i class="fa fa-upload" aria-hidden="true"></i>Select Files to Upload<span>You can add multiple images.</span>
                                         </h5>
 
-                                        <div class="" id="multiple">
-                                            <button type="button" class="btn btn-success fileup-btn">
-                                                Select images
+                                        <div id="multiple">
+                                            <div class="btn btn-success fileup-btn">
+                                                Select files
                                                 <input type="file" id="upload-2" multiple accept="image/*">
+                                            </div>
+
+                                            <!--<button onclick="$.fileup('upload-2', 'upload', '*')"-->
+                                                    <!--class="btn btn-link" type="button" style="display: none">-->
+                                                <!--Upload all-->
+                                            <!--</button>-->
+                                            <button onclick="$.fileup('upload-2', 'remove', '*')"
+                                                    class="btn btn-link" type="button" style="display: none">
+                                                Remove all
                                             </button>
 
-                                            <a class="control-button btn btn-link uploadall" style="display: none"
-                                               href="javascript:$.fileup('upload-2', 'upload', '*')">Upload all</a>
-                                            <a class="control-button btn btn-link removeall" style="display: none"
-                                               href="javascript:$.fileup('upload-2', 'remove', '*')">Remove all</a>
-
-                                            <div id="upload-2-queue" class="queue"></div>
+                                            <div id="upload-2-queue"></div>
                                         </div>
-                                        <input type="hidden" id="imageUploadedList" name="imageUploadedList"/>
+                                        <input type="hidden" id="imageUploadedList"/>
 
                                     </div>
                                 </div>

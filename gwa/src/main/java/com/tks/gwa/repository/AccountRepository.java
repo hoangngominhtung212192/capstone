@@ -14,7 +14,7 @@ public interface AccountRepository extends GenericRepository<Account, Integer> {
 
     public Account findUserByUsername(String username);
 
-    public List<Account> getAllAccount(int pageNumber, int pageSize);
+    public List<Account> searchAccount(int pageNumber, int pageSize, String txtValue, String orderBy);
 
-    int getCountAllAccount();
+    public int getCountSearchAccount(String txtValue);
 }

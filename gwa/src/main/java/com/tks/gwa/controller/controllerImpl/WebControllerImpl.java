@@ -201,5 +201,7 @@ public class WebControllerImpl implements WebController {
         return new ModelAndView("proposal-detail");
     }
 
-
+    public ModelAndView manageSchedule() {
+        return new ModelAndView("admin-manage-schedule");
+    }
 }

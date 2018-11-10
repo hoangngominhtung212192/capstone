@@ -592,7 +592,6 @@
     font-size: 11px;
     height: 20px;
     padding-top: 1px;
-    margin-left: 20px;
     background-color: red;
     border-radius: 2px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
@@ -921,7 +920,7 @@
     top: -18px;
     opacity: 1;
     cursor: pointer;
-    background-position: 12px -371px;
+    background-position: 12px -429px;
 }
 
 .btn {
@@ -938,7 +937,7 @@
 
 .io-panel-body {
     padding: 0px;
-    display: block;
+    display: none;
     font-size: 13px;
     line-height: 1.5em;
     font-family: Arial, Verdana, Helvetica, sans-serif;
@@ -1326,17 +1325,16 @@ td, th {
 
 .navbar-nav .notification-menu-custom ul.menu a  {
     color: #4682B4;
-    overflow: hidden;
-    text-overflow: ellipsis;
     padding: 10px;
     display: block;
-    white-space: nowrap;
     border-bottom: 1px solid #f4f4f4;
     text-decoration: none;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .navbar-nav .notification-menu-custom ul.menu li  {
-    background-color: whitesmoke;
+    background-color: lightgoldenrodyellow;
     margin-top: 3px;
 }
 
@@ -1555,13 +1553,13 @@ li.user-header {
 #dropdown-profile, #dropdown-notification {
     display: none;
 }
-/*  End profile & notification area    */
 
 .hidden-xs {
     font-weight: bold;
     font-family: Verdana,sans-serif;
     font-size: 14px;
 }
+/*  End profile & notification area    */
 
 table#reviewList tr td img {
     width: 50px;

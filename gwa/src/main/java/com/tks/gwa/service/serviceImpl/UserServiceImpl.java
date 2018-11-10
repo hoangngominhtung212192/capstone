@@ -5,9 +5,8 @@ import com.tks.gwa.dto.Pagination;
 import com.tks.gwa.entity.Account;
 import com.tks.gwa.entity.Profile;
 import com.tks.gwa.entity.Role;
-import com.tks.gwa.repository.AccountRepository;
-import com.tks.gwa.repository.ProfileRepository;
-import com.tks.gwa.repository.TradepostRepository;
+import com.tks.gwa.entity.Traderating;
+import com.tks.gwa.repository.*;
 import com.tks.gwa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +29,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private TradepostRepository tradepostRepository;
+
+    @Autowired
+    private ProposalRepository proposalRepository;
+
+    @Autowired
+    private TraderatingRepository traderatingRepository;
 
     @Override
     public Account checkLogin(Account account) {
@@ -136,7 +141,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Object> getAllAccount(int pageNumber, String type) {
+    public List<Object> searchAccount(int pageNumber, String type, String txtSearch, String orderBy) {
         List<Object> result = new ArrayList<>();
 
         int beginPage = 0;
@@ -144,7 +149,7 @@ public class UserServiceImpl implements UserService {
         int countTotal = 0;
         int lastPage = 0;
 
-        int[] resultList = getCountResultAndLastpageAccount(AppConstant.PAGE_SIZE);
+        int[] resultList = getCountResultAndLastpageAccount(AppConstant.PAGE_SIZE, txtSearch);
         countTotal = (int) resultList[0];
         lastPage = (int) resultList[1];
 
@@ -171,7 +176,7 @@ public class UserServiceImpl implements UserService {
         Pagination pagination = new Pagination(countTotal, currentPage, lastPage, beginPage);
         result.add(pagination);
 
-        List<Account> accountList = accountRepository.getAllAccount(currentPage, AppConstant.PAGE_SIZE);
+        List<Account> accountList = accountRepository.searchAccount(currentPage, AppConstant.PAGE_SIZE, txtSearch, orderBy);
 
         if (accountList != null) {
             for (int i = 0; i < accountList.size(); i++) {
@@ -242,8 +247,65 @@ public class UserServiceImpl implements UserService {
         objectList.add(tradepostRepository.getCountTradepostByAccountIDAndTradetype(accountID, 2));
 
         // get count proposal
+        objectList.add(proposalRepository.getCountByAccountID(accountID));
 
         return objectList;
+    }
+
+    @Override
+    public List<Object> getAllUserRatingByAccountID(int pageNumber, int accountID) {
+
+        List<Object> result = new ArrayList<>();
+
+        int total = traderatingRepository.getCountByToUserID(accountID);
+
+        if (total > 0) {
+            int lastPage = 0;
+
+            if (total % 10 == 0) {
+                lastPage = total / 10;
+            } else {
+                lastPage = ((total / 10) + 1);
+            }
+
+            result.add(lastPage);
+
+            List<Traderating> traderatingList = traderatingRepository.getListTradeRatingByToUserID(pageNumber, accountID);
+            if (traderatingList != null) {
+                for (int i = 0; i < traderatingList.size(); i++) {
+                    Profile profile = profileRepository.findProfileByAccountID(traderatingList.get(i).getFromUser().getId());
+                    traderatingList.get(i).getFromUser().setAvatar(profile.getAvatar());
+                }
+
+                result.add(traderatingList);
+
+                return result;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public void banAccount(int accountID) {
+        Account account = accountRepository.read(accountID);
+
+        if (account != null) {
+            account.setStatus("Banned");
+
+            accountRepository.update(account);
+        }
+    }
+
+    @Override
+    public void unbanAccount(int accountID) {
+        Account account = accountRepository.read(accountID);
+
+        if (account != null) {
+            account.setStatus("Active");
+
+            accountRepository.update(account);
+        }
     }
 
     public String getCurrentTimeStamp() {
@@ -253,10 +315,10 @@ public class UserServiceImpl implements UserService {
         return strDate;
     }
 
-    public int[] getCountResultAndLastpageAccount(int pageSize) {
+    public int[] getCountResultAndLastpageAccount(int pageSize, String txtSearch) {
 
         int[] listResult = new int[2];
-        int countResult = accountRepository.getCountAllAccount();
+        int countResult = accountRepository.getCountSearchAccount(txtSearch);
         listResult[0] = countResult;
 
         int lastPage = 1;

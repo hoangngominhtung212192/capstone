@@ -29,6 +29,7 @@ public class FileUploadServiceIpml implements FileUploadService {
             if (Files.exists(this.fileStorageLocation)){
                 return;
             }
+
             Files.createDirectory(this.fileStorageLocation);
         }catch (Exception ex){
             throw new FileStorageException("Could not create the directory where the uploaded files will be stored.", ex);
@@ -59,6 +60,7 @@ public class FileUploadServiceIpml implements FileUploadService {
 
     @Override
     public Resource loadFileAsResource(String fileName) {
+        System.out.println("aaaaaaaaaa" + fileStorageLocation.toUri());
         try {
             Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
             Resource resource = new UrlResource(filePath.toUri());

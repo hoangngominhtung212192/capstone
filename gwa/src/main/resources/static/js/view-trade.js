@@ -1,6 +1,7 @@
 var postAccount;
 var loginAccount;
 var postId;
+var isTrading = false;
 var currentTabSelected = "pending";
 var currentSortSelected = 1;
 var currentPage = 1;
@@ -56,6 +57,7 @@ $(document).ready(function () {
         loadTradePostData();
         if (!notFound) {
             authentication();
+            if (!isTrading) $("#reportBtn").html("");
         }
     } else {
         notFound = true;
@@ -91,7 +93,7 @@ $("#sortTypeSelect").change(function () {
 function authentication() {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/user/checkLogin",
+        url: "http://localhost:8080/gwa/api/user/checkLogin",
         // async: false,
         complete: function (xhr, status) {
             if (status == "success") {
@@ -103,30 +105,54 @@ function authentication() {
 
                 if (role == "MEMBER" || role == "BUYERSELLER") {
                     if (postAccount === currentAccount) {
-                        $("#sendOrderHelpBlock").html("You can't send order to your self because you owned this trade.");
                         $("#openSendOrderModalBtn").hide();
-                        $("#noticeSection").show();
-                        loadOrderData();
-                        $pagination.twbsPagination('destroy');
-                        if (totalPage > 1) {
-                            $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
-                                totalPages: totalPage
-                            }));
+                        if (isTrading){
+                            $("#sendOrderHelpBlock").html("You can't send order to your self because you owned this trade.");
+                            $("#noticeSection").show();
+                            loadOrderData();
+                            $pagination.twbsPagination('destroy');
+                            if (totalPage > 1) {
+                                $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+                                    totalPages: totalPage
+                                }));
+                            }
+                        }else {
+                            $("#sendOrderHelpBlock").html("This trade is waiting administrator approve or has been declined.");
                         }
                     } else {
-                        $("#noticeSection").hide();
+                        if (isTrading){
+                            $("#noticeSection").hide();
+                        }else {
+                            $("#noticeSection").html("<h4>Opps! 404 Page not found!</h4>");
+                            $("#noticeSection").show();
+                            $("#slideSection").hide();
+                            $("#descBox").hide();
+                        }
+
                     }
 
                 } else if (role == "ADMIN") {
-                    $("#sendOrderHelpBlock").html("You can't send order because are administrator.");
+                    if (isTrading){
+                        $("#sendOrderHelpBlock").html("You can't send order because are administrator.");
+                    }else {
+                        $("#sendOrderHelpBlock").html("This post is pending approve or has been declined.");
+                    }
                     $("#openSendOrderModalBtn").hide();
                     $("#noticeSection").hide();
                     // console.log("Admin is accessing !");
                 }
             } else {
-                $("#sendOrderHelpBlock").html("You need login to send order.");
-                $("#openSendOrderModalBtn").attr("disabled", "true");
-                $("#noticeSection").hide();
+                if (isTrading){
+                    $("#sendOrderHelpBlock").html("You need login to send order.");
+                    $("#openSendOrderModalBtn").attr("disabled", "true");
+                    $("#noticeSection").hide();
+                }else {
+                    $("#noticeSection").html("<h4>Opps! 404 Page not found!</h4>");
+                    $("#noticeSection").show();
+                    $("#slideSection").hide();
+                    $("#descBox").hide();
+                }
+
                 // console.log("Guest is accessing !");
             }
         }
@@ -137,7 +163,7 @@ function authentication() {
 function loadOrderData() {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/tradepost/get-order-by-trade-post",
+        url: "http://localhost:8080/gwa/api/tradepost/get-order-by-trade-post",
         data: {
             tradepostId: postId,
             status: currentTabSelected,
@@ -152,7 +178,7 @@ function loadOrderData() {
                 console.log(jsonResponse);
                 totalPage = jsonResponse[0];
                 var orderData = jsonResponse[2];
-                renderOrderData(orderData);
+                    renderOrderData(orderData);
             } else {
                 console.log("Trade post not found!");
             }
@@ -208,9 +234,18 @@ function renderOrderData(data) {
                 var tdSucceedDateHtml = $('<td>' + data[i]["stateSetDate"] + '</td>');
                 trHtml.append(tdSucceedDateHtml);
                 trHtml.append(tdQuantityHtml);
-                var tdActionHtml = $('<td style="text-align: right">' +
-                    '<button type="button" class="btn btn-info" data-toggle="modal" data-orderid="' + data[i]["id"] + '" data-target="#ratingModal">Rating</button> ' +
-                    '</td>');
+                var isRated = data[i]["rated"];
+                var tdActionHtml;
+                if (!isRated){
+                    tdActionHtml = $('<td style="text-align: right">' +
+                        '<button type="button" class="btn btn-info" data-toggle="modal" data-orderid="' + data[i]["id"] + '" data-target="#ratingModal">Rating</button> ' +
+                        '</td>');
+                }else {
+                    tdActionHtml = $('<td style="text-align: right">' +
+                        '<button type="button" class="btn btn-success">Rated</button> ' +
+                        '</td>');
+                }
+
                 trHtml.append(tdActionHtml);
             } else if (data[i]["status"] === "cancelled") {
                 var tdCancelledDateHtml = $('<td>' + data[i]["stateSetDate"] + '</td>');
@@ -235,7 +270,7 @@ function renderOrderData(data) {
 function loadTradePostData() {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/tradepost/view-trade-post",
+        url: "http://localhost:8080/gwa/api/tradepost/view-trade-post",
         data: {
             tradepostId: postId
         },
@@ -245,6 +280,8 @@ function loadTradePostData() {
                 var xhr_data = xhr.responseText;
                 var jsonResponse = JSON.parse(xhr_data);
                 postAccount = jsonResponse["tradepost"]["account"]["id"];
+                var postStatus = jsonResponse["tradepost"]["approvalStatus"];
+                if (postStatus=== "approved") isTrading = true;
                 console.log(jsonResponse);
                 renderData(jsonResponse);
             } else {
@@ -342,7 +379,7 @@ function checkValidRequest(Param) {
     return true;
 }
 
-function sendOrder(traderId, traderEmail, traderPhone, address, tradepostId, quantity){
+function sendOrder(traderId, traderEmail, traderPhone, address, tradepostId, quantity) {
     var data = {
         traderId: traderId,
         traderEmail: traderEmail,
@@ -354,7 +391,7 @@ function sendOrder(traderId, traderEmail, traderPhone, address, tradepostId, qua
     console.log(JSON.stringify(data));
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/api/tradepost/send-order",
+        url: "http://localhost:8080/gwa/api/tradepost/send-order",
         data: JSON.stringify(data),
         contentType: "application/json",
         async: false,
@@ -372,12 +409,14 @@ function sendOrder(traderId, traderEmail, traderPhone, address, tradepostId, qua
 function loadProfileData(accountID, type) {
     $.ajax({
         type: "POST",
-        url: "/api/user/profile?accountID=" + accountID,
+        url: "/gwa/api/user/profile?accountID=" + accountID,
         success: function (result) {
             // console.log(result);
             //get selected profile's account status
-            if (result["middleName"] === null) result["middleName"] = "";
-            var traderName = result["firstName"]+ " " + result["middleName"] + " " + result["lastName"];
+
+            var traderName = result["lastName"];
+            if (result["middleName"]) traderName = traderName + " " + result["middleName"];
+            traderName = traderName + " " + result["firstName"];
             var traderPhone = result["tel"];
             var traderEmail = result["email"];
             var traderAddress = result["address"];
@@ -420,7 +459,7 @@ function loadProfileData(accountID, type) {
 function acceptOrder(orderID) {
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/api/tradepost/accept-order",
+        url: "http://localhost:8080/gwa/api/tradepost/accept-order",
         data: {
             orderId: orderID
         },
@@ -439,7 +478,7 @@ function acceptOrder(orderID) {
 function declineOrder(orderID, reason) {
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/api/tradepost/decline-order",
+        url: "http://localhost:8080/gwa/api/tradepost/decline-order",
         data: {
             orderId: orderID,
             reason: reason
@@ -460,7 +499,7 @@ function declineOrder(orderID, reason) {
 function doneOrder(orderID) {
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/api/tradepost/confirm-succeed-order",
+        url: "http://localhost:8080/gwa/api/tradepost/confirm-succeed-order",
         data: {
             orderId: orderID
         },
@@ -479,7 +518,7 @@ function doneOrder(orderID) {
 function cancelOrder(orderID, reason) {
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/api/tradepost/cancel-order",
+        url: "http://localhost:8080/gwa/api/tradepost/cancel-order",
         data: {
             orderId: orderID,
             reason: reason
@@ -495,6 +534,53 @@ function cancelOrder(orderID, reason) {
         }
     });
     $('#cancelModal').modal('hide');
+}
+
+function reportTrade(tradepostId, reason, phone, email) {
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/gwa/api/tradepost/report-trade",
+        data: {
+            tradepostId: tradepostId,
+            reason: reason,
+            phone: phone,
+            email: email
+        },
+        async: false,
+        success: function (result, txtStatus, xhr) {
+            if (result.includes("reported")) {
+                $.growl.warning({message: result});
+            } else {
+                $.growl.notice({message: result});
+            }
+
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            $.growl.error({title: textStatus, message: xhr.responseText});
+        }
+    });
+    $('#reportModal').modal('hide');
+}
+
+function ratingTrader(orderId, feedbackType, rating, comment) {
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/gwa/api/tradepost/rating-trade",
+        data: {
+            orderId: orderId,
+            feedbackType: feedbackType,
+            rating: rating,
+            comment: comment
+        },
+        async: false,
+        success: function (result, txtStatus, xhr) {
+            $.growl.notice({message: result});
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            $.growl.error({title: textStatus, message: xhr.responseText});
+        }
+    });
+    $('#ratingModal').modal('hide');
 }
 
 /* MODAL PASS VALUE */
@@ -619,11 +705,89 @@ $('#cancelModal').on('show.bs.modal', function (event) {
         }
     })
 });
+$('#ratingModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var orderId = button.data('orderid');
+    var modal = $(this);
+    modal.find('textarea').val('');
+    $('input:radio[name="ratingStar"]').prop('checked', false);
+    modal.find('label .error').remove();
+    $("#ratingForm").validate({
+        ignore: [],
+        rules: {
+            feedbackText: {
+                required: true,
+                minlength: 10
+            },
+            ratingStar: {
+                required: true,
+            }
+        },
+        messages: {
+            feedbackText: {
+                required: "You need tell a feedback",
+                minlength: "feedback too short."
+            },
+            ratingStar: {
+                required: "Please select your rating"
+            }
+        },
+        submitHandler: function (form) {
+            var rating = $("input:radio[name='ratingStar']:checked").val();
+            var comment = $("#feedbackText").val();
+            ratingTrader(orderId,1,rating,comment);
+        }
+    })
+
+
+});
 $('#reasonModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget); // Button that triggered the modal
     var reason = button.data('reason');
     var modal = $(this);
     modal.find('.modal-body').html('<strong style="color: red">' + reason + '</strong>');
+});
+$('#reportModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var modal = $(this);
+    modal.find('input,textarea').val('');
+    modal.find('label .error').remove();
+    $("#reportForm").validate({
+        rules: {
+            reportText: {
+                required: true,
+                minlength: 10
+            },
+            reporterPhone: {
+                required: true,
+                phoneVN: true
+            },
+            reporterEmail: {
+                required: true,
+                email: true
+            }
+        },
+        messages: {
+            reportText: {
+                required: "You need tell a reason",
+                minlength: "Reason too short."
+            },
+            reporterPhone: {
+                required: "You need provide your phone",
+                phoneVN: "Your phone is not validate."
+            },
+            reporterEmail: {
+                required: "You need provide your email",
+                email: "Your email is not validate."
+            }
+        },
+        submitHandler: function (form) {
+            var email = $("#reporterEmail").val();
+            var phone = $("#reporterPhone").val();
+            var reason = $("#reportText").val();
+            reportTrade(postId, reason, phone, email);
+        }
+    })
 });
 
 $.validator.setDefaults({
@@ -648,6 +812,7 @@ $.validator.setDefaults({
 $.validator.addMethod("phoneVN", function (phone_number) {
     return phone_number.match('(09|03|05|07|08)+([0-9]{8})\\b');
 }, "Please specify a valid phone number");
+
 
 $("#addressSelectForm").validate({
     rules: {

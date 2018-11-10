@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,14 +36,27 @@ public class TrademarketServiceImpl implements TrademarketService {
     @Autowired
     private TradereportRepository tradereportRepository;
 
-    //Save New Trade Post / Update Profile / Save Image List
+    @Autowired
+    private  TraderatingRepository traderatingRepository;
+
+
+    //get Trade Post using ID
     @Override
-    public boolean postNewTradePost(TradepostRequestData tradePostData) {
+    public Tradepost getTradepostByID(int tradepostID) {
+        return tradepostRepository.findTradepostById(tradepostID);
+    }
+
+
+
+    /******************************* Method CRUD on TRADEPOST ************************************************/
+    //ADD NEW TRADEPOST
+    @Override
+    public int postNewTradePost(TradepostRequestData tradePostData) {
         //get Trade Post entity from AddNewData
         Tradepost newTradepost = this.getTradepostEntity(tradePostData);
         if (newTradepost == null) {
             System.out.println("--[TRADEPOST SERVICE][POST TRADE]: Tradepost data is null");
-            return false;
+            return -1;
         }
 
         Profile traderProfile = null;
@@ -51,12 +65,12 @@ public class TrademarketServiceImpl implements TrademarketService {
         } catch (Exception e) {
             System.out.println("--[TRADEPOST SERVICE][POST TRADE]: Get Profile by email - Execute query error");
             e.printStackTrace();
-            return false;
+            return -1;
         }
 
         if (traderProfile == null) {
             System.out.println("--[TRADEPOST SERVICE][POST TRADE]: Get Profile by email - Null result");
-            return false;
+            return -1;
         }
 
         //Set updated value to traderProfile
@@ -69,7 +83,7 @@ public class TrademarketServiceImpl implements TrademarketService {
         } catch (Exception e) {
             System.out.println("--[TRADEPOST SERVICE][POST TRADE]: Update profile - Execute query error");
             e.printStackTrace();
-            return false;
+            return -1;
         }
 
 
@@ -83,38 +97,89 @@ public class TrademarketServiceImpl implements TrademarketService {
         } catch (Exception e) {
             System.out.println("--[TRADEPOST SERVICE][POST TRADE]: Add new trade post - Execute query error");
             e.printStackTrace();
-            return false;
+            return -1;
         }
         if (tradepostResult == null) {
             System.out.println("--[TRADEPOST SERVICE][POST TRADE]: Add new trade post - Null result");
-            return false;
+            return -1;
         }
 
-        //Save Tradepost Image
-        String imgList[] = tradePostData.getImageUploadedList();
+        return tradepostResult.getId();
+    }
+
+
+
+    //GET TRADEPOST EDIT DATA
+    @Override
+    public TradepostRequestData getTradepostEditFormData(int tradepostId) {
+        Tradepost tradepost = null;
         try {
-            saveImageByTradepost(imgList, tradepostResult);
+            tradepost = tradepostRepository.findTradepostById(tradepostId);
+            if (tradepost == null) {
+                System.out.println("--[TRADEPOST SERVICE][GET FORM DATA]: Get Trade post data - Null Result");
+                return null;
+            }
         } catch (Exception e) {
-            System.out.println("--[TRADEPOST SERVICE][POST TRADE]: Save Image - Execute query error");
+            System.out.println("--[TRADEPOST SERVICE][GET FORM DATA]: Get Trade post data - Execute query error");
             e.printStackTrace();
-            return false;
+            return null;
         }
-        return true;
+
+        TradepostRequestData result = new TradepostRequestData();
+        try {
+            String imgList[] = getImageArrayByTradepostId(tradepostId);
+            if (imgList == null) {
+                System.out.println("--[TRADEPOST SERVICE][GET FORM DATA]: Get Trade post images - Null Result");
+                return null;
+            }
+            result.setImageUploadedList(imgList);
+        } catch (Exception e) {
+            System.out.println("--[TRADEPOST SERVICE][GET FORM DATA]: Get Trade post images - Execute query error");
+            e.printStackTrace();
+            return null;
+        }
+
+        result.setTradeBrand(tradepost.getBrand());
+        result.setTradeId(tradepost.getId());
+        result.setTradeCondition((tradepost.getCondition() == AppConstant.TRADEPOST.CONDITION_NEW_INT)
+                ? AppConstant.TRADEPOST.CONDITION_NEW : AppConstant.TRADEPOST.CONDITION_USED);
+        result.setTradeDesc(tradepost.getDescription());
+        result.setTradeModel(tradepost.getModel());
+        result.setTradeNegotiable((tradepost.getPriceNegotiable() == AppConstant.TRADEPOST.NEGOTIABLE_ON_INT)
+                ? AppConstant.TRADEPOST.NEGOTIABLE_ON : AppConstant.TRADEPOST.NEGOTIABLE_OFF);
+        result.setTradePrice(tradepost.getPrice());
+        result.setTradeQuantity(tradepost.getQuantity());
+        result.setTraderAddress(tradepost.getLocation());
+        Profile profile = null;
+        try {
+            profile = profileRepository.findProfileByAccountID(tradepost.getAccount().getId());
+            if (profile == null) {
+                System.out.println("--[TRADEPOST SERVICE][GET FORM DATA]: Get Trader profile - Null result");
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("--[TRADEPOST SERVICE][GET FORM DATA]: Get Trader profile - Execute query error");
+            e.printStackTrace();
+            return null;
+        }
+        result.setTraderEmail(profile.getEmail());
+        result.setTraderName(profile.getFirstName() + " " + profile.getMiddleName() + " " + profile.getLastName());
+        result.setTraderPhone(profile.getTel());
+        result.setTradeTitle(tradepost.getTitle());
+        result.setTradeType((tradepost.getTradeType() == AppConstant.TRADEPOST.TYPE_SELL_INT)
+                ? AppConstant.TRADEPOST.TYPE_SELL : AppConstant.TRADEPOST.TYPE_BUY);
+        result.setTraderId(tradepost.getAccount().getId());
+
+        return result;
     }
 
-    //get Trade Post using ID
+    //UPDATE TRADEPOST DATA
     @Override
-    public Tradepost getTradepostByID(int tradepostID) {
-        return tradepostRepository.findTradepostById(tradepostID);
-    }
-
-    //Save Edit Trade Post / Update Profile / Delete Old Image / Save new Image List
-    @Override
-    public boolean editTradePost(TradepostRequestData tradePostData) {
+    public int editTradePost(TradepostRequestData tradePostData) {
         Tradepost editTradepost = this.getTradepostEntity(tradePostData);
         if (editTradepost == null) {
             System.out.println("--[TRADEPOST SERVICE][EDIT TRADE]: Tradepost data is null");
-            return false;
+            return -1;
         }
 
         Profile traderProfile = null;
@@ -123,12 +188,12 @@ public class TrademarketServiceImpl implements TrademarketService {
         } catch (Exception e) {
             System.out.println("--[TRADEPOST SERVICE][EDIT TRADE]: Get Profile by email - Execute query error");
             e.printStackTrace();
-            return false;
+            return -1;
         }
 
         if (traderProfile == null) {
             System.out.println("--[TRADEPOST SERVICE][EDIT TRADE]: Get Profile by email - Null result");
-            return false;
+            return -1;
         }
         //Set updated value to traderProfile
         traderProfile.setTel(tradePostData.getTraderPhone());
@@ -140,7 +205,7 @@ public class TrademarketServiceImpl implements TrademarketService {
         } catch (Exception e) {
             System.out.println("--[TRADEPOST SERVICE][EDIT TRADE]: Update profile - Execute query error");
             e.printStackTrace();
-            return false;
+            return -1;
         }
 
         editTradepost.setLastModified(DateStringConverter.dateConvertToString(new Date()));
@@ -151,48 +216,44 @@ public class TrademarketServiceImpl implements TrademarketService {
         } catch (Exception e) {
             System.out.println("--[TRADEPOST SERVICE][EDIT TRADE]: Add new trade post - Execute query error");
             e.printStackTrace();
-            return false;
+            return -1;
         }
         if (tradepostResult == null) {
             System.out.println("--[TRADEPOST SERVICE][EDIT TRADE]: Add new trade post - Null result");
-            return false;
+            return -1;
         }
 
-        //Delete old image
-        try {
-            boolean delRe = tradepostimageRepository.deleteAllImageByTradepostId(tradepostResult.getId());
-            if (!delRe) {
-                System.out.println("--[TRADEPOST SERVICE][EDIT TRADE]: Delete old Image - No Image has been deleted");
-                return false;
-            }
 
-        } catch (Exception e) {
-            System.out.println("--[TRADEPOST SERVICE][EDIT TRADE]: Delete old Image - Execute query error");
-            e.printStackTrace();
-            return false;
+        return tradepostResult.getId();
+    }
 
+
+    //UPDATE IMAGE LIST FOR TRADE POST
+    @Override
+    public boolean updateTradepostImagesByTradepostID(int tradepostId, String[] images) {
+        //delete all image
+        tradepostimageRepository.deleteAllImageByTradepostId(tradepostId);
+        //get tradepost
+        Tradepost tradepost = tradepostRepository.findTradepostById(tradepostId);
+
+        //save image
+        for (int i = 0; i < images.length; i++) {
+            Tradepostimage tradepostimage = new Tradepostimage();
+            tradepostimage.setImageUrl(images[i]);
+            tradepostimage.setTradepost(tradepost);
+            tradepostimageRepository.addImage(tradepostimage);
         }
+        //get list delete on server
 
-        //Add new image
-        String imgList[] = tradePostData.getImageUploadedList();
-        try {
-            saveImageByTradepost(imgList, tradepostResult);
-        } catch (Exception e) {
-            System.out.println("--[TRADEPOST SERVICE][EDIT TRADE]: Save Image - Execute query error");
-            e.printStackTrace();
-            return false;
-        }
 
         return true;
     }
-
 
     //UPDATE QUANTITY TRADEPOST WITH ID
     @Override
     public boolean updateTradePostQuantity(int tradepostId, int quantity) {
         return tradepostRepository.updateQuantityById(tradepostId, quantity);
     }
-
 
     //DELETE A TRADEPOST WITH ID
     @Override
@@ -202,6 +263,10 @@ public class TrademarketServiceImpl implements TrademarketService {
         tradepostimageRepository.deleteAllImageByTradepostId(tradepostId);
         return tradepostRepository.removeTradepost(tradepost);
     }
+
+
+
+    /******************************* Method on VIEW DETAILS Page ************************************************/
 
     //GET DATA IN PAGE VIEW DETAILS
     @Override
@@ -219,6 +284,43 @@ public class TrademarketServiceImpl implements TrademarketService {
         return null;
     }
 
+    //LOAD ALL REQUEST BY TRADE POST ID
+    @Override
+    public List<Object> getAllRequestByTradepost(int tradepostId, String status, int pageNumber, int sortType) {
+        List<Object> result = new ArrayList<Object>();
+
+        int totalRecord = orderRequestRepository.countRequestWithStatusByTradepostId(tradepostId, status);
+        int totalPage = totalRecord/ AppConstant.TRADEPOST.MAX_REQUEST_PER_PAGE;
+        if (totalRecord % AppConstant.TRADEPOST.MAX_POST_PER_PAGE > 0) {
+            totalPage = totalPage + 1;
+        }
+
+        result.add(totalPage);
+        result.add(totalRecord);
+
+        List<Orderrequest> orderrequestList =
+                orderRequestRepository.getTradepostRequestDataByStatusAndInPageNumberWithSorting(
+                        tradepostId,status,pageNumber,sortType);
+        for (int i = 0; i < orderrequestList.size(); i++) {
+            //Check rated by owner
+            orderrequestList.get(i).setRated(
+                    traderatingRepository.checkTraderatingExistByOrderIdAndFeedbackType(orderrequestList.get(i).getId(),
+                            AppConstant.TRADEPOST.FEEDBACK_TYPE_OWNER_TO_TRADER));
+
+            Account emptyAcc = new Account();
+            emptyAcc.setUsername(orderrequestList.get(i).getAccount().getUsername());
+            emptyAcc.setId(orderrequestList.get(i).getAccount().getId());
+            orderrequestList.get(i).setAccount(emptyAcc);
+            Tradepost emptyTradepost = new Tradepost();
+            emptyTradepost.setId(orderrequestList.get(i).getTradepost().getId());
+            orderrequestList.get(i).setTradepost(emptyTradepost);
+        }
+        result.add(orderrequestList);
+        return result;
+    }
+
+
+    /******************************* Method on MY TRADE Page ************************************************/
 
     //Get DATA IN PAGE MY TRADE
     @Override
@@ -299,6 +401,9 @@ public class TrademarketServiceImpl implements TrademarketService {
     }
 
 
+
+    /******************************* Method on TRADING Page ************************************************/
+
     //GET DATA IN PAGE TRADING
     @Override
     public List<Object> getTradeListingData(String tradeType, int pageNumber, int sortType) {
@@ -361,6 +466,7 @@ public class TrademarketServiceImpl implements TrademarketService {
         return result;
     }
 
+    //SEARCH WITH LOCATION
     @Override
     public List<Object> getSearchTradeListingWithLocationData(String tradeType, int sortType, String keyword,
                                                               String location, long range) {
@@ -394,34 +500,9 @@ public class TrademarketServiceImpl implements TrademarketService {
         return result;
     }
 
-    @Override
-    public List<Object> getAllRequestByTradepost(int tradepostId, String status, int pageNumber, int sortType) {
-        List<Object> result = new ArrayList<Object>();
 
-        int totalRecord = orderRequestRepository.countRequestWithStatusByTradepostId(tradepostId, status);
-        int totalPage = totalRecord/ AppConstant.TRADEPOST.MAX_REQUEST_PER_PAGE;
-        if (totalRecord % AppConstant.TRADEPOST.MAX_POST_PER_PAGE > 0) {
-            totalPage = totalPage + 1;
-        }
 
-        result.add(totalPage);
-        result.add(totalRecord);
-
-        List<Orderrequest> orderrequestList =
-                orderRequestRepository.getTradepostRequestDataByStatusAndInPageNumberWithSorting(
-                        tradepostId,status,pageNumber,sortType);
-        for (int i = 0; i < orderrequestList.size(); i++) {
-            Account emptyAcc = new Account();
-            emptyAcc.setUsername(orderrequestList.get(i).getAccount().getUsername());
-            emptyAcc.setId(orderrequestList.get(i).getAccount().getId());
-            orderrequestList.get(i).setAccount(emptyAcc);
-            Tradepost emptyTradepost = new Tradepost();
-            emptyTradepost.setId(orderrequestList.get(i).getTradepost().getId());
-            orderrequestList.get(i).setTradepost(emptyTradepost);
-        }
-        result.add(orderrequestList);
-        return result;
-    }
+    /******************************* Method For Order Request ************************************************/
 
     @Override
     public boolean acceptOrder(int orderId) {
@@ -486,15 +567,78 @@ public class TrademarketServiceImpl implements TrademarketService {
     }
 
     @Override
-    public boolean reportTrade(int tradepostId, String reason) {
-        Tradereport newReport = new Tradereport();
+    public boolean reportTrade(int tradepostId, String reason, String phone, String email) {
+
+        Tradereport newReport = tradereportRepository.findReportByTradepostIdAndEmail(tradepostId, email);
+        if (newReport != null){
+            return false;
+        }
+        newReport = new Tradereport();
         newReport.setReason(reason);
+        newReport.setTel(phone);
+        newReport.setEmail(email);
         Tradepost tradepost = tradepostRepository.findTradepostById(tradepostId);
         newReport.setTradepost(tradepost);
         tradereportRepository.addNewReport(newReport);
-
         return true;
     }
+
+    @Override
+    public boolean ratingTrade(int orderId, int feedbackType, int value, String comment) {
+        boolean result = traderatingRepository.checkTraderatingExistByOrderIdAndFeedbackType(orderId, feedbackType);
+        if (!result){
+            Traderating traderating = new Traderating();
+            Orderrequest orderrequest = orderRequestRepository.getOrderrequestById(orderId);
+            traderating.setOrderrequest(orderrequest);
+            traderating.setFeedbackType(feedbackType);
+            traderating.setComment(comment);
+            traderating.setRating(value);
+            traderating.setRatingDate(DateStringConverter.dateConvertToString(new Date()));
+            if(feedbackType == AppConstant.TRADEPOST.FEEDBACK_TYPE_OWNER_TO_TRADER){
+                traderating.setFromUser(orderrequest.getTradepost().getAccount());
+                traderating.setToUser(orderrequest.getAccount());
+
+                //Update Profile Rating
+                Profile updateProfileRating = profileRepository.findProfileByAccountID(orderrequest.getAccount().getId());
+                updateProfileRating.setNumberOfRaters(updateProfileRating.getNumberOfRaters() + 1);
+                updateProfileRating.setNumberOfStars(updateProfileRating.getNumberOfStars() + value);
+
+                profileRepository.updateProfile(updateProfileRating);
+
+            }else if(feedbackType == AppConstant.TRADEPOST.FEEDBACK_TYPE_TRADER_TO_OWNER) {
+                traderating.setFromUser(orderrequest.getAccount());
+                traderating.setToUser(orderrequest.getTradepost().getAccount());
+
+                //Update Profile Rating
+                Profile updateProfileRating = profileRepository.findProfileByAccountID(orderrequest.getTradepost().getAccount().getId());
+                updateProfileRating.setNumberOfRaters(updateProfileRating.getNumberOfRaters() + 1);
+                updateProfileRating.setNumberOfStars(updateProfileRating.getNumberOfStars() + value);
+
+                profileRepository.updateProfile(updateProfileRating);
+
+                //Update Tradepost Rating
+                Tradepost updateTradepostRating = tradepostRepository.findTradepostById(orderrequest.getTradepost().getId());
+                updateTradepostRating.setNumberOfRater(updateTradepostRating.getNumberOfRater() + 1);
+                updateTradepostRating.setNumberOfStar(updateTradepostRating.getNumberOfStar() + value);
+
+                tradepostRepository.update(updateTradepostRating);
+
+            }
+
+            if (traderatingRepository.addNewTraderating(traderating)!= null){
+                result = true;
+            }else {
+                result = false;
+            }
+        }else {
+            result = false;
+        }
+
+        return result;
+    }
+
+
+    /******************************* Method on MY ORDER Page ************************************************/
 
     @Override
     public List<Object> getMyOrderData(int accountId, String status, int pageNumber, int sortType) {
@@ -570,6 +714,9 @@ public class TrademarketServiceImpl implements TrademarketService {
             }
             orderDTO.setOwnerName(fullname);
             orderDTO.setOrderId(orderrequestList.get(i).getId());
+            //Check rated Trader -> owner
+            orderDTO.setRated(traderatingRepository.checkTraderatingExistByOrderIdAndFeedbackType(
+                    orderrequestList.get(i).getId(),AppConstant.TRADEPOST.FEEDBACK_TYPE_TRADER_TO_OWNER));
             orderDTOList.add(orderDTO);
 
         }
@@ -578,82 +725,11 @@ public class TrademarketServiceImpl implements TrademarketService {
     }
 
 
-    //Get Trade post data for edit form
-    @Override
-    public TradepostRequestData getTradepostEditFormData(int tradepostId) {
-        Tradepost tradepost = null;
-        try {
-            tradepost = tradepostRepository.findTradepostById(tradepostId);
-            if (tradepost == null) {
-                System.out.println("--[TRADEPOST SERVICE][GET FORM DATA]: Get Trade post data - Null Result");
-                return null;
-            }
-        } catch (Exception e) {
-            System.out.println("--[TRADEPOST SERVICE][GET FORM DATA]: Get Trade post data - Execute query error");
-            e.printStackTrace();
-            return null;
-        }
 
-        TradepostRequestData result = new TradepostRequestData();
-        try {
-            String imgList[] = getImageArrayByTradepostId(tradepostId);
-            if (imgList == null) {
-                System.out.println("--[TRADEPOST SERVICE][GET FORM DATA]: Get Trade post images - Null Result");
-                return null;
-            }
-            result.setImageUploadedList(imgList);
-        } catch (Exception e) {
-            System.out.println("--[TRADEPOST SERVICE][GET FORM DATA]: Get Trade post images - Execute query error");
-            e.printStackTrace();
-            return null;
-        }
-
-        result.setTradeBrand(tradepost.getBrand());
-        result.setTradeId(tradepost.getId());
-        result.setTradeCondition((tradepost.getCondition() == AppConstant.TRADEPOST.CONDITION_NEW_INT)
-                ? AppConstant.TRADEPOST.CONDITION_NEW : AppConstant.TRADEPOST.CONDITION_USED);
-        result.setTradeDesc(tradepost.getDescription());
-        result.setTradeModel(tradepost.getModel());
-        result.setTradeNegotiable((tradepost.getPriceNegotiable() == AppConstant.TRADEPOST.NEGOTIABLE_ON_INT)
-                ? AppConstant.TRADEPOST.NEGOTIABLE_ON : AppConstant.TRADEPOST.NEGOTIABLE_OFF);
-        result.setTradePrice(tradepost.getPrice());
-        result.setTradeQuantity(tradepost.getQuantity());
-        result.setTraderAddress(tradepost.getLocation());
-        Profile profile = null;
-        try {
-            profile = profileRepository.findProfileByAccountID(tradepost.getAccount().getId());
-            if (profile == null) {
-                System.out.println("--[TRADEPOST SERVICE][GET FORM DATA]: Get Trader profile - Null result");
-                return null;
-            }
-        } catch (Exception e) {
-            System.out.println("--[TRADEPOST SERVICE][GET FORM DATA]: Get Trader profile - Execute query error");
-            e.printStackTrace();
-            return null;
-        }
-        result.setTraderEmail(profile.getEmail());
-        result.setTraderName(profile.getFirstName() + " " + profile.getMiddleName() + " " + profile.getLastName());
-        result.setTraderPhone(profile.getTel());
-        result.setTradeTitle(tradepost.getTitle());
-        result.setTradeType((tradepost.getTradeType() == AppConstant.TRADEPOST.TYPE_SELL_INT)
-                ? AppConstant.TRADEPOST.TYPE_SELL : AppConstant.TRADEPOST.TYPE_BUY);
-        result.setTraderId(tradepost.getAccount().getId());
-
-        return result;
-    }
-
-    //Save image list with Trade post
-    public void saveImageByTradepost(String img[], Tradepost tradepost) throws Exception {
-        for (int i = 0; i < img.length; i++) {
-            Tradepostimage saveImage = new Tradepostimage();
-            saveImage.setImageUrl(img[i]);
-            saveImage.setTradepost(tradepost);
-            tradepostimageRepository.addImage(saveImage);
-        }
-    }
+    /******************************* Additional Method for service ************************************************/
 
     //Get All Images Url Array by Trade post
-    public String[] getImageArrayByTradepostId(int tradepostId) throws Exception {
+    String[] getImageArrayByTradepostId(int tradepostId) throws Exception {
         List<Tradepostimage> imgList = tradepostimageRepository.getImageByTradepostId(tradepostId);
         System.out.println(imgList);
         String[] imgArr = new String[imgList.size()];
@@ -665,7 +741,7 @@ public class TrademarketServiceImpl implements TrademarketService {
 
 
     //Transform TradepostRequestData to Tradepost Entity
-    public Tradepost getTradepostEntity(TradepostRequestData tradepostRequestData) {
+    Tradepost getTradepostEntity(TradepostRequestData tradepostRequestData) {
         Tradepost result = new Tradepost();
         int tradeID = tradepostRequestData.getTradeId();
 
@@ -697,6 +773,27 @@ public class TrademarketServiceImpl implements TrademarketService {
         }
         result.setTradeType(tradeTypeInt);
         return result;
+    }
+
+
+    void deleteImageOnServer(String[] imageDeleteList) {
+
+        for (int i = 0; i < imageDeleteList.length; i++) {
+            // delete file image at server
+            if (imageDeleteList[i].contains("downloadFile/")) {
+                String[] imageUrlSplit = imageDeleteList[i].split("/");
+                String imageName = imageUrlSplit[imageUrlSplit.length - 1];
+
+                File file = new File("./uploads/" + imageName);
+                if (file.delete()) {
+                    System.out.println("Deleted file " + imageName);
+                } else {
+                    System.out.println("File " + imageName + " does not exist!");
+                }
+            }
+
+        }
+
     }
 
 }

@@ -41,10 +41,113 @@
     <!-- Google Font -->
     <!--<link rel="stylesheet"-->
     <!--href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">-->
+    <style>
+        .modal-confirm {
+            color: #434e65;
+            width: 525px;
+        }
+
+        .modal-confirm .modal-content {
+            padding: 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .modal-confirm .modal-header {
+            background: #47c9a2;
+            border-bottom: none;
+            position: relative;
+            text-align: center;
+            margin: -20px -20px 0;
+            border-radius: 5px 5px 0 0;
+            padding: 35px;
+        }
+
+        .modal-confirm h4 {
+            text-align: center;
+            font-size: 36px;
+            margin: 10px 0;
+        }
+
+        .modal-confirm .form-control, .modal-confirm .btn {
+            min-height: 40px;
+            border-radius: 3px;
+        }
+
+        .modal-confirm .close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: #fff;
+            text-shadow: none;
+            opacity: 0.5;
+        }
+
+        .modal-confirm .close:hover {
+            opacity: 0.8;
+        }
+
+        .modal-confirm .icon-box {
+            color: #fff;
+            width: 95px;
+            height: 95px;
+            display: inline-block;
+            border-radius: 50%;
+            z-index: 9;
+            border: 5px solid #fff;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .modal-confirm .icon-box i {
+            font-size: 64px;
+            margin: -4px 0 0 -4px;
+        }
+
+        .modal-confirm.modal-dialog {
+            margin-top: 80px;
+        }
+
+        .modal-confirm .btn {
+            color: #fff;
+            border-radius: 4px;
+            background: #eeb711;
+            text-decoration: none;
+            transition: all 0.4s;
+            line-height: normal;
+            border-radius: 30px;
+            margin-top: 10px;
+            padding: 6px 20px;
+            border: none;
+        }
+
+        .modal-confirm .btn:hover, .modal-confirm .btn:focus {
+            background: #eda645;
+            outline: none;
+        }
+
+        .modal-confirm .btn span {
+            margin: 1px 3px 0;
+            float: left;
+        }
+
+        .modal-confirm .btn i {
+            margin-left: 1px;
+            font-size: 20px;
+            float: right;
+        }
+
+        .trigger-btn {
+            display: inline-block;
+            margin: 100px auto;
+        }
+    </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div id="loading" class="loading" style="display: none;">Loading&#8230;</div>
-<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"
+     id="mi-modal">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -58,15 +161,235 @@
         </div>
     </div>
 </div>
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="icon-box">
+                    <i class="material-icons">&#10004;</i>
+                </div>
+            </div>
+            <div class="modal-body text-center">
+                <h4>Great!</h4>
+                <p>Your model has been updated successfully.</p>
+                <button id="success-btn" class="btn btn-success" data-dismiss="modal"><span>Go to Model Detail</span></button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="wrapper">
-    <script>HTMLImporter.import("/gwa/pages/admin-header.html");</script>
+    <!--<script>HTMLImporter.import("/gwa/pages/admin-header.html");</script>-->
+    <header class="main-header">
+
+        <!-- Logo -->
+        <a href="index2.html" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>GWA</b></span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>Admin</b>GWA</span>
+        </a>
+
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+            <!-- Navbar Right Menu -->
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <!-- Notifications: style can be found in dropdown.less -->
+                    <li class="dropdown notifications-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="label label-warning">10</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">You have 10 notifications</li>
+                            <li>
+                                <!-- inner menu: contains the actual data -->
+                                <ul class="menu">
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
+                                            page and may cause design problems
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-users text-red"></i> 5 new members joined
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-shopping-cart text-green"></i> 25 sales made
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-user text-red"></i> You changed your username
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="footer"><a href="#">View all</a></li>
+                        </ul>
+                    </li>
+                    <!-- User Account: style can be found in dropdown.less -->
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img id="user-out-avatar" src="/gwa/img/avatar_2x.png" class="user-image" alt="User Image">
+                            <span id="user-out-name" class="hidden-xs">Minh Tung</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- User image -->
+                            <li class="user-header">
+                                <img id="user-in-avatar" src="/gwa/img/avatar_2x.png" class="img-circle" alt="User Image">
+
+                                <p id="user-in-name">
+                                    Minh Tung
+                                    <small>Member since Nov. 2018</small>
+                                </p>
+                            </li>
+                            <!-- Menu Body -->
+                            <!--<li class="user-body">-->
+                            <!--<div class="row">-->
+                            <!--<div class="col-xs-4 text-center">-->
+                            <!--<a href="#">Buy</a>-->
+                            <!--</div>-->
+                            <!--<div class="col-xs-4 text-center">-->
+                            <!--<a href="#">Sale</a>-->
+                            <!--</div>-->
+                            <!--<div class="col-xs-4 text-center">-->
+                            <!--<a href="#">Rating</a>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash; /.row &ndash;&gt;-->
+                            <!--</li>-->
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a id="profileBtn" href="#" class="btn btn-default btn-flat">Profile</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a id="signoutBtn" href="#" class="btn btn-default btn-flat">Sign out</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Control Sidebar Toggle Button -->
+                </ul>
+            </div>
+
+        </nav>
+    </header>
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- Sidebar user panel -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img id="left-avatar" src="/gwa/img/avatar_2x.png" class="img-circle" alt="User Image">
+                </div>
+                <div class="pull-left info">
+                    <p id="left-name">Minh Tung</p>
+                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                </div>
+            </div>
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu" data-widget="tree">
+                <li class="header">MAIN NAVIGATION</li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-edit"></i>
+                        <span>Users</span>
+                        <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/gwa/admin/user/search"><i class="fa fa-circle-o"></i> Manage users</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-laptop"></i>
+                        <span>Models</span>
+                        <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/gwa/model/"><i class="fa fa-circle-o"></i> Manage model</a></li>
+                        <li><a href="/gwa/admin/model/create"><i class="fa fa-circle-o"></i> Create new model</a></li>
+                        <li><a href="/gwa/admin/model/pending"><i class="fa fa-circle-o"></i> Pending model</a></li>
+                        <li><a href="/gwa/admin/model/crawl"><i class="fa fa-circle-o"></i> Crawl model</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-pie-chart"></i>
+                        <span>Article</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> Manage article</a></li>
+                        <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i> Pending article</a></li>
+                        <li><a href="pages/charts/flot.html"><i class="fa fa-circle-o"></i> Create new article</a></li>
+                    </ul>
+                </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-edit"></i>
+                        <span>Event</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="pages/forms/general.html"><i class="fa fa-circle-o"></i> Manage Event</a></li>
+                        <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i> Create new event</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-table"></i>
+                        <span>Trade post</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="pages/tables/simple.html"><i class="fa fa-circle-o"></i> Manage trade post</a></li>
+                        <li><a href="pages/tables/data.html"><i class="fa fa-circle-o"></i> Pending trade post</a></li>
+                    </ul>
+                </li>
+
+
+                <li class="header">LABELS</li>
+                <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
+                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
+                <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
                 GUNDAM
-                <small>Create new model</small>
+                <small>Edit model</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -111,7 +434,8 @@
                                             <tbody>
                                             <tr>
                                                 <td class="label" colspan="2">Code
-                                                    <span id="errorcode" style="display: none; width: 100%;" class="error_field">
+                                                    <span id="errorcode" style="display: none; width: 100%;"
+                                                          class="error_field">
                                                     </span>
                                                 </td>
                                             </tr>
@@ -135,7 +459,8 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="data" colspan="2"><input id="txtName" class="io-txt-normal empty"
+                                                <td class="data" colspan="2"><input id="txtName"
+                                                                                    class="io-txt-normal empty"
                                                                                     style="padding: 8px;
                                                         width: 230px;
                                                         float: left;
@@ -164,7 +489,7 @@
                                                         left:0px;
                                                         background: transparent;
                                                         padding: 8px; /* If you add too much padding here, the options won't show in IE */
-                                                        background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
+                                                        background: url(/gwa/css/images/2e3ybe1.jpg) no-repeat right center;
                                                         width: 160px;
                                                         float: left;
                                                         border: 1px solid #ccc;
@@ -203,7 +528,7 @@
                                                         left:0px;
                                                         background: transparent;
                                                         padding: 8px; /* If you add too much padding here, the options won't show in IE */
-                                                        background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
+                                                        background: url(/gwa/css/images/2e3ybe1.jpg) no-repeat right center;
                                                         width: 220px;
                                                         float: left;
                                                         border: 1px solid #ccc;
@@ -242,7 +567,7 @@
                                                         left:0px;
                                                         background: transparent;
                                                         padding: 8px; /* If you add too much padding here, the options won't show in IE */
-                                                        background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
+                                                        background: url(/gwa/css/images/2e3ybe1.jpg) no-repeat right center;
                                                         width: 200px;
                                                         float: left;
                                                         border: 1px solid #ccc;
@@ -272,7 +597,8 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="data" colspan="2"><input id="txtPrice" class="io-txt-normal empty"
+                                                <td class="data" colspan="2"><input id="txtPrice"
+                                                                                    class="io-txt-normal empty"
                                                                                     placeholder="Price"
                                                                                     style="width: 96px;padding: 8px;
                                                     width: 98px;
@@ -294,7 +620,7 @@
                                                             overflow: hidden;
                                                             background: transparent;
                                                             padding: 8px; /* If you add too much padding here, the options won't show in IE */
-                                                            background: url(/css/images/2e3ybe1.jpg) no-repeat right center;
+                                                            background: url(/gwa/css/images/2e3ybe1.jpg) no-repeat right center;
                                                             width: 150px;
                                                             float: left;
                                                             border: 1px solid #ccc;
@@ -318,7 +644,8 @@
                                             <h3 class="expand"><img src="/gwa/img/transparent.png" alt=""
                                                                     class="iconSummary"><span>Description<span></h3>
                                             <div>
-                                                <textarea id="txtDescription" placeholder="Enter model's description" class="io-ta-normal" style="height: 150px;"></textarea>
+                                                <textarea id="txtDescription" placeholder="Enter model's description"
+                                                          class="io-ta-normal" style="height: 150px;"></textarea>
                                             </div>
 
 

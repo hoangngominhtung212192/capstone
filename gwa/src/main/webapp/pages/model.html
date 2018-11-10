@@ -42,6 +42,7 @@
 </head>
 
 <body onpageshow="scrollToProducts()" style="background-color: whitesmoke;">
+<div id="loading" class="loading" style="display: none; z-index: 20000;">Loading&#8230;</div>
 <!-- ##### Header Area Start ##### -->
 <header class="header-area">
 
@@ -62,40 +63,20 @@
                                 <li id="notification-li" class="dropdown notification-menu-custom">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                         <i class="fa fa-bell-o"></i>
-                                        <span class="label label-warning">10</span>
+                                        <span id="numberOfNew" class="label label-warning">10</span>
                                     </a>
                                     <ul id="dropdown-notification" class="dropdown-menu">
-                                        <li class="header">You have 10 notifications</li>
+                                        <li id="notice-new" class="header">You have 10 notifications</li>
                                         <li>
                                             <!-- inner menu: contains the actual data -->
-                                            <ul class="menu">
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fa fa-warning text-yellow"></i> Very long description
-                                                        here that may not fit into the
-                                                        page and may cause design problems
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fa fa-users text-red"></i> 5 new members joined
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fa fa-user text-red"></i> You changed your username
-                                                    </a>
-                                                </li>
+                                            <ul id="ul-notification" class="menu">
+                                                <!--<li>-->
+                                                <!--<a href="#">-->
+                                                <!--<i class="fa fa-warning text-yellow" style="color: red;"></i> Very long description-->
+                                                <!--here that may not fit into the-->
+                                                <!--page and may cause design problems-->
+                                                <!--</a>-->
+                                                <!--</li>-->
                                             </ul>
                                         </li>
                                     </ul>
@@ -196,7 +177,7 @@
 
                     <!-- Logo -->
                     <div class="logo">
-                        <a href="index.html"><img src="/gwa/img/logo.png" alt=""></a>
+                        <a href="/gwa/"><img src="/gwa/img/logo.png" alt=""></a>
                     </div>
 
                     <!-- Navbar Toggler -->
@@ -215,39 +196,11 @@
                         <!-- Nav Start -->
                         <div class="classynav">
                             <ul>
-                                <li class="active"><a href="index.html">Home</a></li>
-                                <li><a href="#">Pages</a>
-                                    <ul class="dropdown">
-                                        <li><a href="index.html">Home</a></li>
-                                        <li><a href="#">Dropdown</a>
-                                            <ul class="dropdown">
-                                                <li><a href="index.html">Home</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a href="#">Mega Menu</a>
-                                    <div class="megamenu">
-                                        <ul class="single-mega cn-col-3">
-                                            <li class="title">Catagories</li>
-                                            <li><a href="index.html">Home</a></li>
-                                        </ul>
-                                        <ul class="single-mega cn-col-3">
-                                            <li class="title">Catagories</li>
-                                            <li><a href="index.html">Home</a></li>
-                                        </ul>
-                                        <ul class="single-mega cn-col-3">
-                                            <li class="title">Catagories</li>
-                                            <li><a href="index.html">Home</a></li>
-                                        </ul>
-
-                                    </div>
-                                </li>
-                                <li><a href="#">GUNDAM</a></li>
-                                <li><a href="#">Articles</a></li>
-                                <li><a href="#">Events</a></li>
-                                <li><a href="#">Trade market</a></li>
-                                <li><a href="contact.html">Contact</a></li>
+                                <li class="active"><a href="/gwa/">Home</a></li>
+                                <li><a href="/gwa/model">GUNDAM</a></li>
+                                <li><a href="/gwa/article">Articles</a></li>
+                                <li><a href="/gwa/event">Events</a></li>
+                                <li><a href="/gwa/trade-market">Trade market</a></li>
                             </ul>
                         </div>
                         <!-- Nav End -->
@@ -273,55 +226,13 @@
                     <strong class="category-title">CATEGORY OPTIONS</strong>
                 </div>
                 <div class="ul-category-title-content">
-                    <ul class="ul-category-contents">
+                    <ul id="series-title-ul" class="ul-category-contents">
                         <li class="lead-title">
-                            <strong>Product Series
+                            <strong>Series Title
                             </strong></li>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Master Grade (25)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Perfect Grade (20)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Real Grade (89)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">High Grade (50)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Other Grade (200)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">SD Gundam (30)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Premium Web Exclusives</li>
-                        </a>
                     </ul>
-                    <ul class="ul-category-contents">
-                        <li class="lead-title"><strong>Series Title</strong></li>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">First Gundam(12)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Mobile Suit Variation MSV(20)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">0080 War in the Pocket (4)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">0083 Stardust Memory (20)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">New Mobile Report Gundam Wing (10)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Mobile Suit Gundam AGE (30)</li>
-                        </a>
-                        <a class="title-li-a" href="#">
-                            <li class="title-li">Crossbone Gundam (2)</li>
-                        </a>
+                    <ul id="product-series-ul" class="ul-category-contents">
+                        <li class="lead-title"><strong>Product Series</strong></li>
                     </ul>
                 </div>
             </div>
@@ -350,7 +261,7 @@
                                     <div class="io-panel-header">
                                         <h3>Search model information</h3>
                                         <div class="drop-down">
-                                            <div id="close_form" class="btn open" onclick="executeDisplayForm()"></div>
+                                            <div id="close_form" class="btn close" onclick="executeDisplayForm()"></div>
                                         </div>
                                     </div>
 
@@ -489,13 +400,12 @@
                     <div class="footer-widget-area mt-80">
                         <!-- Footer Logo -->
                         <div class="footer-logo">
-                            <a href="index.html" style="color: white; font: 3em sans-serif;">Gunpla World</a>
+                            <a href="/gwa/" style="color: white; font: 3em sans-serif;">Gunpla World</a>
                         </div>
                         <!-- List -->
                         <ul class="list">
-                            <li><a href="mailto:contact@youremail.com">contact@youremail.com</a></li>
-                            <li><a href="tel:+4352782883884">+43 5278 2883 884</a></li>
-                            <li><a href="http://yoursitename.com">www.yoursitename.com</a></li>
+                            <li><a href="mailto:contact@youremail.com">gunplaworld@gmail.com</a></li>
+                            <li><a href="tel:+4352782883884">+84 981 875 113</a></li>
                         </ul>
                     </div>
                 </div>
@@ -507,10 +417,11 @@
                         <h4 class="widget-title">Quick Links</h4>
                         <!-- List -->
                         <ul class="list">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Articles</a></li>
-                            <li><a href="#">Events</a></li>
-                            <li><a href="#">Trade market</a></li>
+                            <li class="active"><a href="/gwa/">Home</a></li>
+                            <li><a href="/gwa/model">GUNDAM</a></li>
+                            <li><a href="/gwa/article">Articles</a></li>
+                            <li><a href="/gwa/event">Events</a></li>
+                            <li><a href="/gwa/trade-market">Trade market</a></li>
                         </ul>
                     </div>
                 </div>
@@ -522,7 +433,7 @@
                         <h4 class="widget-title">Follow us</h4>
                         <!-- List -->
                         <ul class="list">
-                            <li><a href="#">Facebook</a></li>
+                            <li><a href="http://www.facebook.com">Facebook</a></li>
                         </ul>
                     </div>
                 </div>
@@ -534,7 +445,7 @@
                         <div class="row h-100 align-items-center">
                             <div class="col-12">
                                 <!-- Copywrite -->
-                                <p>copywrite lol</p>
+                                <p>Copywrite GUNPLA</p>
                             </div>
                         </div>
                     </div>

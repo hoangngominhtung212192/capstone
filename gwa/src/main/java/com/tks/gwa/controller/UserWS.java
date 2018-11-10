@@ -35,13 +35,25 @@ public interface UserWS {
     ResponseEntity<Profile> updateProfileImage(@RequestParam(value = "photoBtn", required = false) MultipartFile photoBtn,
                                                @RequestParam("id") int id);
 
-    @RequestMapping(value = "/getAllAccount", method = RequestMethod.GET)
-    ResponseEntity<List<Object>> getAllAccount(@RequestParam("pageNumber") int pageNumber,
-                                                    @RequestParam("type") String type);
+    @RequestMapping(value = "/searchAccount", method = RequestMethod.GET)
+    ResponseEntity<List<Object>> searchAccount(@RequestParam("pageNumber") int pageNumber,
+                                                    @RequestParam("type") String type,
+                                               @RequestParam("txtSearch") String txtSearch,
+                                               @RequestParam("orderBy") String orderBy);
 
     @RequestMapping(value = "/getTopRanking", method = RequestMethod.GET)
     ResponseEntity<List<Profile>> getTopRanking();
 
     @RequestMapping(value = "/getStatistic", method = RequestMethod.GET)
     ResponseEntity<List<Object>> getStatistic(@RequestParam("accountID") int accountID);
+
+    @RequestMapping(value = "/rating/getAll", method = RequestMethod.GET)
+    ResponseEntity<List<Object>> getAllUserRatingByAccountID(@RequestParam("pageNumber") int pageNumber,
+                                                             @RequestParam("accountID") int accountID);
+
+    @RequestMapping(value = "/ban", method = RequestMethod.POST)
+    ResponseEntity<String> banAccount(@RequestParam("accountID") int accountID);
+
+    @RequestMapping(value = "/unban", method = RequestMethod.POST)
+    ResponseEntity<String> unbanAccount(@RequestParam("accountID") int accountID);
 }

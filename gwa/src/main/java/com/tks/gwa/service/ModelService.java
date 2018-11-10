@@ -48,7 +48,7 @@ public interface ModelService {
      *
      * @return
      */
-    public List<Object> getAllPendingModel(int pageNumber, String type);
+    public List<Object> searchPendingModel(int pageNumber, String type, String txtSearch, String orderBy);
 
     /**
      *
@@ -137,4 +137,16 @@ public interface ModelService {
      * @return
      */
     public List<Article> getTop5ArticleByModelName(String modelName);
+
+    /**
+     *
+     * @param modelID
+     */
+    public void deleteModelByModelID(int modelID);
+
+    /**
+     *
+     * @param modelID
+     */
+    public void updateStatusErrorModel(int modelID);
 }

@@ -192,10 +192,14 @@ public class UserWsImpl implements UserWS {
     }
 
     @Override
-    public ResponseEntity<List<Object>> getAllAccount(int pageNumber, String type) {
-        System.out.println("[UserWS] Begin getAllAccount()");
+    public ResponseEntity<List<Object>> searchAccount(int pageNumber, String type, String txtSearch, String orderBy) {
+        System.out.println("[UserWS] Begin searchAccount() with data:");
+        System.out.println("Page number: " + pageNumber);
+        System.out.println("Type: " + type);
+        System.out.println("TxtSearch: " + txtSearch);
+        System.out.println("OrderBy: " + orderBy);
 
-        List<Object> resultList = userService.getAllAccount(pageNumber, type);
+        List<Object> resultList = userService.searchAccount(pageNumber, type, txtSearch, orderBy);
 
         return new ResponseEntity<>(resultList, HttpStatus.OK);
     }
@@ -216,6 +220,37 @@ public class UserWsImpl implements UserWS {
         List<Object> result = userService.getStatisticByAccountID(accountID);
 
         return new ResponseEntity<List<Object>>(result, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<Object>> getAllUserRatingByAccountID(int pageNumber, int accountID) {
+
+        System.out.println("[UserWS] Begin getAllUserRatingByAccountID with data:");
+        System.out.println("Page number: " + pageNumber);
+        System.out.println("AccountID: " + accountID);
+
+        List<Object> result = userService.getAllUserRatingByAccountID(pageNumber, accountID);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> banAccount(int accountID) {
+
+        System.out.println("[UserWS] Begin banAccount with accountID: " + accountID);
+
+        userService.banAccount(accountID);
+
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> unbanAccount(int accountID) {
+        System.out.println("[UserWS] Begin unbanAccount with accountID: " + accountID);
+
+        userService.unbanAccount(accountID);
+
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
 }

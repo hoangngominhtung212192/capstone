@@ -11,13 +11,17 @@ import java.util.List;
 @RequestMapping("/api/tradepost")
 public interface TradeMarketControllerWs {
     @RequestMapping(value = "/add-trade-post", method = RequestMethod.POST)
-    ResponseEntity<String> addTradepost(@RequestBody TradepostRequestData addRequestData);
+    ResponseEntity<Integer> addTradepost(@RequestBody TradepostRequestData addRequestData);
 
     @RequestMapping(value = "/get-trade-post-edit-form-data", method = RequestMethod.GET)
     ResponseEntity<TradepostRequestData> getEditFormData(@RequestParam("tradepostID") String tradepostID);
 
     @RequestMapping(value = "/edit-trade-post", method = RequestMethod.POST)
-    ResponseEntity<String> editTradepost(@RequestBody TradepostRequestData editRequestData);
+    ResponseEntity<Integer> editTradepost(@RequestBody TradepostRequestData editRequestData);
+
+    @RequestMapping(value = "/update-images-to-database", method = RequestMethod.POST)
+    ResponseEntity<String> updateImagesToDatabase(@RequestParam("tradepostId") int tradepostId,
+                                                  @RequestParam("images[]") String[] images);
 
     @RequestMapping(value = "/update-quantity", method = RequestMethod.POST)
     ResponseEntity<String> updateQuantity(@RequestParam("tradepostId") int tradepostId,
@@ -82,7 +86,10 @@ public interface TradeMarketControllerWs {
     ResponseEntity<String> sendOrder(@RequestBody NewOrderDTO newOrderData);
 
     @RequestMapping(value = "/report-trade", method = RequestMethod.POST)
-    ResponseEntity<String> reportTrade(@RequestParam("tradepostId") int tradepostId, @RequestParam("reason") String reason);
+    ResponseEntity<String> reportTrade(@RequestParam("tradepostId") int tradepostId,
+                                       @RequestParam("reason") String reason,
+                                       @RequestParam("phone") String phone,
+                                       @RequestParam("email") String email);
 
     @RequestMapping(value = "/get-my-order", method = RequestMethod.GET)
     ResponseEntity<List<Object>> getMyOrder(@RequestParam("accountId") int accountId,
@@ -91,6 +98,11 @@ public interface TradeMarketControllerWs {
                                             @RequestParam("sortType") int sortType);
 
 
+    @RequestMapping(value = "/rating-trade", method = RequestMethod.POST)
+    ResponseEntity<String> ratingTrade(@RequestParam("orderId") int orderId,
+                                       @RequestParam("feedbackType") int feedbackType,
+                                       @RequestParam("rating") int value,
+                                       @RequestParam("comment") String comment);
 
 
 

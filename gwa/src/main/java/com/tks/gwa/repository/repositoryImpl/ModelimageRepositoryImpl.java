@@ -4,6 +4,7 @@ import com.tks.gwa.entity.Modelimage;
 import com.tks.gwa.repository.ModelimageRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
 
@@ -42,7 +43,13 @@ public class ModelimageRepositoryImpl extends GenericRepositoryImpl<Modelimage, 
         Query query = this.entityManager.createQuery(sql);
         query.setParameter("url", url);
 
-        Modelimage modelimage = (Modelimage) query.getSingleResult();
+        Modelimage modelimage = null;
+
+        try {
+            modelimage = (Modelimage) query.getSingleResult();
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        }
 
         return modelimage;
     }
