@@ -106,6 +106,7 @@ public class ModelStAXParser {
 
                             String name = longName.replaceAll("[(][A-z\\s]+[)]", "").trim();
                             name = name.replaceAll("\\*w/", "");
+                            name = name.replaceAll("%amp;", "&");
 
                             // set model name
                             jaxb_model.setName(name);
@@ -287,6 +288,8 @@ public class ModelStAXParser {
                                     description += reader.getText();
                                 }
                             }
+
+                            description = description.replaceAll("%amp;", "&");
 
                             jaxb_model.setDescription(description);
                             System.out.println("Description: " + description);

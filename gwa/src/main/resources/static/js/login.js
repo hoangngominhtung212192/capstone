@@ -1,7 +1,5 @@
 $(document).ready(function () {
 
-    sessionStorage
-
     function getUrlParameter(sParam) {
         var sPageURL = decodeURIComponent(window.location.search.substring(1)),
             sURLVariables = sPageURL.split('&'),
@@ -32,7 +30,7 @@ $(document).ready(function () {
                     var role = jsonResponse["role"].name;
 
                     if (role == "MEMBER") {
-                        window.location.href = "/gwa/model/";
+                        window.location.href = "/gwa/";
                     } else if (role == "ADMIN") {
                         window.location.href = "/gwa/admin/model/pending";
                     }
@@ -89,10 +87,10 @@ $(document).ready(function () {
                 // get goBack parameter value from previous page which required to login
                 var goBack = getUrlParameter("goBack");
                 if (goBack) {
-                    history.back(goBack);
+                    window.location.reload(history.back(goBack));
                 } else {
                     if (result.role.name == "MEMBER") {
-                        window.location.href = "/gwa/model/"
+                        window.location.href = "/gwa/"
                     } else {
                         if (result.role.name == "ADMIN") {
                             window.location.href = "/gwa/admin/model/pending";

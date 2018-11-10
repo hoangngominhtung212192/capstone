@@ -21,11 +21,12 @@ public class Proposal implements Serializable {
     @Column(name = "location")
     private String location;
 
-    @Column(name = "prize")
-    private String prize;
+    @Lob
+    @Column(name = "content")
+    private String content;
 
-    @Column(name = "startdate")
-    private String startDate;
+    @Column(name = "status")
+    private String status;
 
     //bi-directional many-to-one association to Account
     @ManyToOne
@@ -66,27 +67,27 @@ public class Proposal implements Serializable {
         this.location = location;
     }
 
-    public String getPrize() {
-        return prize;
-    }
-
-    public void setPrize(String prize) {
-        this.prize = prize;
-    }
-
-    public String getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-
     public Account getAccount() {
         return account;
     }
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+    
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

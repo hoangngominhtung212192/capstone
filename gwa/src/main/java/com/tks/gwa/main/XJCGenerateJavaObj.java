@@ -2,6 +2,13 @@ package com.tks.gwa.main;
 
 import com.tks.gwa.utils.StringHelper;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
+
 //
 //import com.sun.codemodel.JCodeModel;
 //import com.sun.tools.xjc.api.ErrorListener;
@@ -124,6 +131,36 @@ public class XJCGenerateJavaObj {
 //        printSimilarity("47/2018", "4B.CDEFG");
 //        printSimilarity("47/2018", "AB.CDEFG");
 //        printSimilarity("kitten", "sitting");
-        System.out.println(Math.round((float) 22/ (float) 5));
+
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//
+//        try {
+//            Date startDate = sdf.parse("2018-11-08 04:19:20");
+//
+//            Calendar cal = Calendar.getInstance();
+//            cal.setTime(startDate);
+//            cal.add(Calendar.HOUR_OF_DAY, 2);
+//            Date newDate = cal.getTime();
+//            System.out.println("New date: " + sdf.format(newDate));
+//
+//            Date now = new Date();
+//            System.out.println("Now: " + sdf.format(now));
+//
+//            long diffInMinutes = newDate.getTime() - now.getTime();
+//
+//            int convertedSecond = (int) TimeUnit.SECONDS.convert(diffInMinutes, TimeUnit.MILLISECONDS);
+//
+//            Date convertedDate = new Date(convertedSecond * 1000L);
+//            sdf = new SimpleDateFormat("HH:mm:ss");
+//            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+//            String convertTime = sdf.format(convertedDate);
+//
+//            System.out.println("Difference: " + convertTime);
+//
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+
+
     }
 }

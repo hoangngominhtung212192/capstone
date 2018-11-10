@@ -166,7 +166,10 @@ function authentication() {
     var noticeContent = "";
     $.ajax({
         type: "GET",
+<<<<<<< HEAD
+=======
         async: false,
+>>>>>>> 9f3e4c3605978ec38067b2f5ebd7439dd01c14a3
         url: "http://localhost:8080/gwa/api/user/checkLogin",
         complete: function (xhr, status) {
 

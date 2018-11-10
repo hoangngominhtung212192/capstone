@@ -15,10 +15,14 @@ $(document).ready(function () {
     console.log("today is "+today);
 
     var curEvnId;
+    var role_session;
+    var account_session_id;
+    var username_session;
+
     function authentication() {
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/api/user/checkLogin",
+            url: "http://localhost:8080/gwa/api/user/checkLogin",
             complete: function (xhr, status) {
 
                 if (status == "success") {
@@ -32,6 +36,8 @@ $(document).ready(function () {
                     account_session_id = jsonResponse["id"];
 
                     var username = jsonResponse["username"];
+                    username_session = jsonResponse["username"];
+                    console.log("logegd user: "+username_session);
                     console.log(role_session + " " + username + " is on session!");
 
                     // click profile button
@@ -39,7 +45,8 @@ $(document).ready(function () {
 
                     $('#hidUserID').val(account_session_id);
                     // display username, profile and logout button
-                    $("#username").text(username)
+                    $("#username").text(username);
+                    $('#lblUsername').text(username);
                     $("#username").css("display", "block");
                     $(".dropdown-menu-custom-profile").css("display", "block");
                     $(".dropdown-menu-custom-logout").css("display", "block");
@@ -60,7 +67,7 @@ $(document).ready(function () {
     function checkAuth() {
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/api/user/checkLogin",
+            url: "http://localhost:8080/gwa/api/user/checkLogin",
             complete: function (xhr, status) {
 
                 if (status == "success") {
@@ -74,6 +81,8 @@ $(document).ready(function () {
             }
         });
     }
+
+    //check if user is attending this event
     var curAttendeeID
     function checkCurUserIsAttendee() {
         var curEvent = id;
@@ -82,13 +91,27 @@ $(document).ready(function () {
         console.log(curEvent +" and "+curUser);
         $.ajax({
             type: "POST",
-            url: "http://localhost:8080/api/event/getAttendeeInEvent",
+            url: "http://localhost:8080/gwa/api/event/getAttendeeInEvent",
             data :{
               eventid: curEvent,
-              userid: curUser,
+              userid: account_session_id,
             },
             success: function (result, status) {
                 document.getElementById('feedbackArea').style.display = 'block';
+                if (result.rating>0){
+                    myRating.setRating(result.rating);
+                    $('#txtFeedback').append(result.feedback);
+                    $('#txtFeedback').prop('disabled', true);
+                    $('#btnSubmitFeedback').hide();
+                    $('#lblFeedback1').text("Your rating: ");
+                    $('#lblFeedback2').text("Your feedback");
+
+                }
+                $('#btnRegister').hide();
+                document.getElementById('userAttendInfo').style.display = 'block';
+                $('#lblRegisUsername').append(username_session);
+                $('#lblRegisTicket').append(result.amount);
+                $('#lblRegisDate').append(result.date);
                 curAttendeeID = result.id;
             },
             error : function(e) {
@@ -111,9 +134,6 @@ $(document).ready(function () {
     var id = getUrlParameter();
 
 
-    function sendFeedback(){
-
-    }
     $("#btnSubmitFeedback").on("click", function () {
         var curEvent = id;
         var curAtt = curAttendeeID;
@@ -122,7 +142,7 @@ $(document).ready(function () {
         console.log("curAttendee: "+curAtt);
         $.ajax({
             type: "POST",
-            url: "http://localhost:8080/api/event/feedbackEvent",
+            url: "http://localhost:8080/gwa/api/event/feedbackEvent",
             data :{
                 eventid: curEvent,
                 attendeeid: curAtt,
@@ -142,6 +162,50 @@ $(document).ready(function () {
     $("#btnRegister").on("click", function () {
         checkAuth()
     });
+    getRatedAttendeeEvent(id);
+    function getRatedAttendeeEvent(id) {
+        // var displayDiv = document.getElementById("FeedbackList");
+        console.log("searchin rater by id: "+id);
+        $.ajax({
+            type : "POST",
+            // contentType : "application/json",
+            url : "http://localhost:8080/gwa/api/event/getListAttendeeInEvent",
+            data : {
+                eventid : id
+            },
+            success : function(result, status) {
+                console.log("found evn raters:" +result.length);
+                if (result){
+                    for (var i in result) {
+                        var arater = $('<div class="panel">\n' +
+                            '                    <h5 id="raterName" >'+result[i].account.username+'</h5>\n' +
+                            '                    <div id="raterNo'+result[i].id+'"></div>\n' +
+                            '                    <p id="raterFeedback">'+result[i].feedback+'</p>\n' +
+                            '                </div>' +
+                            '<hr/>');
+
+                        $('#raterArea').append(arater);
+                        var raterRating = raterJs( {
+                            element:document.querySelector("#raterNo"+result[i].id),
+                            rateCallback:function rateCallback(rating, done) {
+                                // this.setRating(rating);
+                                done();
+
+                            },
+                            showToolTip: false,
+                            readOnly: true
+                        });
+                        raterRating.setRating(result[i].rating);
+                    }
+
+                }
+            },
+            error : function(e) {
+
+                console.log("ERROR: ", e);
+            }
+        });
+    }
     getEvent(id);
     function getEvent(data) {
         var displayDiv = document.getElementById("search-result");
@@ -149,7 +213,7 @@ $(document).ready(function () {
         $.ajax({
             type : "POST",
             contentType : "application/json",
-            url : "http://localhost:8080/api/event/getEvent",
+            url : "http://localhost:8080/gwa/api/event/getEvent",
             data : JSON.stringify(data),
             success : function(result, status) {
 
@@ -174,9 +238,24 @@ $(document).ready(function () {
                     }
                     $('#stDate').append(result.startDate);
                     $('#enDate').append(result.endDate);
+                    var totalStars = result.numberOfStars;
+                    var timeRated = result.numberOfRating;
+                    var stars = Math.floor(totalStars/timeRated);
+                    if (timeRated>0){
+                        $('#txtCurRat').append(stars);
+                        evRating.setRating(stars);
+                    } else {
+                        $('#ratingDiv').hide();
+                    }
+                    console.log("Stars: "+stars)
+
                     $('#hidID').val(result.id);
                     curEvnId = result.id;
                     console.log("ev id is "+curEvnId);
+                    // $('#lblUsername').append(username_session.toString());
+                    $('#lblTimeRated').append(result.numberOfRating);
+                    $('#lblTodayDate').append(today.toString());
+                    $('#txtLocation').append(result.location);
                     $('#lblRemaining').append(remaininT);
                     $('#title').append(title);
                     $('#content').html(result.content);
@@ -189,8 +268,6 @@ $(document).ready(function () {
         });
     }
     var modalConfirm = function(callback) {
-
-
         $("#btnSubmitRegister").on("click", function(){
             callback(true);
             $("#confi-modal").modal('hide');
@@ -207,12 +284,12 @@ $(document).ready(function () {
 
         var formArticle = {
             eventit : parseInt(eventid),
-            userid : 1,
+            userid : account_session_id,
             amount : amount,
         }
         $.ajax({
             type : "POST",
-            url : "http://localhost:8080/api/event/getRemainingSlots",
+            url : "http://localhost:8080/gwa/api/event/getRemainingSlots",
             data: {
                 eventid : eventid
             },
@@ -223,7 +300,6 @@ $(document).ready(function () {
                     alert('There are not enough tickets! Please change the amount of tickets.');
                 } else{
                     registerAtt();
-
                 }
             },
             error : function(e) {
@@ -240,15 +316,16 @@ $(document).ready(function () {
 
             $.ajax({
                 type : "POST",
-                url : "http://localhost:8080/api/event/registerEvent",
+                url : "http://localhost:8080/gwa/api/event/registerEvent",
                 data: {
                     eventid : parseInt($("#hidID").val()),
-                    userid : 1,
+                    userid : account_session_id,
                     amount : parseInt($("#txtNum").val()),
                     date : today.toString()
                 },
                 success : function(result, status) {
                     alert("Registered successfully!")
+                    location.reload(true);
                     console.log(result);
                     console.log(status);
                 },
@@ -257,8 +334,6 @@ $(document).ready(function () {
                     console.log("ERROR: ", e);
                 }
             });
-
-
     }
 
     //get rating
@@ -270,4 +345,15 @@ $(document).ready(function () {
         }
     });
 
-})
+    var evRating = raterJs( {
+        element:document.querySelector("#raterEv"),
+        rateCallback:function rateCallback(rating, done) {
+            // this.setRating(rating);
+            done();
+
+        },
+        showToolTip: false,
+        readOnly: true
+    });
+
+});

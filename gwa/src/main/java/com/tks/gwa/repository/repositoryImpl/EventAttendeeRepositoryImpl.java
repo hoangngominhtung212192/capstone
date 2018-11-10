@@ -1,5 +1,6 @@
 package com.tks.gwa.repository.repositoryImpl;
 
+import com.tks.gwa.entity.Event;
 import com.tks.gwa.entity.Eventattendee;
 import com.tks.gwa.repository.EventAttendeeRepository;
 import org.springframework.stereotype.Repository;
@@ -37,10 +38,11 @@ public class EventAttendeeRepositoryImpl extends GenericRepositoryImpl<Eventatte
 
     @Override
     public List<Eventattendee> searchAttendeeByEvent(Integer eventid) {
-        String sql = "FROM " + Eventattendee.class.getName()+ " WHERE eventid = :eventid";
+        System.out.println("earching by id "+eventid);
+        String sql = "FROM " + Eventattendee.class.getName()+ " WHERE eventid = :eventid AND rating > 0";
 
         Query query = this.entityManager.createQuery(sql);
-        query.setParameter("eventid", "%" + eventid + "%");
+        query.setParameter("eventid", eventid );
         List<Eventattendee> listres = null;
 
         try {
@@ -76,6 +78,16 @@ public class EventAttendeeRepositoryImpl extends GenericRepositoryImpl<Eventatte
     public Eventattendee getAttendee(int id) {
         System.out.println("geting attende id: "+id);
         return this.read(id);
+    }
+
+    @Override
+    public Event getEventByAttendee(String userid) {
+        String sql = "FROM " + Eventattendee.class.getName()+ " WHERE accountID = :userid";
+
+        Query query = this.entityManager.createQuery(sql);
+        query.setParameter("userid",  userid);
+
+        return null;
     }
 }
 

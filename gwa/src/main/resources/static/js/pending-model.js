@@ -254,7 +254,7 @@ $(document).ready(function () {
            url: "/gwa/api/model/approve?id=" + id,
            success: function (result) {
                console.log("Approved model: " + result);
-
+               
                $("#myModal").modal({backdrop: 'static', keyboard: false});
                $("#success-btn").on("click", function() {
                    ajaxGetAllPending(1, "");
@@ -423,7 +423,6 @@ $(document).ready(function () {
             }
         });
     }
-
     /* End notification */
 
 })

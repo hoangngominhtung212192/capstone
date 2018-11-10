@@ -1,5 +1,6 @@
 package com.tks.gwa.repository;
 
+import com.tks.gwa.entity.Event;
 import com.tks.gwa.entity.Eventattendee;
 import org.springframework.stereotype.Repository;
 
@@ -15,4 +16,5 @@ public interface EventAttendeeRepository extends GenericRepository<Eventattendee
     List<Eventattendee> searchAttendeeByEvent(Integer eventid);
     Eventattendee getAttendeeInEvent(Integer userid, Integer eventid) throws NoResultException;
     Eventattendee getAttendee(int id);
+    Event getEventByAttendee(String userid);
 }
