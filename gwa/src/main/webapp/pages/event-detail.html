@@ -15,22 +15,22 @@
     <link rel="icon" href="img/core-img/favicon.ico">
 
     <!-- Core Stylesheet -->
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/star-rating.css">
-    <script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script>
+    <link rel="stylesheet" href="/gwa/css/style.css">
+    <link rel="stylesheet" href="/gwa/css/star-rating.css">
+    <script type="text/javascript" src="/gwa/js/ckeditor/ckeditor.js"></script>
 
     <!-- js -->
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/html-importer.js"></script>
-    <script type="text/javascript" src="/js/event-detail.js"></script>
-    <script type="text/javascript" src="/rater-js-master/index.js"></script>
+    <script type="text/javascript" src="/gwa/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/gwa/js/html-importer.js"></script>
+    <script type="text/javascript" src="/gwa/js/event-detail.js"></script>
+    <script type="text/javascript" src="/gwa/rater-js-master/index.js"></script>
 
 </head>
 
 <body>
     <!-- ##### Header Area Start ##### -->
     <header class="header-area">
-        <script>HTMLImporter.import("/pages/header.html");</script>
+        <script>HTMLImporter.import("/gwa/pages/header.html");</script>
     </header>
 
     <!-- ##### Header Area End ##### -->
@@ -40,29 +40,56 @@
             <h2 id="title"></h2>
             <hr />
             <p class="post-date" id="lblDate">Starts from: <span id="stDate"></span> to <span id="enDate"></span></p>
+            <p id="txtLocation">Location: </p>
+
             <div class="entry-content" id="content">
 
             </div>
             <p>Registration starts from <span id="regStDate"></span> and ends on <span id="regEnDate"></span></p>
-            <input type="submit" class="btn" id="btnRegister"value="REGISTER NOW" />
+            <input type="submit" class="btn btn-primary" id="btnRegister" value="REGISTER NOW" />
             <hr />
-            <h4>Ratings: <span id="txtCurRat"></span></h4>
+            <div id="ratingDiv">
+                <h4 >This event was rated: </h4>
+                <div id="raterEv"></div><span id="txtCurRat"></span><span> stars by </span><span id="lblTimeRated"></span><span> users</span>
+                <div id="raterArea">
+
+                </div>
+                <!--<div class="panel">-->
+                    <!--<p id="raterName"></p>-->
+                    <!--<div id="raterEv"></div>-->
+                    <!--<p id="raterFeedback"></p>-->
+                <!--</div>-->
+            </div>
+            <div id="userAttendInfo" style="display: none;">
+                <h5>Your registered information:</h5>
+                <p>Name: <span id="lblRegisUsername"></span></p>
+                <p>Registered on: <span id="lblRegisDate"></span></p>
+                <p>Ticket amount: <span id="lblRegisTicket"></span></p>
+            </div>
 
             <div id="feedbackArea" style="display: none">
-                <h6>Rate the event here!</h6>
+                <h6 id="lblFeedback1">Rate the event!</h6>
                 <div id="rater"></div>
-                <h6>Rate the event here!</h6>
-                <textarea id="txtFeedback" maxlength="250"></textarea>
+                <h6 id="lblFeedback2">Write your feedback!</h6>
+                <textarea id="txtFeedback" maxlength="250" class="form-control"></textarea> <br/>
                 <input type="submit" id="btnSubmitFeedback" class="btn" value="SUBMIT FEEDBACK">
             </div>
+
 
             <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="confi-modal">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
+
+                        <div class="modal-header" >
+                            <h2>Register information</h2>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
                         <div class="modal-body">
-                            <h5>Remaining tickets: <h5 id="lblRemaining"></h5></h5><br/>
-                            <h4>Number of tickets</h4>
-                            <input type="text" id="txtNum" class="form-control" placeholder="Ticket amount" style="width: 50%; display: inline"/>
+                            <h5>Your name: <span id="lblUsername"></span></h5>
+                            <h5>Today is <span id="lblTodayDate"></span></h5>
+                            <h5>Remaining tickets: <span id="lblRemaining"></span></h5>
+                            <h5>Amount of tickets you want:</h5>
+                            <input type="text" id="txtNum" class="form-control" placeholder="Ticket amount" style="width: 50%; display: inline"/><br/>
                             <input id="hidID" type="hidden"/>
                             <input type="submit" class="btn" id="btnSubmitRegister"value="REGISTER" />
                         </div>
@@ -73,26 +100,27 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 
     <!-- ##### Footer Area Start ##### -->
     <footer class="footer-area">
-        <script>HTMLImporter.import("/pages/footer.html");</script>
+        <script>HTMLImporter.import("/gwa/pages/footer.html");</script>
     </footer>
     <!-- ##### Footer Area Start ##### -->
 
     <!-- ##### All Javascript Files ##### -->
     <!-- jQuery-2.2.4 js -->
-    <script src="/js/jquery/jquery-2.2.4.min.js"></script>
+    <script src="/gwa/js/jquery/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->
-    <script src="/js/bootstrap/popper.min.js"></script>
+    <script src="/gwa/js/bootstrap/popper.min.js"></script>
     <!-- Bootstrap js -->
-    <script src="/js/bootstrap/bootstrap.min.js"></script>
+    <script src="/gwa/js/bootstrap/bootstrap.min.js"></script>
     <!-- All Plugins js -->
-    <script src="/js/plugins/plugins.js"></script>
+    <script src="/gwa/js/plugins/plugins.js"></script>
     <!-- Active js -->
-    <script src="/js/active.js"></script>
+    <script src="/gwa/js/active.js"></script>
 
 </body>
 

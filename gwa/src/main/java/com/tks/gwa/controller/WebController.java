@@ -104,4 +104,17 @@ public interface WebController {
     @RequestMapping(value = "/admin/event/create")
     public ModelAndView createEventAdminPage();
 
+    @RequestMapping(value = "/admin/proposal")
+    public ModelAndView proposalListAdminPage();
+
+    @RequestMapping(value = "/admin/proposal/detail")
+    public ModelAndView proposalDetailAdminPage();
+
+    @RequestMapping(value = "/proposal/create")
+    public ModelAndView createProposalPage();
+
+    @RequestMapping(value = "/proposal/detail")
+    public ModelAndView proposalDetailPage();
+
+
 }

@@ -1,6 +1,7 @@
 package com.tks.gwa.controller.controllerImpl;
 
 import com.tks.gwa.controller.EventWS;
+import com.tks.gwa.dto.UploadFileResponse;
 import com.tks.gwa.entity.Account;
 import com.tks.gwa.entity.Event;
 import com.tks.gwa.entity.Eventattendee;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -25,6 +27,8 @@ public class EventWSImpl implements EventWS {
     @Autowired
     private EventAttendeeService attendeeService;
 
+    @Autowired
+    private FileControllerWsImpl fileControllerWs;
 
     @Override
     public ResponseEntity<Event> createEvent(@RequestBody Event event) {
@@ -32,7 +36,7 @@ public class EventWSImpl implements EventWS {
         event.setNumberOfStars(0);
         event.setNumberOfRating(0);
         Event newEvent = eventService.createEvent(event);
-        System.out.println("content: "+event.getContent());
+
 
         return new ResponseEntity<>(newEvent, HttpStatus.OK);
     }
@@ -80,7 +84,7 @@ public class EventWSImpl implements EventWS {
     @Override
     public ResponseEntity<String> registerEvent(@RequestParam int eventid, @RequestParam int userid, @RequestParam int amount, @RequestParam String date) {
         Account testacc = new Account();
-        testacc.setId(1);
+        testacc.setId(userid);
 
         Event nev = eventService.getEvent(eventid);
         nev.setNumberOfAttendee(nev.getNumberOfAttendee()+amount);
@@ -119,7 +123,7 @@ public class EventWSImpl implements EventWS {
         int curNumRating = ev.getNumberOfRating();
         ev.setNumberOfRating(curNumRating+1);
         ev.setNumberOfStars(curStars + rateStars);
-
+        eventService.updateEvent(ev);
 
         return new ResponseEntity<>(ev, HttpStatus.OK);
     }
@@ -144,17 +148,66 @@ public class EventWSImpl implements EventWS {
     }
 
     @Override
+    public ResponseEntity<List<Event>> checkMatchingLocaNtimeExcept(@RequestParam int id,
+                                                                    @RequestParam String location,
+                                                                    @RequestParam String staDate,
+                                                                    @RequestParam String endDate) throws ParseException {
+        List<Event> matchinEv = eventService.checkForMatchingLocationNTimeExcept(id, location, staDate, endDate);
+
+        return new ResponseEntity<>(matchinEv, HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<Eventattendee> getAttendeeInEvent(@RequestParam int userid,@RequestParam  int eventid) {
         System.out.println("WS userid: "+userid);
         System.out.println("WS eventid: "+eventid);
         Eventattendee aa = attendeeService.getAttendeeInEvent(userid, eventid);
         if (aa!=null){
+            System.out.println(userid +" is attendee");
             return new ResponseEntity<>(aa, HttpStatus.OK);
         } else {
+            System.out.println(userid +" is not attendee");
             return new ResponseEntity<>(aa, HttpStatus.NOT_FOUND);
 
         }
 
+    }
+
+    @Override
+    public ResponseEntity<String> uploadSingleImage(MultipartFile file) {
+        UploadFileResponse fileresp = fileControllerWs.uploadFile(file);
+        String fileDownloadUri = fileresp.getFileDownloadUri();
+        System.out.println("img url: "+fileDownloadUri);
+        return new ResponseEntity<>(fileDownloadUri, HttpStatus.OK);
+    }
+
+
+    @Override
+    public ResponseEntity<List<Eventattendee>> getRatedAttendeeInEvent(@RequestParam Integer eventid) {
+        System.out.println("earching by id "+eventid);
+        List<Eventattendee> alist = attendeeService.searchAttendeeByEvent(eventid);
+        System.out.println("WS list size: "+alist.size());
+        System.out.println("result list size: "+alist.size());
+        return new ResponseEntity<>(alist, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<Object>> getEventByStatusAndPage(@RequestParam String status,
+                                                                @RequestParam String sorttype,
+                                                                @RequestParam int pageNum) {
+        List<Object> result = eventService.getEventWithSortAndPageByStatus(status, sorttype, pageNum);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<Object>> searchEventByStatusAndPage(@RequestParam String title,
+                                                                @RequestParam String status,
+                                                                @RequestParam String sorttype,
+                                                                @RequestParam int pageNum) {
+        List<Object> result = eventService.searchEventWithSortAndPageByStatus(title, status, sorttype, pageNum);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 }

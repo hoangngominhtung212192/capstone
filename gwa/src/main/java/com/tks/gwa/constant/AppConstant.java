@@ -60,4 +60,6 @@ public class AppConstant {
     public static final String LOG_FILE_MODEL_CRAWL = "./crawlmodel.dat";
 
     public static final int PAGE_SIZE = 24;
+
+    public  static  final int EVENT_MAX_RECORD_PER_PAGE = 5;
 }

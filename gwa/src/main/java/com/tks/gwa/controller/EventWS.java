@@ -4,6 +4,7 @@ import com.tks.gwa.entity.Event;
 import com.tks.gwa.entity.Eventattendee;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -45,8 +46,29 @@ public interface EventWS {
     @RequestMapping(value = "/checkMatchingLocaNtime", method = RequestMethod.POST)
     ResponseEntity<List<Event>> checkMatchingLocaNtime(@RequestParam String location, @RequestParam String staDate, @RequestParam String endDate) throws ParseException;
 
+    @RequestMapping(value = "/checkMatchingLocaNtimeExcept", method = RequestMethod.POST)
+    ResponseEntity<List<Event>> checkMatchingLocaNtimeExcept(@RequestParam int id, @RequestParam String location, @RequestParam String staDate, @RequestParam String endDate) throws ParseException;
+
+
     @RequestMapping(value = "/getAttendeeInEvent", method = RequestMethod.POST)
     ResponseEntity<Eventattendee> getAttendeeInEvent(@RequestParam int userid, @RequestParam int eventid);
 
+    @RequestMapping(value = "/uploadSingleImage", method = RequestMethod.POST)
+    ResponseEntity<String> uploadSingleImage(@RequestParam("imgfile") MultipartFile file);
+
+
+    @RequestMapping(value = "/getListAttendeeInEvent", method = RequestMethod.POST)
+    ResponseEntity<List<Eventattendee>> getRatedAttendeeInEvent(@RequestParam("eventid") Integer eventid);
+
+    @RequestMapping(value = "/getEventByStatusAndPage", method = RequestMethod.POST)
+    ResponseEntity<List<Object>> getEventByStatusAndPage(@RequestParam("status") String status,
+                                                         @RequestParam("sorttype") String sorttype,
+                                                         @RequestParam("pageNum") int pageNum);
+
+    @RequestMapping(value = "/searchEventByStatusAndPage", method = RequestMethod.POST)
+    ResponseEntity<List<Object>> searchEventByStatusAndPage(@RequestParam("title") String title,
+                                                         @RequestParam("status") String status,
+                                                         @RequestParam("sorttype") String sorttype,
+                                                         @RequestParam("pageNum") int pageNum);
 
 }

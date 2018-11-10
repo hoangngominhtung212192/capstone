@@ -1,5 +1,6 @@
 package com.tks.gwa.service.serviceImpl;
 
+import com.tks.gwa.constant.AppConstant;
 import com.tks.gwa.entity.Event;
 import com.tks.gwa.repository.EventRepository;
 import com.tks.gwa.service.EventService;
@@ -67,6 +68,25 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public List<Event> checkForMatchingLocationExceptID(int id, String location) {
+        System.out.println("comparin from: "+location);
+        List<Event> availEventlist = eventRepository.getAvailableEventExceptID(id);
+        System.out.println("gettin available event");
+        if (availEventlist.isEmpty()){
+            System.out.println("cannot get available event");
+        }
+        ArrayList<Event> matchingEventlist = new ArrayList<Event>();
+        for (int i = 0; i < availEventlist.size(); i++) {
+            System.out.println("ii:" + i);
+            if (location.equalsIgnoreCase(availEventlist.get(i).getLocation() ) ) {
+                System.out.println("adding "+availEventlist.get(i).getLocation());
+                matchingEventlist.add(availEventlist.get(i));
+            }
+        }
+        return matchingEventlist;
+    }
+
+    @Override
     public List<Event> checkForMatchingLocationNTime(String location, String staDate, String endDate) throws ParseException {
         Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(staDate);
         Date date2=new SimpleDateFormat("yyyy-MM-dd").parse(endDate);
@@ -92,6 +112,59 @@ public class EventServiceImpl implements EventService {
         return matchingTimeEvList;
     }
 
+    @Override
+    public List<Event> checkForMatchingLocationNTimeExcept(int id, String location, String staDate, String endDate) throws ParseException {
+        Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(staDate);
+        Date date2=new SimpleDateFormat("yyyy-MM-dd").parse(endDate);
+
+        List<Event> matchingLocationEv = checkForMatchingLocationExceptID(id, location);
+        System.out.println("FOUND :" + matchingLocationEv.size() + "evts with matching location");
+        ArrayList<Event> matchingTimeEvList = new ArrayList<Event>();
+        if (matchingLocationEv.isEmpty()){
+            return null;
+        } else{
+
+            for (int i = 0; i < matchingLocationEv.size(); i++) {
+                Date Mdate1=new SimpleDateFormat("yyyy-MM-dd").parse(matchingLocationEv.get(i).getStartDate());
+                Date Mdate2=new SimpleDateFormat("yyyy-MM-dd").parse(matchingLocationEv.get(i).getEndDate());
+
+                if ((date1.compareTo(Mdate1)>=0 && date1.compareTo(Mdate2)<=0) || (date2.compareTo(Mdate1)>=0 && date2.compareTo(Mdate2)<=0) ){
+                    matchingTimeEvList.add(matchingLocationEv.get(i));
+                }
+            }
+        }
+        return matchingTimeEvList;
+    }
+
+    @Override
+    public List<Object> getEventWithSortAndPageByStatus(String status, String sorttype, int pageNum) {
+        int totalRecord = eventRepository.countEventByStatus(status);
+        int totalPage = totalRecord / AppConstant.EVENT_MAX_RECORD_PER_PAGE;
+        if (totalRecord % AppConstant.EVENT_MAX_RECORD_PER_PAGE > 0){
+            totalPage +=1;
+        }
+        List<Object> result = new ArrayList<>();
+        result.add(totalPage);
+        List<Event> eventList = eventRepository.getEventByStatusAndSort(status, sorttype, pageNum);
+        result.add(eventList);
+
+        return result;
+    }
+
+    @Override
+    public List<Object> searchEventWithSortAndPageByStatus(String title, String status, String sorttype, int pageNum) {
+        int totalRecord = eventRepository.countEventByStatus(status);
+        int totalPage = totalRecord / AppConstant.EVENT_MAX_RECORD_PER_PAGE;
+        if (totalRecord % AppConstant.EVENT_MAX_RECORD_PER_PAGE > 0){
+            totalPage +=1;
+        }
+        List<Object> result = new ArrayList<>();
+        result.add(totalPage);
+        List<Event> eventList = eventRepository.searchEventByStatusAndSort(title, status, sorttype, pageNum);
+        result.add(eventList);
+
+        return result;
+    }
 
 
 }

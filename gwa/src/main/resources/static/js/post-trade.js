@@ -102,7 +102,7 @@ function authentication() {
     var noticeContent = "";
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/user/checkLogin",
+        url: "http://localhost:8080/gwa/api/user/checkLogin",
         complete: function (xhr, status) {
 
             if (status == "success") {

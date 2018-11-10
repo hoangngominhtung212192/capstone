@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>Gunpla World</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="img/core-img/favicon.ico">
+
+    <!-- Core Stylesheet -->
+    <link rel="stylesheet" href="/gwa/css/style.css">
+    <link rel="stylesheet" href="/gwa/css/star-rating.css">
+    <script type="text/javascript" src="/gwa/js/html-importer.js"></script>
+    <script type="text/javascript" src="/gwa/js/ckeditor/ckeditor.js"></script>
+
+</head>
+
+<body>
+<!-- ##### Header Area Start ##### -->
+<header class="header-area">
+    <script>HTMLImporter.import("/gwa/pages/header.html");</script>
+</header>
+
+<!-- ##### Header Area End ##### -->
+<div style="background-color: whitesmoke">
+    <div style="background-color:white;margin-left: 250px;margin-right: 250px;padding: 20px">
+        <form>
+            <h3>Write a proposal for an event.</h3>
+            <b>Tell us what kind of event would you want to happen! We might make it happen!</b>
+            <h3>The event's title <span style="color: red">*</span></h3>
+            <input type="text" class="form form-control" placeholder="What should the event be called?" required id="txtTitle">
+            <h3>Description <span style="color: red">*</span></h3>
+            <textarea class="form-control" placeholder="A short description of the event" required id="txtDescription"></textarea>
+            <h3>Location <span style="color: red">*</span></h3>
+            <input type="text" class="form form-control" placeholder="Where do you want the event to happen?" required id="txtLocation">
+            <h3>Prize</h3>
+            <input type="text" class="form form-control" placeholder="If the event is a contest, what should the prize be?" id="txtPrize">
+            <h3>Date (When should the event starts?)</h3>
+            <input type="date" class="date form-control" id="txtDate">
+            <h3>Content</h3>
+            <p>Please write a detailed description of the event</p>
+            <div style="margin-bottom: 10px">
+                <textarea name="contentEditor" id="contentEditor" ></textarea>
+            </div>
+            <script>
+                // Replace the <textarea id="editor1"> with a CKEditor
+                // instance, using default configuration.
+                CKEDITOR.replace('contentEditor', {
+                    height: 500,
+                    filebrowserImageUploadUrl: 'http://localhost:8080/images/upload',
+                });
+            </script>
+            <h3>Ticket Price</h3>
+            <input type="text" class="form form-control" placeholder="What do you think the ticket price should be?" id="txtPrice">
+            <hr/>
+            <input type="submit" class="btn btn-primary" value="Submit proposal" id="btnSubmit">
+        </form>
+
+    </div>
+</div>
+
+<!-- ##### Footer Area Start ##### -->
+<footer class="footer-area">
+    <script>HTMLImporter.import("/gwa/pages/footer.html");</script>
+</footer>
+<!-- ##### Footer Area Start ##### -->
+
+<!-- ##### All Javascript Files ##### -->
+<!-- jQuery-2.2.4 js -->
+<script src="/gwa/js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="/gwa/js/bootstrap/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="/gwa/js/bootstrap/bootstrap.min.js"></script>
+<!-- All Plugins js -->
+<script src="/gwa/js/plugins/plugins.js"></script>
+<!-- Active js -->
+<script src="/gwa/js/active.js"></script>
+
+
+
+<!-- js -->
+<script type="text/javascript" src="/gwa/js/jquery.min.js"></script>
+
+<script type="text/javascript" src="/gwa/js/create-proposal.js"></script>
+
+</body>
+
+</html>
