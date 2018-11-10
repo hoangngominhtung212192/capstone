@@ -68,10 +68,7 @@ $(document).ready(function() {
                 eventTitle : $('#txtTitle').val(),
                 description : $('#txtDescription').val(),
                 location : $('#txtLocation').val(),
-                prize : $('#txtPrize').val(),
-                startDate : $('#txtDate').val(),
                 content : CKEDITOR.instances.contentEditor.getData(),
-                ticketPrice : $('#txtPrice').val()
 
             },
             success : function(result, status) {

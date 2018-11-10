@@ -21,8 +21,6 @@ $(document).ready(function() {
                 if (result){
                     $('#linkCreate').attr("href", "/admin/event/create?id="+result.id+"");
                     $('#txtTitle').val(result.eventTitle);
-                    $('#txtPrice').val(result.ticketPrice);
-                    $('#txtStartDate').val(result.startDate);
                     $('#txtLocation').val(result.location);
                     $('#txtDescription').val(result.description);
                     $('#contentEditor').html(result.content);
