@@ -168,7 +168,7 @@
     <header class="main-header">
 
         <!-- Logo -->
-        <a href="index2.html" class="logo">
+        <a href="/gwa/admin/model/pending" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>GWA</b></span>
             <!-- logo for regular state and mobile devices -->
@@ -188,42 +188,20 @@
                     <li class="dropdown notifications-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell-o"></i>
-                            <span class="label label-warning">10</span>
+                            <span id="numberOfNew" class="label label-warning">10</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header">You have 10 notifications</li>
+                            <li id="notice-new" class="header">You have 10 notifications</li>
                             <li>
                                 <!-- inner menu: contains the actual data -->
-                                <ul class="menu">
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
-                                            page and may cause design problems
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-users text-red"></i> 5 new members joined
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-user text-red"></i> You changed your username
-                                        </a>
-                                    </li>
+                                <ul id="ul-notification" class="menu">
+                                    <!--<li>-->
+                                    <!--<a href="#">-->
+                                    <!--<i class="fa fa-users text-aqua"></i> 5 new members joined today-->
+                                    <!--</a>-->
+                                    <!--</li>-->
                                 </ul>
                             </li>
-                            <li class="footer"><a href="#">View all</a></li>
                         </ul>
                     </li>
                     <!-- User Account: style can be found in dropdown.less -->
@@ -327,9 +305,8 @@
             </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> Manage article</a></li>
-                        <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i> Pending article</a></li>
-                        <li><a href="pages/charts/flot.html"><i class="fa fa-circle-o"></i> Create new article</a></li>
+                        <li><a href="/gwa/admin/article"><i class="fa fa-circle-o"></i> Pending article</a></li>
+                        <li><a href="/gwa/admin/article/create"><i class="fa fa-circle-o"></i> Create new article</a></li>
                     </ul>
                 </li>
 
@@ -342,8 +319,9 @@
             </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="pages/forms/general.html"><i class="fa fa-circle-o"></i> Manage Event</a></li>
-                        <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i> Create new event</a></li>
+                        <li><a href="/gwa/admin/event"><i class="fa fa-circle-o"></i> Manage Event</a></li>
+                        <li><a href="/gwa/admin/event/create"><i class="fa fa-circle-o"></i> Create new event</a></li>
+                        <li><a href="/gwa/admin/proposal"><i class="fa fa-circle-o"></i> Manage proposal</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
@@ -355,11 +333,21 @@
             </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="pages/tables/simple.html"><i class="fa fa-circle-o"></i> Manage trade post</a></li>
-                        <li><a href="pages/tables/data.html"><i class="fa fa-circle-o"></i> Pending trade post</a></li>
+                        <li><a href="/gwa/admin/tradepost/pending"><i class="fa fa-circle-o"></i> Pending trade post</a></li>
                     </ul>
                 </li>
-
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-table"></i>
+                        <span>Schedule</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/gwa/admin/schedule/manage"><i class="fa fa-circle-o"></i> Manage Schedule</a></li>
+                    </ul>
+                </li>
 
                 <li class="header">LABELS</li>
                 <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
