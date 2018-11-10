@@ -442,74 +442,6 @@
         </div>
     </div><!-- trending-ads -->
 
-    <!--- Confirm Delete modal --->
-    <!-- Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Do you want to delete this trade post.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger" id="deleteTradePostBtn">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--- update quantity modal --->
-    <!-- Modal -->
-    <div class="modal fade" id="updateQuantityModal" tabindex="-1" role="dialog" aria-labelledby="updateQuantityModal"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="updateQuantityModalLabel">Update Quantity</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input type="number" id="updateQuantityValue" class="form-control" min="0" max="1000" required/>
-                    <input type="hidden" id="oldQuantityValue"/>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="updateQuantityBtn">Update</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--- view reason modal --->
-    <!-- Modal -->
-    <div class="modal fade" id="viewReasonModal" tabindex="-1" role="dialog" aria-labelledby="viewReasonModal"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="viewReasonModalLabel">Reject reason</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" style="color: red">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- End trade container -->
-
     <!-- Pagination -->
     <div class="row justify-content-center" style="margin-bottom: 20px" id="paginationDiv">
         <nav aria-label="Page navigation">
@@ -518,8 +450,90 @@
         </nav>
     </div>
     <!-- End pagination -->
+
+    <!-- End trade container -->
+
 </div>
 
+<!--- Confirm Delete modal --->
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Do you want to delete this trade post.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="deleteTradePostBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--- update quantity modal --->
+<!-- Modal -->
+<div class="modal fade" id="updateQuantityModal" tabindex="-1" role="dialog" aria-labelledby="updateQuantityModal"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateQuantityModalLabel">Update Quantity</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="number" id="updateQuantityValue" class="form-control" min="0" max="1000" required/>
+                <input type="hidden" id="oldQuantityValue"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="updateQuantityBtn">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--- view reason modal --->
+<!-- Modal -->
+<div class="modal fade" id="viewReasonModal" tabindex="-1" role="dialog" aria-labelledby="viewReasonModal"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewReasonModalLabel">Reject reason</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="color: red">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ##### Footer Add Area Start ##### -->
+<div class="footer-add-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="footer-add">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Footer Add Area End ##### -->
 
 <!-- ##### Footer Area Start ##### -->
 <footer class="footer-area">
@@ -534,13 +548,12 @@
                     <div class="footer-widget-area mt-80">
                         <!-- Footer Logo -->
                         <div class="footer-logo">
-                            <a href="index.html" style="color: white; font: 3em sans-serif;">Gunpla World</a>
+                            <a href="/gwa/" style="color: white; font: 3em sans-serif;">Gunpla World</a>
                         </div>
                         <!-- List -->
                         <ul class="list">
-                            <li><a href="mailto:contact@youremail.com">contact@youremail.com</a></li>
-                            <li><a href="tel:+4352782883884">+43 5278 2883 884</a></li>
-                            <li><a href="http://yoursitename.com">www.yoursitename.com</a></li>
+                            <li><a href="mailto:contact@youremail.com">gunplaworld@gmail.com</a></li>
+                            <li><a href="tel:+4352782883884">+84 981 875 113</a></li>
                         </ul>
                     </div>
                 </div>
@@ -552,10 +565,11 @@
                         <h4 class="widget-title">Quick Links</h4>
                         <!-- List -->
                         <ul class="list">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Articles</a></li>
-                            <li><a href="#">Events</a></li>
-                            <li><a href="#">Trade market</a></li>
+                            <li class="active"><a href="/gwa/">Home</a></li>
+                            <li><a href="/gwa/model">GUNDAM</a></li>
+                            <li><a href="/gwa/article">Articles</a></li>
+                            <li><a href="/gwa/event">Events</a></li>
+                            <li><a href="/gwa/trade-market">Trade market</a></li>
                         </ul>
                     </div>
                 </div>
@@ -567,7 +581,7 @@
                         <h4 class="widget-title">Follow us</h4>
                         <!-- List -->
                         <ul class="list">
-                            <li><a href="#">Facebook</a></li>
+                            <li><a href="http://www.facebook.com">Facebook</a></li>
                         </ul>
                     </div>
                 </div>
@@ -579,7 +593,7 @@
                         <div class="row h-100 align-items-center">
                             <div class="col-12">
                                 <!-- Copywrite -->
-                                <p>copywrite lol</p>
+                                <p>Copywrite GUNPLA</p>
                             </div>
                         </div>
                     </div>
