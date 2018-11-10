@@ -241,6 +241,11 @@ $(document).ready(function () {
                 reason: reason
             },
             success: function (result) {
+                var notiDesc = "Your trade post with id=" + id +" has been declined by Administrator.";
+                var acc = result.account.id;
+                var objectID = id;
+                var notiType = 3; // Notification about tradepost;
+                addNewNotification(notiDesc, objectID, acc, notiType);
                 console.log("Decline model: " + result);
                 $("#noticeText").html("Decline successfully.");
                 $("#myModal").modal({backdrop: 'static', keyboard: false});
@@ -267,6 +272,10 @@ $(document).ready(function () {
                 console.log("Approved model: " + result);
                 var role = result.account.role.name;
                 var acc = result.account.id;
+                var notiDesc = "Your trade post with id=" + id +" has been approved by Administrator.";
+                var objectID = id;
+                var notiType = 3; // Notification about tradepost;
+                addNewNotification(notiDesc, objectID, acc, notiType);
 
                 $("#noticeText").html("Approve successfully.");
                 $("#myModal").modal({backdrop: 'static', keyboard: false});
@@ -294,6 +303,12 @@ $(document).ready(function () {
                 roleName: roleName
             },
             success: function () {
+                var acc = accountID;
+                var notiDesc = "Congratulation! You just become " + roleName;
+                var objectID = accountID;
+                var notiType = 1; // Notification about tradepost;
+                addNewNotification(notiDesc, objectID, acc, notiType);
+
                 console.log("UPDATED ROLE: " + accountID + " - " + roleName);
             },
             error: function (e) {
@@ -391,15 +406,29 @@ $(document).ready(function () {
             if (!value.seen) {
                 // not seen yet
                 countNotSeen++;
-                appendNotification += "<li style='background-color: lightgoldenrodyellow;'>\n"
+                appendNotification += "<li>\n"
             } else {
                 // already seen
                 appendNotification += "<li style='background-color: white;'>\n"
             }
 
+            var iconType = "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> ";
+
+            if (value.notificationtype.name == "Profile"){
+                iconType = "<i class=\"fa fa-user-circle-o text-yellow\" style=\"color: darkred;\"></i> ";
+            }else if (value.notificationtype.name == "Model") {
+                iconType = "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "Tradepost") {
+                iconType = "<i class=\"fa fa-check-square-o text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "OrderSent") {
+                iconType = "<i class=\"fa fa fa-paper-plane text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "OrderReceived") {
+                iconType = "<i class=\"fa fa fa-bullhorn text-yellow\" style=\"color: darkred;\"></i> ";
+            }
+
             appendNotification += "<a id='" + value.id + "-" + value.notificationtype.name + "-" + value.objectID +
                 "' href=\"#\">\n" +
-                "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> " + value.description + "</a>\n" +
+                iconType + value.description + "</a>\n" +
                 "</li>";
 
             $("#ul-notification").append(appendNotification);
@@ -425,6 +454,12 @@ $(document).ready(function () {
                     window.location.href = "/gwa/pages/profile.html?accountID=" + objectID;
                 } else if (type == "Model") {
                     window.location.href = "/gwa/pages/modeldetail.html?modelID=" + objectID;
+                } else if (type == "Tradepost") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
+                } else if (type == "OrderSent") {
+                    window.location.href = "/gwa/trade-market/my-order";
+                } else if (type == "OrderReceived") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
                 }
             });
         });
@@ -444,17 +479,15 @@ $(document).ready(function () {
 
     }
 
-    function addNewNotification() {
-        var description = $("#txtReason").val();
-
+    function addNewNotification(desc,objectId,account,notiType) {
         var formNotification = {
-            description: description,
-            objectID: account_profile_on_page_id,
+            description: desc,
+            objectID: objectId,
             account: {
-                id: account_profile_on_page_id
+                id: account
             },
             notificationtype: {
-                id: 1
+                id: notiType
             }
         }
 

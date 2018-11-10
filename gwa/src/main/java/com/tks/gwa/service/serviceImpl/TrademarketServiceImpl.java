@@ -712,6 +712,7 @@ public class TrademarketServiceImpl implements TrademarketService {
             if (ownerProfile.getLastName() != null){
                 fullname = fullname + " " + ownerProfile.getLastName();
             }
+            orderDTO.setOwnerId(ownerProfile.getAccount().getId());
             orderDTO.setOwnerName(fullname);
             orderDTO.setOrderId(orderrequestList.get(i).getId());
             //Check rated Trader -> owner

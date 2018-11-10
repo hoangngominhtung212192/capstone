@@ -26,6 +26,7 @@
 
 <body>
 <!-- ##### Header Area Start ##### -->
+<div id="loading" class="loading" style="display: none; z-index: 20000;">Loading&#8230;</div>
 <header class="header-area">
 
     <!-- Top Header Area -->
@@ -39,19 +40,109 @@
                             <a href="index.html" style="color: white; font: 3em sans-serif;">Gunpla World</a>
                         </div>
 
+                        <div id="profile-div" class="navbar-custom-menu">
+                            <ul class="nav navbar-nav">
+                                <!-- notification -->
+                                <li id="notification-li" class="dropdown notification-menu-custom">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                        <i class="fa fa-bell-o"></i>
+                                        <span id="numberOfNew" class="label label-warning">10</span>
+                                    </a>
+                                    <ul id="dropdown-notification" class="dropdown-menu">
+                                        <li id="notice-new" class="header">You have 10 notifications</li>
+                                        <li>
+                                            <!-- inner menu: contains the actual data -->
+                                            <ul id="ul-notification" class="menu">
+                                                <!--<li>-->
+                                                <!--<a href="#">-->
+                                                <!--<i class="fa fa-warning text-yellow" style="color: red;"></i> Very long description-->
+                                                <!--here that may not fit into the-->
+                                                <!--page and may cause design problems-->
+                                                <!--</a>-->
+                                                <!--</li>-->
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <!--    profile     -->
+                                <li id="username-li" class="dropdown user user-menu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <img id="thumbAvatar-new" src="/gwa/img/avatar_2x.png" class="user-image"
+                                             alt="User Image">
+                                        <span id="fullname-new" class="hidden-xs">Minh Tung</span>
+                                    </a>
+                                    <ul id="dropdown-profile" class="dropdown-menu">
+                                        <!-- User image -->
+                                        <li class="user-header">
+                                            <img id="thumbAvatar-dropdown" src="/gwa/img/avatar_2x.png"
+                                                 onerror="this.src='/gwa/img/avatar_2x.png'"
+                                                 class="img-circle" alt="User Image">
+                                            <p>
+                                                <span id="fullname-dropdown">Minh Tung</span>
+                                                <small id="membersince">Member since Nov. 2018</small>
+                                            </p>
+                                        </li>
+                                        <!-- Menu Body -->
+                                        <li class="user-body">
+                                            <div class="statistic">
+                                                <span>
+                                                    Proposal
+                                                </span>
+                                            </div>
+                                            <div class="statistic">
+                                                 <span>
+                                                     Buy
+                                                 </span>
+                                            </div>
+                                            <div class="statistic">
+                                                 <span>
+                                                     Sell
+                                                 </span>
+                                            </div>
+                                            <div class="statistic-detail">
+                                                <span id="proposal">
+                                                    0
+                                                </span>
+                                            </div>
+                                            <div class="statistic-detail">
+                                                 <span id="buy">
+                                                     0
+                                                 </span>
+                                            </div>
+                                            <div class="statistic-detail">
+                                                 <span id="sell">
+                                                     0
+                                                 </span>
+                                            </div>
+                                            <!-- /.row -->
+                                        </li>
+                                        <!-- Menu Footer-->
+                                        <li class="user-footer">
+                                            <div class="pull-left">
+                                                <a id="profile-new" href="#" class="btnProfile">Profile</a>
+                                            </div>
+                                            <div class="pull-left">
+                                                <a id="adminBtn" style="display: none;" href="#"
+                                                   class="btnAdmin">Admin</a>
+                                            </div>
+                                            <div class="pull-right">
+                                                <a id="logout-new" href="" class="btnSignout">Sign out</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
                         <!-- Login Search Area -->
-                        <div class="login-search-area d-flex align-items-center">
+                        <div id="loginForm" style="margin-right: 50px; display: none!important;"
+                             class="login-search-area d-flex align-items-center">
                             <!-- Login -->
-                            <div class="login d-flex">
-                                <a href="#">Login</a>
-                                <a href="#">Register</a>
-                            </div>
-                            <!-- Search Form -->
-                            <div class="search-form">
-                                <form action="#" method="post">
-                                    <input type="search" name="search" class="form-control" placeholder="Search">
-                                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                                </form>
+                            <div class="account login d-flex">
+                                <a style="font-family: Verdana,sans-serif; font-size: 15px;"
+                                   id="loginbtn" href="/gwa/login?goBack=1"><b>Login</b></a>
+                                <a style="font-family: Verdana,sans-serif; font-size: 15px;"
+                                   id="register" href="/gwa/register"><b>Register</b></a>
                             </div>
                         </div>
                     </div>
@@ -69,7 +160,7 @@
 
                     <!-- Logo -->
                     <div class="logo">
-                        <a href="index.html"><img src="/gwa/img/logo.png" alt=""></a>
+                        <a href="/gwa/"><img src="/gwa/img/logo.png" alt=""></a>
                     </div>
 
                     <!-- Navbar Toggler -->
@@ -88,38 +179,11 @@
                         <!-- Nav Start -->
                         <div class="classynav">
                             <ul>
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="#">Pages</a>
-                                    <ul class="dropdown">
-                                        <li><a href="index.html">Home</a></li>
-                                        <li><a href="#">Dropdown</a>
-                                            <ul class="dropdown">
-                                                <li><a href="index.html">Home</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a href="#">Mega Menu</a>
-                                    <div class="megamenu">
-                                        <ul class="single-mega cn-col-3">
-                                            <li class="title">Catagories</li>
-                                            <li><a href="index.html">Home</a></li>
-                                        </ul>
-                                        <ul class="single-mega cn-col-3">
-                                            <li class="title">Catagories</li>
-                                            <li><a href="index.html">Home</a></li>
-                                        </ul>
-                                        <ul class="single-mega cn-col-3">
-                                            <li class="title">Catagories</li>
-                                            <li><a href="index.html">Home</a></li>
-                                        </ul>
-
-                                    </div>
-                                </li>
-                                <li><a href="#">Articles</a></li>
-                                <li><a href="#">Events</a></li>
+                                <li><a href="/gwa/">Home</a></li>
+                                <li><a href="/gwa/model">GUNDAM</a></li>
+                                <li><a href="/gwa/article">Articles</a></li>
+                                <li><a href="/gwa/event">Events</a></li>
                                 <li class="active"><a href="/gwa/trade-market">Trade market</a></li>
-                                <li><a href="contact.html">Contact</a></li>
                             </ul>
                         </div>
                         <!-- Nav End -->

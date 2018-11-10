@@ -1,4 +1,5 @@
 var loginAccount;
+var loginAccountName;
 var currentTabSelected = "approved";
 var currentSortSelected = 1;
 var currentPage = 1;
@@ -50,10 +51,365 @@ var defaultPaginationOpts = {
 $(document).ready(function () {
     $("#myOrderContainerDiv").hide();
     $(".notice-section").hide();
+
+    /*   Begin authentication and notification  */
+    // process UI
+
+    $(document).click(function (event) {
+        $("#dropdown-profile").css("display", "none");
+        $("#dropdown-notification").css("display", "none");
+    })
+
+
     authentication();
+
+    var account_session_id;
+    function authentication() {
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/gwa/api/user/checkLogin",
+            // async: false,
+            complete: function (xhr, status) {
+                if (status == "success") {
+
+                    // username click
+                    usernameClick();
+
+                    var xhr_data = xhr.responseText;
+                    var jsonResponse = JSON.parse(xhr_data);
+                    var role = jsonResponse["role"].name;
+                    loginAccount = jsonResponse["id"];
+
+                    var username = jsonResponse["username"];
+                    loginAccountName = username;
+                    var thumbAvatar = jsonResponse["avatar"];
+                    console.log(jsonResponse["role"].name + " " + username + " is on session!");
+                    $("#membersince").text("Member since " + jsonResponse["createdDate"].split(" ")[0]);
+
+                    // click profile button
+                    profileClick(jsonResponse["id"]);
+                    getSessionProfile(jsonResponse["id"]);
+                    account_session_id = jsonResponse["id"];
+                    ajaxGetAllNotification(jsonResponse["id"]);
+                    ajaxGetStatistic(jsonResponse["id"]);
+
+                    // display username, profile and logout button
+                    if (thumbAvatar) {
+                        $("#thumbAvatar-new").attr("src", thumbAvatar);
+                        $("#thumbAvatar-dropdown").attr("src", thumbAvatar);
+                    }
+
+                    if (role == "MEMBER" || role == "BUYERSELLER") {
+                        loadMyOrderData();
+                        $("#myOrderContainerDiv").show();
+
+                        $pagination.twbsPagination('destroy');
+                        if (totalPage > 1) {
+                            $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+                                totalPages: totalPage
+                            }));
+                        }
+
+
+                    } else if (role == "ADMIN") {
+
+                        $("#adminBtn").css("display", "block");
+
+                        $(".notice-section").show();
+                        $("#noticeTitle").html("Opps! You are administrator, why you stay here...");
+                        $("#noticeContent").html("Click <a href='/gwa/admin'>[HERE]</a> to back to your site.");
+                    }
+                } else {
+                    $(".notice-section").show();
+                    $("#noticeTitle").html("Opps! You need login to stay here!");
+                    $("#noticeContent").html("Click <a href='/gwa/login'>[HERE]</a> to login.");
+
+                    console.log("Guest is accessing !");
+                    $("#profile-div").css("display", "none");
+                    $("#loginForm").css("display", "block");
+                }
+            }
+        });
+
+    }
+    notificationClick();
+
+    function notificationClick() {
+        $("#notification-li").click(function (event) {
+            // separate from document click
+            event.stopPropagation();
+
+            $("#dropdown-notification").css("display", "block");
+
+            return false;
+        })
+    }
+
+    // get session account's profile
+    function getSessionProfile(id) {
+
+        $.ajax({
+            type: "POST",
+            url: "/gwa/api/user/profile?accountID=" + id,
+            success: function (result) {
+                //get selected profile's account status
+
+                var displayUsername = "";
+
+                if (result.middleName) {
+                    displayUsername += result.lastName + ' ' + result.middleName + ' ' + result.firstName;
+                } else {
+                    displayUsername += result.lastName + ' ' + result.firstName;
+                }
+
+                $("#fullname-new").text(displayUsername);
+                $("#fullname-dropdown").text(displayUsername);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    function ajaxGetStatistic(accountID) {
+
+        $.ajax({
+            type: "GET",
+            url: "/gwa/api/user/getStatistic?accountID=" + accountID,
+            success: function (result) {
+                // current user session's profile statistic
+                $("#sell").text(result[0]);
+                $("#buy").text(result[1]);
+                $("#proposal").text(result[2]);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    // logout button click event
+    $("#logout-new").click(function (event) {
+        event.preventDefault();
+
+        $("#loading").css("display", "block");
+
+        setTimeout(function () {
+            $("#loading").css("display", "none");
+
+            ajaxLogout();
+        }, 300);
+    });
+
+    $("#adminBtn").click(function (event) {
+        event.preventDefault();
+
+        window.location.href = "/gwa/admin/model/pending";
+    });
+
+    function ajaxLogout() {
+        $.ajax({
+            type: "GET",
+            url: "/gwa/api/user/logout",
+            success: function (result) {
+                window.location.href = "/gwa/login";
+            }
+        });
+    }
+
+    // profile button click event
+    function profileClick(accountID) {
+        $("#profile-new").click(function (event) {
+            window.location.href = "/gwa/pages/profile.html?accountID=" + accountID;
+        })
+    }
+
+    // username click event
+    function usernameClick() {
+        $("#username-li").click(function (event) {
+            // separate from document click
+            event.stopPropagation();
+
+            $("#dropdown-profile").css("display", "block");
+
+            return false;
+        })
+    }
+
+    /*   This is for notification area   */
+    var pageNumber = 1;
+    var lastPage;
+
+    function ajaxGetAllNotification(accountID) {
+
+        $.ajax({
+            type: "GET",
+            url: "/gwa/api/notification/getAll?pageNumber=" + pageNumber + "&accountID=" + accountID,
+            success: function (result) {
+                console.log(result);
+
+                lastPage = result[0];
+                renderNotification(result[1]);
+            }
+        })
+    }
+
+    // scroll to bottom event
+    $("#ul-notification").scroll(function () {
+        if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+            if (pageNumber < lastPage) {
+                pageNumber += 1;
+
+                $("#loading").css("display", "block");
+
+                setTimeout(function () {
+                    ajaxGetAllNotification(account_session_id);
+
+                    $("#loading").css("display", "none");
+                }, 400);
+            }
+        }
+    });
+
+    var countNotSeen = 0;
+
+    function renderNotification(result) {
+
+        $.each(result, function (index, value) {
+
+            var appendNotification = "";
+
+            if (!value.seen) {
+                // not seen yet
+                countNotSeen++;
+                appendNotification += "<li>\n"
+            } else {
+                // already seen
+                appendNotification += "<li style='background-color: white;'>\n"
+            }
+
+            var iconType = "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> ";
+
+            if (value.notificationtype.name == "Profile"){
+                iconType = "<i class=\"fa fa-user-circle-o text-yellow\" style=\"color: darkred;\"></i> ";
+            }else if (value.notificationtype.name == "Model") {
+                iconType = "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "Tradepost") {
+                iconType = "<i class=\"fa fa-check-square-o text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "OrderSent") {
+                iconType = "<i class=\"fa fa fa-paper-plane text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "OrderReceived") {
+                iconType = "<i class=\"fa fa fa-bullhorn text-yellow\" style=\"color: darkred;\"></i> ";
+            }
+
+            appendNotification += "<a id='" + value.id + "-" + value.notificationtype.name + "-" + value.objectID +
+                "' href=\"#\">\n" +
+                iconType + value.description + "</a>\n" +
+                "</li>";
+
+            $("#ul-notification").append(appendNotification);
+
+            // click event
+            $("a[id='" + value.id + "-" + value.notificationtype.name + "-" + value.objectID + "'").click(function (e) {
+                e.preventDefault();
+
+                // get parameters saved in attribute id of current notification
+                var notificationID = $(this).attr('id').split("-")[0];
+                var type = $(this).attr('id').split("-")[1];
+                var objectID = $(this).attr('id').split("-")[2];
+
+                // log to console
+                console.log("Notification ID: " + notificationID);
+                console.log("Type: " + type);
+                console.log("ObjectID: " + objectID);
+
+                // set seen status to 0 --> means user has seen this current notification
+                ajaxUpdateNotificationStatus(notificationID);
+
+                if (type == "Profile") {
+                    window.location.href = "/gwa/pages/profile.html?accountID=" + objectID;
+                } else if (type == "Model") {
+                    window.location.href = "/gwa/pages/modeldetail.html?modelID=" + objectID;
+                } else if (type == "Tradepost") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
+                } else if (type == "OrderSent") {
+                    window.location.href = "/gwa/trade-market/my-order";
+                } else if (type == "OrderReceived") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
+                }
+            });
+        });
+
+        if (countNotSeen == 1 || countNotSeen == 0) {
+            $("#notice-new").text("You have " + countNotSeen + " new notification");
+        } else {
+            // plural
+            $("#notice-new").text("You have " + countNotSeen + " new notifications");
+        }
+
+        if (countNotSeen == 0) {
+            $("#numberOfNew").text("");
+        } else {
+            $("#numberOfNew").text(countNotSeen);
+        }
+
+    }
+
+
+
+    function ajaxUpdateNotificationStatus(notificationID) {
+
+        $.ajax({
+            type: "POST",
+            url: "/gwa/api/notification/update?notificationID=" + notificationID,
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    /* End notification */
+    /*   End authentication and notification  */
     autoGetYourLocation();
     <!-- Tooltip -->
 });
+
+/* ADD NEW NOTIFICATION FUNCTION */
+function addNewNotification(desc,objectId,account,notiType) {
+
+    var formNotification = {
+        description: desc,
+        objectID: objectId,
+        account: {
+            id: account // to admin
+        },
+        notificationtype: {
+            id: notiType
+        }
+    }
+
+    ajaxPostNewNotification(formNotification);
+}
+
+function ajaxPostNewNotification(data) {
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/gwa/api/notification/addNew",
+        data: JSON.stringify(data),
+        success: function (result) {
+            console.log(result);
+        },
+        error: function (e) {
+            console.log("ERROR: ", e);
+        }
+    });
+}
+/*END ADD NEW NOTIFICATION FUNCTION */
 
 function changeTab(ele) {
     currentTabSelected = $(ele).attr("data-status");
@@ -77,45 +433,7 @@ $("#sortTypeSelect").change(function () {
 
 });
 
-function authentication() {
-    $.ajax({
-        type: "GET",
-        url: "http://localhost:8080/gwa/api/user/checkLogin",
-        // async: false,
-        complete: function (xhr, status) {
-            if (status == "success") {
-                var xhr_data = xhr.responseText;
-                var jsonResponse = JSON.parse(xhr_data);
-                var role = jsonResponse["role"].name;
-                loginAccount = jsonResponse["id"];
 
-                if (role == "MEMBER" || role == "BUYERSELLER") {
-                    loadMyOrderData();
-                    $("#myOrderContainerDiv").show();
-
-                    $pagination.twbsPagination('destroy');
-                    if (totalPage > 1) {
-                        $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
-                            totalPages: totalPage
-                        }));
-                    }
-
-
-                } else if (role == "ADMIN") {
-                    $(".notice-section").show();
-                    $("#noticeTitle").html("Opps! You are administrator, why you stay here...");
-                    $("#noticeContent").html("Click <a href='/gwa/admin'>[HERE]</a> to back to your site.");
-                }
-            } else {
-                $(".notice-section").show();
-                $("#noticeTitle").html("Opps! You need login to stay here!");
-                $("#noticeContent").html("Click <a href='/gwa/login'>[HERE]</a> to login.");
-                // console.log("Guest is accessing !");
-            }
-        }
-    });
-
-}
 
 function loadMyOrderData() {
     $.ajax({
@@ -228,7 +546,7 @@ function renderData(data) {
                 var updateBtn = $('<a href="#updateModal" data-title="tooltip" data-placement="top" data-toggle="modal" ' +
                     'title="Update request" data-orderid="' + rowData["orderId"] + '" data-quantity="' + rowData["orderQuantity"] + '"><i class="fa fa-cart-plus"></i></a>');
                 var cancelBtn = $('<a class="delete-item" href="#cancelModal" data-title="tooltip" data-placement="top" data-toggle="modal"  ' +
-                    'title="Cancel this order" data-orderid="' + rowData["orderId"] + '"><i class="fa fa-share-square"></i></a>');
+                    'title="Cancel this order" data-orderid="' + rowData["orderId"] + '"  data-ownerid="' + rowData["ownerId"] + '"   data-tradepostid="' + rowData["tradepostId"] + '"><i class="fa fa-share-square"></i></a>');
                 // metaAction.append(updateBtn);
                 metaAction.append(cancelBtn);
             }
@@ -236,7 +554,7 @@ function renderData(data) {
                 var directionBtn = $('<a href="#directionModal" data-title="tooltip" data-placement="top" data-toggle="modal"  ' +
                     'title="' + rowData["ownerAddress"] + '" data-address="' + rowData["ownerAddress"] + '"><i class="fa fa-map-marker"></i></a>');
                 var cancelBtn = $('<a class="delete-item" href="#cancelModal" data-title="tooltip" data-placement="top" data-toggle="modal"  ' +
-                    'title="Cancel this order" data-orderid="' + rowData["orderId"] + '"><i class="fa fa-share-square"></i></a>');
+                    'title="Cancel this order" data-orderid="' + rowData["orderId"] + '" data-ownerid="' + rowData["ownerId"] + '"  data-tradepostid="' + rowData["tradepostId"] + '"><i class="fa fa-share-square"></i></a>');
                 metaAction.append(viewContactBtn);
                 metaAction.append(directionBtn);
                 metaAction.append(cancelBtn);
@@ -246,7 +564,7 @@ function renderData(data) {
                 var isRated = rowData["rated"];
                 if (!isRated) {
                     ratingBtn = $('<a class="unrated-item" href="#ratingModal" data-title="tooltip" data-placement="top" data-toggle="modal" ' +
-                        'title="Rating this trade"  data-orderid="' + rowData["orderId"] + '"><i class="fa fa-star"></i></a>');
+                        'title="Rating this trade"  data-orderid="' + rowData["orderId"] + '" data-ownerid="' + rowData["ownerId"] + '"  data-tradepostid="' + rowData["tradepostId"] + '"><i class="fa fa-star"></i></a>');
                 } else {
                     ratingBtn = $('<a class="rated-item" data-title="tooltip" data-placement="top" ' +
                         'title="This trade is rated"><i class="fa fa-star"></i></a>');
@@ -269,7 +587,7 @@ function renderData(data) {
     $('[data-title="tooltip"]').tooltip();
 }
 
-function cancelOrder(orderID, reason) {
+function cancelOrder(orderID, reason, ownerId, tradepostId) {
     $.ajax({
         type: "POST",
         url: "http://localhost:8080/gwa/api/tradepost/cancel-order",
@@ -279,6 +597,9 @@ function cancelOrder(orderID, reason) {
         },
         async: false,
         success: function (result, txtStatus, xhr) {
+            var desc = loginAccountName + " has been cancelled order from trade post id=" + tradepostId;
+            var notiType = 5;
+            addNewNotification(desc,tradepostId, ownerId, notiType);
             loadMyOrderData();
             $.growl.notice({title: txtStatus, message: result});
         },
@@ -289,7 +610,7 @@ function cancelOrder(orderID, reason) {
     $('#cancelModal').modal('hide');
 }
 
-function ratingTrader(orderId, feedbackType, rating, comment) {
+function ratingTrader(orderId, feedbackType, rating, comment, ownerId, tradepostId) {
     $.ajax({
         type: "POST",
         url: "http://localhost:8080/gwa/api/tradepost/rating-trade",
@@ -301,6 +622,10 @@ function ratingTrader(orderId, feedbackType, rating, comment) {
         },
         async: false,
         success: function (result, txtStatus, xhr) {
+            var desc = loginAccountName + " has been rated order from trade post id=" + tradepostId;
+            var notiType = 5;
+            addNewNotification(desc,tradepostId, ownerId, notiType);
+            loadMyOrderData();
             $.growl.notice({message: result});
         },
         error: function (xhr, textStatus, errorThrown) {
@@ -313,6 +638,8 @@ function ratingTrader(orderId, feedbackType, rating, comment) {
 $('#cancelModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget); // Button that triggered the modal
     var id = button.data('orderid');
+    var ownerId =button.data('ownerid');
+    var tradepostId =button.data('tradepostid');
     var modal = $(this);
     modal.find('input,textarea').val('');
     modal.find('span .error').remove();
@@ -330,8 +657,8 @@ $('#cancelModal').on('show.bs.modal', function (event) {
             }
         },
         submitHandler: function (form) {
-            var reason = $("#cancelReasonText").val();
-            cancelOrder(id, reason);
+            var reason = "CANCEL FROM TRADER: " + $("#cancelReasonText").val();
+            cancelOrder(id, reason, ownerId, tradepostId);
         }
     })
 });
@@ -358,7 +685,8 @@ $('#reasonModal').on('show.bs.modal', function (event) {
 $('#ratingModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget); // Button that triggered the modal
     var orderId = button.data('orderid');
-    var traderId = button.data('userid');
+    var ownerId =button.data('ownerid');
+    var tradepostId =button.data('tradepostid');
     var modal = $(this);
     modal.find('textarea').val('');
     $('input:radio[name="ratingStar"]').prop('checked', false);
@@ -386,7 +714,7 @@ $('#ratingModal').on('show.bs.modal', function (event) {
         submitHandler: function (form) {
             var rating = $("input:radio[name='ratingStar']:checked").val();
             var comment = $("#feedbackText").val();
-            ratingTrader(orderId, 2, rating, comment);
+            ratingTrader(orderId, 2, rating, comment, ownerId, tradepostId);
         }
     })
 
