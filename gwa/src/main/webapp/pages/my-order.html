@@ -246,6 +246,23 @@
     </div>
 </div>
 
+<!--- View contact modal --->
+<div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Contact Information</h4>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--- View reason modal --->
 <div class="modal fade" id="reasonModal" tabindex="-1" role="dialog" aria-labelledby="reasonModalLabel"
      aria-hidden="true">
@@ -310,6 +327,23 @@
                     <button type="submit" class="btn btn-success">Submit</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<!-- Direction Modal -->
+<div class="modal fade" id="directionModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Direction</h4>
+            </div>
+            <div class="modal-body">
+                <div id="map-canvas"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>
@@ -400,6 +434,8 @@
 <script src="/gwa/js/plugins/jquery.growl.js"></script>
 <script src="/gwa/js/plugins/jquery.twbsPagination.js"></script>
 <script src="/gwa/js/my-order.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASrDg7CwB0GQ_XGzWfbkP4RUE_31YCy1M"
+        type="text/javascript"></script>
 </body>
 
 </html>

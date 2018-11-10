@@ -175,21 +175,38 @@ public class WebControllerImpl implements WebController {
 
     @Override
     public ModelAndView viewAllEventAdminPage() {
-        return new ModelAndView("admin-event");
+        return new ModelAndView("admin-event-search");
     }
 
     @Override
     public ModelAndView editEventAdminPage() {
-        return new ModelAndView("admin-event-detail");
+        return new ModelAndView("admin-event-edit");
     }
 
     @Override
-    public ModelAndView createEventAdminPage() {
-        return new ModelAndView("admin-event-create");
+    public ModelAndView createEventAdminPage() { return new ModelAndView("admin-event-create");
     }
 
     @Override
+    public ModelAndView proposalListAdminPage() { return new ModelAndView("admin-proposal"); }
+
+    @Override
+    public ModelAndView proposalDetailAdminPage() { return new ModelAndView("admin-proposal-detail"); }
+
+    @Override
+    public ModelAndView createProposalPage() { return new ModelAndView("create-proposal"); }
+
+    @Override
+    public ModelAndView proposalDetailPage() {
+        return new ModelAndView("proposal-detail");
+    }
+
     public ModelAndView manageSchedule() {
         return new ModelAndView("admin-manage-schedule");
+    }
+
+    @Override
+    public ModelAndView pendingTradepostPage() {
+        return new ModelAndView("manipulate-tradepost");
     }
 }

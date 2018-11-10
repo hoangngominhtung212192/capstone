@@ -456,6 +456,31 @@ label:active:after {
 .moreInfoBtn:active {
     background-color: #0c5460;
 }
+.declineBtn {
+    display: block;
+    width: 65px;
+    height: 35px;
+    background: #ff0011;
+    padding: 7px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    transition: none;
+    float: left;
+    margin-right: 5px;
+}
+
+.declineBtn:hover {
+    background-color: #ff6b44;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+}
+
+.declineBtn:active {
+    background-color: #ff6b44;
+}
 
 #pendingTable tr td.modelName, #pendingTable tr td.seriesTitle {
     width: 180px;

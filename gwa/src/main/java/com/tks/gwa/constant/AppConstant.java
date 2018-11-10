@@ -63,6 +63,7 @@ public class AppConstant {
 
     public static final int PAGE_SIZE = 24;
 
+    public  static  final int EVENT_MAX_RECORD_PER_PAGE = 5;
     // This notification is for updating member's profile
     public static final String NOTIFICATION_TYPE_PROFILE = "Profile";
 

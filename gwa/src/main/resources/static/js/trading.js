@@ -532,6 +532,7 @@ function loadLocationSearchData() {
                 var jsonResponse = JSON.parse(xhr_data);
                 console.log(jsonResponse);
                 tradingData = jsonResponse[1];
+                currentAddress = addressSearch;
                 if (tradingData != "") {
                     totalPage = jsonResponse[0];
                 } else {

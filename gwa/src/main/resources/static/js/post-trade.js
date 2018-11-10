@@ -133,12 +133,10 @@ function ajaxSubmitForm(form) {
 }
 function ajaxUploadImageList() {
     ImageNamePrefix = "tradepost_"+ currentAccountName + "_" + currentTradePostID + "_";
-    waitingDialog.show('Uploading image...', {dialogSize: '', progressType: 'info'});
+
     $.fileup.updatePrefixName('upload-2', ImageNamePrefix);
     $.fileup('upload-2', 'upload', '*');
-    setTimeout(function () {
-        waitingDialog.hide();
-    }, 2000);
+
 }
 function ajaxUpdateImagesToDatabase(tradepostId, images) {
     $.ajax({
@@ -168,7 +166,10 @@ function authentication() {
     var noticeContent = "";
     $.ajax({
         type: "GET",
+<<<<<<< HEAD
+=======
         async: false,
+>>>>>>> 9f3e4c3605978ec38067b2f5ebd7439dd01c14a3
         url: "http://localhost:8080/gwa/api/user/checkLogin",
         complete: function (xhr, status) {
 
@@ -510,9 +511,14 @@ $("#tradepostForm").validate({
             alert("You must select at least 1 image");
             return;
         }
-        ajaxSubmitForm(form);
-        ajaxUploadImageList();
-        ajaxUpdateImagesToDatabase(currentTradePostID, FiletoSubmit);
+        waitingDialog.show('Submiting your trade post...', {dialogSize: '', progressType: 'info'});
+        setTimeout(function () {
+            ajaxSubmitForm(form);
+            ajaxUploadImageList();
+            ajaxUpdateImagesToDatabase(currentTradePostID, FiletoSubmit);
+            waitingDialog.hide();
+        }, 1000);
+
     }
 });
 function checkEditRequest() {

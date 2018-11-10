@@ -36,6 +36,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private TraderatingRepository traderatingRepository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Override
     public Account checkLogin(Account account) {
 
@@ -304,6 +307,16 @@ public class UserServiceImpl implements UserService {
         if (account != null) {
             account.setStatus("Active");
 
+            accountRepository.update(account);
+        }
+    }
+
+    @Override
+    public void updateAccountRole(int accountID, String roleName) {
+        Account account = accountRepository.read(accountID);
+        if(account!= null){
+            Role role = roleRepository.getRoleByName(roleName);
+            account.setRole(role);
             accountRepository.update(account);
         }
     }
