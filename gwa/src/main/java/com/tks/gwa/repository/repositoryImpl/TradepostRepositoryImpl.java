@@ -45,7 +45,7 @@ public class TradepostRepositoryImpl extends GenericRepositoryImpl<Tradepost, In
     }
 
     @Override
-    public Tradepost editTradepost(Tradepost tradepost) {
+    public Tradepost updateTradepost(Tradepost tradepost) {
         Tradepost updatedTradepost = this.update(tradepost);
         return updatedTradepost;
     }
@@ -181,7 +181,7 @@ public class TradepostRepositoryImpl extends GenericRepositoryImpl<Tradepost, In
         }
 
         String sql = "SELECT t FROM " + Tradepost.class.getName()
-                + " AS t WHERE (t.title LIKE :keyword OR t.brand LIKE :keyword OR t.model LIKE :keyword)" +
+                + " AS t WHERE (upper(t.title) LIKE upper(:keyword) OR upper(t.brand) LIKE upper(:keyword) OR upper(t.model) LIKE upper(:keyword))" +
                 " AND t.approvalStatus =:status" + tradeTypeSql + sortSql;
         Query query = this.entityManager.createQuery(sql);
         query.setParameter("status", AppConstant.APPROVED_STATUS);
@@ -209,7 +209,7 @@ public class TradepostRepositoryImpl extends GenericRepositoryImpl<Tradepost, In
         }
 
         String sql = "SELECT COUNT(t) FROM " + Tradepost.class.getName()
-                + " AS t WHERE (t.title LIKE :keyword OR t.brand LIKE :keyword OR t.model LIKE :keyword)" +
+                + " AS t WHERE (upper(t.title) LIKE upper(:keyword) OR upper(t.brand) LIKE upper(:keyword) OR upper(t.model) LIKE upper(:keyword))" +
                 " AND t.approvalStatus =:status" + tradeTypeSql;
         Query query = this.entityManager.createQuery(sql);
         query.setParameter("status", AppConstant.APPROVED_STATUS);
@@ -275,7 +275,7 @@ public class TradepostRepositoryImpl extends GenericRepositoryImpl<Tradepost, In
     public List<Tradepost> searchTradepostByAccountStatusAndSortTypeWithKeywordInPageNumber(int accountId, String status, int pageNumber, int sortType, String keyword) {
         String sortSql = getSortSql(sortType);
         String sql = "SELECT t FROM " + Tradepost.class.getName()
-                + " AS t WHERE (t.title LIKE :keyword OR t.brand LIKE :keyword OR t.model LIKE :keyword)" +
+                + " AS t WHERE (upper(t.title) LIKE upper(:keyword) OR upper(t.brand) LIKE upper(:keyword) OR upper(t.model) LIKE upper(:keyword))" +
                 " AND t.account.id =:accountID AND t.approvalStatus =:status" + sortSql;
         Query query = this.entityManager.createQuery(sql);
         //Set param
@@ -296,7 +296,7 @@ public class TradepostRepositoryImpl extends GenericRepositoryImpl<Tradepost, In
     @Override
     public int countTotalPageByAccountStatusWithKeyword(int accountId, String status, String keyword) {
         String sql = "SELECT COUNT(t) FROM " + Tradepost.class.getName()
-                + " AS t WHERE (t.title LIKE :keyword OR t.brand LIKE :keyword OR t.model LIKE :keyword)" +
+                + " AS t WHERE (upper(t.title) LIKE upper(:keyword) OR upper(t.brand) LIKE upper(:keyword) OR upper(t.model) LIKE upper(:keyword))" +
                 " AND t.account.id =:accountID AND t.approvalStatus =:status";
         Query query = this.entityManager.createQuery(sql);
         query.setParameter("accountID", accountId);
@@ -326,7 +326,7 @@ public class TradepostRepositoryImpl extends GenericRepositoryImpl<Tradepost, In
         }
 
         String sql = "SELECT t FROM " + Tradepost.class.getName()
-                + " AS t WHERE (t.title LIKE :keyword OR t.brand LIKE :keyword OR t.model LIKE :keyword)" +
+                + " AS t WHERE (upper(t.title) LIKE upper(:keyword) OR upper(t.brand) LIKE upper(:keyword) OR upper(t.model) LIKE upper(:keyword))" +
                 " AND t.approvalStatus =:status" + tradeTypeSql + sortSql;
         Query query = this.entityManager.createQuery(sql);
         query.setParameter("status", AppConstant.APPROVED_STATUS);
@@ -339,6 +339,59 @@ public class TradepostRepositoryImpl extends GenericRepositoryImpl<Tradepost, In
             e.printStackTrace();
         }
         return result;
+    }
+
+    @Override
+    public List<Tradepost> searchPendingTradePost(int pageNumber, int pageSize, String txtSearch, String orderBy) {
+        boolean txtSearch_flag = false;
+
+        String sql = "SELECT t FROM " + Tradepost.class.getName() + " AS t WHERE t.approvalStatus=:status";
+
+        if (txtSearch.length() > 0) {
+            sql += " AND t.title LIKE :keyword";
+            txtSearch_flag = true;
+        }
+
+        if (orderBy.equalsIgnoreCase("Ascending")) {
+            sql += " ORDER BY t.postedDate ASC";
+        } else {
+            sql += " ORDER BY t.postedDate DESC";
+        }
+
+        Query query = this.entityManager.createQuery(sql);
+        query.setParameter("status", AppConstant.PENDING_STATUS);
+
+        if (txtSearch_flag) {
+            query.setParameter("keyword", "%" + txtSearch + "%");
+        }
+
+        query.setFirstResult((pageNumber - 1) * pageSize);
+        query.setMaxResults(pageSize);
+
+        List<Tradepost> tradepostList = query.getResultList();
+
+        return tradepostList;
+    }
+
+    @Override
+    public int getCountSearchPendingTradepost(String txtSearch) {
+        boolean txtSearch_flag = false;
+
+        String sql = "SELECT count(t) FROM " + Tradepost.class.getName() + " AS t WHERE t.approvalStatus=:status";
+
+        if (txtSearch.length() > 0) {
+            sql += " AND t.title LIKE :keyword";
+            txtSearch_flag = true;
+        }
+
+        Query query = this.entityManager.createQuery(sql);
+        query.setParameter("status", AppConstant.PENDING_STATUS);
+
+        if (txtSearch_flag) {
+            query.setParameter("keyword", "%" + txtSearch + "%");
+        }
+
+        return (int) (long) query.getSingleResult();
     }
 
     String getSortSql(int sortType) {

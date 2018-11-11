@@ -227,7 +227,7 @@
     <header class="main-header">
 
         <!-- Logo -->
-        <a href="index2.html" class="logo">
+        <a href="/gwa/admin/model/pending" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>GWA</b></span>
             <!-- logo for regular state and mobile devices -->
@@ -269,17 +269,32 @@
                             <img id="user-out-avatar" src="/gwa/img/avatar_2x.png" class="user-image" alt="User Image">
                             <span id="user-out-name" class="hidden-xs">Minh Tung</span>
                         </a>
-                        <ul class="dropdown-menu"  style="z-index: 100">
+                        <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img id="user-in-avatar" src="/gwa/img/avatar_2x.png" class="img-circle"
-                                     alt="User Image">
+                                <img id="user-in-avatar" src="/gwa/img/avatar_2x.png" class="img-circle" alt="User Image">
 
                                 <p id="user-in-name">
                                     Minh Tung
                                     <small>Member since Nov. 2018</small>
                                 </p>
                             </li>
+                            <!-- Menu Body -->
+                            <!--<li class="user-body">-->
+                            <!--<div class="row">-->
+                            <!--<div class="col-xs-4 text-center">-->
+                            <!--<a href="#">Buy</a>-->
+                            <!--</div>-->
+                            <!--<div class="col-xs-4 text-center">-->
+                            <!--<a href="#">Sale</a>-->
+                            <!--</div>-->
+                            <!--<div class="col-xs-4 text-center">-->
+                            <!--<a href="#">Rating</a>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash; /.row &ndash;&gt;-->
+                            <!--</li>-->
+                            <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
                                     <a id="profileBtn" href="#" class="btn btn-default btn-flat">Profile</a>
@@ -349,9 +364,8 @@
             </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> Manage article</a></li>
-                        <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i> Pending article</a></li>
-                        <li><a href="pages/charts/flot.html"><i class="fa fa-circle-o"></i> Create new article</a></li>
+                        <li><a href="/gwa/admin/article"><i class="fa fa-circle-o"></i> Pending article</a></li>
+                        <li><a href="/gwa/admin/article/create"><i class="fa fa-circle-o"></i> Create new article</a></li>
                     </ul>
                 </li>
 
@@ -364,8 +378,9 @@
             </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="pages/forms/general.html"><i class="fa fa-circle-o"></i> Manage Event</a></li>
-                        <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i> Create new event</a></li>
+                        <li><a href="/gwa/admin/event"><i class="fa fa-circle-o"></i> Manage Event</a></li>
+                        <li><a href="/gwa/admin/event/create"><i class="fa fa-circle-o"></i> Create new event</a></li>
+                        <li><a href="/gwa/admin/proposal"><i class="fa fa-circle-o"></i> Manage proposal</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
@@ -377,11 +392,21 @@
             </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="pages/tables/simple.html"><i class="fa fa-circle-o"></i> Manage trade post</a></li>
-                        <li><a href="pages/tables/data.html"><i class="fa fa-circle-o"></i> Pending trade post</a></li>
+                        <li><a href="/gwa/admin/tradepost/pending"><i class="fa fa-circle-o"></i> Pending trade post</a></li>
                     </ul>
                 </li>
-
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-table"></i>
+                        <span>Schedule</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/gwa/admin/schedule/manage"><i class="fa fa-circle-o"></i> Manage Schedule</a></li>
+                    </ul>
+                </li>
 
                 <li class="header">LABELS</li>
                 <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>

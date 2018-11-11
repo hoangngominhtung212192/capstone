@@ -104,6 +104,18 @@ public interface TradeMarketControllerWs {
                                        @RequestParam("rating") int value,
                                        @RequestParam("comment") String comment);
 
+    @RequestMapping(value = "/search-pending-tradepost", method = RequestMethod.GET)
+    ResponseEntity<List<Object>> searchPendingTradepost(@RequestParam("pageNumber") int pageNumber,
+                                                        @RequestParam("type") String type,
+                                                        @RequestParam("txtSearch") String txtSearch,
+                                                        @RequestParam("orderBy") String orderBy);
+
+    @RequestMapping(value = "/approve-tradepost", method = RequestMethod.POST)
+    ResponseEntity<Tradepost> approvePendingTradepost(@RequestParam("tradepostId") int tradepostId);
+
+    @RequestMapping(value = "/decline-tradepost", method = RequestMethod.POST)
+    ResponseEntity<Tradepost> declinePendingTradepost(@RequestParam("tradepostId") int tradepostId,
+                                                      @RequestParam("reason") String reason);
 
 
 }

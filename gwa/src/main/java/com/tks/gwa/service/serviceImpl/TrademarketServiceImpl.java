@@ -212,7 +212,7 @@ public class TrademarketServiceImpl implements TrademarketService {
         Tradepost tradepostResult = null;
 
         try {
-            tradepostResult = tradepostRepository.editTradepost(editTradepost);
+            tradepostResult = tradepostRepository.updateTradepost(editTradepost);
         } catch (Exception e) {
             System.out.println("--[TRADEPOST SERVICE][EDIT TRADE]: Add new trade post - Execute query error");
             e.printStackTrace();
@@ -712,6 +712,7 @@ public class TrademarketServiceImpl implements TrademarketService {
             if (ownerProfile.getLastName() != null){
                 fullname = fullname + " " + ownerProfile.getLastName();
             }
+            orderDTO.setOwnerId(ownerProfile.getAccount().getId());
             orderDTO.setOwnerName(fullname);
             orderDTO.setOrderId(orderrequestList.get(i).getId());
             //Check rated Trader -> owner
@@ -724,6 +725,73 @@ public class TrademarketServiceImpl implements TrademarketService {
         return result;
     }
 
+
+    /****************************** Method on AMIN PAGE ---***********************************************/
+
+    @Override
+    public List<Object> searchPendingTradepost(int pageNumber, String type, String txtSearch, String orderBy) {
+        List<Object> result = new ArrayList<>();
+
+        int beginPage = 0;
+        int currentPage = 0;
+        int countTotal = 0;
+        int lastPage = 0;
+
+        int[] resultList = getCountResultAndLastPagePending(AppConstant.PAGE_SIZE, txtSearch);
+        countTotal = (int) resultList[0];
+        lastPage = (int) resultList[1];
+
+        if (type.equals("First")) {
+            currentPage = 1;
+        } else if (type.equals("Prev")) {
+            currentPage = pageNumber - 1;
+        } else if (type.equals("Next")) {
+            currentPage = pageNumber + 1;
+        } else if (type.equals("Last")) {
+            currentPage = lastPage;
+        } else {
+            currentPage = pageNumber;
+        }
+
+        if (currentPage <= 5) {
+            beginPage = 1;
+        } else if (currentPage % 5 != 0) {
+            beginPage = ((int) (currentPage / 5)) * 5 + 1;
+        } else {
+            beginPage = ((currentPage / 5) - 1) * 5 + 1;
+        }
+
+        Pagination pagination = new Pagination(countTotal, currentPage, lastPage, beginPage);
+        result.add(pagination);
+
+        List<Tradepost> tradepostList = tradepostRepository.searchPendingTradePost(currentPage, AppConstant.PAGE_SIZE, txtSearch, orderBy);
+
+        if (tradepostList == null) {
+            tradepostList = new ArrayList<Tradepost>();
+        }
+        result.add(tradepostList);
+
+        return result;
+    }
+
+    @Override
+    public Tradepost approveTradepost(int tradepostId) {
+        boolean result = false;
+        Tradepost tradepost = tradepostRepository.findTradepostById(tradepostId);
+        tradepost.setApprovalStatus(AppConstant.APPROVED_STATUS);
+        Tradepost updatedTradepost = tradepostRepository.updateTradepost(tradepost);
+        return updatedTradepost;
+    }
+
+    @Override
+    public Tradepost declineTradepost(int tradepostId, String reason) {
+        boolean result = false;
+        Tradepost tradepost = tradepostRepository.findTradepostById(tradepostId);
+        tradepost.setApprovalStatus(AppConstant.DECLINED_STATUS);
+        tradepost.setRejectReason(reason);
+        Tradepost updatedTradepost = tradepostRepository.updateTradepost(tradepost);
+        return updatedTradepost;
+    }
 
 
     /******************************* Additional Method for service ************************************************/
@@ -794,6 +862,24 @@ public class TrademarketServiceImpl implements TrademarketService {
 
         }
 
+    }
+
+    int[] getCountResultAndLastPagePending(int pageSize, String txtSearch) {
+
+        int[] listResult = new int[2];
+        int countResult = tradepostRepository.getCountSearchPendingTradepost(txtSearch);
+        listResult[0] = countResult;
+
+        int lastPage = 1;
+
+        if (countResult % pageSize == 0) {
+            lastPage = countResult / pageSize;
+        } else {
+            lastPage = ((countResult / pageSize) + 1);
+        }
+        listResult[1] = lastPage;
+
+        return listResult;
     }
 
 }

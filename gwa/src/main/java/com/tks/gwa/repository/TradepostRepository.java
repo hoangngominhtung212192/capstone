@@ -12,7 +12,7 @@ public interface TradepostRepository extends GenericRepository<Tradepost, Intege
     List<Tradepost> getTradepostByAccountStatusAndSortTypeInPageNumber(int accountId, String status, int pageNumber,
                                                                        int sortType);
     Tradepost addNewTradepost(Tradepost tradepost);
-    Tradepost editTradepost(Tradepost tradepost);
+    Tradepost updateTradepost(Tradepost tradepost);
     boolean removeTradepost(Tradepost tradepost);
     Tradepost findTradepostById(int tradepostID);
     boolean updateQuantityById(int tradepostId, int quantity);
@@ -28,6 +28,11 @@ public interface TradepostRepository extends GenericRepository<Tradepost, Intege
     int countTotalPageByAccountStatusWithKeyword(int accountId, String status, String keyword);
 
     List<Tradepost> searchAllTradepostByAccountStatusAndSortTypeWithKeyword(String tradeType, int sortType, String keyword);
+
+
+
+    List<Tradepost> searchPendingTradePost(int pageNumber, int pageSize, String txtSearch, String orderBy);
+    int getCountSearchPendingTradepost(String txtSearch);
 
     // by TungHNM
     int getCountAll();

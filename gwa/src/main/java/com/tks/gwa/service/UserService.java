@@ -30,4 +30,6 @@ public interface UserService {
     public void banAccount(int accountID);
 
     public void unbanAccount(int accountID);
+
+    public void updateAccountRole(int accountID, String roleName);
 }

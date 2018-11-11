@@ -4,6 +4,7 @@ public class MyOrderDTO {
     private int tradepostId;
     private String tradepostTitle;
     private String tradepostThumbnail;
+    private int ownerId;
     private String ownerName;
     private String ownerPhone;
     private String ownerEmail;
@@ -21,10 +22,11 @@ public class MyOrderDTO {
     public MyOrderDTO() {
     }
 
-    public MyOrderDTO(int tradepostId, String tradepostTitle, String tradepostThumbnail, String ownerName, String ownerPhone, String ownerEmail, String ownerAddress, int orderQuantity, double orderPay, String orderedDate, String orderSetDate, String orderReason, String orderStatus, int orderId, boolean isRated) {
+    public MyOrderDTO(int tradepostId, String tradepostTitle, String tradepostThumbnail, int ownerId, String ownerName, String ownerPhone, String ownerEmail, String ownerAddress, int orderQuantity, double orderPay, String orderedDate, String orderSetDate, String orderReason, String orderStatus, int orderId, boolean isRated) {
         this.tradepostId = tradepostId;
         this.tradepostTitle = tradepostTitle;
         this.tradepostThumbnail = tradepostThumbnail;
+        this.ownerId = ownerId;
         this.ownerName = ownerName;
         this.ownerPhone = ownerPhone;
         this.ownerEmail = ownerEmail;
@@ -37,6 +39,14 @@ public class MyOrderDTO {
         this.orderStatus = orderStatus;
         this.orderId = orderId;
         this.isRated = isRated;
+    }
+
+    public int getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
     }
 
     public boolean isRated() {

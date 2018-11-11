@@ -204,4 +204,9 @@ public class WebControllerImpl implements WebController {
     public ModelAndView manageSchedule() {
         return new ModelAndView("admin-manage-schedule");
     }
+
+    @Override
+    public ModelAndView pendingTradepostPage() {
+        return new ModelAndView("manipulate-tradepost");
+    }
 }

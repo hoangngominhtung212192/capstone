@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     // this is for authentication area
     authentication();
 

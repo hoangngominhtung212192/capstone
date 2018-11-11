@@ -5,6 +5,7 @@ import com.tks.gwa.dto.NewOrderDTO;
 import com.tks.gwa.dto.TradepostRequestData;
 import com.tks.gwa.dto.ViewTradepostDTO;
 import com.tks.gwa.entity.Orderrequest;
+import com.tks.gwa.entity.Tradepost;
 import com.tks.gwa.service.TrademarketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -519,6 +520,45 @@ public class TradeMarketControllerWsImpl implements TradeMarketControllerWs {
             return ResponseEntity.ok("You already rating this trade.");
         }
         return ResponseEntity.ok("Your rating has been submitted");
+    }
+
+    @Override
+    public ResponseEntity<List<Object>> searchPendingTradepost(int pageNumber, String type, String txtSearch, String orderBy) {
+        System.out.println("[TRADEMARKET CONTROLLER] Begin searchPendingTradepost() with data:");
+        System.out.println("Page number: " + pageNumber);
+        System.out.println("Type: " + type);
+        System.out.println("Search value: " + txtSearch);
+        System.out.println("OrderBy: " + orderBy);
+
+        List<Object> resultList = trademarketService.searchPendingTradepost(pageNumber, type, txtSearch, orderBy);
+
+        return new ResponseEntity<>(resultList, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Tradepost> approvePendingTradepost(int tradepostId) {
+        System.out.println("[TRADEPOST CONTROLLER] Begin approvePendingTradepost with tradepostID: " + tradepostId);
+
+        Tradepost result = trademarketService.approveTradepost(tradepostId);
+
+        if (result != null) {
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Tradepost> declinePendingTradepost(int tradepostId, String reason) {
+        System.out.println("[TRADEPOST CONTROLLER] Begin declinePendingTradepost with tradepostID: " + tradepostId);
+
+        Tradepost result = trademarketService.declineTradepost(tradepostId, reason);
+
+        if (result != null) {
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+
+        return null;
     }
 
 

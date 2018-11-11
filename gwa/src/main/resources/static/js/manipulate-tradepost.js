@@ -14,7 +14,6 @@ $(document).ready(function () {
                 if (status == "success") {
 
                     var xhr_data = xhr.responseText;
-                    console.log(xhr_data);
                     var jsonResponse = JSON.parse(xhr_data);
 
                     var role_session = jsonResponse["role"].name;
@@ -93,12 +92,12 @@ $(document).ready(function () {
         });
     }
 
-    ajaxGetAllAccount(1, "");
+    ajaxGetAllPending(1, "");
 
     var txtSearch;
     var orderBy;
 
-    function ajaxGetAllAccount(pageNumber, type) {
+    function ajaxGetAllPending(pageNumber, type) {
         $("#loading").css("display", "block");
 
         txtSearch = $("#txtSearch").val();
@@ -111,14 +110,14 @@ $(document).ready(function () {
         setTimeout(function () {
             $.ajax({
                 type: "GET",
-                url: "/gwa/api/user/searchAccount?pageNumber=" + pageNumber + "&type=" + type + "&txtSearch=" + txtSearch +
-                "&orderBy=" + orderBy,
+                url: "/gwa/api/tradepost/search-pending-tradepost?pageNumber=" + pageNumber + "&type=" + type + "&txtSearch=" + txtSearch +
+                    "&orderBy=" + orderBy,
                 success: function (result) {
                     if (result) {
                         console.log(result);
                         // reset data and pagination
                         $("#pagination-content").empty();
-                        $("#accountBody").empty();
+                        $("#pendingBody").empty();
                         $("#no-record").css("display", "none");
 
                         if (result[1].length > 0) {
@@ -180,7 +179,7 @@ $(document).ready(function () {
 
                     var index = $(this).attr('id').replace('page', '');
 
-                    ajaxGetAllAccount(index, "");
+                    ajaxGetAllPending(index, "");
                 });
             }
         }
@@ -212,40 +211,154 @@ $(document).ready(function () {
 
     function renderData(data) {
         $.each(data, function (index, value) {
-            var appendBody = "";
+            $("#pendingBody").append("<tr>\n" +
+                "<td>" + (index + 1) + "</td>\n" +
+                "<td class=\"modelName\"><a href=\"/gwa/trade-market/view-trade?tradepostId=" + value.id + "\">" + value.title + "</a></td>\n" +
+                "<td>" + value.brand + "</td>\n" +
+                "<td>" + value.account.username + "</td>\n" +
+                "<td>" + value.location + "</td>\n" +
+                "<td>" + value.postedDate + "</td>\n" +
+                "<td>" + value.approvalStatus+ "</td>\n" +
+                "<td>\n" +
+                "<a class='approveBtn' data-toggle='modal' data-id=\"" + value.id + "\" href=\"#acceptModal\">Approve</a> \n " +
+                "<a class='declineBtn' data-toggle='modal' data-id=\"" + value.id + "\" href=\"#declineModal\">Decline</a>\n" +
+                "</td>\n" +
+                "</tr>");
 
-            appendBody += "<tr>\n" +
-                "                                    <td class=\"accountID\">" + value.id + "</td>\n" +
-                "                                    <td class=\"fullname\">";
 
-            if (value.middlename) {
-                appendBody += value.lastname + " " + value.middlename + " " + value.firstname;
-            } else {
-                appendBody += value.lastname + " " + value.firstname;
+        });
+
+    }
+
+
+    function declineTradepost(id, reason) {
+        console.log("Decline: ID=" + id + " - Reason: " + reason);
+        $.ajax({
+            type: "POST",
+            url: "/gwa/api/tradepost/decline-tradepost",
+            data: {
+                tradepostId: id,
+                reason: reason
+            },
+            success: function (result) {
+                var notiDesc = "Your trade post with id=" + id +" has been declined by Administrator.";
+                var acc = result.account.id;
+                var objectID = id;
+                var notiType = 3; // Notification about tradepost;
+                addNewNotification(notiDesc, objectID, acc, notiType);
+                console.log("Decline model: " + result);
+                $("#noticeText").html("Decline successfully.");
+                $("#myModal").modal({backdrop: 'static', keyboard: false});
+                $("#success-btn").on("click", function () {
+                    ajaxGetAllPending(1, "");
+                });
+
+                $('body').css("padding-right", "0px");
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
             }
-
-            appendBody += "</td>\n" +
-                "                                    <td class=\"usernameTD\"><a href=\"/gwa/pages/profile.html?accountID="
-                + value.id + "\">" + value.username + "</a></td>\n" +
-                "                                    <td class=\"emailTD\">" + value.email + "</td>\n" +
-                "                                    <td class=\"datetimeTD\">" + value.createdDate + "</td>\n" +
-                "                                    <td class=\"accountStatus\">" + value.status + "</td>\n" +
-                "                                    <td class=\"addressTD\">" + value.address + "</td>\n" +
-                "                                </tr>";
-
-            $("#accountBody").append(appendBody);
         });
     }
+
+    function approveTradepost(id) {
+        $.ajax({
+            type: "POST",
+            url: "/gwa/api/tradepost/approve-tradepost",
+            data: {
+                tradepostId: id
+            },
+            success: function (result) {
+                console.log("Approved model: " + result);
+                var role = result.account.role.name;
+                var acc = result.account.id;
+                var notiDesc = "Your trade post with id=" + id +" has been approved by Administrator.";
+                var objectID = id;
+                var notiType = 3; // Notification about tradepost;
+                addNewNotification(notiDesc, objectID, acc, notiType);
+
+                $("#noticeText").html("Approve successfully.");
+                $("#myModal").modal({backdrop: 'static', keyboard: false});
+                $("#success-btn").on("click", function () {
+                    if (role == "MEMBER"){
+                        updateRole(acc, "BUYERSELLER");
+                    }
+                    ajaxGetAllPending(1, "");
+                });
+
+                $('body').css("padding-right", "0px");
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    function updateRole(accountID, roleName){
+        $.ajax({
+            type: "POST",
+            url: "/gwa/api/user/update-role",
+            data: {
+                accountID: accountID,
+                roleName: roleName
+            },
+            success: function () {
+                var acc = accountID;
+                var notiDesc = "Congratulation! You just become " + roleName;
+                var objectID = accountID;
+                var notiType = 1; // Notification about tradepost;
+                addNewNotification(notiDesc, objectID, acc, notiType);
+
+                console.log("UPDATED ROLE: " + accountID + " - " + roleName);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    $('#acceptModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var id = button.data('id');
+
+        $("#acceptBtn").on("click", function (e) {
+            approveTradepost(id);
+            $("#acceptModal").modal('hide');
+            $("#acceptBtn").prop("onclick", null).off("click");
+        });
+
+    })
+    $('#declineModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var id = button.data('id');
+        var modal = $(this);
+        modal.find('input,textarea').val('');
+
+        $("#declineBtn").on("click", function (e) {
+            e.preventDefault();
+            var reason = $("#declineReasonText").val();
+            if (reason.length < 10){
+                alert("Reason too short [Required > 10].");
+            }else {
+                declineTradepost(id, reason);
+                $("#declineModal").modal('hide');
+            }
+            $("#declineBtn").prop("onclick", null).off("click");
+        });
+
+
+    })
 
     $("#search-btn").click(function (e) {
         e.preventDefault();
 
-        ajaxGetAllAccount(1, "");
+        ajaxGetAllPending(1, "");
     })
 
     $("#cbo-orderBy").on('change', function () {
-        ajaxGetAllAccount(1, "");
+        ajaxGetAllPending(1, "");
     });
+
 
     /*   This is for notification area   */
     var pageNumber = 1;
@@ -293,15 +406,29 @@ $(document).ready(function () {
             if (!value.seen) {
                 // not seen yet
                 countNotSeen++;
-                appendNotification += "<li style='background-color: lightgoldenrodyellow;'>\n"
+                appendNotification += "<li>\n"
             } else {
                 // already seen
                 appendNotification += "<li style='background-color: white;'>\n"
             }
 
+            var iconType = "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> ";
+
+            if (value.notificationtype.name == "Profile"){
+                iconType = "<i class=\"fa fa-user-circle-o text-yellow\" style=\"color: darkred;\"></i> ";
+            }else if (value.notificationtype.name == "Model") {
+                iconType = "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "Tradepost") {
+                iconType = "<i class=\"fa fa-check-square-o text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "OrderSent") {
+                iconType = "<i class=\"fa fa fa-paper-plane text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "OrderReceived") {
+                iconType = "<i class=\"fa fa fa-bullhorn text-yellow\" style=\"color: darkred;\"></i> ";
+            }
+
             appendNotification += "<a id='" + value.id + "-" + value.notificationtype.name + "-" + value.objectID +
                 "' href=\"#\">\n" +
-                "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> " + value.description + "</a>\n" +
+                iconType + value.description + "</a>\n" +
                 "</li>";
 
             $("#ul-notification").append(appendNotification);
@@ -327,6 +454,12 @@ $(document).ready(function () {
                     window.location.href = "/gwa/pages/profile.html?accountID=" + objectID;
                 } else if (type == "Model") {
                     window.location.href = "/gwa/pages/modeldetail.html?modelID=" + objectID;
+                } else if (type == "Tradepost") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
+                } else if (type == "OrderSent") {
+                    window.location.href = "/gwa/trade-market/my-order";
+                } else if (type == "OrderReceived") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
                 }
             });
         });
@@ -346,17 +479,15 @@ $(document).ready(function () {
 
     }
 
-    function addNewNotification() {
-        var description = $("#txtReason").val();
-
+    function addNewNotification(desc,objectId,account,notiType) {
         var formNotification = {
-            description: description,
-            objectID: account_profile_on_page_id,
+            description: desc,
+            objectID: objectId,
             account: {
-                id: account_profile_on_page_id
+                id: account
             },
             notificationtype: {
-                id: 1
+                id: notiType
             }
         }
 
@@ -392,5 +523,8 @@ $(document).ready(function () {
             }
         });
     }
+
     /* End notification */
+
 })
+
