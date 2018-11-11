@@ -24,13 +24,8 @@ public class ArticleWSImpl implements ArticleWS {
     @Override
     public ResponseEntity<Article> createArticle(@RequestBody Article article) {
 
-
         Account testacc = new Account();
         testacc.setId(1);
-        testacc.setPassword("ab");
-        testacc.setStatus("normal");
-        testacc.setUsername("test user num1");
-
 
         article.setAccount(testacc);
 
@@ -58,15 +53,13 @@ public class ArticleWSImpl implements ArticleWS {
 
     @Override
     public ResponseEntity<Article> updateArticle(@RequestBody Article article) {
+        Article getA = articleService.getArticleByID(article.getId());
 
-        Account testacc = new Account();
-        testacc.setId(1);
-        testacc.setPassword("ab");
-        testacc.setStatus("normal");
-        testacc.setUsername("test user num1");
+        Account getacc = getA.getAccount();
 
-
-        article.setAccount(testacc);
+        article.setAccount(getacc);
+        article.setApprovalStatus("Pending");
+        article.setDate(getA.getDate());
 
         Article updatedarticle = articleService.updateArticle(article);
         return new ResponseEntity<>(updatedarticle, HttpStatus.OK);
@@ -96,5 +89,11 @@ public class ArticleWSImpl implements ArticleWS {
     public ResponseEntity<List<Article>> changeStatusManyArticle(List<Integer> idlist, String status) {
         List<Article> resultList = articleService.changeStatusManyArticle(idlist, status);
         return new ResponseEntity<>(resultList, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<Object>> searchArticleByStatusAndPage(String title, String status, String sorttype, int pageNum) {
+        List<Object> result = articleService.searchArticleWithSortAndPageByStatus(title, status, sorttype, pageNum);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

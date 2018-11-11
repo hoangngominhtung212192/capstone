@@ -12,23 +12,22 @@
     <title>Gunpla World</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="/src/main/resources/static/css/img/core-img/favicon.ico">
-    <link rel="stylesheet" href="/css/admin/dist/css/AdminLTE.min.css">
+    <link rel="icon" href="/gwa/src/main/resources/static/css/img/core-img/favicon.ico">
+    <!--<link rel="stylesheet" href="/css/admin/dist/css/AdminLTE.min.css">-->
     <!-- Core Stylesheet -->
-    <link rel="stylesheet" href="/css/style.css">
-    <script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script>
+    <link rel="stylesheet" href="/gwa/css/style.css">
+    <script type="text/javascript" src="/gwa/js/ckeditor/ckeditor.js"></script>
 
     <!-- js -->
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/html-importer.js"></script>
-    <script type="text/javascript" src="/js/article.js"></script>
+    <!--<script type="text/javascript" src="/gwa/js/jquery.min.js"></script>-->
+    <script type="text/javascript" src="/gwa/js/html-importer.js"></script>
 
 </head>
 
 <body style="background-color: whitesmoke">
     <!-- ##### Header Area Start ##### -->
     <header class="header-area">
-        <script>HTMLImporter.import("/pages/header.html");</script>
+        <script>HTMLImporter.import("/gwa/pages/header.html");</script>
     </header>
     <!-- ##### Header Area End ##### -->
 
@@ -39,11 +38,21 @@
                             <div>
                                 <input type="text" id="txtSearch" class="form-control" placeholder="Search articles" style="width: 50%; display: inline"/> <input type="submit" class="btn" id="btnSearch"value="Search" />
                             </div>
+                        <div class="row" style="border: 2px solid lightgrey;margin: 0px; border-radius: 5px">
+                            <div class="col-md-6">
+                                <h5>Sort by date</h5>
+                                <select id="cbSortType">
+                                    <option value="desc" selected>Newest</option>
+                                    <option value="asc">Oldest</option>
+                                </select>
+                            </div>
+                        </div>
                             <!-- Single Featured Post -->
                         <div id="search-result" style="margin-top: 10px">
 
                         </div>
                     </div>
+
                     <div class="col-12 col-md-6 col-lg-4">
                         <div class="single-blog-post small-featured-post d-flex">
                             <div class="post-thumb">
@@ -59,41 +68,35 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
             </div>
             <!-- Pagination -->
-    <div class="row justify-content-center" style="margin-bottom: 10px">
+        <div class="justify-content-center" style="margin-bottom: 20px; align-self: center" id="paginationDiv">
             <nav aria-label="Page navigation">
-                <ul class="pagination mt-50">
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                    <li class="page-item"><a class="page-link" href="#">5</a></li>
-                    <li class="page-item"><a class="page-link" href="#">...</a></li>
-                    <li class="page-item"><a class="page-link" href="#">10</a></li>
+                <ul class="pagination mt-50" id="pagination-event">
                 </ul>
             </nav>
         </div>
     </div>
     <!-- ##### Footer Area Start ##### -->
     <footer class="footer-area">
-        <script>HTMLImporter.import("/pages/footer.html");</script>
+        <script>HTMLImporter.import("/gwa/pages/footer.html");</script>
     </footer>
-    <!-- ##### Footer Area Start ##### -->
-
     <!-- ##### All Javascript Files ##### -->
     <!-- jQuery-2.2.4 js -->
-    <script src="/js/jquery/jquery-2.2.4.min.js"></script>
+    <script src="/gwa/js/jquery/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->
-    <script src="/js/bootstrap/popper.min.js"></script>
+    <script src="/gwa/js/bootstrap/popper.min.js"></script>
     <!-- Bootstrap js -->
-    <script src="/js/bootstrap/bootstrap.min.js"></script>
+    <script src="/gwa/js/bootstrap/bootstrap.min.js"></script>
     <!-- All Plugins js -->
-    <script src="/js/plugins/plugins.js"></script>
+    <script src="/gwa/js/plugins/plugins.js"></script>
     <!-- Active js -->
-    <script src="/js/active.js"></script>
+    <script src="/gwa/js/active.js"></script>
+
+    <script src="/gwa/js/plugins/jquery.twbsPagination.js"></script>
+
+    <script type="text/javascript" src="/gwa/js/article.js"></script>
 
 </body>
 

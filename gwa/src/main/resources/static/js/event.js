@@ -1,59 +1,54 @@
+// $(document).ready(function () {
+var currentStatus = $( "#cboStatus option:selected").val();
 
-$(document).ready(function () {
-    var currentStatus = $( "#cboStatus option:selected").val();
+var currentSortType = $("#cbSortType option:selected").val();
 
-    var currentSortType = $("#cbSortType option:selected").val();
-
-    var currentPage = 1;
-    var totalPage = 5;
-    var $pagination = $("#pagination-event");
-    var defaultPaginationOpts = {
-        totalPages: totalPage,
+var currentPage = 1;
+var totalPage = 1;
+var $pagination = $("#pagination-event");
+var isSearch = false;
+var defaultPaginationOpts = {
+    totalPages: totalPage,
 // the current page that show on start
-        startPage: 1,
+    startPage: 1,
 
 // maximum visible pages
-        visiblePages: 3,
+    visiblePages: 3,
 
-        initiateStartPageClick: false,
+    initiateStartPageClick: false,
 
 // template for pagination links
-        href: false,
+    href: false,
 
 // variable name in href template for page number
-        hrefVariable: '{{number}}',
+    hrefVariable: '{{number}}',
 
 // Text labels
-        first: '&laquo;',
-        prev: '❮',
-        next: '❯',
-        last: '&raquo;',
+    first: '&laquo;',
+    prev: '❮',
+    next: '❯',
+    last: '&raquo;',
 
 // carousel-style pagination
-        loop: false,
+    loop: false,
 
 // callback function
-        onPageClick: function (event, page) {
-            currentPage = page;
-            $('#search-result').html("");
-            getEventData();
-            // if(isSearch){
-            //     myTradeData = searchMyTradeData(myTradeAccountId,currentTabSelected,currentPage,currentSortType,searchValue);
-            // }else {
-            //     myTradeData = loadMyTradeData(myTradeAccountId,currentTabSelected,currentPage,currentSortType);
-            // }
-            // renderRecord();
-        },
+    onPageClick: function (event, page) {
+        console.log("clicked on page: "+page)
+        currentPage = page;
+        $('#search-result').html("");
+        searchEv();
+    },
 
 // pagination Classes
-        paginationClass: 'pagination',
-        nextClass: 'page-item',
-        prevClass: 'page-item',
-        lastClass: 'page-item',
-        firstClass: 'page-item',
-        pageClass: 'page-item',
-        activeClass: 'active',
-        disabledClass: 'disabled'
+    paginationClass: 'pagination',
+    nextClass: 'page-item',
+    prevClass: 'page-item',
+    lastClass: 'page-item',
+    firstClass: 'page-item',
+    pageClass: 'page-item',
+    activeClass: 'active',
+    disabledClass: 'disabled'
     };
 
 
@@ -99,106 +94,38 @@ $(document).ready(function () {
             }
         });
     }
-    getEventData();
-    $pagination.twbsPagination('destroy');
-    if (totalPage > 1){
-        $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
-            totalPages: totalPage
-        }));
-    }
-    function getEventData() {
-        $.ajax({
-            type : "POST",
-            url : "http://localhost:8080/gwa/api/event/getEventByStatusAndPage",
-            data : {
-                status : currentStatus,
-                sorttype : currentSortType,
-                pageNum : currentPage
-            },
-            async: false,
-            success : function(result, status) {
-                var data = result[1];
-                totalPage = result[0];
-                console.log(result);
-                console.log(status);
+    searchEv();
+    // $pagination.twbsPagination('destroy');
+    // if (totalPage > 1){
+    //     $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+    //         totalPages: totalPage
+    //     }));
+    // }
 
-                for (var i in data){
-                    appendResult(data[i]);
-                }
-
-
-            },
-            error : function(e) {
-                alert("No event with matching title found!");
-                console.log("ERROR: ", e);
-            }
-        });
-    }
-
-
-
-    function appendResult(result){
-        var article = $('<div class="single-blog-post featured-post d-flex">\n' +
-            '                                <div class="post-data">\n' +
-            '                                    <a href="#" class="post-catagory">EVENT</a>\n' +
-            '                                    <div class="post-meta">\n' +
-            '                                        <a class="post-title" href="/gwa/event/detail?id=' + result.id +'">\n' +
-            '                                            <h6>' + result.title + '</h6>\n' +
-            '                                        </a>\n' +
-            '<p class="post-date"><span>From: '+result.startDate+'</span> to <span>'+result.endDate+'</span></p>'+
-            '                                        <p><span>Ticket price: '+result.ticketPrice+'</span></p>\n' +
-            '<p>Location: <span>'+result.location+'</span></p>'+
-            '                                    </div>\n' +
-            '                                </div>\n' +
-            '                            </div>' +
-            '<hr />');
-
-        $('#search-result').append(article);
-    }
-    function getAllEvent() {
-
-        var displayDiv = document.getElementById("search-result");
-
-        $.ajax({
-            type : "POST",
-            url : "http://localhost:8080/gwa/api/event/getAllEvent",
-            success : function(result, status) {
-                console.log(result);
-                console.log(status);
-                for (var i in result){
-                    appendResult(result[i]);
-                }
-
-            },
-            error : function(e) {
-                alert("No event with matching title found!");
-                console.log("ERROR: ", e);
-            }
-        });
-    }
     $("#btnSearch").click(function (event) {
+        currentPage = 1;
         event.preventDefault();
         var searchDiv = document.getElementById("search-result");
         while (searchDiv.firstChild) {
             searchDiv.removeChild(searchDiv.firstChild);
-        }
-        // var searchValue = document.getElementById("txtSearch").value;
+        };
+        isSearch = true;
         searchEv();
+
     });
 
     function searchEv() {
         var searchValue = $("#txtSearch").val();
-        var displayDiv = document.getElementById("search-result");
 
         console.log("searchvalue: "+searchValue);
-        console.log("sorttype: "+currentSortType);
+        console.log("sorttype: "+$("#cbSortType option:selected").val());
         $.ajax({
             type : "POST",
             url : "http://localhost:8080/gwa/api/event/searchEventByStatusAndPage",
             data : {
                 title : searchValue,
-                status : currentStatus,
-                sorttype : currentSortType,
+                status : $( "#cboStatus option:selected").val(),
+                sorttype : $("#cbSortType option:selected").val(),
                 pageNum : currentPage
             },
             async: false,
@@ -207,12 +134,11 @@ $(document).ready(function () {
                 totalPage = result[0];
                 console.log(result);
                 console.log(status);
+                console.log("page num: "+currentPage);
+                console.log("seach numb of pages: "+result[0]);
+                // currentPage = 1;
 
-                for (var i in data){
-                    appendResult(data[i]);
-                }
-
-
+                appendResult(data);
             },
             error : function(e) {
                 alert("No event with matching title found!");
@@ -221,6 +147,35 @@ $(document).ready(function () {
         });
     }
 
+function appendResult(result){
+
+    for (var i = 0; i < result.length; i++) {
+        var article = $('<div class="single-blog-post featured-post d-flex">\n' +
+            '                                <div class="post-data">\n' +
+            '                                    <a href="#" class="post-catagory">EVENT</a>\n' +
+            '                                    <div class="post-meta">\n' +
+            '                                        <a class="post-title" href="/gwa/event/detail?id=' + result[i].id +'">\n' +
+            '                                            <h6>' + result[i].title + '</h6>\n' +
+            '                                        </a>\n' +
+            '<p class="post-date"><span>From: '+result[i].startDate+'</span> to <span>'+result[i].endDate+'</span></p>'+
+            '                                        <p><span>Ticket price: '+result[i].ticketPrice+'</span></p>\n' +
+            '<p>Location: <span>'+result[i].location+'</span></p>'+
+            '                                    </div>\n' +
+            '                                </div>\n' +
+            '                            </div>' +
+            '<hr />');
+        $('#search-result').append(article);
+    }
+    $pagination.twbsPagination('destroy');
+    if (totalPage > 1){
+        $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+            totalPages: totalPage,
+            currentPage: currentPage,
+            startPage: currentPage,
+
+        }));
+    }
+}
 
 
-})
+// })

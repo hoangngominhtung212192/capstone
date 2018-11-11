@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/article")
 public interface ArticleWS {
     @RequestMapping(value = "/createArticle", method = RequestMethod.POST)
     ResponseEntity<Article> createArticle(@RequestBody Article article);
@@ -35,4 +35,9 @@ public interface ArticleWS {
     @RequestMapping(value = "/changeStatusManyArticle", method = RequestMethod.POST)
     ResponseEntity<List<Article>> changeStatusManyArticle(@RequestParam List<Integer> idlist, @RequestParam String status);
 
+    @RequestMapping(value = "/searchArticleByStatusAndPage", method = RequestMethod.POST)
+    ResponseEntity<List<Object>> searchArticleByStatusAndPage(@RequestParam("title") String title,
+                                                            @RequestParam("status") String status,
+                                                            @RequestParam("sorttype") String sorttype,
+                                                            @RequestParam("pageNum") int pageNum);
 }

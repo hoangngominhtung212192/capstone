@@ -15,28 +15,37 @@
     <link rel="icon" href="img/core-img/favicon.ico">
 
     <!-- Core Stylesheet -->
-    <link rel="stylesheet" href="/css/style.css">
-    <script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script>
+    <link rel="stylesheet" href="/gwa/css/style.css">
+    <script type="text/javascript" src="/gwa/js/ckeditor/ckeditor.js"></script>
 
     <!-- js -->
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/html-importer.js"></script>
-    <script type="text/javascript" src="/js/article-detail.js"></script>
+    <script type="text/javascript" src="/gwa/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/gwa/js/html-importer.js"></script>
+    <script type="text/javascript" src="/gwa/js/article-detail.js"></script>
 
 </head>
 
 <body>
     <!-- ##### Header Area Start ##### -->
     <header class="header-area">
-        <script>HTMLImporter.import("/pages/header.html");</script>
+        <script>HTMLImporter.import("/gwa/pages/header.html");</script>
     </header>
 
     <!-- ##### Header Area End ##### -->
     <div style="background-color: whitesmoke">
         <div style="background-color:white;margin-left: 350px;margin-right: 350px;padding: 20px">
             <h2 id="title"></h2>
-            <p class="post-date" id="date"></p>
-            <button class="btn" id="btnEdit">Edit this article</button>
+            <div class="row">
+                <div class="col-md-6">
+                    <!--<p id="date" style="margin-bottom: 0px"></p>-->
+                    <p>Posted on: <span class="post-date" id="date"></span> / Author: <span id="author"></span></p>
+                </div>
+                <!--<p>logged <span id="hiddenLoggedUser"></span></p>-->
+                <div class="col-md-6">
+                    <button class="btn" id="btnEdit" style="float: right;display: none">Edit this article</button>
+                </div>
+            </div>
+
             <div class="entry-content" id="content">
 
             </div>
@@ -45,21 +54,21 @@
 
     <!-- ##### Footer Area Start ##### -->
     <footer class="footer-area">
-        <script>HTMLImporter.import("/pages/footer.html");</script>
+        <script>HTMLImporter.import("/gwa/pages/footer.html");</script>
     </footer>
     <!-- ##### Footer Area Start ##### -->
 
     <!-- ##### All Javascript Files ##### -->
     <!-- jQuery-2.2.4 js -->
-    <script src="/js/jquery/jquery-2.2.4.min.js"></script>
+    <script src="/gwa/js/jquery/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->
-    <script src="/js/bootstrap/popper.min.js"></script>
+    <script src="/gwa/js/bootstrap/popper.min.js"></script>
     <!-- Bootstrap js -->
-    <script src="/js/bootstrap/bootstrap.min.js"></script>
+    <script src="/gwa/js/bootstrap/bootstrap.min.js"></script>
     <!-- All Plugins js -->
-    <script src="/js/plugins/plugins.js"></script>
+    <script src="/gwa/js/plugins/plugins.js"></script>
     <!-- Active js -->
-    <script src="/js/active.js"></script>
+    <script src="/gwa/js/active.js"></script>
 
 </body>
 

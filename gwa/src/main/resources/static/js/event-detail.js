@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    authentication()
+    authentication();
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth()+1; //January is 0!
@@ -35,9 +35,10 @@ $(document).ready(function () {
                     role_session = jsonResponse["role"].name;
                     account_session_id = jsonResponse["id"];
 
+
                     var username = jsonResponse["username"];
                     username_session = jsonResponse["username"];
-                    console.log("logegd user: "+username_session);
+                    console.log("logegd user: "+username_session+" id "+account_session_id);
                     console.log(role_session + " " + username + " is on session!");
 
                     // click profile button
