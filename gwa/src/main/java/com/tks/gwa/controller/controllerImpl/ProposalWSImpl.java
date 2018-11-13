@@ -25,9 +25,6 @@ public class ProposalWSImpl implements ProposalWS {
     public ResponseEntity<Proposal> createProposal(@RequestParam("eventTitle") String eventTitle,
                                                    @RequestParam("description") String description,
                                                    @RequestParam("location") String location,
-                                                   @RequestParam("prize") String prize,
-                                                   @RequestParam("startDate") String startDate,
-                                                   @RequestParam("ticketPrice") String ticketPrice,
                                                    @RequestParam("content") String content,
                                                    @RequestParam("username") String username) {
 

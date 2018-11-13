@@ -33,11 +33,16 @@ public interface ArticleWS {
     ResponseEntity<Article> changeStatusArticle(@RequestParam int articleid, @RequestParam String apprstatus);
 
     @RequestMapping(value = "/changeStatusManyArticle", method = RequestMethod.POST)
-    ResponseEntity<List<Article>> changeStatusManyArticle(@RequestParam List<Integer> idlist, @RequestParam String status);
+    ResponseEntity<List<Article>> changeStatusManyArticle(@RequestParam List<Integer> idlist,
+                                                          @RequestParam String status);
 
     @RequestMapping(value = "/searchArticleByStatusAndPage", method = RequestMethod.POST)
     ResponseEntity<List<Object>> searchArticleByStatusAndPage(@RequestParam("title") String title,
                                                             @RequestParam("status") String status,
                                                             @RequestParam("sorttype") String sorttype,
                                                             @RequestParam("pageNum") int pageNum);
+    @RequestMapping(value = "/getMyArticle", method = RequestMethod.POST)
+    ResponseEntity<List<Object>> getMyArticle(@RequestParam("id") int id,
+                                              @RequestParam("sorttype") String sorttype,
+                                              @RequestParam("pageNum") int pageNum);
 }

@@ -46,7 +46,200 @@
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-    <script>HTMLImporter.import("/gwa/pages/admin-header.html");</script>
+    <!-- danh dau header -->
+    <header class="main-header">
+
+        <!-- Logo -->
+        <a href="/gwa/admin/model/pending" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>GWA</b></span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>Admin</b>GWA</span>
+        </a>
+
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+            <!-- Navbar Right Menu -->
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <!-- Notifications: style can be found in dropdown.less -->
+                    <li class="dropdown notifications-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell-o"></i>
+                            <span id="numberOfNew" class="label label-warning">10</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li id="notice-new" class="header">You have 10 notifications</li>
+                            <li>
+                                <!-- inner menu: contains the actual data -->
+                                <ul id="ul-notification" class="menu">
+                                    <!--<li>-->
+                                    <!--<a href="#">-->
+                                    <!--<i class="fa fa-users text-aqua"></i> 5 new members joined today-->
+                                    <!--</a>-->
+                                    <!--</li>-->
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- User Account: style can be found in dropdown.less -->
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img id="user-out-avatar" src="/gwa/img/avatar_2x.png" class="user-image" alt="User Image">
+                            <span id="user-out-name" class="hidden-xs">Minh Tung</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- User image -->
+                            <li class="user-header">
+                                <img id="user-in-avatar" src="/gwa/img/avatar_2x.png" class="img-circle" alt="User Image">
+
+                                <p id="user-in-name">
+                                    Minh Tung
+                                    <small>Member since Nov. 2018</small>
+                                </p>
+                            </li>
+                            <!-- Menu Body -->
+                            <!--<li class="user-body">-->
+                            <!--<div class="row">-->
+                            <!--<div class="col-xs-4 text-center">-->
+                            <!--<a href="#">Buy</a>-->
+                            <!--</div>-->
+                            <!--<div class="col-xs-4 text-center">-->
+                            <!--<a href="#">Sale</a>-->
+                            <!--</div>-->
+                            <!--<div class="col-xs-4 text-center">-->
+                            <!--<a href="#">Rating</a>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash; /.row &ndash;&gt;-->
+                            <!--</li>-->
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a id="profileBtn" href="#" class="btn btn-default btn-flat">Profile</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a id="signoutBtn" href="#" class="btn btn-default btn-flat">Sign out</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Control Sidebar Toggle Button -->
+                </ul>
+            </div>
+
+        </nav>
+    </header>
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- Sidebar user panel -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img id="left-avatar" src="/gwa/img/avatar_2x.png" class="img-circle" alt="User Image">
+                </div>
+                <div class="pull-left info">
+                    <p id="left-name">Minh Tung</p>
+                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                </div>
+            </div>
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu" data-widget="tree">
+                <li class="header">MAIN NAVIGATION</li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-edit"></i>
+                        <span>Users</span>
+                        <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/gwa/admin/user/search"><i class="fa fa-circle-o"></i> Manage users</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-laptop"></i>
+                        <span>Models</span>
+                        <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/gwa/model/"><i class="fa fa-circle-o"></i> Manage model</a></li>
+                        <li><a href="/gwa/admin/model/create"><i class="fa fa-circle-o"></i> Create new model</a></li>
+                        <li><a href="/gwa/admin/model/pending"><i class="fa fa-circle-o"></i> Pending model</a></li>
+                        <li><a href="/gwa/admin/model/crawl"><i class="fa fa-circle-o"></i> Crawl model</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-pie-chart"></i>
+                        <span>Article</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/gwa/admin/article"><i class="fa fa-circle-o"></i> Pending article</a></li>
+                        <li><a href="/gwa/admin/article/create"><i class="fa fa-circle-o"></i> Create new article</a></li>
+                    </ul>
+                </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-edit"></i>
+                        <span>Event</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/gwa/admin/event"><i class="fa fa-circle-o"></i> Manage Event</a></li>
+                        <li><a href="/gwa/admin/event/create"><i class="fa fa-circle-o"></i> Create new event</a></li>
+                        <li><a href="/gwa/admin/proposal"><i class="fa fa-circle-o"></i> Manage proposal</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-table"></i>
+                        <span>Trade post</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/gwa/admin/tradepost/pending"><i class="fa fa-circle-o"></i> Pending trade post</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-table"></i>
+                        <span>Schedule</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/gwa/admin/schedule/manage"><i class="fa fa-circle-o"></i> Manage Schedule</a></li>
+                    </ul>
+                </li>
+
+                <li class="header">LABELS</li>
+                <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
+                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
+                <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+    <!-- ket thuc header -->
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->

@@ -157,4 +157,29 @@ public class ArticleRepositoryImpl extends GenericRepositoryImpl<Article, Intege
         return listres;
     }
 
+    @Override
+    public List<Article> searchArticleByAuthorSort(int id, String sorttype, int pageNum) {
+        String sortSql = "";
+        if (sorttype.equalsIgnoreCase("asc")){
+            sortSql = " ORDER BY date ASC";
+        } else {
+            sortSql = " ORDER BY date DESC";
+        }
+        String sql = "FROM " + Article.class.getName()+ " WHERE accountID = :accountID" + sortSql;
+        Query query = this.entityManager.createQuery(sql);
+        query.setParameter("accountID", id);
+        query.setFirstResult((pageNum-1) * AppConstant.EVENT_MAX_RECORD_PER_PAGE);
+        query.setMaxResults(AppConstant.EVENT_MAX_RECORD_PER_PAGE);
+        List<Article> listres = null;
+
+        try {
+            listres = query.getResultList();
+            System.out.println("got "+listres.size() +" results");
+        } catch (NoResultException e) {
+            System.out.println("no event found");
+            return listres;
+        }
+        return listres;
+    }
+
 }

@@ -1,4 +1,56 @@
 $(document).ready(function() {
+    var checkImage = false;
+    var imagetype;
+    var imageFile;
+
+    $("#photoBtn").change(function (e) {
+        console.log($("#photoBtn").val());
+
+        for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+
+            var file = e.originalEvent.srcElement.files[i];
+            imagetype = file.type;
+            var match = ["image/jpeg", "image/png", "image/jpg"];
+            if (!((imagetype == match[0]) || (imagetype == match[1]) || (imagetype == match[2]))) {
+                checkImage = false;
+                alert("select img pls");
+                // $("#imgError").css("display", "block");
+                // $("#imgError").text("Please select image only");
+            } else {
+                var reader = new FileReader();
+                reader.onloadend = function () {
+                    $("#avatar").attr("src", reader.result);
+                    $("#avatar").css("height", "202px");
+                    $("#avatar").css("width", "202px");
+                }
+                reader.readAsDataURL(file);
+
+                imageFile = file;
+
+                checkImage = true;
+
+                // $("#imgError").css("display", "none");
+                // $("#imgError").text("");
+            }
+
+        }
+    });
+
+    function ajaxImagePost(formData) {
+        $.ajax({
+            type: "POST",
+            contentType: false,
+            processData: false,
+            url: "/gwa/api/event/uploadEventImage",
+            data: formData,
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        })
+    }
     var getUrlParameter = function getUrlParameter() {
         var sPageURL = window.location.href;
         console.log(sPageURL);
@@ -15,7 +67,7 @@ $(document).ready(function() {
         $.ajax({
             type : "POST",
             contentType : "application/json",
-            url : "http://localhost:8080/gwa/api/proposal/getProposalByID",
+            url : "/gwa/api/proposal/getProposalByID",
             data : JSON.stringify(data),
             success : function(result, status) {
                 if (result){
@@ -35,6 +87,7 @@ $(document).ready(function() {
     }
 
 
+    var formData = new FormData();
     $("#submitBtn").click(function (event) {
         event.preventDefault();
 
@@ -42,13 +95,20 @@ $(document).ready(function() {
         var staDate = $("#txtStartDate").val();
         var endDate = $("#txtEndDate").val();
 
+        var type = imagetype.split("/")[1];
+
+        // $("#photoBtn").get(0).files[0]
+        if (imageFile) {
+            // formData.append("photoBtn", imageFile, "thumbEvt#"+$('#txtTitle').val() + "." + type);
+        }
+
         checkMatchingEvt(location,staDate,endDate);
 
     })
     function checkMatchingEvt(location, staDate, endDate) {
         $.ajax({
             type: "POST",
-            url: "http://localhost:8080/gwa/api/event/checkMatchingLocaNtime",
+            url: "/gwa/api/event/checkMatchingLocaNtime",
             data: {
                 location: location,
                 staDate: staDate,
@@ -92,9 +152,12 @@ $(document).ready(function() {
         $.ajax({
             type : "POST",
             contentType : "application/json",
-            url : "http://localhost:8080/gwa/api/event/createEvent",
+            url : "/gwa/api/event/createEvent",
             data : JSON.stringify(data),
             success : function(result, status) {
+                formData.append("id", result.id);
+                formData.append("photoBtn", imageFile, "thumbEvtID"+result.id + "." + type);
+                ajaxImagePost(formData);
                 alert("Event created successfully!");
                 window.location.href = "/gwa/event/detail?id=" + result.id;
 

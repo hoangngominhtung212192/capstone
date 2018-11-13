@@ -96,4 +96,10 @@ public class ArticleWSImpl implements ArticleWS {
         List<Object> result = articleService.searchArticleWithSortAndPageByStatus(title, status, sorttype, pageNum);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<List<Object>> getMyArticle(int id, String sorttype, int pageNum) {
+        List<Object> result = articleService.getMyArticleByPageAndStatus(id, sorttype, pageNum);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }

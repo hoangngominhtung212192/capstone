@@ -259,6 +259,15 @@
             <input type="text" class="form-control"style="background-color: white" placeholder="Location" id="txtLocation"/>
             <h4>Description</h4>
             <textarea id="txtDescription"></textarea>
+            <h4>Thumbnail image</h4>
+            <label for="photoBtn">
+              <img id="upload" src="/gwa/img/upload-image.png" style="width: 30px;height: 30px"/>
+            </label>
+
+            <input id="photoBtn" style="display: none" class="button-file" type="file"
+                   class="text-center center-block file-upload">
+            <span id="imgError" class="error"
+                  style="display: none; margin-top: 10px;font-size: 15px; color: red"></span>
             <h4>Start date</h4>
             <input type="date" class="form-control"style="background-color: white" placeholder="Start date" id="txtStartDate"/>
             <h4>End date</h4>
@@ -329,7 +338,7 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <script>HTMLImporter.import("/pages/admin-footer.html");</script>
+  <script>HTMLImporter.import("/gwa/pages/admin-footer.html");</script>
 </div>
 <!-- ./wrapper -->
 

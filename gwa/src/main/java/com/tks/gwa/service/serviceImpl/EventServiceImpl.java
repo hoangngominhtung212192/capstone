@@ -2,9 +2,12 @@ package com.tks.gwa.service.serviceImpl;
 
 import com.tks.gwa.constant.AppConstant;
 import com.tks.gwa.entity.Event;
+import com.tks.gwa.entity.Eventattendee;
+import com.tks.gwa.repository.EventAttendeeRepository;
 import com.tks.gwa.repository.EventRepository;
 import com.tks.gwa.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +24,7 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     private EventRepository eventRepository;
+
 
     @Override
     public List<Event> getAllEvent() {
@@ -165,6 +169,8 @@ public class EventServiceImpl implements EventService {
 
         return result;
     }
+
+
 
 
 }
