@@ -340,9 +340,9 @@ public class ModelRepositoryImpl extends GenericRepositoryImpl<Model, Integer> i
                 }
             } else {
                 if (cending.equals("Ascending")) {
-                    sql += " ORDER BY m.numberOfRating ASC";
+                    sql += " ORDER BY m.numberOfRating/m.numberOfRater ASC";
                 } else {
-                    sql += " ORDER BY m.numberOfRating DESC";
+                    sql += " ORDER BY m.numberOfRating/m.numberOfRater DESC";
                 }
             }
 
@@ -516,9 +516,9 @@ public class ModelRepositoryImpl extends GenericRepositoryImpl<Model, Integer> i
                 }
             } else {
                 if (cending.equals("Ascending")) {
-                    sql += " ORDER BY m.numberOfRating ASC";
+                    sql += " ORDER BY m.numberOfRating/m.numberOfRater ASC";
                 } else {
-                    sql += " ORDER BY m.numberOfRating DESC";
+                    sql += " ORDER BY m.numberOfRating/m.numberOfRater DESC";
                 }
             }
 
@@ -566,7 +566,7 @@ public class ModelRepositoryImpl extends GenericRepositoryImpl<Model, Integer> i
     @Override
     public List<Model> getTop5Rating() {
 
-        String sql = "SELECT m FROM " + Model.class.getName() + " AS m ORDER BY m.numberOfRating DESC";
+        String sql = "SELECT m FROM " + Model.class.getName() + " AS m ORDER BY m.numberOfRating/m.numberOfRater DESC";
 
         Query query = this.entityManager.createQuery(sql);
         query.setMaxResults(5);
