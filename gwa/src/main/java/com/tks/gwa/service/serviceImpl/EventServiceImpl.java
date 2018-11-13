@@ -153,7 +153,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Object> searchEventWithSortAndPageByStatus(String title, String status, String sorttype, int pageNum) {
-        int totalRecord = eventRepository.countEventByStatus(status);
+        int totalRecord = eventRepository.countEventBySearchStatus(title, status);
         int totalPage = totalRecord / AppConstant.EVENT_MAX_RECORD_PER_PAGE;
         if (totalRecord % AppConstant.EVENT_MAX_RECORD_PER_PAGE > 0){
             totalPage +=1;

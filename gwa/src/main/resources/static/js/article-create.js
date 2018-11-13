@@ -17,11 +17,13 @@ $(document).ready(function() {
 
         today = dd + '/' + mm + '/' + yyyy;
         var formArticle = {
-            title : $("#title").val(),
-            content : CKEDITOR.instances.content.getData(),
-            category : $("#category").val(),
+
+            title : $("#txtTitle").val(),
+            description : $('#txtDescription').val(),
+            content : CKEDITOR.instances.contentEditor.getData(),
+            category : $("#cboCate").val(),
             date : today,
-            approvalStatus : 'userpending'
+            approvalStatus : $('#cboStatus').val(),
         }
 
         ajaxPost(formArticle);
@@ -33,7 +35,7 @@ $(document).ready(function() {
         $.ajax({
             type : "POST",
             contentType : "application/json",
-            url : "http://localhost:8080/api/user/createArticle",
+            url : "http://localhost:8080/gwa/api/article/createArticle",
             data : JSON.stringify(data),
             success : function(result, status) {
                 alert("Article created successfully!");

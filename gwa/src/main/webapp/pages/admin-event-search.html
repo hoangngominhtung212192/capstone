@@ -149,28 +149,6 @@
                         </div>
                         <!-- /.box-body -->
                     </div>
-                    <script>
-                        function approvalChange(value, id) {
-                            console.log("value: " + value, typeof value);
-                            console.log("id: " + id, typeof id);
-                            $.ajax({
-                                type: "POST",
-                                url: "http://localhost:8080/api/event/changeStatusOneEvent",
-                                // data: '{"id":'+id+', "apprstatus":'+value+'}',
-                                data: {
-                                    id: id,
-                                    status: value
-                                },
-                                success: function (result, status) {
-                                    alert("Changed status successfully!")
-                                },
-                                error: function (e) {
-                                    alert("Error!");
-                                    console.log("ERROR: ", e);
-                                }
-                            });
-                        }
-                    </script>
                     <!-- /.box -->
 
                     <div class="io-list-header" style="margin: 10px; margin-left: 12px;">

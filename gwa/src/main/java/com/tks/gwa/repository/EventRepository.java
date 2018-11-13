@@ -20,6 +20,7 @@ public interface EventRepository extends GenericRepository<Event, Integer> {
     List<Event> searchEventByStatusAsc(String status, int limit, int offset);
     List<Event> searchEventByStatusDesc(String status, int limit, int offset);
     int countEventByStatus(String status);
+    int countEventBySearchStatus(String title, String status);
     List<Event> getEventByStatusAndSort(String status, String sorttype, int pageNum);
     List<Event> searchEventByStatusAndSort(String title, String status, String sorttype, int pageNum);
 }

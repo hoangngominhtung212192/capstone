@@ -19,24 +19,19 @@ $(document).ready(function () {
         $.ajax({
             type : "POST",
             contentType : "application/json",
-            url : "http://localhost:8080/api/user/getArticle",
+            url : "http://localhost:8080/gwa/api/article/getArticle",
             data : JSON.stringify(data),
             success : function(result, status) {
                 console.log(result);
                 console.log(status);
                 if (result){
-                    var title = result.title;
-                    var date = result.date;
-                    // var resultcontent = result.content.toString();
-                    var stus = result.approvalStatus - 1;
-                    document.getElementById("cboStatus").options[stus].selected = 'selected';
-                    var cateIndex = getSelectIndexCate(result.category);
-                    document.getElementById("cboCate").options[cateIndex].selected = 'selected';
-                    document.getElementById("txtTitle").value = title.toString();
-                    $('#txtTitle').append(title);
-                    console.log(date);
-                    document.getElementById("lblDate").innerText = date;
+                    $('#cboStatus').val(result.approvalStatus);
+                    $('#cboCate').val(result.category);
+                    $('#txtTitle').val(result.title);
+                    $('#txtDescription').val(result.description);
+                    $('#date').append(result.date);
                     $('#contentEditor').html(result.content);
+                    $('#author').append(result.account.username);
                 }
             },
             error : function(e) {
@@ -74,14 +69,15 @@ $(document).ready(function () {
             mm = '0'+mm
         }
 
-        today = dd + '/' + mm + '/' + yyyy;
+        today = yyyy + "-" + mm + "-" + dd;
         var formArticle = {
             id : id,
             title : $("#txtTitle").val(),
             content : CKEDITOR.instances.contentEditor.getData(),
+            description : $('#txtDescription').val(),
             category : $("#cboCate").val(),
             modifiedDate : today,
-            date : document.getElementById("lblDate").innerText,
+            date : $('#lblDate').val(),
             approvalStatus : $("#cboStatus :selected").val(),
         }
 
@@ -119,12 +115,13 @@ $(document).ready(function () {
         $.ajax({
             type : "POST",
             contentType : "application/json",
-            url : "http://localhost:8080/api/user/updateArticle",
+            url : "http://localhost:8080/gwa/api/article/updateArticle",
             data : JSON.stringify(data),
             success : function(result, status) {
                 console.log(result);
                 console.log(status);
                 alert("Article updated successfully!");
+                window.location.href = "/gwa/admin/article";
             },
             error : function(e) {
                 alert("Error!")
