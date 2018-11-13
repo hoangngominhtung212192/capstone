@@ -346,8 +346,14 @@ $(document).ready(function () {
         sessionArr = [];
         console.log("Clear session");
 
-        updateFilter();
-        search(1, "");
+        $("#loading").css("display", "block");
+
+        setTimeout(function () {
+            updateFilter();
+            search(1, "");
+
+            $("#loading").css("display", "none");
+        }, 300);
     });
 
     function ajaxSearchModel(data) {
@@ -556,7 +562,14 @@ $(document).ready(function () {
         console.log("Clear session");
 
         filterOrderBy = this.value;
-        search(1, "");
+
+        $("#loading").css("display", "block");
+
+        setTimeout(function () {
+            search(1, "");
+
+            $("#loading").css("display", "none");
+        }, 300);
     });
 
     $("#cbo-order-2").on('change', function () {
@@ -566,7 +579,14 @@ $(document).ready(function () {
         console.log("Clear session");
 
         filterCending = this.value;
-        search(1, "");
+
+        $("#loading").css("display", "block");
+
+        setTimeout(function () {
+            search(1, "");
+
+            $("#loading").css("display", "none");
+        }, 300);
     })
 
     function renderData(data) {
@@ -575,22 +595,41 @@ $(document).ready(function () {
             $.each(data, function (index, value) {
                 var model = value.model;
 
-                $("#ul-records-container").append("<li class=\"model-records-item\">\n" +
+                var append = "<li class=\"model-records-item\">\n" +
                     "                                        <div class=\"model-records-item-img\">\n" +
                     "                                            <img src=\"" + model.thumbImage + "\">\n" +
                     "                                            <span class=\"model-records-item-name\">" + model.name + "</span>\n" +
                     "                                            <div class=\"model-records-item-info\">\n" +
-                    "                                                <p>" + model.name + "</p>\n" +
-                    "                                                <p><b>Price: </b>" + model.price + "</p>\n" +
-                    "                                                <p><b>Released: </b>" + model.releasedDate + "</p>\n" +
-                    "                                                <p><b>Manufacturer: </b>" + model.manufacturer.name + "</p>\n" +
-                    "                                                <p><b>Product Series: </b>" + model.productseries.name + "</p>\n" +
+                    "                                                <p>" + model.name + "</p>\n";
+
+                if (model.price) {
+                    append += "<p><b>Price: </b>" + model.price + "</p>\n";
+                } else {
+                    append += "<p><b>Price: </b>N/A</p>\n";
+                }
+
+                if (model.releasedDate) {
+                    append += "<p><b>Released: </b>" + model.releasedDate + "</p>\n";
+                } else {
+                    append += "<p><b>Released: </b>N/A</p>\n"
+                }
+
+                if (model.manufacturer) {
+                    append += "<p><b>Manufacturer: </b>" + model.manufacturer.name + "</p>\n";
+                } else {
+                    append += "<p><b>Manufacturer: </b>N/A</p>\n";
+                }
+
+                append += "                                                <p><b>Product Series: </b>" + model.productseries.name + "</p>\n" +
                     "                                                <div class=\"model-records-item-info-button\">\n" +
                     "                                                    <button id='" + model.id + "'>More Information</button>\n" +
                     "                                                </div>\n" +
                     "                                            </div>\n" +
                     "                                        </div>\n" +
-                    "                                    </li>");
+                    "                                    </li>";
+
+                $("#ul-records-container").append(append);
+
                 $("#" + model.id).click(function (e) {
                     e.preventDefault();
 
@@ -656,9 +695,23 @@ $(document).ready(function () {
                 appendNotification += "<li style='background-color: white;'>\n"
             }
 
+            var iconType = "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> ";
+
+            if (value.notificationtype.name == "Profile"){
+                iconType = "<i class=\"fa fa-user-circle-o text-yellow\" style=\"color: darkred;\"></i> ";
+            }else if (value.notificationtype.name == "Model") {
+                iconType = "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "Tradepost") {
+                iconType = "<i class=\"fa fa-check-square-o text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "OrderSent") {
+                iconType = "<i class=\"fa fa fa-paper-plane text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "OrderReceived") {
+                iconType = "<i class=\"fa fa fa-bullhorn text-yellow\" style=\"color: darkred;\"></i> ";
+            }
+
             appendNotification += "<a id='" + value.id + "-" + value.notificationtype.name + "-" + value.objectID +
                 "' href=\"#\">\n" +
-                "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> " + value.description + "</a>\n" +
+                iconType + value.description + "</a>\n" +
                 "</li>";
 
             $("#ul-notification").append(appendNotification);
@@ -684,6 +737,12 @@ $(document).ready(function () {
                     window.location.href = "/gwa/pages/profile.html?accountID=" + objectID;
                 } else if (type == "Model") {
                     window.location.href = "/gwa/pages/modeldetail.html?modelID=" + objectID;
+                } else if (type == "Tradepost") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
+                } else if (type == "OrderSent") {
+                    window.location.href = "/gwa/trade-market/my-order";
+                } else if (type == "OrderReceived") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
                 }
             });
         });
@@ -700,6 +759,7 @@ $(document).ready(function () {
         } else {
             $("#numberOfNew").text(countNotSeen);
         }
+
     }
 
     function addNewNotification() {

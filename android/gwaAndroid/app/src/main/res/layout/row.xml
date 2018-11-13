@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="#fff"
+    app:cardCornerRadius="3dp"
+    app:cardElevation="3dp"
+    app:contentPadding="5dp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/rImageView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/loading_icon"/>
+
+        <TextView
+            android:id="@+id/rModelName"
+            android:text="Name"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/rImageView"
+            android:layout_marginLeft="20dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:scrollHorizontally="true"/>
+
+        <TextView
+            android:id="@+id/rSeriestitle"
+            android:text="Series Title: Master Grade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rModelName"
+            android:layout_alignLeft="@+id/rModelName"/>
+
+        <TextView
+            android:id="@+id/rProductseries"
+            android:text="Scale: 1/100"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rSeriestitle"
+            android:layout_alignLeft="@+id/rModelName"/>
+
+        <TextView
+            android:id="@+id/rRating"
+            android:text="Rating: "
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rProductseries"
+            android:layout_alignLeft="@+id/rModelName"/>
+
+        <ImageView
+            android:id="@+id/star_one"
+            android:visibility="gone"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_below="@+id/rProductseries"
+            android:layout_toRightOf="@+id/rRating"
+            android:layout_alignLeft="@+id/rRating"
+            android:layout_marginLeft="45dp"
+            android:background="@drawable/star_rating"/>
+        <ImageView
+            android:id="@+id/star_two"
+            android:visibility="gone"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_below="@+id/rProductseries"
+            android:layout_toRightOf="@+id/star_one"
+            android:layout_alignLeft="@+id/star_one"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/star_rating"/>
+        <ImageView
+            android:id="@+id/star_three"
+            android:visibility="gone"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_below="@+id/rProductseries"
+            android:layout_toRightOf="@+id/star_two"
+            android:layout_alignLeft="@+id/star_two"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/star_rating"/>
+        <ImageView
+            android:id="@+id/star_four"
+            android:visibility="gone"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_below="@+id/rProductseries"
+            android:layout_toRightOf="@+id/star_three"
+            android:layout_alignLeft="@+id/star_three"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/star_rating"/>
+        <ImageView
+            android:id="@+id/star_five"
+            android:visibility="gone"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_below="@+id/rProductseries"
+            android:layout_toRightOf="@+id/star_four"
+            android:layout_alignLeft="@+id/star_four"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/star_rating"/>
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

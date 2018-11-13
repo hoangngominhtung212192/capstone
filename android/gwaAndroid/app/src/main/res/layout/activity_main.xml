@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/dl">
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="tks.com.gwaandroid.MainActivity">
+
+        <!--    Pagination  -->
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="40dp">-->
+
+            <!--<Button-->
+                <!--android:id="@+id/btnPrev"-->
+                <!--android:text="Prev"-->
+                <!--android:layout_width="60dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:background="@drawable/buttonshape"-->
+                <!--android:textColor="#FFFFFF"-->
+                <!--android:shadowColor="#0C21A8"-->
+                <!--android:shadowDx="0"-->
+                <!--android:shadowDy="0"-->
+                <!--android:shadowRadius="5"/>-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/txtPage"-->
+                <!--android:textStyle="bold"-->
+                <!--android:textSize="17dp"-->
+                <!--android:textColor="@color/colorPrimaryDark"-->
+                <!--android:text="Page: "-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_toRightOf="@+id/btnPrev"-->
+                <!--android:layout_centerVertical="true" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/txtTotal"-->
+                <!--android:textStyle="bold"-->
+                <!--android:textSize="17dp"-->
+                <!--android:textColor="@color/colorPrimaryDark"-->
+                <!--android:text=" :Total"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_toLeftOf="@+id/btnNext"-->
+                <!--android:layout_centerVertical="true" />-->
+
+            <!--<Button-->
+                <!--android:id="@+id/btnNext"-->
+                <!--android:text="Next"-->
+                <!--android:layout_width="60dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:background="@drawable/buttonshape"-->
+                <!--android:textColor="#FFFFFF"-->
+                <!--android:shadowColor="#0C21A8"-->
+                <!--android:shadowDx="0"-->
+                <!--android:shadowDy="0"-->
+                <!--android:shadowRadius="5"/>-->
+        <!--</RelativeLayout>-->
+
+        <!--    FAP search button   -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <!--    ProgressBar loading -->
+            <RelativeLayout
+                android:id="@+id/linearProgressBar"
+                android:layout_width="match_parent"
+                style="Horizon"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="visible" >
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+                </ProgressBar>
+            </RelativeLayout>
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:elevation="4dp"
+                app:backgroundTint="#0000AA"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/search"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="20dp"/>
+
+            <!--    Recycle View for loading data   -->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycleView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <android.support.design.widget.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/nav_view"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/navigation_header"
+        app:menu="@menu/navigation_menu">
+
+    </android.support.design.widget.NavigationView>
+
+</android.support.v4.widget.DrawerLayout>
