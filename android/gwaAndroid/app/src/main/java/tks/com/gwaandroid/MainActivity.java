@@ -1,6 +1,9 @@
 package tks.com.gwaandroid;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -46,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
     private int currentVisiblePosition = 0;
 
+    private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -55,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         // initialize
         currentPage = 1;
         lastSearch = new ModelSDTO();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         // get recyclerview
         mRecycleView = findViewById(R.id.recycleView);
@@ -90,6 +96,14 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if (id == R.id.exchange) {
                     Toast.makeText(MainActivity.this, "Exchange", Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.signout) {
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.clear();
+                    editor.commit();
+
+                    Toast.makeText(MainActivity.this, "Logout successfully!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    MainActivity.this.startActivity(intent);
                 }
 
                 return true;
@@ -203,8 +217,8 @@ public class MainActivity extends AppCompatActivity {
         mRecycleView.setLayoutManager(layoutManager);
         mRecycleView.setAdapter(adapter);
 
-        linearProgressBar.setVisibility(View.GONE);
         // scroll to the last position
         ((LinearLayoutManager) mRecycleView.getLayoutManager()).scrollToPosition(currentVisiblePosition);
+        linearProgressBar.setVisibility(View.GONE);
     }
 }

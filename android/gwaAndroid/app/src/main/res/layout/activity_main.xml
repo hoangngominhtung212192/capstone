@@ -73,10 +73,15 @@
                 <!--android:shadowRadius="5"/>-->
         <!--</RelativeLayout>-->
 
-        <!--    FAP search button   -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
+
+            <!--    Recycle View for loading data   -->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycleView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <!--    ProgressBar loading -->
             <RelativeLayout
@@ -86,7 +91,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:visibility="visible" >
+                android:visibility="visible">
 
                 <ProgressBar
                     android:layout_width="wrap_content"
@@ -94,6 +99,7 @@
                 </ProgressBar>
             </RelativeLayout>
 
+            <!--    FAP search button   -->
             <android.support.design.widget.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -105,12 +111,6 @@
                 android:src="@drawable/search"
                 android:layout_marginBottom="20dp"
                 android:layout_marginRight="20dp"/>
-
-            <!--    Recycle View for loading data   -->
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycleView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
         </RelativeLayout>
 
     </LinearLayout>
