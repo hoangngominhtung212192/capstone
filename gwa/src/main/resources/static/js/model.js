@@ -338,7 +338,7 @@ $(document).ready(function () {
     updateFilter();
     search(1, "");
 
-    $("#searchBtn").click(function (e) {
+    $("#formSearch").submit(function (e) {
         e.preventDefault();
 
         // clear session

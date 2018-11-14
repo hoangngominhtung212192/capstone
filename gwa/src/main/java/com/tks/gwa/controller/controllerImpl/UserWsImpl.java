@@ -32,11 +32,14 @@ public class UserWsImpl implements UserWS {
     @Override
     public ResponseEntity<Account> checklogin(@RequestBody Account account, HttpSession session) {
 
+        System.out.println("[UserWS] Begin checkLogin with username: " + account.getUsername() +
+        " & password: " + account.getPassword());
+
         Account result = userService.checkLogin(account);
 
         if (result == null) {
             Account responseAccount = new Account();
-            responseAccount.setMessage("Incorrect username of password!");
+            responseAccount.setMessage("Incorrect username or password!");
 
             return new ResponseEntity<Account>(responseAccount, HttpStatus.valueOf(400));
         }

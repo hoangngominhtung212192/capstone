@@ -177,6 +177,12 @@
     box-shadow: 0px 0px 5px #aaa;
 }
 
+#table_filter:focus {
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+    border: 1px solid rgba(81, 203, 238, 1);
+    border-right: 0px;
+}
+
 .search-box-button {
     background: #CC0000 url("images/icon_search_white.png") no-repeat 50%;
     box-sizing: border-box;
