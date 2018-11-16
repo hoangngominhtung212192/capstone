@@ -1,4 +1,59 @@
 $(document).ready(function () {
+    var checkImage = false;
+    var imagetype;
+    var imageFile;
+    var formData = new FormData();
+    $("#photoBtn").change(function (e) {
+        console.log($("#photoBtn").val());
+
+        for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+
+            var file = e.originalEvent.srcElement.files[i];
+            imagetype = file.type;
+            var match = ["image/jpeg", "image/png", "image/jpg"];
+            if (!((imagetype == match[0]) || (imagetype == match[1]) || (imagetype == match[2]))) {
+                checkImage = false;
+                alert("select img pls");
+                // $("#imgError").css("display", "block");
+                // $("#imgError").text("Please select image only");
+            } else {
+                var reader = new FileReader();
+                reader.onloadend = function () {
+                    $("#imgthumb").attr("src", reader.result);
+                    // $("#avatar").css("height", "202px");
+                    // $("#avatar").css("width", "202px");
+                }
+                reader.readAsDataURL(file);
+
+                imageFile = file;
+
+                checkImage = true;
+
+                // $("#imgError").css("display", "none");
+                // $("#imgError").text("");
+            }
+
+        }
+    });
+
+    function ajaxImagePost(formData) {
+        console.log("updating image for "+formData)
+        $.ajax({
+            type: "POST",
+            contentType: false,
+            processData: false,
+            url: "/gwa/api/article/uploadArticleImage",
+            data: formData,
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        })
+    }
+
+
     // split url to get parameter algorithm
     var getUrlParameter = function getUrlParameter() {
         var sPageURL = window.location.href;
@@ -32,6 +87,7 @@ $(document).ready(function () {
                     var resultcontent = result.content.toString();
                     console.log(resultcontent);
                     document.getElementById("title").value = title.toString();
+                    $("#imgthumb").attr("src", result.thumbImage);
                     $('#txtDescription').val(result.description);
                     $('#cboCate').val(result.category);
                     $('#author').append(result.account.username);
@@ -111,6 +167,11 @@ $(document).ready(function () {
             url : "/gwa/api/article/updateArticle",
             data : JSON.stringify(data),
             success : function(result, status) {
+                if(checkImage){
+                    formData.append("id", result.id);
+                    formData.append("photoBtn", imageFile, "thumbArt"+$('#txtTitle').val() + "." + type);
+                    ajaxImagePost(formData);
+                }
                 console.log(result);
                 console.log(status);
                 alert("Article updated successfully!");

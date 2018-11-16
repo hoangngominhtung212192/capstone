@@ -34,6 +34,9 @@ public class Article implements Serializable {
     @Column(name = "title")
     private String title;
 
+    @Column(name = "thumbimage")
+    private String thumbImage;
+
     @Lob
     @Column(name = "description")
     private String description;
@@ -123,5 +126,13 @@ public class Article implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getThumbImage() {
+        return thumbImage;
+    }
+
+    public void setThumbImage(String thumbImage) {
+        this.thumbImage = thumbImage;
     }
 }

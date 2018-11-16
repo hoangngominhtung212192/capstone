@@ -671,22 +671,26 @@
             <input id="hidUserID" type="hidden">
             <h2 id="title"></h2>
             <hr />
-            <span class="post-date" id="lblDate">Starts from: <span id="stDate"></span> to <span id="enDate"></span></span><br/>
-            <span id="txtLocation">Location: </span><br/>
-            <div id="ratingDiv">
-                <p>Ratings: <div id="raterEv"></div> <span id="txtCurRat"></span><span> stars by </span><span id="lblTimeRated"></span><span> users</span> </p>
+            <h5>Information: </h5>
+            <div style="padding-left: 10px">
+                <span class="post-date" id="lblDate">Starts from: <span id="stDate"></span> to <span id="enDate"></span></span><br/>
+                <span id="txtLocation">Location: </span><br/>
+                <div id="ratingDiv">
+                    Ratings: <div id="raterEv"></div> <span id="txtCurRat"></span> stars
+                </div>
+                Price: <span id="txtPrice"></span><br/>
+                There are <span id="txtNumOfAttendee"></span> people attending this event
+                <hr/>
             </div>
-            <span>Price: <span id="txtPrice"></span></span><br/>
+
             <div class="entry-content" id="content">
 
             </div>
             <p>Registration starts from <span id="regStDate"></span> and ends on <span id="regEnDate"></span></p>
             <input type="submit" class="btn btn-primary" id="btnRegister" value="REGISTER NOW" />
             <hr />
-
-
-                <div id="raterArea">
-
+                <div id="raterArea" style="display: none">
+                    <h5>Feedback:</h5>
                 </div>
                 <!--<div class="panel">-->
                     <!--<p id="raterName"></p>-->

@@ -1,4 +1,52 @@
 $(document).ready(function() {
+    var checkImage = false;
+    var imagetype;
+    var imageFile;
+    var formData = new FormData();
+    $("#photoBtn").change(function (e) {
+        console.log($("#photoBtn").val());
+
+        for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+
+            var file = e.originalEvent.srcElement.files[i];
+            imagetype = file.type;
+            var match = ["image/jpeg", "image/png", "image/jpg"];
+            if (!((imagetype == match[0]) || (imagetype == match[1]) || (imagetype == match[2]))) {
+                checkImage = false;
+                alert("select img pls");
+                // $("#imgError").css("display", "block");
+                // $("#imgError").text("Please select image only");
+            } else {
+                var reader = new FileReader();
+                reader.onloadend = function () {
+                    $("#imgthumb").attr("src", reader.result);
+                }
+                reader.readAsDataURL(file);
+
+                imageFile = file;
+
+                checkImage = true;
+
+            }
+
+        }
+    });
+    function ajaxImagePost(formData) {
+        console.log("updating image for "+formData)
+        $.ajax({
+            type: "POST",
+            contentType: false,
+            processData: false,
+            url: "/gwa/api/event/uploadEventImage",
+            data: formData,
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        })
+    }
     var getUrlParameter = function getUrlParameter() {
         var sPageURL = window.location.href;
         console.log(sPageURL);
@@ -28,7 +76,11 @@ $(document).ready(function() {
                     numberOfStars = result.numberOfStars;
                     $('#hiddenEvID').val(result.id);
                     $('#txtTitle').val(result.title);
-                    $('#txtLocation').val(result.location);
+                    var loca = result.location;
+                    var addr = loca.split("@")[0];
+                    // $('#txtLocation').append(addr);
+                    $('#txtLocation').val(addr);
+                    $("#imgthumb").attr("src", result.thumbImage);
                     $('#txtDescription').val(result.description);
                     $('#txtStartDate').val(result.startDate);
                     $('#txtEndDate').val(result.endDate);
@@ -41,20 +93,6 @@ $(document).ready(function() {
                     var evStatus = result.status;
                     $("#cboStatus").val(result.status);
 
-                    
-                    
-                    // title : $("#txtTitle").val(),
-                    //     location : $("#txtLocation").val(),
-                    //     description : $("#txtDescription").val(),
-                    //     startDate : $("#txtStartDate").val(),
-                    //     endDate : $("#txtEndDate").val(),
-                    //     regDateStart : $("#txtRegStartDate").val(),
-                    //     regDateEnd : $("#txtRegEndDate").val(),
-                    //     maxAttendee : $("#txtAttMax").val(),
-                    //     minAttendee : $("#txtAttMin").val(),
-                    //     ticketPrice : $("#txtPrice").val(),
-                    //     content : CKEDITOR.instances.contentEditor.getData(),
-                    //     status : $("#cboStatus").val(),
                 }
             },
             error : function(e) {
@@ -77,6 +115,11 @@ $(document).ready(function() {
 
     })
     function checkMatchingEvt(location, staDate, endDate) {
+        var address = $("#txtLocation").val();
+        var lat = $('#txtLat').val();
+        var long = $('#txtLong').val();
+        var addrlocation = address + "@" + lat + "@" + long;
+
         $.ajax({
             type: "POST",
             url: "/gwa/api/event/checkMatchingLocaNtimeExcept",
@@ -94,7 +137,7 @@ $(document).ready(function() {
                         // $('#hiddenEvID').val(result.id);
                         id : $("#hiddenEvID").val(),
                         title : $("#txtTitle").val(),
-                        location : $("#txtLocation").val(),
+                        location : addrlocation,
                         description : $("#txtDescription").val(),
                         startDate : $("#txtStartDate").val(),
                         endDate : $("#txtEndDate").val(),
@@ -122,13 +165,19 @@ $(document).ready(function() {
     }
     function editEvent(data) {
         console.log(data);
-
+        var type = imagetype.split("/")[1];
         $.ajax({
             type : "POST",
             contentType : "application/json",
             url : "/gwa/api/event/editEvent",
             data : JSON.stringify(data),
             success : function(result, status) {
+                if(checkImage){
+                    formData.append("id", result.id);
+                    formData.append("photoBtn", imageFile, "thumbEvt"+$('#txtTitle').val() + "." + type);
+                    ajaxImagePost(formData);
+                }
+
                 alert("Event updated successfully!");
                 window.location.href = "/gwa/event/detail?id=" + result.id;
 

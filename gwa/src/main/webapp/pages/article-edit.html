@@ -673,6 +673,18 @@
             <input name="title" id="title" class="form-control">
             <input id="hiddenLoggedUser" type="hidden">
             <p>Posted on: <span class="post-date" id="date"></span> / Author: <span id="author"></span></p>
+            <h4>Thumbnail image</h4>
+            <img id="imgthumb" src="#" style="width: 250px">
+
+            <label for="photoBtn">
+                <img id="upload" src="/gwa/img/upload-image.png" style="width: 30px;height: 30px"/>
+            </label>
+
+            <input id="photoBtn" style="display: none" class="button-file" type="file"
+                   class="text-center center-block file-upload">
+            <span id="imgError" class="error"
+                  style="display: none; margin-top: 10px;font-size: 15px; color: red"></span>
+
             <h5>Category</h5>
             <select id="cboCate" class="custom-select my-1 mr-sm-2">
                 <option value="News">News</option>

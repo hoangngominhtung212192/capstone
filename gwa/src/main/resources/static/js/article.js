@@ -100,8 +100,11 @@ $(document).ready(function () {
     }
     function appendResult(result){
         for (var i = 0; i < result.length; i++) {
-            var article = $('<div class="single-blog-post small-featured-post d-flex">\n' +
-                '                                <div class="post-data">\n' +
+            var article = $('<div class="single-blog-post d-flex row">\n' +
+                '<div class="post-thumb col-sm-2" style="max-height: inherit;">\n' +
+                '<img src="'+result[i].thumbImage+'" alt=""><br/>\n' +
+                '</div>'+
+                '                                <div class="post-data col-sm-10">\n' +
                 '                                    <a href="#" class="post-catagory">' + result[i].category + '</a>\n' +
                 '                                    <div class="post-meta">\n' +
                 '                                        <a href="/gwa/article/detail?id=' + result[i].id +'" class="post-title">\n' +
@@ -111,7 +114,7 @@ $(document).ready(function () {
                 '                                        <p >Author: '+result[i].account.username+ '</p>\n' +
                 '                                    </div>\n' +
                 '                                </div>\n' +
-                '                            </div>');
+                '                            </div><hr/>');
 
             $('#search-result').append(article);
         }

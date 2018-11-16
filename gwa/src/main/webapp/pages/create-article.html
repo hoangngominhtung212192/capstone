@@ -681,6 +681,18 @@
         </select>
         <h5>Description</h5>
         <textarea required id="txtDescription" style="height: 80px; width: 500px; margin-bottom: 10px" class="form-control"></textarea>
+        <h4>Thumbnail image</h4>
+        <img id="imgthumb" src="#" style="width: 250px">
+
+        <label for="photoBtn">
+            <img id="upload" src="/gwa/img/upload-image.png" style="width: 30px;height: 30px"/>
+        </label>
+
+        <input id="photoBtn" style="display: none" class="button-file" type="file"
+               class="text-center center-block file-upload">
+        <span id="imgError" class="error"
+              style="display: none; margin-top: 10px;font-size: 15px; color: red"></span>
+
         <div style="margin-bottom: 10px">
             <textarea name="editor1" id="content" ></textarea>
         </div>

@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    //image
     var checkImage = false;
     var imagetype;
     var imageFile;
@@ -19,9 +20,9 @@ $(document).ready(function() {
             } else {
                 var reader = new FileReader();
                 reader.onloadend = function () {
-                    $("#avatar").attr("src", reader.result);
-                    $("#avatar").css("height", "202px");
-                    $("#avatar").css("width", "202px");
+                    $("#imgthumb").attr("src", reader.result);
+                    // $("#avatar").css("height", "202px");
+                    // $("#avatar").css("width", "202px");
                 }
                 reader.readAsDataURL(file);
 
@@ -37,6 +38,7 @@ $(document).ready(function() {
     });
 
     function ajaxImagePost(formData) {
+        console.log("updating image for "+formData)
         $.ajax({
             type: "POST",
             contentType: false,
@@ -94,18 +96,15 @@ $(document).ready(function() {
         var location = $("#txtLocation").val();
         var staDate = $("#txtStartDate").val();
         var endDate = $("#txtEndDate").val();
-
-        var type = imagetype.split("/")[1];
-
-        // $("#photoBtn").get(0).files[0]
-        if (imageFile) {
-            // formData.append("photoBtn", imageFile, "thumbEvt#"+$('#txtTitle').val() + "." + type);
-        }
-
         checkMatchingEvt(location,staDate,endDate);
 
     })
     function checkMatchingEvt(location, staDate, endDate) {
+        var address = $("#txtLocation").val();
+        var lat = $('#txtLat').val();
+        var long = $('#txtLong').val();
+        var addrlocation = address + "@" + lat + "@" + long;
+
         $.ajax({
             type: "POST",
             url: "/gwa/api/event/checkMatchingLocaNtime",
@@ -120,7 +119,7 @@ $(document).ready(function() {
                 if (result.length==0){
                     var formEvent = {
                         title : $("#txtTitle").val(),
-                        location : $("#txtLocation").val(),
+                        location : addrlocation,
                         description : $("#txtDescription").val(),
                         startDate : $("#txtStartDate").val(),
                         endDate : $("#txtEndDate").val(),
@@ -147,6 +146,7 @@ $(document).ready(function() {
         })
     }
     function createEvent(data) {
+        // formData.append("photoBtn", imageFile, "thumbEvt#"+$('#txtTitle').val() + "." + type);
         console.log(data);
 
         $.ajax({
@@ -155,8 +155,9 @@ $(document).ready(function() {
             url : "/gwa/api/event/createEvent",
             data : JSON.stringify(data),
             success : function(result, status) {
+                var type = imagetype.split("/")[1];
                 formData.append("id", result.id);
-                formData.append("photoBtn", imageFile, "thumbEvtID"+result.id + "." + type);
+                formData.append("photoBtn", imageFile, "thumbEvt"+$('#txtTitle').val() + "." + type);
                 ajaxImagePost(formData);
                 alert("Event created successfully!");
                 window.location.href = "/gwa/event/detail?id=" + result.id;

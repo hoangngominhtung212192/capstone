@@ -52,7 +52,7 @@ var defaultPaginationOpts = {
     };
 
     searchEv();
-    getEventData();
+    // getEventData();
     $pagination.twbsPagination('destroy');
     if (totalPage > 1){
         $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
@@ -134,20 +134,24 @@ var defaultPaginationOpts = {
     }
 
     function appendResult(result){
+        var searchDiv = document.getElementById("search-result");
+        while (searchDiv.firstChild) {
+            searchDiv.removeChild(searchDiv.firstChild);
+        }
 
         for (var i = 0; i < result.length; i++) {
-            var article = $('<div class="single-blog-post featured-post mb-30">\n' +
-                '<div class="">\n' +
-                '    <img src="'+result[i].thumbImage+'" style="size: 100%" alt=""><br/>\n' +
+            var article = $('<div class="single-blog-post d-flex row">\n' +
+                '<div class="post-thumb col-sm-3" style="max-height: inherit;">\n' +
+                '<img src="'+result[i].thumbImage+'" alt=""><br/>\n' +
                 '</div>'+
-                '                                <div class="post-data">\n' +
+                '                                <div class="post-data col-sm-9" style="max-height: inherit;    ">\n' +
                 '                                    <div class="post-meta">\n' +
                 '                                        <a class="post-title" href="/gwa/event/detail?id=' + result[i].id +'">\n' +
                 '                                            <h6>' + result[i].title + '</h6>\n' +
                 '                                        </a>\n' +
                 '<p class="post-date"><span>From: '+result[i].startDate+'</span> to <span>'+result[i].endDate+'</span></p>'+
                 '<p><span>Ticket price: '+result[i].ticketPrice+'</span></p>\n' +
-                '<p class="post-excerp">'+result[i].description+'</p>'+
+                '<p class="post-excerp" style="margin-bottom: 0px">'+result[i].description+'</p>'+
                 '                                    </div>\n' +
                 '                                </div>\n' +
                 '                            </div>' +
@@ -170,10 +174,10 @@ var defaultPaginationOpts = {
         $('#btnGetEventList').addClass("active");
         $('#btnGetRegEvnts').removeClass("active");
 
-        var searchDiv = document.getElementById("search-result");
-        while (searchDiv.firstChild) {
-            searchDiv.removeChild(searchDiv.firstChild);
-        }
+        // var searchDiv = document.getElementById("search-result");
+        // while (searchDiv.firstChild) {
+        //     searchDiv.removeChild(searchDiv.firstChild);
+        // }
         isSearch = true;
         currentPage = 1;
         searchEv();
@@ -225,7 +229,76 @@ var defaultPaginationOpts = {
     $(document).click(function (event) {
         $("#dropdown-profile").css("display", "none");
         $("#dropdown-notification").css("display", "none");
+    });
+    var currentAddress = "";
+    // autoGetYourLocation();
+    function autoGetYourLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            alert("no geolocation");
+            $.growl.notice({title: "Location Error", message: "Geolocation is not supported by this browser."});
+        }
+    }
+
+    var addressWithLatLong;
+    $("#btnNearbyEvents").click(function (event) {
+        event.preventDefault();
+        // showPosition();
+        autoGetYourLocation();
+
     })
+
+    function showPosition(position) {
+        var lat = position.coords.latitude;
+        var lng = position.coords.longitude;
+        var google_map_pos = new google.maps.LatLng(lat, lng);
+
+        /* Use Geocoder to get address */
+        var google_maps_geocoder = new google.maps.Geocoder();
+        google_maps_geocoder.geocode(
+            {'latLng': google_map_pos},
+            function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK && results[0]) {
+                    currentAddress = results[0].formatted_address;
+                    // console.log(results[0].formatted_address);
+                    $('#txtMyLocation').append(currentAddress);
+                    currentAddress += "@" + lat;
+                    currentAddress += "@" + lng;
+                    getNearEvents();
+
+                }
+            }
+        );
+    }
+    function getNearEvents(){
+        console.log("getting nearby events "+currentAddress);
+        $.ajax({
+            type : "POST",
+            url : "/gwa/api/event/getNearbyEvent",
+            data : {
+                location : currentAddress,
+                range : 10000,
+                sorttype : $("#cbSortType option:selected").val(),
+                pageNum : currentPage
+            },
+            async: false,
+            success : function(result, status) {
+                var data = result[1];
+                totalPage = result[0];
+                console.log(result);
+                console.log(status);
+                console.log("page num: "+currentPage);
+                console.log("seach numb of pages: "+result[0]);
+                // currentPage = 1;
+
+                appendResult(data);
+            },
+            error : function(e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
 
     authentication();
 

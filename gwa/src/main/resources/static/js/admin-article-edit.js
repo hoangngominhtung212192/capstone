@@ -1,4 +1,58 @@
 $(document).ready(function () {
+    var checkImage = false;
+    var imagetype;
+    var imageFile;
+    var formData = new FormData();
+    $("#photoBtn").change(function (e) {
+        console.log($("#photoBtn").val());
+
+        for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+
+            var file = e.originalEvent.srcElement.files[i];
+            imagetype = file.type;
+            var match = ["image/jpeg", "image/png", "image/jpg"];
+            if (!((imagetype == match[0]) || (imagetype == match[1]) || (imagetype == match[2]))) {
+                checkImage = false;
+                alert("select img pls");
+                // $("#imgError").css("display", "block");
+                // $("#imgError").text("Please select image only");
+            } else {
+                var reader = new FileReader();
+                reader.onloadend = function () {
+                    $("#imgthumb").attr("src", reader.result);
+                    // $("#avatar").css("height", "202px");
+                    // $("#avatar").css("width", "202px");
+                }
+                reader.readAsDataURL(file);
+
+                imageFile = file;
+
+                checkImage = true;
+
+                // $("#imgError").css("display", "none");
+                // $("#imgError").text("");
+            }
+
+        }
+    });
+
+    function ajaxImagePost(formData) {
+        console.log("updating image for "+formData)
+        $.ajax({
+            type: "POST",
+            contentType: false,
+            processData: false,
+            url: "/gwa/api/article/uploadArticleImage",
+            data: formData,
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        })
+    }
+
 
     var getUrlParameter = function getUrlParameter() {
         var sPageURL = window.location.href;
@@ -12,6 +66,8 @@ $(document).ready(function () {
     var id = getUrlParameter();
 
     showArticle(id);
+    var articleAuthorID;
+    var articleurl;
 
     function showArticle(data) {
         console.log("showing article with id: " + data);
@@ -25,7 +81,10 @@ $(document).ready(function () {
                 console.log(result);
                 console.log(status);
                 if (result){
+                    articleurl = "/gwa/article/detail?id="+result.id;
+                    articleAuthorID = result.account.id;
                     $('#cboStatus').val(result.approvalStatus);
+                    $("#imgthumb").attr("src", result.thumbImage);
                     $('#cboCate').val(result.category);
                     $('#txtTitle').val(result.title);
                     $('#txtDescription').val(result.description);
@@ -110,7 +169,9 @@ $(document).ready(function () {
         }
     });
 
+    var notidescription;
     function updateArticle(data) {
+
 
         $.ajax({
             type : "POST",
@@ -118,8 +179,20 @@ $(document).ready(function () {
             url : "/gwa/api/article/updateArticle",
             data : JSON.stringify(data),
             success : function(result, status) {
-                console.log(result);
-                console.log(status);
+
+                if(checkImage){
+                    formData.append("id", result.id);
+                    formData.append("photoBtn", imageFile, "thumbArt"+$('#txtTitle').val() + "." + type);
+                    ajaxImagePost(formData);
+                }
+
+                if (result.status = "Approved"){
+                    notidescription = "Your article was approved!"
+                    addNewNotification();
+                } else if(result.status = "Disapproved"){
+                    notidescription = "Your article was disapproved!"
+                    addNewNotification();
+                }
                 alert("Article updated successfully!");
                 window.location.href = "/gwa/admin/article";
             },
@@ -323,13 +396,13 @@ $(document).ready(function () {
     }
 
     function addNewNotification() {
-        var description = $("#txtReason").val();
+        var description = notidescription;
 
         var formNotification = {
             description: description,
-            objectID: account_profile_on_page_id,
+            objectID: id,
             account: {
-                id: account_profile_on_page_id
+                id: articleAuthorID
             },
             notificationtype: {
                 id: 1

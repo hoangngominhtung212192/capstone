@@ -57,6 +57,7 @@ $(document).ready(function () {
                 document.getElementById('feedbackArea').style.display = 'block';
                 if (result.rating>0){
                     myRating.setRating(result.rating);
+                    myRating.set
                     $('#txtFeedback').append(result.feedback);
                     $('#txtFeedback').prop('disabled', true);
                     $('#btnSubmitFeedback').hide();
@@ -66,7 +67,7 @@ $(document).ready(function () {
                 }
                 $('#btnRegister').hide();
                 document.getElementById('userAttendInfo').style.display = 'block';
-                $('#lblRegisUsername').append(username_session);
+                $('#lblRegisUsername').append(result.account.username);
                 $('#lblRegisTicket').append(result.amount);
                 $('#lblRegisDate').append(result.date);
                 curAttendeeID = result.id;
@@ -133,9 +134,10 @@ $(document).ready(function () {
             success : function(result, status) {
                 console.log("found evn raters:" +result.length);
                 if (result){
-                    for (var i in result) {
+                    document.getElementById('raterArea').style.display = 'block';
+                    for (var i = 0; i < 5 ; i++) {
                         var arater = $('<div class="panel">\n' +
-                            '                    <h5 id="raterName" >'+result[i].account.username+'</h5>\n' +
+                            '                    <h6 id="raterName" >'+result[i].account.username+'</h6>\n' +
                             '                    <div id="raterNo'+result[i].id+'"></div>\n' +
                             '                    <p id="raterFeedback">'+result[i].feedback+'</p>\n' +
                             '                </div>' +
@@ -147,7 +149,6 @@ $(document).ready(function () {
                             rateCallback:function rateCallback(rating, done) {
                                 // this.setRating(rating);
                                 done();
-
                             },
                             showToolTip: false,
                             readOnly: true
@@ -199,7 +200,7 @@ $(document).ready(function () {
                     var timeRated = result.numberOfRating;
 
                     if (timeRated>0){
-                        var stars = Math.floor(totalStars/timeRated);
+                        var stars = totalStars/timeRated;
                         console.log("have rating");
                         document.getElementById('ratingDiv').style.display = 'block';
                         $('#txtCurRat').append(stars);
@@ -218,8 +219,11 @@ $(document).ready(function () {
                     $('#txtPrice').append(result.ticketPrice);
                     $('#lblTimeRated').append(result.numberOfRating);
                     $('#lblTodayDate').append(today.toString());
-                    $('#txtLocation').append(result.location);
+                    var loca = result.location;
+                    var addr = loca.split("@")[0];
+                    $('#txtLocation').append(addr);
                     $('#lblRemaining').append(remaininT);
+                    $('#txtNumOfAttendee').append(result.numberOfAttendee);
                     $('#title').append(title);
                     $('#content').html(result.content);
                 }
@@ -584,7 +588,7 @@ $(document).ready(function () {
             description: description,
             objectID: current_model_id,
             account: {
-                id: 3 // to admin
+                id:  current_model_id// to admin
             },
             notificationtype: {
                 id: 2

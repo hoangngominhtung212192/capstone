@@ -175,14 +175,6 @@ public class EventWSImpl implements EventWS {
         }
 
     }
-    @Override
-    public ResponseEntity<String> uploadSingleImage(MultipartFile file) {
-        UploadFileResponse fileresp = fileControllerWs.uploadFile(file);
-        String fileDownloadUri = fileresp.getFileDownloadUri();
-        System.out.println("img url: "+fileDownloadUri);
-        return new ResponseEntity<>(fileDownloadUri, HttpStatus.OK);
-    }
-
 
     @Autowired
     private FileUploadService fileUploadService;
@@ -241,7 +233,6 @@ public class EventWSImpl implements EventWS {
                                                       @RequestParam int pageNum) {
         List<Object> firstresult = attendeeService.getAttendeeByAccountID(accountID, sorttype, pageNum);
         List<Object> finalresult = new ArrayList<>();
-        System.out.println("object 0 is "+firstresult.get(0).toString());
 
         finalresult.add(0, firstresult.get(0));
 
@@ -250,10 +241,20 @@ public class EventWSImpl implements EventWS {
         for (int i = 0; i < attendees.size(); i++) {
             events.add(attendees.get(i).getEvent());
         }
-//        evnt = (List<Event>) firstresult.get(1);
         finalresult.add(1, events);
 
         return new ResponseEntity<>(finalresult, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<Object>> getNearbyEvent(@RequestParam String location,
+                                                       @RequestParam long range,
+                                                       @RequestParam String sorttype,
+                                                       @RequestParam int pageNum) {
+        List<Object> result = eventService.getNearEventByLocation(location, range, sorttype, pageNum);
+
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 }

@@ -677,11 +677,13 @@
                     </ul>
                 </div>
             </div>
-            <div style="padding: 10px; margin: 0px; width: 400px" id="searchDiv">
+            <div style="padding: 10px; margin: 0px; width: 600px" id="searchDiv">
                 <div>
                     <h4>Search:</h4>
                         <form>
-                            <input type="text" id="txtSearch" class="form-control form-group-lg" placeholder="Search event" style="width: 250px; display: inline"/> <input type="submit" class="btn btn-primary" id="btnSearch"value="Search" />
+                            <input type="text" id="txtSearch" class="form-control form-group-lg" placeholder="Search event" style="width: 250px; display: inline"/>
+                            <input type="submit" class="btn btn-primary" id="btnSearch"value="Search" />
+                            <button class="btn btn-search" id="btnNearbyEvents" value="Show nearby events">Show nearby events</button>
                         </form>
                 </div>
             </div>
@@ -817,7 +819,9 @@
 
 <script src="/gwa/js/plugins/jquery.twbsPagination.js"></script>
 <script type="text/javascript" src="/gwa/js/event.js"></script>
-
+<script src="/gwa/js/plugins/jquery.growl.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASrDg7CwB0GQ_XGzWfbkP4RUE_31YCy1M&libraries=places&callback=initAutocomplete"
+        type="text/javascript"></script>
 </body>
 
 </html>

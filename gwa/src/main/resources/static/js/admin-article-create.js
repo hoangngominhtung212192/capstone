@@ -1,5 +1,55 @@
 $(document).ready(function() {
+    var checkImage = false;
+    var imagetype;
+    var imageFile;
+    var formData = new FormData();
+    $("#photoBtn").change(function (e) {
+        console.log($("#photoBtn").val());
 
+        for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+
+            var file = e.originalEvent.srcElement.files[i];
+            imagetype = file.type;
+            var match = ["image/jpeg", "image/png", "image/jpg"];
+            if (!((imagetype == match[0]) || (imagetype == match[1]) || (imagetype == match[2]))) {
+                checkImage = false;
+                alert("select img pls");
+                // $("#imgError").css("display", "block");
+                // $("#imgError").text("Please select image only");
+            } else {
+                var reader = new FileReader();
+                reader.onloadend = function () {
+                    $("#imgthumb").attr("src", reader.result);
+                }
+                reader.readAsDataURL(file);
+
+                imageFile = file;
+
+                checkImage = true;
+
+                // $("#imgError").css("display", "none");
+                // $("#imgError").text("");
+            }
+
+        }
+    });
+
+    function ajaxImagePost(formData) {
+        console.log("updating image for "+formData)
+        $.ajax({
+            type: "POST",
+            contentType: false,
+            processData: false,
+            url: "/gwa/api/article/uploadArticleImage",
+            data: formData,
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        })
+    }
 
 
     $("#btnSubmit").click(function (event) {
@@ -39,6 +89,10 @@ $(document).ready(function() {
             url : "/gwa/api/article/createArticle",
             data : JSON.stringify(data),
             success : function(result, status) {
+                var type = imagetype.split("/")[1];
+                formData.append("id", result.id);
+                formData.append("photoBtn", imageFile, "thumbArt"+$('#txtTitle').val() + "." + type);
+                ajaxImagePost(formData);
                 alert("Article created successfully!");
                 window.location.href = "/gwa/admin/article/";
 

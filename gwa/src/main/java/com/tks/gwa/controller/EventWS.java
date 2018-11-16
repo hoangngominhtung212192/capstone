@@ -52,8 +52,6 @@ public interface EventWS {
     @RequestMapping(value = "/getAttendeeInEvent", method = RequestMethod.POST)
     ResponseEntity<Eventattendee> getAttendeeInEvent(@RequestParam int userid, @RequestParam int eventid);
 
-    @RequestMapping(value = "/uploadSingleImage", method = RequestMethod.POST)
-    ResponseEntity<String> uploadSingleImage(@RequestParam("imgfile") MultipartFile file);
 
     @RequestMapping(value = "/uploadEventImage", method = RequestMethod.POST)
     ResponseEntity<Event> updateEventImage(@RequestParam(value = "photoBtn", required = false) MultipartFile photoBtn,
@@ -77,4 +75,10 @@ public interface EventWS {
     ResponseEntity<List<Object>> getMyListEvent(@RequestParam("accountID") Integer accountID,
                                                @RequestParam("sorttype") String sorttype,
                                                @RequestParam("pageNum") int pageNum);
+
+    @RequestMapping(value = "/getNearbyEvent", method = RequestMethod.POST)
+    ResponseEntity<List<Object>> getNearbyEvent(@RequestParam("location") String location,
+                                                @RequestParam("range") long range,
+                                                @RequestParam("sorttype") String sorttype,
+                                                @RequestParam("pageNum") int pageNum);
 }

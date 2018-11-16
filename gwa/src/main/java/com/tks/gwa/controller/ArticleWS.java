@@ -5,6 +5,7 @@ import com.tks.gwa.entity.Article;
 import com.tks.gwa.service.ArticleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -45,4 +46,7 @@ public interface ArticleWS {
     ResponseEntity<List<Object>> getMyArticle(@RequestParam("id") int id,
                                               @RequestParam("sorttype") String sorttype,
                                               @RequestParam("pageNum") int pageNum);
+    @RequestMapping(value = "/uploadArticleImage", method = RequestMethod.POST)
+    ResponseEntity<Article> updateArticleImage(@RequestParam(value = "photoBtn", required = false) MultipartFile photoBtn,
+                                           @RequestParam("id") int id);
 }

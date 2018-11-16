@@ -259,7 +259,18 @@
                         <h4>Location</h4>
                         <input type="text" class="form-control"style="background-color: white" placeholder="Location" id="txtLocation"/>
                         <h4>Description</h4>
-                        <textarea id="txtDescription"></textarea>
+                        <textarea id="txtDescription" class="form-control"></textarea>
+                        <h4>Thumbnail image</h4>
+                        <img id="imgthumb" src="#" style="width: 250px">
+
+                        <label for="photoBtn">
+                            <img id="upload" src="/gwa/img/upload-image.png" style="width: 30px;height: 30px"/>
+                        </label>
+
+                        <input id="photoBtn" style="display: none" class="button-file" type="file"
+                               class="text-center center-block file-upload">
+                        <span id="imgError" class="error"
+                              style="display: none; margin-top: 10px;font-size: 15px; color: red"></span>
                         <h4>Start date</h4>
                         <input type="date" class="form-control"style="background-color: white" placeholder="Start date" id="txtStartDate"/>
                         <h4>End date</h4>
