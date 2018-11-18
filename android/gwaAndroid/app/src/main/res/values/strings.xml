@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Gunpla World</string>
     <string name="Open">Gunpla World</string>
-    <string name="Close">Gunpld World</string>
+    <string name="Close">Gunpla World</string>
 
     <!-- login register -->
     <string name="hello_world">Hello world!</string>

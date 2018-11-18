@@ -666,7 +666,7 @@ function renderRecord() {
             var metaAction = $('<div class="user-option pull-right"></div>');
             var addressBtn = $('<a href="#directionModal" data-title="tooltip" data-placement="top" data-address="' + postData["location"] + '" ' +
                 '                                       title="' + postData["location"] + '" data-toggle="modal"><i class="fa fa-map-marker"></i></a>');
-            var profileBtn = $('<a href="#" data-title="tooltip" data-placement="top" ' +
+            var profileBtn = $('<a href="/gwa/pages/profile.html?accountID='+postData["account"]["id"]+'" data-title="tooltip" data-placement="top" ' +
                 '                                       title="View ' + postData["account"]["username"] + ' Profile"><i class="fa fa-address-card"></i></a>');
 
             metaAction.append(addressBtn);

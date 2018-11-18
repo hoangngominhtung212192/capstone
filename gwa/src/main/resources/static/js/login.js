@@ -94,6 +94,8 @@ $(document).ready(function () {
                     } else {
                         if (result.role.name == "ADMIN") {
                             window.location.href = "/gwa/admin/model/pending";
+                        } else if (result.role.name == "BUYERSELLER") {
+                            window.location.href = "/gwa/trade-market/my-trade";
                         }
                     }
                 }

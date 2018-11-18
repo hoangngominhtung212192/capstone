@@ -1,5 +1,6 @@
 package tks.com.gwaandroid;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.XmlResourceParser;
@@ -35,8 +36,6 @@ import tks.com.gwaandroid.network.RetrofitClientInstance;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText username, password;
-    private Button loginBtn;
-    private TextView signUp;
     private CheckBox show_hide_password;
     private SharedPreferences sharedPreferences;
 
@@ -49,11 +48,16 @@ public class LoginActivity extends AppCompatActivity {
         actionBar.hide();
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        int accountID = sharedPreferences.getInt("ACCOUNTID", 0);
+        // if already log in
+        if (accountID > 0) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
 
+        // initialize
         username = (EditText) findViewById(R.id.login_username);
         password = (EditText) findViewById(R.id.login_password);
-        loginBtn = (Button) findViewById(R.id.loginBtn);
-        signUp = (TextView) findViewById(R.id.signUpBtn);
         show_hide_password = (CheckBox) findViewById(R.id.show_hide_password);
 
         show_hide_password.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -99,12 +103,12 @@ public class LoginActivity extends AppCompatActivity {
         String txtPassword = password.getText().toString();
 
         if (txtUsername.length() == 0) {
-            Toast.makeText(this, "Please input username", Toast.LENGTH_SHORT).show();
+            username.setError("Please input your username");
             check = false;
         }
 
         if (txtPassword.length() == 0) {
-            Toast.makeText(this, "Please input password", Toast.LENGTH_SHORT).show();
+            password.setError("Please input your password");
             check = false;
         }
 
@@ -112,6 +116,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void requestApi() {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Authentication...");
+        progressDialog.show();
+
         UserAPI userAPI = RetrofitClientInstance.getRetrofitInstance().create(UserAPI.class);
 
         String json = "{\n" +
@@ -132,13 +141,17 @@ public class LoginActivity extends AppCompatActivity {
                     // save current username to sharedpreferences
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("USERNAME", response.body().getUsername());
+                    editor.putInt("ACCOUNTID", response.body().getId());
                     editor.commit();
 
-                    Toast.makeText(LoginActivity.this, "Login successfully!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     LoginActivity.this.startActivity(intent);
+                    progressDialog.dismiss();
+                    Toast.makeText(LoginActivity.this, "Login successfully!", Toast.LENGTH_SHORT).show();
+                    finish();
                 } else {
                     // get error message from response error body
+                    progressDialog.dismiss();
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
                         Toast.makeText(LoginActivity.this, jObjError.getString("message"), Toast.LENGTH_LONG).show();
@@ -154,5 +167,10 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d("Error response", t.getMessage());
             }
         });
+    }
+
+    public void redirectToSignUpActivity(View view) {
+        Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
     }
 }

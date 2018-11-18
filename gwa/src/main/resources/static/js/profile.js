@@ -862,6 +862,7 @@ $(document).ready(function () {
         setTimeout(function () {
             if (result.avatar != null) {
                 $("#avatar").attr("src", result.avatar);
+                $("#hrefAvatar").attr("href", result.avatar);
             }
             $("#loading").css("display", "none");
         }, 500);

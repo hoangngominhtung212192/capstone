@@ -3,6 +3,7 @@ package com.tks.gwa.controller;
 import com.tks.gwa.dto.LogCrawl;
 import com.tks.gwa.dto.ModelDTO;
 import com.tks.gwa.dto.ModelSDTO;
+import com.tks.gwa.dto.ModelSearchFilter;
 import com.tks.gwa.entity.*;
 import com.tks.gwa.service.ModelService;
 import org.omg.CORBA.Request;
@@ -91,4 +92,7 @@ public interface ModelWS {
 
     @RequestMapping(value = "/updateError", method = RequestMethod.POST)
     ResponseEntity<String> updateErrorModel(@RequestParam("modelID") int modelID);
+
+    @RequestMapping(value = "/getSearchFilters", method = RequestMethod.GET)
+    ResponseEntity<List<ModelSearchFilter>> getListModelSearchFilters();
 }

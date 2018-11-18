@@ -17,62 +17,6 @@
         android:orientation="vertical"
         tools:context="tks.com.gwaandroid.MainActivity">
 
-        <!--    Pagination  -->
-        <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="40dp">-->
-
-            <!--<Button-->
-                <!--android:id="@+id/btnPrev"-->
-                <!--android:text="Prev"-->
-                <!--android:layout_width="60dp"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_alignParentLeft="true"-->
-                <!--android:background="@drawable/buttonshape"-->
-                <!--android:textColor="#FFFFFF"-->
-                <!--android:shadowColor="#0C21A8"-->
-                <!--android:shadowDx="0"-->
-                <!--android:shadowDy="0"-->
-                <!--android:shadowRadius="5"/>-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/txtPage"-->
-                <!--android:textStyle="bold"-->
-                <!--android:textSize="17dp"-->
-                <!--android:textColor="@color/colorPrimaryDark"-->
-                <!--android:text="Page: "-->
-                <!--android:layout_marginLeft="10dp"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_toRightOf="@+id/btnPrev"-->
-                <!--android:layout_centerVertical="true" />-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/txtTotal"-->
-                <!--android:textStyle="bold"-->
-                <!--android:textSize="17dp"-->
-                <!--android:textColor="@color/colorPrimaryDark"-->
-                <!--android:text=" :Total"-->
-                <!--android:layout_marginRight="10dp"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_toLeftOf="@+id/btnNext"-->
-                <!--android:layout_centerVertical="true" />-->
-
-            <!--<Button-->
-                <!--android:id="@+id/btnNext"-->
-                <!--android:text="Next"-->
-                <!--android:layout_width="60dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentRight="true"-->
-                <!--android:background="@drawable/buttonshape"-->
-                <!--android:textColor="#FFFFFF"-->
-                <!--android:shadowColor="#0C21A8"-->
-                <!--android:shadowDx="0"-->
-                <!--android:shadowDy="0"-->
-                <!--android:shadowRadius="5"/>-->
-        <!--</RelativeLayout>-->
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
@@ -110,7 +54,8 @@
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/search"
                 android:layout_marginBottom="20dp"
-                android:layout_marginRight="20dp"/>
+                android:layout_marginRight="20dp"
+                android:onClick="searchClick"/>
         </RelativeLayout>
 
     </LinearLayout>

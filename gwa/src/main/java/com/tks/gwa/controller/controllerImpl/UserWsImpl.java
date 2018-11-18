@@ -131,12 +131,15 @@ public class UserWsImpl implements UserWS {
             return new ResponseEntity<Account>(newAccount, HttpStatus.OK);
         }
 
+        newAccount = new Account();
         newAccount.setMessage("Create account failed");
         return new ResponseEntity<Account>(newAccount, HttpStatus.valueOf(400));
     }
 
     @Override
     public ResponseEntity<Profile> getUserProfile(int accountID) {
+
+        System.out.println("[UserWS] Begin getUserProfile with accountID: " + accountID);
 
         Profile profile = userService.getUserProfileByAccountID(accountID);
 

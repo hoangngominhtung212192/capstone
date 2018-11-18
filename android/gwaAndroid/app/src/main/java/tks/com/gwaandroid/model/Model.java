@@ -2,11 +2,13 @@ package tks.com.gwaandroid.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Tung Hoang Ngo Minh on 11/12/2018.
  */
 
-public class Model {
+public class Model implements Serializable {
 
     @SerializedName("id")
     private int id;
