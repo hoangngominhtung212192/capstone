@@ -1,6 +1,7 @@
 package com.tks.gwa.controller.controllerImpl;
 
 import com.tks.gwa.controller.FileControllerWs;
+import com.tks.gwa.dto.ResponseImage;
 import com.tks.gwa.dto.UploadFileResponse;
 import com.tks.gwa.service.FileUploadService;
 import org.slf4j.Logger;
@@ -18,7 +19,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,5 +72,36 @@ public class FileControllerWsImpl implements FileControllerWs {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
 
+    }
+
+    //ham cua khanh
+
+    public static final Path rootLocation = Paths.get("uploads").toAbsolutePath().normalize();
+
+    @Override
+    public ResponseImage uploadImg(MultipartFile upload, HttpServletRequest request) {
+        System.out.println("uploading pic");
+        String sourceName = upload.getOriginalFilename();
+        System.out.println("got pic namne "+sourceName);
+        Calendar cal = Calendar.getInstance();
+        Long timeInMillis = cal.getTimeInMillis();
+        String finalFilename = timeInMillis.toString() + sourceName;
+        System.out.println("final filename "+finalFilename);
+        try {
+            //root location: noi dat file hinh
+            Files.createDirectories(rootLocation);
+            Files.copy(upload.getInputStream(), rootLocation.resolve(finalFilename), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String url = request.getScheme()
+                .concat("://")
+                .concat(request.getServerName())
+                .concat(":8080")
+                .concat("/gwa")
+                .concat("/downloadFile/")
+                .concat(finalFilename);
+        return new ResponseImage(1, finalFilename, url);
+//        return gson.toJson(new ResponseImage(1, fileName, url));
     }
 }

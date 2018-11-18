@@ -16,6 +16,6 @@ public interface ArticleService {
     List<Article> findArticleByCategory(String category);
     Article changeStatusArticle(Integer id, String status);
     List<Article> changeStatusManyArticle(List<Integer> idlist, String status);
-    List<Object> searchArticleWithSortAndPageByStatus(String title, String status, String sorttype, int pageNum);
+    List<Object> searchArticleWithSortAndPageByStatus(String title, String cate, String status, String sorttype, int pageNum);
     List<Object> getMyArticleByPageAndStatus(int id, String sorttype, int pageNum);
 }

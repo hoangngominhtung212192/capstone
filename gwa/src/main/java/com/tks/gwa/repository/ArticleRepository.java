@@ -25,7 +25,7 @@ public interface ArticleRepository extends GenericRepository<Article, Integer>{
     List<Article> getTop5ArticleByModelName(String modelName);
 //    List<Event> searchEventByStatusAndSort(String title, String status, String sorttype, int pageNum);
     int countArticleBySearchStatus(String title, String status);
-    List<Article> searchArticleByStatusAndSort(String title, String status, String sorttype, int pageNum);
+    List<Article> searchArticleByStatusAndSort(String title, String cate, String status, String sorttype, int pageNum);
     List<Article> searchArticleByAuthorSort(int id, String sorttype, int pageNum);
 }
 

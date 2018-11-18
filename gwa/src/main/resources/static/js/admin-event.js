@@ -1,105 +1,136 @@
 $(document).ready(function () {
 
+    var currentStatus = $( "#cboStatus option:selected").val();
 
-    getAllEvent();
+    var currentSortType = $("#cbSortType option:selected").val();
 
+    var currentPage = 1;
+    var totalPage = 1;
+    var $pagination = $("#pagination-event");
+    var isSearch = false;
+    var defaultPaginationOpts = {
+        totalPages: totalPage,
+// the current page that show on start
+        startPage: 1,
 
+// maximum visible pages
+        visiblePages: 3,
 
-    function getAllEvent() {
-        console.log("getting all event");
+        initiateStartPageClick: false,
+
+// template for pagination links
+        href: false,
+
+// variable name in href template for page number
+        hrefVariable: '{{number}}',
+
+// Text labels
+        first: '&laquo;',
+        prev: '❮',
+        next: '❯',
+        last: '&raquo;',
+
+// carousel-style pagination
+        loop: false,
+
+// callback function
+        onPageClick: function (event, page) {
+            console.log("clicked on page: "+page)
+            currentPage = page;
+            $('#search-result').html("");
+            searchEv();
+        },
+
+// pagination Classes
+        paginationClass: 'pagination',
+        nextClass: 'page-item',
+        prevClass: 'page-item',
+        lastClass: 'page-item',
+        firstClass: 'page-item',
+        pageClass: 'page-item',
+        activeClass: 'active',
+        disabledClass: 'disabled'
+    };
+
+    searchEv();
+    // getEventData();
+    $pagination.twbsPagination('destroy');
+    if (totalPage > 1){
+        $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+            totalPages: totalPage
+        }));
+    }
+    searchEv();
+    $("#btnSearch").click(function (event) {
+        currentPage = 1;
+        event.preventDefault();
+
+        isSearch = true;
+        searchEv();
+
+    });
+
+    function searchEv() {
+        var searchValue = $("#txtSearch").val();
+
+        console.log("searchvalue: "+searchValue);
+        console.log("sorttype: "+$("#cbSortType option:selected").val());
         $.ajax({
             type : "POST",
-            contentType : "application/json",
-            url : "/gwa/api/event/getAllEvent",
+            url : "/gwa/api/event/searchEventByStatusAndPage",
+            data : {
+                title : searchValue,
+                status : $( "#cboStatus option:selected").val(),
+                sorttype : $("#cbSortType option:selected").val(),
+                pageNum : currentPage
+            },
+            async: false,
             success : function(result, status) {
+                var data = result[1];
+                totalPage = result[0];
                 console.log(result);
                 console.log(status);
-                for (var i in result){
+                console.log("page num: "+currentPage);
+                console.log("seach numb of pages: "+result[0]);
+                // currentPage = 1;
 
-                    var tus = parseInt(result[i].approvalStatus) - 1;
-                    var row = $('<tr>\n' +
-                        '                    <td>' + result[i].title + '</td>\n' +
-                        '                    <td>' + result[i].description + '</td>\n' +
-                        '                    <td>' + result[i].startDate + '</td>\n' +
-                        '                    <td>' + result[i].endDate + '</td>\n' +
-                        '                    <td>' + result[i].ticketPrice + '</td>\n' +
-                        '                    <td><div class="styled-select slate">\n' +
-                        '                   <select onchange="approvalChange(value,' + result[i].id + ' )" id="idx' + result[i].id + '" class="editable-select">\n' +
-                        '                   <option value="Active">Active</option>\n' +
-                        '                   <option value="Inactive">Inactive</option>\n' +
-                        '                   <option value="Finished">Finished</option>\n' +
-                        '                   <option value="Cancelled">Cancelled</option>\n' +
-                        '                   </select></td>\n' +
-                        '<td><a href="/gwa/event/detail?id=' + result[i].id + '">Link</a> / <a href="/gwa/admin/event/edit?id=' + result[i].id + '">Edit</a> </td>\n' +
-                        '                  </tr>')
-                    $('#tblBody').append(row);
-                    // document.getElementById("idx" + result[i].id ).options[tus].selected = 'selected';
-                }
+                appendResult(data);
             },
             error : function(e) {
-                alert("No evnt found!");
+                alert("No event with matching title found!");
                 console.log("ERROR: ", e);
             }
         });
     }
 
-
-
-
-    //search function
-    $("#btnSearch").click(function (event) {
-        event.preventDefault();
+    function appendResult(result){
         var searchDiv = document.getElementById("tblBody");
         while (searchDiv.firstChild) {
             searchDiv.removeChild(searchDiv.firstChild);
         }
-        var searchValue = document.getElementById("txtSearch").value;
-        if (searchValue.length == 0){
-            getAllEvent();
-        } else {
-            searchArticle(searchValue);
+
+        for (var i = 0; i < result.length; i++) {
+            var row = $('<tr>\n' +
+                '                    <td>' + result[i].title + '</td>\n' +
+                '                    <td>' + result[i].description + '</td>\n' +
+                '                    <td>' + result[i].startDate + '</td>\n' +
+                '                    <td>' + result[i].endDate + '</td>\n' +
+                '                    <td>' + result[i].ticketPrice + '</td>\n' +
+                '                    <td>' + result[i].status + '</td>\n' +
+                '<td><a href="/gwa/event/detail?id=' + result[i].id + '">Link</a> / <a href="/gwa/admin/event/edit?id=' + result[i].id + '">Edit</a> </td>\n' +
+                '                  </tr>')
+            // $('#tblBody').append(row);
+            $('#tblBody').append(row);
         }
+        $pagination.twbsPagination('destroy');
+        if (totalPage > 1){
+            $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+                totalPages: totalPage,
+                currentPage: currentPage,
+                startPage: currentPage,
 
-    })
-
-    function searchArticle(data) {
-        console.log(data);
-        var displayDiv = document.getElementById("search-result");
-
-        $.ajax({
-            type : "POST",
-            contentType : "application/json",
-            url : "/api/user/searchArticle",
-            data : data.toString(),
-            success : function(result, status) {
-                console.log(result);
-                console.log(status);
-                console.log("first res: "+ result[0].account.id );
-                for (var i in result){
-                    var tus = parseInt(result[i].approvalStatus) - 1;
-                    var row = $('<tr>\n' +
-                        '                    <td>' + result[i].id + '</td>\n' +
-                        '                    <td>' + result[i].title + '</td>\n' +
-                        '                    <td>' + result[i].account.id + '</td>\n' +
-                        '                    <td>' + result[i].date + '</td>\n' +
-                        '                    <td>' + result[i].category + '</td>\n' +
-                        '                    <td><div class="styled-select slate">\n' +
-                        '                   <select onchange="approvalChange(value,' + result[i].id + ' )" id="idx' + result[i].id + '" class="editable-select">\n' +
-                        '                   <option value="1">APPROVED</option>\n' +
-                        '                   <option value="2">DISAPPROVED</option>\n' +
-                        '                   <option value="3">PENDING</option>\n' +
-                        '                   </select></td>\n' +
-                        '                    <td><a href="/admin/article/edit?id=' + result[i].id + '">Read more...</a></td>\n' +
-                        '                  </tr>')
-                    $('#tblBody').append(row);
-                    document.getElementById("idx" + result[i].id ).options[tus].selected = 'selected';
-                }
-            },
-            error : function(e) {
-                alert("No article with matching title found!");
-                console.log("ERROR: ", e);
-            }
-        });
+            }));
+        }
     }
     /* Begin authentication & notification */
     authentication();
