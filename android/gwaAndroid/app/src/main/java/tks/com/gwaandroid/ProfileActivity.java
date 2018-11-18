@@ -119,6 +119,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         fullname.setText(fullName);
 
+        username.setText(result.getAccount().getUsername());
+        email.setText(result.getEmail());
+
         if (result.getBirthday() != null) {
             birthday.setText(result.getBirthday());
         } else {
@@ -158,7 +161,7 @@ public class ProfileActivity extends AppCompatActivity {
             role.setText("Member");
             role.setTextColor(Color.parseColor("#006600"));
         } else {
-            if (result.getAccount().getRole().getName().equalsIgnoreCase("MEMBER")) {
+            if (result.getAccount().getRole().getName().equalsIgnoreCase("BUYERSELLER")) {
                 role.setText("Trader");
                 role.setTextColor(Color.parseColor("#996600"));
             } else {
