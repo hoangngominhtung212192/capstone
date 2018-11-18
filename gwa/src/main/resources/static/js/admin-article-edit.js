@@ -123,7 +123,7 @@ $(document).ready(function () {
             valid = false;
             $.growl.error({message: "Please enter article's description"});
         }
-        if (CKEDITOR.instances.content.getData() == ""){
+        if (CKEDITOR.instances.contentEditor.getData() == ""){
             valid = false;
             $.growl.error({message: "Please enter article's content"});
         }
