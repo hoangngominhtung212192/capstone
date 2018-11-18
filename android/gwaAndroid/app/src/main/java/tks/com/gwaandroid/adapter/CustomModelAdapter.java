@@ -11,11 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jakewharton.picasso.OkHttp3Downloader;
+//import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
 import tks.com.gwaandroid.ModelDetailActivity;
 import tks.com.gwaandroid.R;
+import tks.com.gwaandroid.constant.AppConstant;
 import tks.com.gwaandroid.model.Model;
 import tks.com.gwaandroid.model.ModelSDTO;
 
@@ -84,9 +85,9 @@ public class CustomModelAdapter extends RecyclerView.Adapter<CustomModelAdapter.
         holder.mModelName.setText(model.getName());
 
         // download image from url
-        Picasso picasso = Picasso.with(context);
+        Picasso picasso = Picasso.get();
         if (model.getThumbImage().contains("localhost:8080")) {
-            String imageUrl = model.getThumbImage().replace("localhost", "192.168.1.6");
+            String imageUrl = model.getThumbImage().replace("localhost", AppConstant.HOST_NAME);
             picasso.load(imageUrl)
                     .placeholder((R.drawable.loading_icon))
                     .fit()

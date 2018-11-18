@@ -175,7 +175,7 @@ public class ModelDetailActivity extends AppCompatActivity {
 
         name.setText(model.getName());
 
-        Picasso picasso = Picasso.with(this);
+        Picasso picasso = Picasso.get();
         if (model.getThumbImage().contains("localhost:8080")) {
             String imageUrl = model.getThumbImage().replace("localhost", "192.168.1.6");
             picasso.load(imageUrl)

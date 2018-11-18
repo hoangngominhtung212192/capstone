@@ -23,6 +23,7 @@
     <script type="text/javascript" src="/gwa/js/html-importer.js"></script>
     <script type="text/javascript" src="/gwa/js/article-create.js"></script>
 
+    <link rel="stylesheet" href="/gwa/css/jquery.growl.css">
     <style>
         /* This is for profile & notification area */
         /* loading */
@@ -669,8 +670,9 @@
         <!--<form>-->
         <h3>Create article</h3>
         <a style="color: red">Your article will be reviewed by the administrator before being posted on the website!</a>
+        <form id="submitform">
         <h5 >Article title: </h5>
-        <input name="title" id="title" class="form-control" required>
+        <input name="title" id="title" class="form-control" required maxlength="250">
         <input id="hiddenLoggedUser" type="hidden">
         <h5>Category</h5>
         <select id="cboCate" class="custom-select my-1 mr-sm-2">
@@ -680,7 +682,7 @@
             <option value="Custom Build">Custom Build</option>
         </select>
         <h5>Description</h5>
-        <textarea required id="txtDescription" style="height: 80px; width: 500px; margin-bottom: 10px" class="form-control"></textarea>
+        <textarea required id="txtDescription" style="height: 80px; width: 500px; margin-bottom: 10px" class="form-control" required maxlength="250"></textarea>
         <h4>Thumbnail image</h4>
         <img id="imgthumb" src="#" style="width: 250px">
 
@@ -706,7 +708,7 @@
         </script>
 
         <input id="submitBtn" type="submit" value="Submit" class="btn btn-primary">
-        <!--</form>-->
+        </form>
     </div>
 </div>
 
@@ -788,6 +790,8 @@
 <script src="/gwa/js/plugins/plugins.js"></script>
 <!-- Active js -->
 <script src="/gwa/js/active.js"></script>
+
+<script src="/gwa/js/plugins/jquery.growl.js"></script>
 
 </body>
 

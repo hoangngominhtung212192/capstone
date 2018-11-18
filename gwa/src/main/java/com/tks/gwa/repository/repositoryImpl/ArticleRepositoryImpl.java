@@ -139,7 +139,7 @@ public class ArticleRepositoryImpl extends GenericRepositoryImpl<Article, Intege
         } else {
             sortSql = " ORDER BY date DESC";
         }
-        String sql = "FROM " + Article.class.getName()+ " WHERE title LIKE :title AND category LIKE :cate AND approvalStatus = :status" + sortSql;
+        String sql = "FROM " + Article.class.getName()+ " WHERE title LIKE :title AND category LIKE :category AND approvalStatus = :status" + sortSql;
         Query query = this.entityManager.createQuery(sql);
         query.setParameter("title", "%"+title+"%");
         query.setParameter("category", "%"+cate+"%");

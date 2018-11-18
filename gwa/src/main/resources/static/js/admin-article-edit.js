@@ -114,33 +114,52 @@ $(document).ready(function () {
     }}
 
     $("#btnSubmit").click(function (event) {
-        event.preventDefault();
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
-        var yyyy = today.getFullYear();
-
-        if(dd<10) {
-            dd = '0'+dd
+        var valid = true;
+        if ($('#txtTitle').val() == "") {
+            valid = false;
+            $.growl.error({message: "Please enter title"});
         }
-
-        if(mm<10) {
-            mm = '0'+mm
+        if ($('#txtDescription').val() == ""){
+            valid = false;
+            $.growl.error({message: "Please enter article's description"});
         }
-
-        today = yyyy + "-" + mm + "-" + dd;
-        var formArticle = {
-            id : id,
-            title : $("#txtTitle").val(),
-            content : CKEDITOR.instances.contentEditor.getData(),
-            description : $('#txtDescription').val(),
-            category : $("#cboCate").val(),
-            modifiedDate : today,
-            date : $('#lblDate').val(),
-            approvalStatus : $("#cboStatus :selected").val(),
+        if ($('#contentEditor').val() == ""){
+            valid = false;
+            $.growl.error({message: "Please enter article's content"});
         }
+        if ($('#imgthumb').attr("src") == "#"){
+            valid = false;
+            $.growl.error({message: "Please select a thumbnail image"});
+        }
+        if (valid == true) {
+            event.preventDefault();
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; //January is 0!
+            var yyyy = today.getFullYear();
 
-        updateArticle(formArticle);
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+
+            today = yyyy + "-" + mm + "-" + dd;
+            var formArticle = {
+                id: id,
+                title: $("#txtTitle").val(),
+                content: CKEDITOR.instances.contentEditor.getData(),
+                description: $('#txtDescription').val(),
+                category: $("#cboCate").val(),
+                modifiedDate: today,
+                date: $('#lblDate').val(),
+                approvalStatus: $("#cboStatus :selected").val(),
+            }
+
+            updateArticle(formArticle);
+        }
     })
 
 
@@ -171,8 +190,7 @@ $(document).ready(function () {
 
     var notidescription;
     function updateArticle(data) {
-
-
+        console.log("updating")
         $.ajax({
             type : "POST",
             contentType : "application/json",
@@ -197,7 +215,7 @@ $(document).ready(function () {
                 window.location.href = "/gwa/admin/article";
             },
             error : function(e) {
-                alert("Error!")
+                alert("Error! Update article failed!")
                 console.log("ERROR: ", e);
             }
         });
@@ -376,6 +394,14 @@ $(document).ready(function () {
                     window.location.href = "/gwa/pages/profile.html?accountID=" + objectID;
                 } else if (type == "Model") {
                     window.location.href = "/gwa/pages/modeldetail.html?modelID=" + objectID;
+                } else if (type == "Tradepost") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
+                } else if (type == "OrderSent") {
+                    window.location.href = "/gwa/trade-market/my-order";
+                } else if (type == "OrderReceived") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
+                } else if (type == "Article") {
+                    window.location.href = "/gwa/article/detail?id=" + objectID;
                 }
             });
         });
@@ -405,7 +431,7 @@ $(document).ready(function () {
                 id: articleAuthorID
             },
             notificationtype: {
-                id: 1
+                id: 6
             }
         }
 

@@ -14,6 +14,7 @@
     <!-- Favicon -->
     <link rel="icon" href="img/core-img/favicon.ico">
 
+    <link rel="stylesheet" href="/gwa/css/jquery.growl.css">
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="/gwa/css/style.css">
     <link rel="stylesheet" href="/gwa/css/star-rating.css">
@@ -690,7 +691,7 @@
             <input type="submit" class="btn btn-primary" id="btnRegister" value="REGISTER NOW" />
             <hr />
                 <div id="raterArea" style="display: none">
-                    <h5>Feedback:</h5>
+                    <!--<h5>Feedback:</h5>-->
                 </div>
                 <!--<div class="panel">-->
                     <!--<p id="raterName"></p>-->
@@ -726,10 +727,10 @@
                             <h5>Your name: <span id="lblUsername"></span></h5>
                             <h5>Today is <span id="lblTodayDate"></span></h5>
                             <h5>Remaining tickets: <span id="lblRemaining"></span></h5>
-                            <h5>Amount of tickets you want:</h5>
+                            <h5 >Number of tickets:</h5>
                             <input type="text" id="txtNum" class="form-control" placeholder="Ticket amount" style="width: 50%; display: inline"/><br/>
                             <input id="hidID" type="hidden"/>
-                            <input type="submit" class="btn" id="btnSubmitRegister"value="REGISTER" />
+                            <input type="submit" style="margin-top: 5px"class="btn" id="btnSubmitRegister"value="REGISTER" />
                         </div>
 
                         <div class="modal-footer">
@@ -821,6 +822,7 @@
     <script src="/gwa/js/plugins/plugins.js"></script>
     <!-- Active js -->
     <script src="/gwa/js/active.js"></script>
+    <script src="/gwa/js/plugins/jquery.growl.js"></script>
 
 </body>
 

@@ -14,10 +14,18 @@
     <!-- Favicon -->
     <link rel="icon" href="/gwa/img/favicon.ico">
     <!--<link rel="stylesheet" href="/css/admin/dist/css/AdminLTE.min.css">-->
+
+    <link rel="icon" href="/gwa/src/main/resources/static/css/img/core-img/favicon.ico">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
     <!-- Core Stylesheet -->
+    <link rel="stylesheet" href="/gwa/css/jquery.growl.css">
     <link rel="stylesheet" href="/gwa/css/style.css">
-    <script type="text/javascript" src="/gwa/js/ckeditor/ckeditor.js"></script>
     <link rel="stylesheet" href="/gwa/css/trademarket.css">
+    <!--<script type="text/javascript" src="/gwa/js/ckeditor/ckeditor.js"></script>-->
+
+    <!-- js -->
+    <script type="text/javascript" src="/gwa/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/gwa/js/html-importer.js"></script>
 
     <style>
         /* This is for profile & notification area */
@@ -489,10 +497,6 @@
         }
         /*  End profile & notification area  */
     </style>
-    <!-- js -->
-    <!--<script type="text/javascript" src="/gwa/js/jquery.min.js"></script>-->
-    <script type="text/javascript" src="/gwa/js/html-importer.js"></script>
-
 </head>
 
 <body style="background-color: whitesmoke">
@@ -687,15 +691,23 @@
                 </div>
                 <div style="background-color:white; padding: 10px;border: solid 2px lightgrey; border-radius: 10px;">
                     <div style="margin: 0px;padding: 0px">
-                        <div class="col-md-6" style="margin: 0px;padding: 0px">
+                        <div class="" style="margin: 0px;padding: 0px">
                             <h5 style="margin: 0px;display: inline-block">Sort:</h5>
 
                             <select class="custom-select my-1 mr-sm-2" style="width: 250px;display: inline-block" id="cbSortType">
                                 <option value="desc" selected>Newest</option>
                                 <option value="asc">Oldest</option>
                             </select>
+                            <select class="custom-select my-1 mr-sm-2" style="width: 250px;display: inline-block" id="cbCateType">
+                                <option value="" selected>All category</option>
+                                <option value="News">News</option>
+                                <option value="Tutorial">Tutorial</option>
+                                <option value="Paint">Paint</option>
+                                <option value="Custom Build">Custom Build</option>
+                            </select>
                             <hr />
                         </div>
+
                     </div>
                             <!-- Single Featured Post -->
                     <div id="search-result" style="margin-top: 10px">
@@ -788,6 +800,8 @@
             </div>
         </div>
     </footer>
+    <!-- ##### Footer Area Start ##### -->
+
     <!-- ##### All Javascript Files ##### -->
     <!-- jQuery-2.2.4 js -->
     <script src="/gwa/js/jquery/jquery-2.2.4.min.js"></script>
@@ -796,14 +810,15 @@
     <!-- Bootstrap js -->
     <script src="/gwa/js/bootstrap/bootstrap.min.js"></script>
     <!-- All Plugins js -->
-    <script src="/gwa/js/plugins/plugins.js"></script>
-    <!-- Active js -->
-    <script src="/gwa/js/active.js"></script>
+    <!--<script src="/gwa/js/plugins/plugins.js"></script>-->
+    <!--&lt;!&ndash; Active js &ndash;&gt;-->
+    <!--<script src="/gwa/js/active.js"></script>-->
 
     <script src="/gwa/js/plugins/jquery.twbsPagination.js"></script>
-
     <script type="text/javascript" src="/gwa/js/article.js"></script>
-
+    <script src="/gwa/js/plugins/jquery.growl.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASrDg7CwB0GQ_XGzWfbkP4RUE_31YCy1M&libraries=places&callback=initAutocomplete"
+            type="text/javascript"></script>
 </body>
 
 </html>

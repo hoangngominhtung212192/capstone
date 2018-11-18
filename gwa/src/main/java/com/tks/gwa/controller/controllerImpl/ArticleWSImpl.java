@@ -61,7 +61,6 @@ public class ArticleWSImpl implements ArticleWS {
         Account getacc = getA.getAccount();
 
         article.setAccount(getacc);
-        article.setApprovalStatus("Pending");
         article.setDate(getA.getDate());
 
         Article updatedarticle = articleService.updateArticle(article);

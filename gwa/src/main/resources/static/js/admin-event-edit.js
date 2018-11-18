@@ -78,8 +78,12 @@ $(document).ready(function() {
                     $('#txtTitle').val(result.title);
                     var loca = result.location;
                     var addr = loca.split("@")[0];
+                    var latt = loca.split("@")[1];
+                    var longg = loca.split("@")[2];
                     // $('#txtLocation').append(addr);
                     $('#txtLocation').val(addr);
+                    $('#txtLat').val(latt);
+                    $('#txtLong').val(longg);
                     $("#imgthumb").attr("src", result.thumbImage);
                     $('#txtDescription').val(result.description);
                     $('#txtStartDate').val(result.startDate);
@@ -119,18 +123,18 @@ $(document).ready(function() {
         var d4 = Date.parse(regendDate);
         if (d3 < d4 && d4 < d1 && d1 < d2){
             var minn = $("#txtAttMin").val();
-            var maxx = $("#txtAttMax").val()
-            if (minn > maxx){
-                checkMatchingEvt(location,staDate,endDate);
+            var maxx = $("#txtAttMax").val();
+            if (minn < maxx){
+                checkMatchingEvt(staDate,endDate);
             } else {
-                alert("Minimum attendee should be lower than maximum attendee")
+                $.growl.error({message: "Minimum attendee should be lower than maximum attendee"});
             }
         } else {
-            alert("Input date is invalid!")
+            $.growl.error({message: "Input date is invalid!"});
         }
 
     })
-    function checkMatchingEvt(location, staDate, endDate) {
+    function checkMatchingEvt(staDate, endDate) {
         var address = $("#txtLocation").val();
         var lat = $('#txtLat').val();
         var long = $('#txtLong').val();
@@ -141,7 +145,7 @@ $(document).ready(function() {
             url: "/gwa/api/event/checkMatchingLocaNtimeExcept",
             data: {
                 id: id,
-                location: location,
+                location: addrlocation,
                 staDate: staDate,
                 endDate: endDate,
             },
@@ -169,40 +173,71 @@ $(document).ready(function() {
 
                     editEvent(formEvent);
                 } else{
-                    alert("There are events with matching location and time!!");
+                    $.growl.error({message: "There are events with matching location and time!!"});
                 }
             },
             error:function (e) {
-                alert("err");
+                // alert("err");
                 console.log("error: ",e);
             }
 
         })
     }
     function editEvent(data) {
+        console.log("editing ev")
         console.log(data);
-        var type = imagetype.split("/")[1];
-        $.ajax({
-            type : "POST",
-            contentType : "application/json",
-            url : "/gwa/api/event/editEvent",
-            data : JSON.stringify(data),
-            success : function(result, status) {
-                if(checkImage){
-                    formData.append("id", result.id);
-                    formData.append("photoBtn", imageFile, "thumbEvt"+$('#txtTitle').val() + "." + type);
-                    ajaxImagePost(formData);
+        var valid = true;
+        if ($("#txtTitle").val() == ""){
+            valid = false;
+            $.growl.error({message: "Please enter title"});
+        }
+        if ($("#txtLocation").val() == ""){
+            valid = false;
+            $.growl.error({message: "Please enter location"});
+        }
+        if ($("#txtDescription").val() == ""){
+            valid = false;
+            $.growl.error({message: "Please enter description"});
+        }
+        if ($("#txtAttMax").val() == ""){
+            valid = false;
+            $.growl.error({message: "Please enter max attendee"});
+        }
+        if ($("#txtAttMin").val() == ""){
+            valid = false;
+            $.growl.error({message: "Please enter min attendee"});
+        }
+        if ($("#txtPrice").val() == ""){
+            valid = false;
+            $.growl.error({message: "Please enter max attendee"});
+        }
+
+        if (valid == true){
+
+            $.ajax({
+                type : "POST",
+                contentType : "application/json",
+                url : "/gwa/api/event/editEvent",
+                data : JSON.stringify(data),
+                success : function(result, status) {
+
+                    if(checkImage){
+                        var type = imagetype.split("/")[1];
+                        formData.append("id", result.id);
+                        formData.append("photoBtn", imageFile, "thumbEvt"+$('#txtTitle').val() + "." + type);
+                        ajaxImagePost(formData);
+                    }
+
+                    alert("Event updated successfully!");
+                    window.location.href = "/gwa/event/detail?id=" + result.id;
+
+                },
+                error : function(e) {
+                    alert("Error!")
+                    console.log("ERROR: ", e);
                 }
-
-                alert("Event updated successfully!");
-                window.location.href = "/gwa/event/detail?id=" + result.id;
-
-            },
-            error : function(e) {
-                alert("Error!")
-                console.log("ERROR: ", e);
-            }
-        });
+            });
+        }
     }
     /* Begin authentication & notification */
     authentication();
@@ -378,6 +413,14 @@ $(document).ready(function() {
                     window.location.href = "/gwa/pages/profile.html?accountID=" + objectID;
                 } else if (type == "Model") {
                     window.location.href = "/gwa/pages/modeldetail.html?modelID=" + objectID;
+                } else if (type == "Tradepost") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
+                } else if (type == "OrderSent") {
+                    window.location.href = "/gwa/trade-market/my-order";
+                } else if (type == "OrderReceived") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
+                } else if (type == "Article") {
+                    window.location.href = "/gwa/article/detail?id=" + objectID;
                 }
             });
         });
