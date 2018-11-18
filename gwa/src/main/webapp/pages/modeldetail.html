@@ -478,14 +478,6 @@
                 <div class="container">
                     <div class="row searchFilter">
 
-                        <div class="input-group">
-                            <input style="margin-left: 164px;" id="table_filter" type="text"
-                                   placeholder="Enter a search term"
-                                   aria-label="Text input with segmented button dropdown">
-                            <input type="submit" value="" class="search-box-button"/>
-                        </div>
-
-
                         <!--    Begin model information -->
                         <div class="model-information-container">
                             <!--    Begin page title    -->
@@ -923,6 +915,58 @@
         }
         x[slideIndex7 - 1].style.display = "block";
     }
+
+    var x1 = document.getElementsByClassName("mySlides1");
+    var x2 = document.getElementsByClassName("mySlides2");
+    var x3 = document.getElementsByClassName("mySlides3");
+    var x4 = document.getElementsByClassName("mySlides4");
+    var x5 = document.getElementsByClassName("mySlides5");
+    var x6 = document.getElementsByClassName("mySlides6");
+    var x7 = document.getElementsByClassName("mySlides7");
+
+    setInterval(function () {
+        if (x1) {
+            if (x1.length > 1) {
+                plusDivs1(1);
+            }
+        }
+
+        if (x2) {
+            if (x2.length > 1) {
+                plusDivs2(1);
+            }
+        }
+
+        if (x3) {
+            if (x3.length > 1) {
+                plusDivs3(1);
+            }
+        }
+
+        if (x4) {
+            if (x4.length > 1) {
+                plusDivs4(1);
+            }
+        }
+
+        if (x5) {
+            if (x5.length > 1) {
+                plusDivs5(1);
+            }
+        }
+
+        if (x6) {
+            if (x6.length > 1) {
+                plusDivs6(1);
+            }
+        }
+
+        if (x7) {
+            if (x7.length > 1) {
+                plusDivs7(1);
+            }
+        }
+    }, 3000);
 </script>
 </body>
 

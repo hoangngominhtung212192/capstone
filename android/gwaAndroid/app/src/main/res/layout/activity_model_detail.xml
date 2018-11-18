@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="tks.com.gwaandroid.ModelDetailActivity"
+    android:orientation="vertical"
+    android:id="@+id/dl_model_detail">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#fff"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="3dp"
+        app:contentPadding="5dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--    ProgressBar loading -->
+            <RelativeLayout
+                android:id="@+id/linearProgressBarDetail"
+                android:layout_width="match_parent"
+                style="Horizon"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+                </ProgressBar>
+            </RelativeLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/detailName"
+                        android:text="Name"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:gravity="center"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:textSize="17dp" />
+
+                    <ImageView
+                        android:id="@+id/detailImage"
+                        android:layout_width="300dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_height="300dp"
+                        android:scaleType="centerCrop"
+                        android:layout_below="@id/detailName"
+                        android:layout_marginBottom="18dp"
+                        android:background="@drawable/loading_icon"/>
+
+                    <!--    layout for star-rating  -->
+                    <RelativeLayout
+                        android:id="@+id/layout_star_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/detailImage"
+                        android:layout_marginBottom="12dp"
+                        android:visibility="gone"
+                        android:layout_centerInParent="true">
+
+                        <ImageView
+                            android:id="@+id/star_one_detail"
+                            android:visibility="gone"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:background="@drawable/star_rating"/>
+                        <ImageView
+                            android:id="@+id/star_two_detail"
+                            android:visibility="gone"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_toRightOf="@+id/star_one_detail"
+                            android:background="@drawable/star_rating"
+                            android:layout_marginLeft="3dp"/>
+                        <ImageView
+                            android:id="@+id/star_three_detail"
+                            android:visibility="gone"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_toRightOf="@+id/star_two_detail"
+                            android:background="@drawable/star_rating"
+                            android:layout_marginLeft="3dp"/>
+                        <ImageView
+                            android:id="@+id/star_four_detail"
+                            android:visibility="gone"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_toRightOf="@+id/star_three_detail"
+                            android:background="@drawable/star_rating"
+                            android:layout_marginLeft="3dp"/>
+                        <ImageView
+                            android:id="@+id/star_five_detail"
+                            android:visibility="gone"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_toRightOf="@+id/star_four_detail"
+                            android:background="@drawable/star_rating"
+                            android:layout_marginLeft="5dp"/>
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/detailScaleLabel"
+                        android:text="Scale:"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold"
+                        android:layout_below="@+id/layout_star_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        android:id="@+id/detailScale"
+                        android:text="1/100"
+                        android:textColor="#000"
+                        android:layout_toRightOf="@+id/detailScaleLabel"
+                        android:layout_below="@+id/layout_star_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        android:id="@+id/detailManuLabel"
+                        android:text="Manufacturer:"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold"
+                        android:layout_below="@+id/layout_star_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/detailManu"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        android:id="@+id/detailManu"
+                        android:text="Bandai"
+                        android:textColor="#000"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/layout_star_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="8dp"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        android:id="@+id/detailSeriesLabel"
+                        android:text="Series:"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold"
+                        android:layout_below="@+id/detailScaleLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="8dp"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        android:id="@+id/detailSeries"
+                        android:text="Master Grade"
+                        android:textColor="#000"
+                        android:layout_toRightOf="@+id/detailSeriesLabel"
+                        android:layout_below="@+id/detailScaleLabel"
+                        android:layout_marginTop="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        android:id="@+id/detailPriceLabel"
+                        android:text="Price:"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold"
+                        android:layout_below="@+id/detailManuLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_alignLeft="@+id/detailManuLabel"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        android:id="@+id/detailPrice"
+                        android:text="10,800 yen"
+                        android:textColor="#000"
+                        android:layout_toRightOf="@+id/detailPriceLabel"
+                        android:layout_below="@+id/detailManuLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        android:id="@+id/detailReleasedLabel"
+                        android:text="Released Date:"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold"
+                        android:layout_below="@+id/detailSeriesLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="8dp"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        android:id="@+id/detailReleased"
+                        android:text="Late Dec., 2016"
+                        android:textColor="#000"
+                        android:layout_toRightOf="@+id/detailReleasedLabel"
+                        android:layout_below="@+id/detailSeriesLabel"
+                        android:layout_marginTop="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="14dp" />
+
+                    <Button
+                        android:id="@+id/btnViewGallery"
+                        android:background="#0bcce6"
+                        android:layout_marginTop="30dp"
+                        android:layout_centerInParent="true"
+                        android:layout_width="wrap_content"
+                        android:layout_below="@+id/detailReleasedLabel"
+                        android:layout_height="30dp"
+                        android:layout_marginBottom="20dp"
+                        android:textColor="#fff"
+                        android:drawablePadding="3px"
+                        android:text="Gallery"
+                        android:onClick="viewGallery"/>
+
+                </RelativeLayout>
+            </ScrollView>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.design.widget.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/nav_view_model_detail"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/navigation_header"
+        app:menu="@menu/navigation_menu">
+
+    </android.support.design.widget.NavigationView>
+
+</android.support.v4.widget.DrawerLayout>

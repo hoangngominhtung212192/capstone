@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/myprofile"
+        android:title="My Profile"
+        android:icon="@drawable/ic_person_black_24dp">
+
+    </item>
+    <item
+        android:id="@+id/notification"
+        android:title="Notification"
+        android:icon="@drawable/notification">
+
+    </item>
+    <item
+        android:id="@+id/gundam"
+        android:title="GUNDAM"
+        android:icon="@drawable/gundam_icon">
+
+    </item>
+    <item
+        android:id="@+id/exchange"
+        android:title="Exchange"
+        android:icon="@drawable/ic_shopping_cart_black_24dp">
+
+    </item>
+    <item
+        android:id="@+id/signout"
+        android:title="Sign out"
+        android:icon="@drawable/logout">
+
+    </item>
+</menu>

@@ -4,6 +4,7 @@ import com.tks.gwa.controller.ArticleWS;
 import com.tks.gwa.entity.Account;
 import com.tks.gwa.entity.Article;
 import com.tks.gwa.service.ArticleService;
+import com.tks.gwa.service.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -24,13 +27,8 @@ public class ArticleWSImpl implements ArticleWS {
     @Override
     public ResponseEntity<Article> createArticle(@RequestBody Article article) {
 
-
         Account testacc = new Account();
         testacc.setId(1);
-        testacc.setPassword("ab");
-        testacc.setStatus("normal");
-        testacc.setUsername("test user num1");
-
 
         article.setAccount(testacc);
 
@@ -58,15 +56,13 @@ public class ArticleWSImpl implements ArticleWS {
 
     @Override
     public ResponseEntity<Article> updateArticle(@RequestBody Article article) {
+        Article getA = articleService.getArticleByID(article.getId());
 
-        Account testacc = new Account();
-        testacc.setId(1);
-        testacc.setPassword("ab");
-        testacc.setStatus("normal");
-        testacc.setUsername("test user num1");
+        Account getacc = getA.getAccount();
 
-
-        article.setAccount(testacc);
+        article.setAccount(getacc);
+        article.setApprovalStatus("Pending");
+        article.setDate(getA.getDate());
 
         Article updatedarticle = articleService.updateArticle(article);
         return new ResponseEntity<>(updatedarticle, HttpStatus.OK);
@@ -96,5 +92,37 @@ public class ArticleWSImpl implements ArticleWS {
     public ResponseEntity<List<Article>> changeStatusManyArticle(List<Integer> idlist, String status) {
         List<Article> resultList = articleService.changeStatusManyArticle(idlist, status);
         return new ResponseEntity<>(resultList, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<Object>> searchArticleByStatusAndPage(String title, String status, String sorttype, int pageNum) {
+        List<Object> result = articleService.searchArticleWithSortAndPageByStatus(title, status, sorttype, pageNum);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<Object>> getMyArticle(int id, String sorttype, int pageNum) {
+        List<Object> result = articleService.getMyArticleByPageAndStatus(id, sorttype, pageNum);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Autowired
+    private FileUploadService fileUploadService;
+
+    @Override
+    public ResponseEntity<Article> updateArticleImage(MultipartFile photoBtn, int id) {
+        String filename = fileUploadService.storeFile(photoBtn);
+
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/").path(filename).toUriString();
+
+        Article article = articleService.getArticleByID(id);
+        if (article != null){
+            article.setThumbImage(fileDownloadUri);
+            Article updateArticle = articleService.updateArticle(article);
+            if (updateArticle != null){
+                return new ResponseEntity<>(updateArticle, HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(article, HttpStatus.OK);
     }
 }

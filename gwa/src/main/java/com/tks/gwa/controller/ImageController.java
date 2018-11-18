@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Random;
 
 
 @RestController
@@ -31,8 +32,11 @@ public class ImageController {
     //up hinh
     @PostMapping("/image/upload")
     public ResponseImage upload(@RequestPart  MultipartFile upload, HttpServletRequest request) {
-
+        System.out.println("uploading pic");
         String sourceName = upload.getOriginalFilename();
+        System.out.println("got pic namne "+sourceName);
+//        RandomStringUtils.randomAlphanumeric(20).toUpperCase();
+//        String src =
 //        String sourceFileName = FilenameUtils.getBaseName(sourceName);
 //        String sourceExt = FilenameUtils.getExtension(sourceName).toLowerCase();
 //
@@ -51,6 +55,7 @@ public class ImageController {
                 .concat("://")
                 .concat(request.getServerName())
                 .concat(":8080")
+                .concat("/gwa")
                 .concat("/images/")
                 .concat(sourceName);
         return new ResponseImage(1, sourceName, url);
@@ -58,11 +63,10 @@ public class ImageController {
     }
 
     //load hinh
-    @GetMapping("/images/{fileName:.+}")
+    @GetMapping("/gwa/images/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) throws Exception {
         // Load file as Resource
         Resource resource = loadFileAsResource(fileName);
-
         // Try to determine file's content type
         String contentType = null;
         try {

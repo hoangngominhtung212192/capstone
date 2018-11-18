@@ -140,15 +140,29 @@ $(document).ready(function () {
             if (!value.seen) {
                 // not seen yet
                 countNotSeen++;
-                appendNotification += "<li style='background-color: lightgoldenrodyellow;'>\n"
+                appendNotification += "<li>\n"
             } else {
                 // already seen
                 appendNotification += "<li style='background-color: white;'>\n"
             }
 
+            var iconType = "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> ";
+
+            if (value.notificationtype.name == "Profile"){
+                iconType = "<i class=\"fa fa-user-circle-o text-yellow\" style=\"color: darkred;\"></i> ";
+            }else if (value.notificationtype.name == "Model") {
+                iconType = "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "Tradepost") {
+                iconType = "<i class=\"fa fa-check-square-o text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "OrderSent") {
+                iconType = "<i class=\"fa fa fa-paper-plane text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "OrderReceived") {
+                iconType = "<i class=\"fa fa fa-bullhorn text-yellow\" style=\"color: darkred;\"></i> ";
+            }
+
             appendNotification += "<a id='" + value.id + "-" + value.notificationtype.name + "-" + value.objectID +
                 "' href=\"#\">\n" +
-                "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> " + value.description + "</a>\n" +
+                iconType + value.description + "</a>\n" +
                 "</li>";
 
             $("#ul-notification").append(appendNotification);
@@ -174,6 +188,12 @@ $(document).ready(function () {
                     window.location.href = "/gwa/pages/profile.html?accountID=" + objectID;
                 } else if (type == "Model") {
                     window.location.href = "/gwa/pages/modeldetail.html?modelID=" + objectID;
+                } else if (type == "Tradepost") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
+                } else if (type == "OrderSent") {
+                    window.location.href = "/gwa/trade-market/my-order";
+                } else if (type == "OrderReceived") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
                 }
             });
         });
@@ -351,6 +371,7 @@ $(document).ready(function () {
             $("#stopCrawlBtn").css("display", "block");
             $("#modelScheduleStatus").text("(Is Running)");
             $("#modelScheduleStatus").css("color", "green");
+            $("#modelScheduleCycle").text(modelCrawlS[2] + " hours");
 
             // execute loop
             loopModelSchedule(modelCrawlS[1]);
@@ -358,6 +379,7 @@ $(document).ready(function () {
             $("#startCrawlBtn").css("display", "block");
             $("#modelScheduleStatus").text("(Is Stopped)");
             $("#modelScheduleStatus").css("color", "red");
+            $("#modelScheduleCycle").text("N/A");
         }
 
         // if schedule update trade is running
@@ -365,6 +387,7 @@ $(document).ready(function () {
             $("#stopUpdateTradePostBtn").css("display", "block");
             $("#tradeScheduleStatus").text("(Is Running)");
             $("#tradeScheduleStatus").css("color", "green");
+            $("#tradeScheduleCycle").text(tradeS[2] + " hours");
 
             // execute loop
             loopTradeSchedule(tradeS[1]);
@@ -372,6 +395,7 @@ $(document).ready(function () {
             $("#startUpdateTradePostBtn").css("display", "block");
             $("#tradeScheduleStatus").text("(Is Stopped)");
             $("#tradeScheduleStatus").css("color", "red");
+            $("#tradeScheduleCycle").text("N/A");
         }
 
         // if schedule update event is running
@@ -379,6 +403,7 @@ $(document).ready(function () {
             $("#stopUpdateEventBtn").css("display", "block");
             $("#eventScheduleStatus").text("(Is Running)");
             $("#eventScheduleStatus").css("color", "green");
+            $("#eventScheduleCycle").text(eventS[2] + " hours");
 
             // execute loop
             loopEventSchedule(eventS[1]);
@@ -386,6 +411,7 @@ $(document).ready(function () {
             $("#startUpdateEventBtn").css("display", "block");
             $("#eventScheduleStatus").text("(Is Stopped)");
             $("#eventScheduleStatus").css("color", "red");
+            $("#eventScheduleCycle").text("N/A");
         }
     }
 

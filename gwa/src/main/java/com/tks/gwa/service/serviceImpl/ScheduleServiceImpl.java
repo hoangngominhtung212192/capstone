@@ -139,6 +139,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                 String countdownTime = calculateCountdownTime(scheduleModelCrawl.getDate(), scheduleModelCrawl.getInterval());
 
                 scheduleModelCrawlStatus.add(countdownTime);
+                scheduleModelCrawlStatus.add(scheduleModelCrawl.getInterval()/1000/60/60);
             } catch (ParseException e) {
                 scheduleModelCrawlStatus.add("Parse error, invalid format of yyyy-MM-dd HH:mm:ss");
                 e.printStackTrace();
@@ -159,6 +160,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                 String countdownTime = calculateCountdownTime(scheduleUpdateTrade.getDate(), scheduleUpdateTrade.getInterval());
 
                 scheduleUpdateTradeStatus.add(countdownTime);
+                scheduleUpdateTradeStatus.add(scheduleUpdateTrade.getInterval()/1000/60/60);
             } catch (ParseException e) {
                 scheduleUpdateTradeStatus.add("Parse error, invalid format of yyyy-MM-dd HH:mm:ss");
                 e.printStackTrace();
@@ -179,6 +181,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                 String countdownTime = calculateCountdownTime(scheduleUpdateEvent.getDate(), scheduleUpdateEvent.getInterval());
 
                 scheduleUpdateEventStatus.add(countdownTime);
+                scheduleUpdateEventStatus.add(scheduleUpdateEvent.getInterval()/1000/60/60);
             } catch (ParseException e) {
                 scheduleUpdateEventStatus.add("Parse error, invalid format of yyyy-MM-dd HH:mm:ss");
                 e.printStackTrace();

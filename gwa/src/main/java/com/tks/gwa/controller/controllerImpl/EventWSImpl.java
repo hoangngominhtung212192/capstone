@@ -7,6 +7,7 @@ import com.tks.gwa.entity.Event;
 import com.tks.gwa.entity.Eventattendee;
 import com.tks.gwa.service.EventAttendeeService;
 import com.tks.gwa.service.EventService;
+import com.tks.gwa.service.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -173,12 +176,26 @@ public class EventWSImpl implements EventWS {
 
     }
 
+    @Autowired
+    private FileUploadService fileUploadService;
+
     @Override
-    public ResponseEntity<String> uploadSingleImage(MultipartFile file) {
-        UploadFileResponse fileresp = fileControllerWs.uploadFile(file);
-        String fileDownloadUri = fileresp.getFileDownloadUri();
-        System.out.println("img url: "+fileDownloadUri);
-        return new ResponseEntity<>(fileDownloadUri, HttpStatus.OK);
+    public ResponseEntity<Event> updateEventImage(MultipartFile photoBtn, int id) {
+        String filename = fileUploadService.storeFile(photoBtn);
+
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/").path(filename).toUriString();
+
+        Event event = eventService.getEvent(id);
+        if (event != null) {
+            event.setThumbImage(fileDownloadUri);
+            Event newEvent = eventService.updateEvent(event);
+
+            if (newEvent != null) {
+                return new ResponseEntity<Event>(newEvent, HttpStatus.OK);
+            }
+        }
+
+        return new ResponseEntity<Event>(event, HttpStatus.valueOf(400));
     }
 
 
@@ -206,6 +223,36 @@ public class EventWSImpl implements EventWS {
                                                                 @RequestParam String sorttype,
                                                                 @RequestParam int pageNum) {
         List<Object> result = eventService.searchEventWithSortAndPageByStatus(title, status, sorttype, pageNum);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<Object>> getMyListEvent(@RequestParam Integer accountID,
+                                                      @RequestParam String sorttype,
+                                                      @RequestParam int pageNum) {
+        List<Object> firstresult = attendeeService.getAttendeeByAccountID(accountID, sorttype, pageNum);
+        List<Object> finalresult = new ArrayList<>();
+
+        finalresult.add(0, firstresult.get(0));
+
+        List<Eventattendee> attendees = (List<Eventattendee>) firstresult.get(1);
+        List<Event> events = new ArrayList<Event>();
+        for (int i = 0; i < attendees.size(); i++) {
+            events.add(attendees.get(i).getEvent());
+        }
+        finalresult.add(1, events);
+
+        return new ResponseEntity<>(finalresult, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<Object>> getNearbyEvent(@RequestParam String location,
+                                                       @RequestParam long range,
+                                                       @RequestParam String sorttype,
+                                                       @RequestParam int pageNum) {
+        List<Object> result = eventService.getNearEventByLocation(location, range, sorttype, pageNum);
+
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

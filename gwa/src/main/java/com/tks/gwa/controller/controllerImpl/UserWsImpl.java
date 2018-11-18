@@ -32,11 +32,14 @@ public class UserWsImpl implements UserWS {
     @Override
     public ResponseEntity<Account> checklogin(@RequestBody Account account, HttpSession session) {
 
+        System.out.println("[UserWS] Begin checkLogin with username: " + account.getUsername() +
+        " & password: " + account.getPassword());
+
         Account result = userService.checkLogin(account);
 
         if (result == null) {
             Account responseAccount = new Account();
-            responseAccount.setMessage("Incorrect username of password!");
+            responseAccount.setMessage("Incorrect username or password!");
 
             return new ResponseEntity<Account>(responseAccount, HttpStatus.valueOf(400));
         }
@@ -128,12 +131,15 @@ public class UserWsImpl implements UserWS {
             return new ResponseEntity<Account>(newAccount, HttpStatus.OK);
         }
 
+        newAccount = new Account();
         newAccount.setMessage("Create account failed");
         return new ResponseEntity<Account>(newAccount, HttpStatus.valueOf(400));
     }
 
     @Override
     public ResponseEntity<Profile> getUserProfile(int accountID) {
+
+        System.out.println("[UserWS] Begin getUserProfile with accountID: " + accountID);
 
         Profile profile = userService.getUserProfileByAccountID(accountID);
 

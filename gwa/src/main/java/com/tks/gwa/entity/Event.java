@@ -199,4 +199,5 @@ public class Event implements Serializable {
     public void setRegDateEnd(String regDateEnd) {
         this.regDateEnd = regDateEnd;
     }
+
 }

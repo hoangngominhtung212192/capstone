@@ -1,10 +1,15 @@
 package com.tks.gwa.service.serviceImpl;
 
+import com.google.maps.model.LatLng;
 import com.tks.gwa.constant.AppConstant;
 import com.tks.gwa.entity.Event;
+import com.tks.gwa.entity.Eventattendee;
+import com.tks.gwa.repository.EventAttendeeRepository;
 import com.tks.gwa.repository.EventRepository;
 import com.tks.gwa.service.EventService;
+import com.tks.gwa.utils.GoogleMapHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +26,7 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     private EventRepository eventRepository;
+
 
     @Override
     public List<Event> getAllEvent() {
@@ -153,7 +159,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Object> searchEventWithSortAndPageByStatus(String title, String status, String sorttype, int pageNum) {
-        int totalRecord = eventRepository.countEventByStatus(status);
+        int totalRecord = eventRepository.countEventBySearchStatus(title, status);
         int totalPage = totalRecord / AppConstant.EVENT_MAX_RECORD_PER_PAGE;
         if (totalRecord % AppConstant.EVENT_MAX_RECORD_PER_PAGE > 0){
             totalPage +=1;
@@ -162,6 +168,49 @@ public class EventServiceImpl implements EventService {
         result.add(totalPage);
         List<Event> eventList = eventRepository.searchEventByStatusAndSort(title, status, sorttype, pageNum);
         result.add(eventList);
+
+        return result;
+    }
+
+    @Override
+    public List<Object> getNearEventByLocation(String location, long range, String sorttype, int pageNum) {
+        int totalRecord = eventRepository.countEventBySearchStatus("", "active");
+        int totalPage = totalRecord / AppConstant.EVENT_MAX_RECORD_PER_PAGE;
+        if (totalRecord % AppConstant.EVENT_MAX_RECORD_PER_PAGE > 0){
+            totalPage +=1;
+        }
+        List<Object> result = new ArrayList<>();
+        result.add(totalPage);
+        List<Event> eventList = eventRepository.searchEventByStatusAndSort("", "Active", sorttype, pageNum);
+        List<Event> resultEList = new ArrayList<>();
+        System.out.println("my location: "+location);
+        String address = location.split("@")[0];
+        System.out.println("my address: "+address);
+        Double lat = Double.valueOf(location.split("@")[1]);
+        Double lng = Double.valueOf(location.split("@")[2]);
+        LatLng from = new LatLng();
+        from.lat = lat;
+        from.lng = lng;
+//        LatLng from = GoogleMapHelper.getLatLngFromAddress(location);
+        for (int i = 0; i < eventList.size(); i++) {
+            Event event = eventList.get(i);
+            System.out.println("checking distance of event id"+event.getId());
+//            LatLng to = GoogleMapHelper.getLatLngFromAddress(event.getLocation());
+            LatLng to = new LatLng();
+            to.lat = Double.valueOf(event.getLocation().split("@")[1]);
+            to.lng = Double.valueOf(event.getLocation().split("@")[2]);
+
+            if (to.equals(null)){
+                continue;
+            }
+
+            long distance = GoogleMapHelper.calculateDistanceBetweenTwoPoint(from,to);
+            System.out.println("searching nearby event, foudn event with distance: "+distance);
+            if (distance <= range){
+                resultEList.add(eventList.get(i));
+            }
+        }
+        result.add(resultEList);
 
         return result;
     }

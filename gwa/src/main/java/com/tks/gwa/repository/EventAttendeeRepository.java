@@ -16,5 +16,5 @@ public interface EventAttendeeRepository extends GenericRepository<Eventattendee
     List<Eventattendee> searchAttendeeByEvent(Integer eventid);
     Eventattendee getAttendeeInEvent(Integer userid, Integer eventid) throws NoResultException;
     Eventattendee getAttendee(int id);
-    Event getEventByAttendee(String userid);
+    List<Eventattendee> getAttendeeByAccountID(int accountID, String sorttype, int pageNum);
 }

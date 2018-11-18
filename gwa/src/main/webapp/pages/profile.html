@@ -142,6 +142,10 @@
             display: inline-block;
             margin: 100px auto;
         }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        }
     </style>
 </head>
 
@@ -438,10 +442,12 @@
             padding-bottom: 20px; border: 1px solid #f0f0f0;">
                 <div class="profile-left-col">
                     <div class="text-center">
-                        <img id="avatar" src="/gwa/img/avatar_2x.png"
-                             class="avatar img-circle img-thumbnail" alt="avatar"
-                             onError="this.src='/img/avatar_2x.png';"
-                             style="width: 202px; height: 202px;">
+                        <a href="#" id="hrefAvatar">
+                            <img id="avatar" src="/gwa/img/avatar_2x.png"
+                                 class="avatar img-circle img-thumbnail" alt="avatar"
+                                 onError="this.src='/img/avatar_2x.png';"
+                                 style="width: 202px; height: 202px;">
+                        </a>
                         <h6 id="photoTitle" style="display: none;">Upload a different photo...</h6>
 
                         <!--    replaced image for input file button    -->

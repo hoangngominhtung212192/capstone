@@ -62,7 +62,7 @@
     padding-left: 12px;
     padding-top: 10px;
     padding-bottom: 10px;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .title-li-a {
@@ -1650,6 +1650,65 @@ a.ranking-username:hover {
     margin-top: 2px;
 }
 /*  end user ranking    */
+
+/*  search suggestion   */
+.search-scroll {
+    width: 370px;
+    height: 350px;
+    position: absolute;
+    overflow: hidden;
+    box-shadow: 0px 0px 5px #aaa;
+    z-index: 2;
+    margin-left: 244px;
+    margin-top: 40px;
+    display: none;
+}
+
+.suggestSearch-container {
+    float: left;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    overflow-y: scroll;
+    padding-right: 15px;
+    box-sizing: content-box;
+}
+
+.suggestSearch-row {
+    width: 100%;
+    height: 70px;
+    float: left;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 5px;
+}
+
+.suggestSearch-row:hover {
+    border-right: 1px solid grey;
+    background-color: #e9e9e9;
+}
+
+.suggestSearch-row a {
+    width: 100%;
+    height: 100%;
+}
+
+.model-name-search {
+    margin-left: 20px;
+    float: left;
+    width: 270px;
+    font-family: TISA !important;
+    color: black !important;
+    transition: none;
+}
+
+.model-image-search {
+    width: 50px;
+    height: 50px;
+    float: left;
+    box-shadow: 1px 1px 2px 0px #000;
+}
+/*  end search suggestion   */
 
 
 

@@ -168,6 +168,23 @@ public class EventRepositoryImpl extends GenericRepositoryImpl<Event, Integer> i
     }
 
     @Override
+    public int countEventBySearchStatus(String title, String status) {
+        String sql = "SELECT COUNT(e) FROM " + Event.class.getName()+" AS e WHERE e.status =:status AND e.title LIKE :title";
+        Query query = this.entityManager.createQuery(sql);
+        query.setParameter("status", status);
+        query.setParameter("title", "%"+title+"%");
+        long result = 0;
+        try{
+            result = (long) query.getSingleResult();
+        } catch (NoResultException e) {
+            System.out.println("no event foudn");
+            return 0;
+        }
+
+        return (int) result;
+    }
+
+    @Override
     public List<Event> getEventByStatusAndSort(String status, String sorttype, int pageNum) {
         String sortSql = "";
         if (sorttype.equalsIgnoreCase("asc")){

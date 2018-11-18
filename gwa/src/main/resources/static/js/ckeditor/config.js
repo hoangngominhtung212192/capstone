@@ -45,7 +45,8 @@ CKEDITOR.editorConfig = function( config ) {
 
 	config.extraPlugins = 'uploadimage';
 	var backendServer = 'http://localhost:8080';
-	config.uploadUrl = backendServer + '/image/upload';
+	config.uploadUrl = backendServer + '/gwa/image/upload';
+
 
 
 };

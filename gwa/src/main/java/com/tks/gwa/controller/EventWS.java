@@ -49,13 +49,13 @@ public interface EventWS {
     @RequestMapping(value = "/checkMatchingLocaNtimeExcept", method = RequestMethod.POST)
     ResponseEntity<List<Event>> checkMatchingLocaNtimeExcept(@RequestParam int id, @RequestParam String location, @RequestParam String staDate, @RequestParam String endDate) throws ParseException;
 
-
     @RequestMapping(value = "/getAttendeeInEvent", method = RequestMethod.POST)
     ResponseEntity<Eventattendee> getAttendeeInEvent(@RequestParam int userid, @RequestParam int eventid);
 
-    @RequestMapping(value = "/uploadSingleImage", method = RequestMethod.POST)
-    ResponseEntity<String> uploadSingleImage(@RequestParam("imgfile") MultipartFile file);
 
+    @RequestMapping(value = "/uploadEventImage", method = RequestMethod.POST)
+    ResponseEntity<Event> updateEventImage(@RequestParam(value = "photoBtn", required = false) MultipartFile photoBtn,
+                                               @RequestParam("id") int id);
 
     @RequestMapping(value = "/getListAttendeeInEvent", method = RequestMethod.POST)
     ResponseEntity<List<Eventattendee>> getRatedAttendeeInEvent(@RequestParam("eventid") Integer eventid);
@@ -71,4 +71,14 @@ public interface EventWS {
                                                          @RequestParam("sorttype") String sorttype,
                                                          @RequestParam("pageNum") int pageNum);
 
+    @RequestMapping(value = "/getMyListEvent", method = RequestMethod.POST)
+    ResponseEntity<List<Object>> getMyListEvent(@RequestParam("accountID") Integer accountID,
+                                               @RequestParam("sorttype") String sorttype,
+                                               @RequestParam("pageNum") int pageNum);
+
+    @RequestMapping(value = "/getNearbyEvent", method = RequestMethod.POST)
+    ResponseEntity<List<Object>> getNearbyEvent(@RequestParam("location") String location,
+                                                @RequestParam("range") long range,
+                                                @RequestParam("sorttype") String sorttype,
+                                                @RequestParam("pageNum") int pageNum);
 }

@@ -19,4 +19,6 @@ public interface EventService {
     List<Event> checkForMatchingLocationNTimeExcept(int id, String location, String staDate, String endDate ) throws ParseException;
     List<Object> getEventWithSortAndPageByStatus(String status, String sorttype, int pageNum);
     List<Object> searchEventWithSortAndPageByStatus(String title, String status, String sorttype, int pageNum);
+    List<Object> getNearEventByLocation(String location, long range, String sorttype, int pageNum);
+//    List<Object> getEventByTitleWithSortAndPageByStatus(int accountid, String sorttype, int pageNum);
 }

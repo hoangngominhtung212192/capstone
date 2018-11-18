@@ -980,6 +980,7 @@ p.numbers{
     background: #FFFFFF;
     margin-bottom: 0px;
     font-size: 25px;
+    font-weight: 600;
 }
 
 p.strings{
@@ -988,6 +989,7 @@ p.strings{
     padding: 12px 0;
     background: darkgreen;
     color: #FFFFFF;
+    font-weight: 600;
 }
 
 div.cd-box{

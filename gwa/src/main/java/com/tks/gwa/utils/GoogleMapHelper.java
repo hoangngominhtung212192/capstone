@@ -24,6 +24,8 @@ public class GoogleMapHelper {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ArrayIndexOutOfBoundsException e){
+            e.printStackTrace();
         }
         return p;
     }

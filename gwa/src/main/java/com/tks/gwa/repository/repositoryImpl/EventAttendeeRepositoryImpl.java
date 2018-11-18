@@ -1,5 +1,6 @@
 package com.tks.gwa.repository.repositoryImpl;
 
+import com.tks.gwa.constant.AppConstant;
 import com.tks.gwa.entity.Event;
 import com.tks.gwa.entity.Eventattendee;
 import com.tks.gwa.repository.EventAttendeeRepository;
@@ -81,13 +82,29 @@ public class EventAttendeeRepositoryImpl extends GenericRepositoryImpl<Eventatte
     }
 
     @Override
-    public Event getEventByAttendee(String userid) {
-        String sql = "FROM " + Eventattendee.class.getName()+ " WHERE accountID = :userid";
-
+    public List<Eventattendee> getAttendeeByAccountID(int accountID, String sorttype, int pageNum) {
+        String sortSql = "";
+        if (sorttype.equalsIgnoreCase("asc")){
+            sortSql = " ORDER BY date ASC";
+        } else {
+            sortSql = " ORDER BY date DESC";
+        }
+        String sql = "FROM " + Eventattendee.class.getName()+ " WHERE accountID = :accountID" + sortSql;
         Query query = this.entityManager.createQuery(sql);
-        query.setParameter("userid",  userid);
+        query.setParameter("accountID", accountID);
+        query.setFirstResult((pageNum-1) * AppConstant.EVENT_MAX_RECORD_PER_PAGE);
+        query.setMaxResults(AppConstant.EVENT_MAX_RECORD_PER_PAGE);
+        List<Eventattendee> listres = null;
 
-        return null;
+        try {
+            listres = query.getResultList();
+            System.out.println("user attended "+listres.size() +" results");
+        } catch (NoResultException e) {
+            System.out.println("no eventattendee found");
+            return listres;
+        }
+        return listres;
     }
+
 }
 

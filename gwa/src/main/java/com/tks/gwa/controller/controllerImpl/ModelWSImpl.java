@@ -394,4 +394,14 @@ public class ModelWSImpl implements ModelWS {
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<List<ModelSearchFilter>> getListModelSearchFilters() {
+
+        System.out.println("[ModelWS] Begin getListModelSearchFilters()");
+
+        List<ModelSearchFilter> modelSearchFilters = modelService.getListFilters();
+
+        return new ResponseEntity<>(modelSearchFilters, HttpStatus.OK);
+    }
+
 }

@@ -1,10 +1,7 @@
 package com.tks.gwa.service.serviceImpl;
 
 import com.tks.gwa.constant.AppConstant;
-import com.tks.gwa.dto.LogCrawl;
-import com.tks.gwa.dto.ModelDTO;
-import com.tks.gwa.dto.ModelSDTO;
-import com.tks.gwa.dto.Pagination;
+import com.tks.gwa.dto.*;
 import com.tks.gwa.entity.*;
 import com.tks.gwa.repository.*;
 import com.tks.gwa.service.ModelService;
@@ -450,6 +447,40 @@ public class ModelServiceImpl implements ModelService {
         if (model != null) {
             List<Modelimage> modelimageList = modelimageRepository.findImagesByModelID(id);
 
+            // set the first image in galery to be thumbImage
+            if (modelimageList.size() > 0) {
+                String thumbImage = getThumbImage(modelimageList, "Package");
+
+                if (thumbImage == null) {
+                    thumbImage = getThumbImage(modelimageList, "Item picture");
+
+                    if (thumbImage == null) {
+                        thumbImage = getThumbImage(modelimageList, "Other picture");
+
+                        if (thumbImage == null) {
+                            thumbImage = getThumbImage(modelimageList, "Contents");
+
+                            if (thumbImage == null) {
+                                thumbImage = getThumbImage(modelimageList, "About item");
+
+                                if (thumbImage == null) {
+                                    thumbImage = getThumbImage(modelimageList, "Color");
+
+                                    if (thumbImage == null) {
+                                        thumbImage = getThumbImage(modelimageList, "Assembly guide");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                model.setThumbImage(thumbImage);
+            } else {
+                // set default image
+                model.setThumbImage("https://www.1999.co.jp/itbig00/10009254.jpg");
+            }
+
             ModelDTO modelDTO = new ModelDTO();
             modelDTO.setModel(model);
             modelDTO.setModelimageList(modelimageList);
@@ -866,6 +897,62 @@ public class ModelServiceImpl implements ModelService {
 
             modelRepository.update(model);
         }
+    }
+
+    @Override
+    public List<ModelSearchFilter> getListFilters() {
+
+        List<ModelSearchFilter> modelSearchFilters = new ArrayList<ModelSearchFilter>();
+
+        List<Model> modelList = modelRepository.getAllModel();
+
+        if (modelList != null) {
+            for (Model model : modelList) {
+                ModelSearchFilter modelSearchFilter = new ModelSearchFilter();
+
+                modelSearchFilter.setId(model.getId());
+                modelSearchFilter.setName(model.getName());
+
+                List<Modelimage> modelimageList = modelimageRepository.findImagesByModelID(model.getId());
+                // set the first image in galery to be thumbImage
+                if (modelimageList.size() > 0) {
+                    String thumbImage = getThumbImage(modelimageList, "Package");
+
+                    if (thumbImage == null) {
+                        thumbImage = getThumbImage(modelimageList, "Item picture");
+
+                        if (thumbImage == null) {
+                            thumbImage = getThumbImage(modelimageList, "Other picture");
+
+                            if (thumbImage == null) {
+                                thumbImage = getThumbImage(modelimageList, "Contents");
+
+                                if (thumbImage == null) {
+                                    thumbImage = getThumbImage(modelimageList, "About item");
+
+                                    if (thumbImage == null) {
+                                        thumbImage = getThumbImage(modelimageList, "Color");
+
+                                        if (thumbImage == null) {
+                                            thumbImage = getThumbImage(modelimageList, "Assembly guide");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    modelSearchFilter.setThumbImage(thumbImage);
+                } else {
+                    // set default image
+                    modelSearchFilter.setThumbImage("https://www.1999.co.jp/itbig00/10009254.jpg");
+                }
+
+                modelSearchFilters.add(modelSearchFilter);
+            }
+        }
+
+        return modelSearchFilters;
     }
 
     public String getThumbImage(List<Modelimage> modelimageList, String imagetype) {

@@ -1,5 +1,6 @@
 package com.tks.gwa.service.serviceImpl;
 
+import com.tks.gwa.constant.AppConstant;
 import com.tks.gwa.entity.Article;
 import com.tks.gwa.repository.ArticleRepository;
 import com.tks.gwa.service.ArticleService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
@@ -58,5 +60,36 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<Article> changeStatusManyArticle(List<Integer> idlist, String status) {
         return articleRepository.changeStatusManyArticle(idlist, status);
+    }
+
+    @Override
+    public List<Object> searchArticleWithSortAndPageByStatus(String title, String status, String sorttype, int pageNum) {
+        int totalRecord = articleRepository.countArticleBySearchStatus(title, status);
+        int totalPage = totalRecord / AppConstant.EVENT_MAX_RECORD_PER_PAGE;
+        if (totalRecord % AppConstant.EVENT_MAX_RECORD_PER_PAGE > 0){
+            totalPage +=1;
+        }
+        List<Object> result = new ArrayList<>();
+        result.add(totalPage);
+        List<Article> eventList = articleRepository.searchArticleByStatusAndSort(title, status, sorttype, pageNum);
+        result.add(eventList);
+
+        return result;
+    }
+
+    @Override
+    public List<Object> getMyArticleByPageAndStatus(int id, String sorttype, int pageNum) {
+        List<Article> eventList = articleRepository.searchArticleByAuthorSort(id, sorttype, pageNum);
+        int totalRecord = eventList.size();
+        int totalPage = totalRecord / AppConstant.EVENT_MAX_RECORD_PER_PAGE;
+        if (totalRecord % AppConstant.EVENT_MAX_RECORD_PER_PAGE > 0){
+            totalPage +=1;
+        }
+        List<Object> result = new ArrayList<>();
+
+        result.add(totalPage);
+        result.add(eventList);
+
+        return result;
     }
 }

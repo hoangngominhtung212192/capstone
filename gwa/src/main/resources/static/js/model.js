@@ -43,6 +43,7 @@ $(document).ready(function () {
     $(document).click(function (event) {
         $("#dropdown-profile").css("display", "none");
         $("#dropdown-notification").css("display", "none");
+        $("#search-scroll").css("display", "none");
     })
 
     authentication();
@@ -338,7 +339,7 @@ $(document).ready(function () {
     updateFilter();
     search(1, "");
 
-    $("#searchBtn").click(function (e) {
+    $("#formSearch").submit(function (e) {
         e.preventDefault();
 
         // clear session
@@ -346,8 +347,14 @@ $(document).ready(function () {
         sessionArr = [];
         console.log("Clear session");
 
-        updateFilter();
-        search(1, "");
+        $("#loading").css("display", "block");
+
+        setTimeout(function () {
+            updateFilter();
+            search(1, "");
+
+            $("#loading").css("display", "none");
+        }, 300);
     });
 
     function ajaxSearchModel(data) {
@@ -388,11 +395,11 @@ $(document).ready(function () {
         var render_pagination = "";
 
         if (value.currentPage == 1) {
-            render_pagination += "<span class=\"my-page my-active\">First</span>\n" +
-                "<span class=\"my-page my-active\">Prev</span>\n";
+            render_pagination += "<span class=\"my-page my-active\">«</span>\n" +
+                "<span class=\"my-page my-active\">❮</span>\n";
         } else {
-            render_pagination += "<span id=\"first\" class=\"my-page\">First</span>\n" +
-                "<span id=\"prev\" class=\"my-page\">Prev</span>\n"
+            render_pagination += "<span id=\"first\" class=\"my-page\">«</span>\n" +
+                "<span id=\"prev\" class=\"my-page\">❮</span>\n"
         }
         if (value.currentPage > 5) {
             render_pagination += "<span class=\"my-page\">...</span>\n";
@@ -410,11 +417,11 @@ $(document).ready(function () {
             render_pagination += "<span class=\"my-page\">...</span>\n";
         }
         if (value.currentPage == value.lastPage) {
-            render_pagination += "<span class=\"my-page my-active\">Next</span>\n" +
-                "<span class=\"my-page my-active\">Last</span>\n";
+            render_pagination += "<span class=\"my-page my-active\">❯</span>\n" +
+                "<span class=\"my-page my-active\">»</span>\n";
         } else {
-            render_pagination += "<span id=\"next\" class=\"my-page\">Next</span>\n" +
-                "<span id=\"last\" class=\"my-page\">Last</span>\n"
+            render_pagination += "<span id=\"next\" class=\"my-page\">❯</span>\n" +
+                "<span id=\"last\" class=\"my-page\">»</span>\n"
         }
 
         $("#pagination-content").append(render_pagination);
@@ -556,7 +563,14 @@ $(document).ready(function () {
         console.log("Clear session");
 
         filterOrderBy = this.value;
-        search(1, "");
+
+        $("#loading").css("display", "block");
+
+        setTimeout(function () {
+            search(1, "");
+
+            $("#loading").css("display", "none");
+        }, 300);
     });
 
     $("#cbo-order-2").on('change', function () {
@@ -566,7 +580,14 @@ $(document).ready(function () {
         console.log("Clear session");
 
         filterCending = this.value;
-        search(1, "");
+
+        $("#loading").css("display", "block");
+
+        setTimeout(function () {
+            search(1, "");
+
+            $("#loading").css("display", "none");
+        }, 300);
     })
 
     function renderData(data) {
@@ -575,22 +596,41 @@ $(document).ready(function () {
             $.each(data, function (index, value) {
                 var model = value.model;
 
-                $("#ul-records-container").append("<li class=\"model-records-item\">\n" +
+                var append = "<li class=\"model-records-item\">\n" +
                     "                                        <div class=\"model-records-item-img\">\n" +
                     "                                            <img src=\"" + model.thumbImage + "\">\n" +
                     "                                            <span class=\"model-records-item-name\">" + model.name + "</span>\n" +
                     "                                            <div class=\"model-records-item-info\">\n" +
-                    "                                                <p>" + model.name + "</p>\n" +
-                    "                                                <p><b>Price: </b>" + model.price + "</p>\n" +
-                    "                                                <p><b>Released: </b>" + model.releasedDate + "</p>\n" +
-                    "                                                <p><b>Manufacturer: </b>" + model.manufacturer.name + "</p>\n" +
-                    "                                                <p><b>Product Series: </b>" + model.productseries.name + "</p>\n" +
+                    "                                                <p>" + model.name + "</p>\n";
+
+                if (model.price) {
+                    append += "<p><b>Price: </b>" + model.price + "</p>\n";
+                } else {
+                    append += "<p><b>Price: </b>N/A</p>\n";
+                }
+
+                if (model.releasedDate) {
+                    append += "<p><b>Released: </b>" + model.releasedDate + "</p>\n";
+                } else {
+                    append += "<p><b>Released: </b>N/A</p>\n"
+                }
+
+                if (model.manufacturer) {
+                    append += "<p><b>Manufacturer: </b>" + model.manufacturer.name + "</p>\n";
+                } else {
+                    append += "<p><b>Manufacturer: </b>N/A</p>\n";
+                }
+
+                append += "                                                <p><b>Product Series: </b>" + model.productseries.name + "</p>\n" +
                     "                                                <div class=\"model-records-item-info-button\">\n" +
                     "                                                    <button id='" + model.id + "'>More Information</button>\n" +
                     "                                                </div>\n" +
                     "                                            </div>\n" +
                     "                                        </div>\n" +
-                    "                                    </li>");
+                    "                                    </li>";
+
+                $("#ul-records-container").append(append);
+
                 $("#" + model.id).click(function (e) {
                     e.preventDefault();
 
@@ -656,9 +696,23 @@ $(document).ready(function () {
                 appendNotification += "<li style='background-color: white;'>\n"
             }
 
+            var iconType = "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> ";
+
+            if (value.notificationtype.name == "Profile"){
+                iconType = "<i class=\"fa fa-user-circle-o text-yellow\" style=\"color: darkred;\"></i> ";
+            }else if (value.notificationtype.name == "Model") {
+                iconType = "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "Tradepost") {
+                iconType = "<i class=\"fa fa-check-square-o text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "OrderSent") {
+                iconType = "<i class=\"fa fa fa-paper-plane text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "OrderReceived") {
+                iconType = "<i class=\"fa fa fa-bullhorn text-yellow\" style=\"color: darkred;\"></i> ";
+            }
+
             appendNotification += "<a id='" + value.id + "-" + value.notificationtype.name + "-" + value.objectID +
                 "' href=\"#\">\n" +
-                "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> " + value.description + "</a>\n" +
+                iconType + value.description + "</a>\n" +
                 "</li>";
 
             $("#ul-notification").append(appendNotification);
@@ -684,6 +738,12 @@ $(document).ready(function () {
                     window.location.href = "/gwa/pages/profile.html?accountID=" + objectID;
                 } else if (type == "Model") {
                     window.location.href = "/gwa/pages/modeldetail.html?modelID=" + objectID;
+                } else if (type == "Tradepost") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
+                } else if (type == "OrderSent") {
+                    window.location.href = "/gwa/trade-market/my-order";
+                } else if (type == "OrderReceived") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
                 }
             });
         });
@@ -700,6 +760,7 @@ $(document).ready(function () {
         } else {
             $("#numberOfNew").text(countNotSeen);
         }
+
     }
 
     function addNewNotification() {
@@ -835,4 +896,164 @@ $(document).ready(function () {
     }
 
     /*  End sessionStorage area */
+
+    /*  Begin get list filters   */
+    var filters;
+    checkExistFilters();
+
+    function checkExistFilters() {
+        var lastTime = new Date(localStorage.getItem("currentTime"));
+
+        if (lastTime) {
+            var now = new Date($.now());
+            // subtract two datetime
+            var diff = new Date(now - lastTime);
+            // convert to days
+            var days = diff/1000/60/60/24;
+
+            console.log("Number of days since filters in localStorage: " + days);
+
+            if (days >= 7) {
+                getListFilters();
+            } else {
+                filters = JSON.parse(localStorage.getItem('filters'));
+            }
+        } else {
+            getListFilters();
+        }
+    }
+
+    function getListFilters() {
+        $.ajax({
+            type: "GET",
+            url: "/gwa/api/model/getSearchFilters",
+            success: function (result) {
+                // get data and save to localStorage
+                console.log(result);
+                localStorage.setItem('filters', JSON.stringify(result));
+                filters = JSON.parse(localStorage.getItem('filters'));
+
+                // get current time
+                var currentTime = new Date($.now());
+                localStorage.setItem("currentTime", currentTime);
+                console.log("Save list filters to localStorage at: " + currentTime);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    // filters when search
+    var filterList = [];
+
+    // event for every single character that user inputs
+    $("#table_filter").keyup(function (e) {
+        // reset array
+        filterList = [];
+        $("#search-scroll").css("display", "block");
+        var searchValue = $("#table_filter").val();
+
+        if (searchValue) {
+            // contain condition
+            $.each(filters, function (i, value) {
+                // ignore uppercase for comparison
+                if (value.name.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0) {
+                    filterList.push(value);
+                }
+            })
+
+            // levenshtein string comparison condition
+            $.each(filters, function (i, value) {
+                // 50% matching
+                if (similarity(value.name, searchValue) >= 0.5) {
+                    // check if not exist in current filterlist
+                    if (!checkExistInFilterList(value.id)) {
+                        filterList.push(value);
+                    }
+                }
+            })
+        }
+
+        // log filterList
+        console.log(filterList);
+
+        // render UI
+        renderFilterList();
+    });
+
+    function checkExistInFilterList(id) {
+
+        var check = false;
+
+        $.each(filterList, function (i, index) {
+            // found exist id
+            if (index.id == id) {
+                check = true;
+            }
+        })
+
+        return check;
+    }
+
+    function renderFilterList() {
+
+        // clear body first
+        $("#suggestSearch-container").empty();
+
+        // if no record matches, then hide #search-scroll container
+        if (filterList.length == 0) {
+            $("#search-scroll").css("display", "none");
+        }
+
+        $.each(filterList, function (i, value) {
+            $("#suggestSearch-container").append("<div class=\"suggestSearch-row\">\n" +
+                "<a href=\"/gwa/pages/modeldetail.html?modelID=" + value.id + "\">\n" +
+                "<img class=\"model-image-search\" src=\"" + value.thumbImage + "\"/>\n" +
+                "<div class=\"model-name-search\">" + value.name + "\n" +
+                "</div>\n" +
+                "</a>\n" +
+                "</div>");
+        });
+    }
+
+    // levenshtein algo
+    function similarity(s1,s2) {
+        var longer = s1, shorter = s2;
+        if (s1.length < s2.length) { // longer should always have greater length
+            longer = s2; shorter = s1;
+        }
+        var longerLength = longer.length;
+        if (longerLength == 0) { return 1.0; /* both strings are zero length */ }
+
+        return (longerLength - editDistance(longer, shorter)) / longerLength;
+    }
+
+    function editDistance(s1,s2) {
+        s1 = s1.toLowerCase();
+        s2 = s2.toLowerCase();
+
+        var costs = [];
+        for (var i = 0; i <= s1.length; i++) {
+            var lastValue = i;
+            for (var j = 0; j <= s2.length; j++) {
+                if (i == 0)
+                    costs[j] = j;
+                else {
+                    if (j > 0) {
+                        var newValue = costs[j - 1];
+                        if (s1.charAt(i - 1) != s2.charAt(j - 1))
+                            newValue = Math.min(Math.min(newValue, lastValue),
+                                costs[j]) + 1;
+                        costs[j - 1] = lastValue;
+                        lastValue = newValue;
+                    }
+                }
+            }
+            if (i > 0)
+                costs[s2.length] = lastValue;
+        }
+        return costs[s2.length];
+    }
+    /*  End get list filters    */
 })
