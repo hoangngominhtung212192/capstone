@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
         // left menu
         dl = (DrawerLayout) findViewById(R.id.dl);
-        abdt = new ActionBarDrawerToggle(this,dl,R.string.Open, R.string.Close);
+        abdt = new ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close);
         abdt.setDrawerIndicatorEnabled(true);
 
         dl.addDrawerListener(abdt);
@@ -89,12 +89,14 @@ public class MainActivity extends AppCompatActivity {
                 int id = item.getItemId();
 
                 if (id == R.id.myprofile) {
-                    Toast.makeText(MainActivity.this, "MyProfile", Toast.LENGTH_SHORT).show();
-                }
-                else if (id == R.id.gundam) {
-                    Toast.makeText(MainActivity.this, "Gundam", Toast.LENGTH_SHORT).show();
-                }
-                else if (id == R.id.exchange) {
+                    Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                    MainActivity.this.startActivity(intent);
+                } else if (id == R.id.notification) {
+                    Toast.makeText(MainActivity.this, "Notification", Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.gundam) {
+                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                    MainActivity.this.startActivity(intent);
+                } else if (id == R.id.exchange) {
                     Toast.makeText(MainActivity.this, "Exchange", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.signout) {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -126,8 +128,16 @@ public class MainActivity extends AppCompatActivity {
                         // save scroll last position
                         currentVisiblePosition = ((LinearLayoutManager) mRecycleView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
 
-                        currentPage++;
-                        apiRequest(currentPage);
+                        // a little bit delay
+                        new android.os.Handler().postDelayed(
+                                new Runnable() {
+                                    public void run() {
+                                        currentPage++;
+                                        apiRequest(currentPage);
+                                    }
+                                },
+                                300);
+
                     }
                 }
             }
@@ -220,5 +230,9 @@ public class MainActivity extends AppCompatActivity {
         // scroll to the last position
         ((LinearLayoutManager) mRecycleView.getLayoutManager()).scrollToPosition(currentVisiblePosition);
         linearProgressBar.setVisibility(View.GONE);
+    }
+
+    public void searchClick(View view) {
+        Toast.makeText(this, "Click", Toast.LENGTH_SHORT).show();
     }
 }

@@ -136,7 +136,7 @@ $(document).ready(function () {
         } else {
             if (!(confirmPassword == password)) {
                 $("#errorconfirmpassword").css("visibility", "visible");
-                $("#errorconfirmpassword").text("Confirm pass word does not match password");
+                $("#errorconfirmpassword").text("Confirm password does not match password");
                 check = false;
             } else {
                 $("#errorconfirmpassword").css("visibility", "hidden");

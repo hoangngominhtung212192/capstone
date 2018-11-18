@@ -1,6 +1,7 @@
 package tks.com.gwaandroid.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
+import tks.com.gwaandroid.ModelDetailActivity;
 import tks.com.gwaandroid.R;
 import tks.com.gwaandroid.model.Model;
 import tks.com.gwaandroid.model.ModelSDTO;
@@ -83,10 +85,18 @@ public class CustomModelAdapter extends RecyclerView.Adapter<CustomModelAdapter.
 
         // download image from url
         Picasso picasso = Picasso.with(context);
-        picasso.load(model.getThumbImage())
-                .placeholder((R.drawable.loading_icon))
-                .fit()
-                .into(holder.mImage);
+        if (model.getThumbImage().contains("localhost:8080")) {
+            String imageUrl = model.getThumbImage().replace("localhost", "192.168.1.6");
+            picasso.load(imageUrl)
+                    .placeholder((R.drawable.loading_icon))
+                    .fit()
+                    .into(holder.mImage);
+        } else {
+            picasso.load(model.getThumbImage())
+                    .placeholder((R.drawable.loading_icon))
+                    .fit()
+                    .into(holder.mImage);
+        }
 
         // set series title
         holder.mSeriestitle.setText("Series title: " + model.getSeriestitle().getName());
@@ -126,7 +136,9 @@ public class CustomModelAdapter extends RecyclerView.Adapter<CustomModelAdapter.
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, position + "", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, ModelDetailActivity.class);
+                intent.putExtra("modelID", modelSDTO.getModelDTOList().get(position).getModel().getId() + "");
+                context.startActivity(intent);
             }
         });
     }

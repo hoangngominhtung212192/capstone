@@ -111,5 +111,6 @@
         android:padding="5dp"
         android:text="@string/newUser"
         android:textColor="@color/white"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:onClick="redirectToSignUpActivity"/>
 </RelativeLayout>

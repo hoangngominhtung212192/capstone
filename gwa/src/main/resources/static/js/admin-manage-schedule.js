@@ -371,6 +371,7 @@ $(document).ready(function () {
             $("#stopCrawlBtn").css("display", "block");
             $("#modelScheduleStatus").text("(Is Running)");
             $("#modelScheduleStatus").css("color", "green");
+            $("#modelScheduleCycle").text(modelCrawlS[2] + " hours");
 
             // execute loop
             loopModelSchedule(modelCrawlS[1]);
@@ -378,6 +379,7 @@ $(document).ready(function () {
             $("#startCrawlBtn").css("display", "block");
             $("#modelScheduleStatus").text("(Is Stopped)");
             $("#modelScheduleStatus").css("color", "red");
+            $("#modelScheduleCycle").text("N/A");
         }
 
         // if schedule update trade is running
@@ -385,6 +387,7 @@ $(document).ready(function () {
             $("#stopUpdateTradePostBtn").css("display", "block");
             $("#tradeScheduleStatus").text("(Is Running)");
             $("#tradeScheduleStatus").css("color", "green");
+            $("#tradeScheduleCycle").text(tradeS[2] + " hours");
 
             // execute loop
             loopTradeSchedule(tradeS[1]);
@@ -392,6 +395,7 @@ $(document).ready(function () {
             $("#startUpdateTradePostBtn").css("display", "block");
             $("#tradeScheduleStatus").text("(Is Stopped)");
             $("#tradeScheduleStatus").css("color", "red");
+            $("#tradeScheduleCycle").text("N/A");
         }
 
         // if schedule update event is running
@@ -399,6 +403,7 @@ $(document).ready(function () {
             $("#stopUpdateEventBtn").css("display", "block");
             $("#eventScheduleStatus").text("(Is Running)");
             $("#eventScheduleStatus").css("color", "green");
+            $("#eventScheduleCycle").text(eventS[2] + " hours");
 
             // execute loop
             loopEventSchedule(eventS[1]);
@@ -406,6 +411,7 @@ $(document).ready(function () {
             $("#startUpdateEventBtn").css("display", "block");
             $("#eventScheduleStatus").text("(Is Stopped)");
             $("#eventScheduleStatus").css("color", "red");
+            $("#eventScheduleCycle").text("N/A");
         }
     }
 

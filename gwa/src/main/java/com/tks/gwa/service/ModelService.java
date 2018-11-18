@@ -3,6 +3,7 @@ package com.tks.gwa.service;
 import com.tks.gwa.dto.LogCrawl;
 import com.tks.gwa.dto.ModelDTO;
 import com.tks.gwa.dto.ModelSDTO;
+import com.tks.gwa.dto.ModelSearchFilter;
 import com.tks.gwa.entity.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -149,4 +150,10 @@ public interface ModelService {
      * @param modelID
      */
     public void updateStatusErrorModel(int modelID);
+
+    /**
+     *
+     * @return
+     */
+    public List<ModelSearchFilter> getListFilters();
 }

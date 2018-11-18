@@ -352,48 +352,48 @@ $(document).ready(function () {
         if (result) {
             $.each(result, function (i, value) {
                 if (value.imagetype.name == "Package") {
-                    listPackageImage += "<img id='" + value.imageUrl + "' class=\"mySlides1\" src=\"" + value.imageUrl + "\"\n" +
-                        "                                                 style=\"width:100%; height:100%\">";
+                    listPackageImage += "<a href='" + value.imageUrl + "'><img id='" + value.imageUrl + "' class=\"mySlides1\" src=\"" + value.imageUrl + "\"\n" +
+                        "                                                 style=\"width:100%; height:100%\"></a>";
                     thumbImage = value.imageUrl;
                 }
                 if (value.imagetype.name == "Item picture") {
-                    listItemImage += "<img class=\"mySlides2\" src=\"" + value.imageUrl + "\"\n" +
-                        "                                                 style=\"width:100%; height:100%\">";
+                    listItemImage += "<a href='" + value.imageUrl + "'><img class=\"mySlides2\" src=\"" + value.imageUrl + "\"\n" +
+                        "                                                 style=\"width:100%; height:100%\"></a>";
                     if (!thumbImage) {
                         thumbImage = value.imageUrl;
                     }
                 }
                 if (value.imagetype.name == "Other picture") {
-                    listOtherImage += "<img class=\"mySlides3\" src=\"" + value.imageUrl + "\"\n" +
-                        "                                                 style=\"width:100%; height:100%\">";
+                    listOtherImage += "<a href='" + value.imageUrl + "'><img class=\"mySlides3\" src=\"" + value.imageUrl + "\"\n" +
+                        "                                                 style=\"width:100%; height:100%\"></a>";
                     if (!thumbImage) {
                         thumbImage = value.imageUrl;
                     }
                 }
                 if (value.imagetype.name == "Contents") {
-                    listContentsImage += "<img class=\"mySlides4\" src=\"" + value.imageUrl + "\"\n" +
-                        "                                                 style=\"width:100%; height:100%\">";
+                    listContentsImage += "<a href='" + value.imageUrl + "'><img class=\"mySlides4\" src=\"" + value.imageUrl + "\"\n" +
+                        "                                                 style=\"width:100%; height:100%\"></a>";
                     if (!thumbImage) {
                         thumbImage = value.imageUrl;
                     }
                 }
                 if (value.imagetype.name == "About item") {
-                    listAboutImage += "<img class=\"mySlides5\" src=\"" + value.imageUrl + "\"\n" +
-                        "                                                 style=\"width:100%; height:100%\">";
+                    listAboutImage += "<a href='" + value.imageUrl + "'><img class=\"mySlides5\" src=\"" + value.imageUrl + "\"\n" +
+                        "                                                 style=\"width:100%; height:100%\"></a>";
                     if (!thumbImage) {
                         thumbImage = value.imageUrl;
                     }
                 }
                 if (value.imagetype.name == "Color") {
-                    listColorImage += "<img class=\"mySlides6\" src=\"" + value.imageUrl + "\"\n" +
-                        "                                                 style=\"width:100%; height:100%\">";
+                    listColorImage += "<a href='" + value.imageUrl + "'><img class=\"mySlides6\" src=\"" + value.imageUrl + "\"\n" +
+                        "                                                 style=\"width:100%; height:100%\"></a>";
                     if (!thumbImage) {
                         thumbImage = value.imageUrl;
                     }
                 }
                 if (value.imagetype.name == "Assembly guide") {
-                    listAssemblyImage += "<img class=\"mySlides7\" src=\"" + value.imageUrl + "\"\n" +
-                        "                                                 style=\"width:100%; height:100%\">";
+                    listAssemblyImage += "<a href='" + value.imageUrl + "'><img class=\"mySlides7\" src=\"" + value.imageUrl + "\"\n" +
+                        "                                                 style=\"width:100%; height:100%\"></a>";
                     if (!thumbImage) {
                         thumbImage = value.imageUrl;
                     }
@@ -801,7 +801,9 @@ $(document).ready(function () {
         $.each(result, function (idx, value) {
 
             appendTop5 += "<div class=\"image-top-five\">\n" +
-                "                <img class=\"image-top-five-items\" src=\"" + value.thumbImage + "\"/>\n" +
+                "                <a href='/gwa/pages/modeldetail.html?modelID=" + value.id + "'>" +
+                "<img class=\"image-top-five-items\" src=\"" + value.thumbImage + "\"/>" +
+                "</a>\n" +
                 "                </div>";
 
         });
