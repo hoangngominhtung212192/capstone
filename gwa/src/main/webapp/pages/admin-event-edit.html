@@ -19,6 +19,7 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="/gwa/admin/dist/css/skins/skin-blue.min.css">
+    <link rel="stylesheet" href="/gwa/css/jquery.growl.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -257,7 +258,85 @@
                         <h4>Title</h4>
                         <input type="text" class="form-control"style="background-color: white" placeholder="Title" id="txtTitle"/>
                         <h4>Location</h4>
-                        <input type="text" class="form-control"style="background-color: white" placeholder="Location" id="txtLocation"/>
+                        <div id="locationField">
+                            <input id="txtLocation" placeholder="Enter your address" class="form-control"
+                                   onFocus="geolocate()" type="text" required maxlength="250"></input>
+                        </div>
+                        <input type="text" readonly id="txtLat" class="form-control" style="width: 300px;display: none;" >
+                        <input type="text" readonly id="txtLong" class="form-control" style="width: 300px;display: none;" >
+                        <script>
+                            // This example displays an address form, using the autocomplete feature
+                            // of the Google Places API to help users fill in the information.
+
+                            // This example requires the Places library. Include the libraries=places
+                            // parameter when you first load the API. For example:
+                            // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+                            var placeSearch, autocomplete;
+                            var componentForm = {
+                                street_number: 'short_name',
+                                route: 'long_name',
+                                locality: 'long_name',
+                                administrative_area_level_1: 'short_name',
+                                country: 'long_name',
+                                postal_code: 'short_name'
+                            };
+
+                            function initAutocomplete() {
+                                // Create the autocomplete object, restricting the search to geographical
+                                // location types.
+                                autocomplete = new google.maps.places.Autocomplete(
+                                    /** @type {!HTMLInputElement} */(document.getElementById('txtLocation')),
+                                    {types: ['geocode']});
+
+                                // When the user selects an address from the dropdown, populate the address
+                                // fields in the form.
+                                autocomplete.addListener('place_changed', fillInAddress);
+                            }
+
+                            function fillInAddress() {
+                                // Get the place details from the autocomplete object.
+                                var place = autocomplete.getPlace();
+                                var addrLat = place.geometry.location.lat();
+                                var addrLong = place.geometry.location.lng();
+                                $('#txtLat').val(addrLat);
+                                $('#txtLong').val(addrLong);
+
+
+                                // for (var component in componentForm) {
+                                //     document.getElementById(component).value = '';
+                                //     document.getElementById(component).disabled = false;
+                                // }
+                                //
+                                // // Get each component of the address from the place details
+                                // // and fill the corresponding field on the form.
+                                // for (var i = 0; i < place.address_components.length; i++) {
+                                //     var addressType = place.address_components[i].types[0];
+                                //     if (componentForm[addressType]) {
+                                //         var val = place.address_components[i][componentForm[addressType]];
+                                //         document.getElementById(addressType).value = val;
+                                //     }
+                                // }
+                            }
+
+                            // Bias the autocomplete object to the user's geographical location,
+                            // as supplied by the browser's 'navigator.geolocation' object.
+                            function geolocate() {
+                                if (navigator.geolocation) {
+                                    navigator.geolocation.getCurrentPosition(function(position) {
+                                        var geolocation = {
+                                            lat: position.coords.latitude,
+                                            lng: position.coords.longitude
+                                        };
+                                        var circle = new google.maps.Circle({
+                                            center: geolocation,
+                                            radius: position.coords.accuracy
+                                        });
+                                        autocomplete.setBounds(circle.getBounds());
+                                    });
+                                }
+                            }
+                        </script>
                         <h4>Description</h4>
                         <textarea id="txtDescription" class="form-control"></textarea>
                         <h4>Thumbnail image</h4>
@@ -343,6 +422,7 @@
 <script src="/gwa/admin/bower_components/fastclick/lib/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/gwa/admin/dist/js/adminlte.min.js"></script>
+<script src="/gwa/js/plugins/jquery.growl.js"></script>
 <!-- Sparkline -->
 <script src="/gwa/admin/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
 <!-- jvectormap  -->
@@ -356,5 +436,7 @@
 <script src="/gwa/admin/dist/js/pages/dashboard2.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/gwa/admin/dist/js/demo.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASrDg7CwB0GQ_XGzWfbkP4RUE_31YCy1M&libraries=places&callback=initAutocomplete"
+        type="text/javascript"></script>
 </body>
 </html>
