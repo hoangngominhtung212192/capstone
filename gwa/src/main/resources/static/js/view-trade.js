@@ -633,6 +633,7 @@ function renderData(data) {
 
     $("#traderName").html(postData["account"]["username"]);
     $("#traderName").attr("title", "See " + postData["account"]["username"] + " profile");
+    $("#traderName").attr("href", "/gwa/pages/profile.html?accountID=" + postData["account"]["id"]);
 
     $("#tradeType").attr("style", (postData["tradeType"] === 1) ? "color : red" : "color : blue");
     $("#tradeType").html((postData["tradeType"] === 1) ? "sell" : "buy");
@@ -642,8 +643,15 @@ function renderData(data) {
     $("#tradeBrand").html(postData["brand"]);
 
     $("#tradeModel").html(postData["model"]);
+    if (postData["quantity"] == 0){
+        $("#tradeQuantity").html("OUT OF STOCK");
+        $("#sendOrderHelpBlock").html("You ca't send order because this trade is out of stock.");
+        $("#openSendOrderModalBtn").attr("disabled", "true");
+    }else {
+        $("#tradeQuantity").html(postData["quantity"]);
+    }
 
-    $("#tradeQuantity").html(postData["quantity"]);
+
 
     $("#tradeDesc").html("<h4>Description</h4>");
     $("#tradeDesc").append(postData["description"]);
@@ -665,6 +673,24 @@ function renderData(data) {
         divImage.append($('<img src="' + imgList[i] + '" alt=slide"' + i + '" class="img-responsive">'));
         slideIndicator.append(liIndicator);
         slideImages.append(divImage);
+
+    }
+
+    var numberOfStars = postData["numberOfStar"];
+    var numberOfRaters = postData["numberOfRater"];
+    $("#tradeRating").html("<strong>Rating: </strong>");
+    if (numberOfRaters === 0) {
+        $("#tradeRating").append("N/A");
+    } else {
+        // $("#tradeRating").html("");
+        var numberOfFullStars = Math.floor(numberOfStars / numberOfRaters);
+        var HaftStars = (numberOfStars % numberOfRaters > 0) ? 1 : 0;
+        for (var i = 0; i < numberOfFullStars; i++) {
+            $("#tradeRating").append('<span class="fa fa-star checked"></span>');
+        }
+        if (HaftStars !== 0) {
+            $("#tradeRating").append('<span class="fa fa-star-half checked"></span>');
+        }
 
     }
 
@@ -978,7 +1004,7 @@ $('#profileModal').on('show.bs.modal', function (event) {
     var modal = $(this);
     modal.find('input,textarea').val('');
     loadProfileData(id, 1);
-    // modal.find('.modal-footer #deleteTradePostBtn').attr('onclick','deleteTradePost('+ id +');');
+    modal.find('.modal-footer .btn-primary').attr('href','/gwa/pages/profile.html?accountID=' + id);
 });
 $('#acceptModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget); // Button that triggered the modal
