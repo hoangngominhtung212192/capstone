@@ -174,7 +174,8 @@ $(document).ready(function () {
                 }
                 console.log(result);
                 console.log(status);
-                alert("Article updated successfully!");
+                // alert("Article updated successfully!");
+                $.growl.notice({message: "Article updated successfully!"});
                 window.location.href = "detail?id=" + result.id;
             },
             error : function(e) {

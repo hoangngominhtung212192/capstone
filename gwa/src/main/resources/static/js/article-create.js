@@ -102,6 +102,8 @@ $(document).ready(function() {
                 ajaxImagePost(formData);
 
                 alert("Article created successfully!");
+                $.growl.notice({message: "Article created successfully!"});
+
                 window.location.href = "detail?id=" + result.id;
 
             },

@@ -35,7 +35,7 @@ $(document).ready(function () {
 // callback function
         onPageClick: function (event, page) {
             currentPage = page;
-            $('#search-result').html("");
+            $('#tblBody').html("");
             searchArticle();
         },
 
@@ -55,20 +55,19 @@ $(document).ready(function () {
             totalPages: totalPage
         }));
     }
-    searchArticle();
-
+    // searchArticle();
+    authentication();
 
     function appendResult(result){
         for (var i = 0; i < result.length; i++) {
-            var article = $('<td>'+result[i].id+'</td>' +
-                '<td>\'+result[i].title+\'</td>' +
-                '<td>\'+result[i].accountID.username+\'</td>' +
-                '<td>\'+result[i].date+\'</td>' +
-                '<td>\'+result[i].category+\'</td>' +
-                '<td>\'+result[i].approvalStatus+\'</td>' +
-                '<td><a href="/gwa/article/detail?id='+result[i].id+'">Link</a><a href="/gwa/admin/article/edit?id='+result[i].id+'">Edit</a></td>');
-
-            $('#search-result').append(article);
+            var article = $('<tr><td>'+result[i].id+'</td>' +
+                '<td>'+result[i].title+'</td>' +
+                '<td>'+result[i].account.username+'</td>' +
+                '<td>'+result[i].date+'</td>' +
+                '<td>'+result[i].category+'</td>' +
+                '<td>'+result[i].approvalStatus+'</td>' +
+                '<td><a href="/gwa/article/detail?id='+result[i].id+'">Link</a> / <a href="/gwa/admin/article/edit?id='+result[i].id+'">Edit</a></td></tr>');
+            $('#tblBody').append(article);
         }
         $pagination.twbsPagination('destroy');
         if (totalPage > 1){
@@ -83,7 +82,7 @@ $(document).ready(function () {
     $("#btnSearch").click(function (event) {
         event.preventDefault();
         console.log("searching")
-        var searchDiv = document.getElementById("search-result");
+        var searchDiv = document.getElementById("tblBody");
         while (searchDiv.firstChild) {
             searchDiv.removeChild(searchDiv.firstChild);
         }
@@ -93,14 +92,15 @@ $(document).ready(function () {
     searchArticle();
     function searchArticle() {
         var searchValue = $("#txtSearch").val();
-console.log("Searching value "+searchValue);
+        console.log("Searching value "+searchValue);
         $.ajax({
             type : "POST",
             url : "/gwa/api/article/searchArticleByStatusAndPage",
             data : {
                 title : searchValue,
-                status : currentStatus,
-                sorttype : currentSortType,
+                cate : $('#cbCateType').val(),
+                status : $('#cbStatus').val(),
+                sorttype : $('#cbSortType').val(),
                 pageNum : currentPage
             },
             async: false,
@@ -126,23 +126,8 @@ console.log("Searching value "+searchValue);
     }
 
 
-    //search function
-    $("#btnSearch").click(function (event) {
-        event.preventDefault();
-        var searchDiv = document.getElementById("tblBody");
-        while (searchDiv.firstChild) {
-            searchDiv.removeChild(searchDiv.firstChild);
-        }
-        var searchValue = document.getElementById("txtSearch").value;
-
-        searchArticle(searchValue);
-
-
-    })
-
-
     /* Begin authentication & notification */
-    authentication();
+    // authentication();
 
     var createdDate;
     var account_session_id;

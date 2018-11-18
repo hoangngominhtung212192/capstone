@@ -171,8 +171,6 @@ $(document).ready(function () {
 
     var notidescription;
     function updateArticle(data) {
-
-
         $.ajax({
             type : "POST",
             contentType : "application/json",
