@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import tks.com.gwaandroid.R;
+import tks.com.gwaandroid.constant.AppConstant;
 import tks.com.gwaandroid.model.Modelimage;
 
 /**
@@ -62,9 +63,9 @@ public class CustomGalleryAdapter extends RecyclerView.Adapter<CustomGalleryAdap
         holder.gImageType.setText(modelimage.getImagetype().getName());
 
         // download image from url
-        Picasso picasso = Picasso.with(context);
+        Picasso picasso = Picasso.get();
         if (modelimage.getImageUrl().contains("localhost:8080")) {
-            String imageUrl = modelimage.getImageUrl().replace("localhost", "192.168.1.6");
+            String imageUrl = modelimage.getImageUrl().replace("localhost",AppConstant.HOST_NAME);
             picasso.load(imageUrl)
                     .placeholder((R.drawable.loading_icon))
                     .fit()

@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         if (accountID > 0) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            finish();
         }
 
         // initialize
