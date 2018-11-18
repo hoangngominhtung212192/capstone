@@ -59,34 +59,6 @@ var defaultPaginationOpts = {
             totalPages: totalPage
         }));
     }
-    function getEventData() {
-        $.ajax({
-            type : "POST",
-            url : "/gwa/api/event/getEventByStatusAndPage",
-            data : {
-                status : currentStatus,
-                sorttype : currentSortType,
-                pageNum : currentPage
-            },
-            async: false,
-            success : function(result, status) {
-                var data = result[1];
-                totalPage = result[0];
-                console.log(result);
-                console.log(status);
-
-                for (var i in data){
-                    appendResult(data[i]);
-                }
-
-
-            },
-            error : function(e) {
-                alert("No event with matching title found!");
-                console.log("ERROR: ", e);
-            }
-        });
-    }
 
     $("#btnSearch").click(function (event) {
         currentPage = 1;

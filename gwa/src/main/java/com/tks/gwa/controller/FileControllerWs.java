@@ -1,5 +1,6 @@
 package com.tks.gwa.controller;
 
+import com.tks.gwa.dto.ResponseImage;
 import com.tks.gwa.dto.UploadFileResponse;
 import com.tks.gwa.service.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,4 +22,7 @@ public interface FileControllerWs {
 
     @GetMapping("/downloadFile/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request);
+
+    @PostMapping("/image/upload")
+    public ResponseImage uploadImg(@RequestPart  MultipartFile upload, HttpServletRequest request);
 }

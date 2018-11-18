@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | Dashboard</title>
+    <title>Admin | Dashboard</title>
 
     <!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>-->
 
@@ -236,8 +236,8 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Dashboard
-                <small>Version 2.0</small>
+                Event
+                <small>Manage Events</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -255,50 +255,24 @@
                         </div>
                         <form class="sidebar-form">
                             <div class="input-group">
-
-                                <input id="txtSearch" type="text" name="q" class="form-control"style="background-color: white"
-                                       placeholder="Search..."> <span class="input-group-btn">
-										<button type="submit" name="search" id="btnSearch"
-                                                class="btn btn-flat">
-											<i class="fa fa-search"></i>
-										</button>
+                                <form>
+                                    <input id="txtSearch" type="text" name="q" class="form-control"style="background-color: white"
+                                        placeholder="Search..."> <span class="input-group-btn">
+										<input type="submit" name="search" id="btnSearch"
+                                                class="btn btn-flat" value="Search"/>
 									</span>
-
+                                </form>
                             </div>
                         </form>
                         <div class="io-list-header" style="margin: 10px; margin-left: 12px;">
-
-                            <div class="col-left">
-                                <span class="txt">Order by</span>&nbsp;
-                                <div class="styled-select slate">
-                                    <select id="cbo-order-1" class="editable-select">
-                                        <option value="Deadline">Price</option>
-                                        <option value="Division">Released Date</option>
-                                    </select>&nbsp;
-                                </div>
-
-                                <!--    Begin ASC/DESC    -->
-                                <div class="styled-select slate">
-                                    <select id="cbo-order-2" class="editable-select">
-                                        <option value="Deadline">Ascending</option>
-                                        <option value="Division">Descending</option>
-                                    </select>&nbsp;
-                                </div>
-                            </div>
-                            <div class="col-right">
-                                <div class="my-pagination" style="margin-right: 17px;">
-                                    <span class="my-page my-active">First</span>
-                                    <span class="my-page"><a href="#">Prev</a></span>
-                                    <span class="my-page my-active">1</span>
-                                    <span class="my-page"><a href="#">2</a></span>
-                                    <span class="my-page"><a href="#">3</a></span>
-                                    <span class="my-page"><a href="#">4</a></span>
-                                    <span class="my-page"><a href="#">5</a></span>
-                                    <span class="my-page">...</span>
-                                    <span class="my-page"><a href="#">Next</a></span>
-                                    <span class="my-page"><a href="#">Last</a></span>
-                                </div>
-                            </div>
+                            <select class="custom-select my-1 mr-sm-2" style="width: 250px;display: inline-block" id="cbSortType">
+                                <option value="desc" selected>Newest</option>
+                                <option value="asc">Oldest</option>
+                            </select>
+                            <select class="custom-select my-1 mr-sm-2" style="width: 250px;display: inline-block" id="cboStatus">
+                                <option value="Active" selected>Ongoing/future events</option>
+                                <option value="Finished">Finished events</option>
+                            </select>
                         </div>
                         <!--    End ASC/DESC    -->
                         <!-- /.box-header -->
@@ -336,37 +310,11 @@
                     <!-- /.box -->
 
                     <div class="io-list-header" style="margin: 10px; margin-left: 12px;">
-
-                        <div class="col-left">
-                            <span class="txt">Order by</span>&nbsp;
-                            <div class="styled-select slate">
-                                <select id="cbo-order-1" class="editable-select">
-                                    <option value="Deadline">Price</option>
-                                    <option value="Division">Released Date</option>
-                                </select>&nbsp;
-                            </div>
-
-                            <!--    Begin ASC/DESC    -->
-                            <div class="styled-select slate">
-                                <select id="cbo-order-2" class="editable-select">
-                                    <option value="Deadline">Ascending</option>
-                                    <option value="Division">Descending</option>
-                                </select>&nbsp;
-                            </div>
-                        </div>
-                        <div class="col-right">
-                            <div class="my-pagination" style="margin-right: 17px;">
-                                <span class="my-page my-active">First</span>
-                                <span class="my-page"><a href="#">Prev</a></span>
-                                <span class="my-page my-active">1</span>
-                                <span class="my-page"><a href="#">2</a></span>
-                                <span class="my-page"><a href="#">3</a></span>
-                                <span class="my-page"><a href="#">4</a></span>
-                                <span class="my-page"><a href="#">5</a></span>
-                                <span class="my-page">...</span>
-                                <span class="my-page"><a href="#">Next</a></span>
-                                <span class="my-page"><a href="#">Last</a></span>
-                            </div>
+                        <div class="justify-content-center" style="margin-bottom: 20px;float: right" id="paginationDiv">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination mt-50" id="pagination-event">
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                     <!--    End ASC/DESC    -->
@@ -387,6 +335,7 @@
 <!--<script src="/admin/bower_components/jquery/dist/jquery.min.js"></script>-->
 <!-- Bootstrap 3.3.7 -->
 <script src="/gwa/admin/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/gwa/js/plugins/jquery.twbsPagination.js"></script>
 <!-- FastClick -->
 <script src="/gwa/admin/bower_components/fastclick/lib/fastclick.js"></script>
 <!-- AdminLTE App -->

@@ -95,8 +95,8 @@ public class ArticleWSImpl implements ArticleWS {
     }
 
     @Override
-    public ResponseEntity<List<Object>> searchArticleByStatusAndPage(String title, String status, String sorttype, int pageNum) {
-        List<Object> result = articleService.searchArticleWithSortAndPageByStatus(title, status, sorttype, pageNum);
+    public ResponseEntity<List<Object>> searchArticleByStatusAndPage(String title, String cate, String status, String sorttype, int pageNum) {
+        List<Object> result = articleService.searchArticleWithSortAndPageByStatus(title, cate, status, sorttype, pageNum);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

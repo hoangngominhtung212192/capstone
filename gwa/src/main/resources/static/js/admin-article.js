@@ -1,74 +1,122 @@
 $(document).ready(function () {
-    function authentication() {
+    var currentStatus = "approved";
 
-        $.ajax({
-            type: "GET",
-            url: "/gwa/api/user/checkLogin",
-            complete: function (xhr, status) {
+    var currentSortType = $("#cbSortType option:selected").val();
 
-                if (status == "success") {
-                    // username click
-                    usernameClick();
+    var currentPage = 1;
+    var totalPage = 1;
+    var $pagination = $("#pagination-event");
+    var isSearch = false;
+    var defaultPaginationOpts = {
+        totalPages: totalPage,
+// the current page that show on start
+        startPage: 1,
 
-                    var xhr_data = xhr.responseText;
-                    var jsonResponse = JSON.parse(xhr_data);
+// maximum visible pages
+        visiblePages: 3,
 
-                    role_session = jsonResponse["role"].name;
-                    account_session_id = jsonResponse["id"];
+        initiateStartPageClick: false,
 
-                    var username = jsonResponse["username"];
-                    console.log(role_session + " " + username + " is on session!");
+// template for pagination links
+        href: false,
 
-                    // click profile button
-                    profileClick(account_session_id);
+// variable name in href template for page number
+        hrefVariable: '{{number}}',
 
-                    // display username, profile and logout button
-                    $("#username").text(username)
-                    $("#username").css("display", "block");
-                    $(".dropdown-menu-custom-profile").css("display", "block");
-                    $(".dropdown-menu-custom-logout").css("display", "block");
+// Text labels
+        first: '&laquo;',
+        prev: '❮',
+        next: '❯',
+        last: '&raquo;',
 
-                    // get current profile
-                    account_profile_on_page_id = getUrlParameter('accountID');
-                    getProfile();
-                } else {
-                    // display login and register button
-                    console.log("Guest is accessing !");
-                    window.location.href = "/login";
-                }
+// carousel-style pagination
+        loop: false,
 
-            }
-        });
+// callback function
+        onPageClick: function (event, page) {
+            currentPage = page;
+            $('#search-result').html("");
+            searchArticle();
+        },
+
+// pagination Classes
+        paginationClass: 'pagination',
+        nextClass: 'page-item',
+        prevClass: 'page-item',
+        lastClass: 'page-item',
+        firstClass: 'page-item',
+        pageClass: 'page-item',
+        activeClass: 'active',
+        disabledClass: 'disabled'
+    };
+    $pagination.twbsPagination('destroy');
+    if (totalPage > 1){
+        $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+            totalPages: totalPage
+        }));
     }
-
-    getAllArticle();
-
+    searchArticle();
 
 
-    function getAllArticle() {
-        console.log("getting all article");
+    function appendResult(result){
+        for (var i = 0; i < result.length; i++) {
+            var article = $('<td>'+result[i].id+'</td>' +
+                '<td>\'+result[i].title+\'</td>' +
+                '<td>\'+result[i].accountID.username+\'</td>' +
+                '<td>\'+result[i].date+\'</td>' +
+                '<td>\'+result[i].category+\'</td>' +
+                '<td>\'+result[i].approvalStatus+\'</td>' +
+                '<td><a href="/gwa/article/detail?id='+result[i].id+'">Link</a><a href="/gwa/admin/article/edit?id='+result[i].id+'">Edit</a></td>');
+
+            $('#search-result').append(article);
+        }
+        $pagination.twbsPagination('destroy');
+        if (totalPage > 1){
+            $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+                totalPages: totalPage,
+                currentPage: currentPage,
+                startPage: currentPage,
+
+            }));
+        }
+    }
+    $("#btnSearch").click(function (event) {
+        event.preventDefault();
+        console.log("searching")
+        var searchDiv = document.getElementById("search-result");
+        while (searchDiv.firstChild) {
+            searchDiv.removeChild(searchDiv.firstChild);
+        }
+        isSearch = true;
+        searchArticle();
+    })
+    searchArticle();
+    function searchArticle() {
+        var searchValue = $("#txtSearch").val();
+console.log("Searching value "+searchValue);
         $.ajax({
             type : "POST",
-            contentType : "application/json",
-            url : "/gwa/api/article/getAllArticle",
+            url : "/gwa/api/article/searchArticleByStatusAndPage",
+            data : {
+                title : searchValue,
+                status : currentStatus,
+                sorttype : currentSortType,
+                pageNum : currentPage
+            },
+            async: false,
             success : function(result, status) {
+                var data = result[1];
+                totalPage = result[0];
                 console.log(result);
                 console.log(status);
-                for (var i in result){
-
-                    var tus = parseInt(result[i].approvalStatus) - 1;
-                    var row = $('<tr>\n' +
-                        '                    <td>' + result[i].id + '</td>\n' +
-                        '                    <td>' + result[i].title + '</td>\n' +
-                        '                    <td>' + result[i].account.id + '</td>\n' +
-                        '                    <td>' + result[i].date + '</td>\n' +
-                        '                    <td>' + result[i].category + '</td>\n' +
-                        '                    <td>' + result[i].approvalStatus + '</td>\n' +
-                        '                    <td><a href="/gwa/admin/article/edit?id=' + result[i].id + '">View detail...</a></td>\n' +
-                        '                  </tr>')
-                    $('#tblBody').append(row);
-                    // document.getElementById("idx" + result[i].id ).options[tus].selected = 'selected';
-                }
+                console.log("seach numb of pages: "+result[0]);
+                $pagination.twbsPagination('destroy');
+                // if (totalPage > 1){
+                $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+                    totalPages: totalPage
+                }));
+                // }
+                appendResult(data);
             },
             error : function(e) {
                 alert("No article with matching title found!");
@@ -76,6 +124,7 @@ $(document).ready(function () {
             }
         });
     }
+
 
     //search function
     $("#btnSearch").click(function (event) {
@@ -85,48 +134,13 @@ $(document).ready(function () {
             searchDiv.removeChild(searchDiv.firstChild);
         }
         var searchValue = document.getElementById("txtSearch").value;
-        if (searchValue.length == 0){
-            getAllArticle();
-        } else {
-            searchArticle(searchValue);
-        }
+
+        searchArticle(searchValue);
+
 
     })
 
-    function searchArticle(data) {
-        console.log(data);
-        var displayDiv = document.getElementById("search-result");
 
-        $.ajax({
-            type : "POST",
-            contentType : "application/json",
-            url : "/gwa/api/article/searchArticle",
-            data : data.toString(),
-            success : function(result, status) {
-                console.log(result);
-                console.log(status);
-                console.log("first res: "+ result[0].account.id );
-                for (var i in result){
-                    // var tus = parseInt(result[i].approvalStatus) - 1;
-                    var row = $('<tr>\n' +
-                        '                    <td>' + result[i].id + '</td>\n' +
-                        '                    <td>' + result[i].title + '</td>\n' +
-                        '                    <td>' + result[i].account.username + '</td>\n' +
-                        '                    <td>' + result[i].date + '</td>\n' +
-                        '                    <td>' + result[i].category + '</td>\n' +
-                        '                    <td>' + result[i].approvalStatus + '</td>\n' +
-                        '                    <td><a href="/gwa/admin/article/edit?id=' + result[i].id + '">View detail...</a></td>\n' +
-                        '                  </tr>')
-                    $('#tblBody').append(row);
-                    // document.getElementById("idx" + result[i].id ).options[tus].selected = 'selected';
-                }
-            },
-            error : function(e) {
-                alert("No article with matching title found!");
-                console.log("ERROR: ", e);
-            }
-        });
-    }
     /* Begin authentication & notification */
     authentication();
 

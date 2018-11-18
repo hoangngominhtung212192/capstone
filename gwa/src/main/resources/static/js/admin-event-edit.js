@@ -111,7 +111,23 @@ $(document).ready(function() {
         var staDate = $("#txtStartDate").val();
         var endDate = $("#txtEndDate").val();
 
-        checkMatchingEvt(location,staDate,endDate);
+        var regstaDate = $('#txtRegStartDate').val();
+        var regendDate = $('#txtRegEndDate').val();
+        var d1 = Date.parse(staDate);
+        var d2 = Date.parse(endDate);
+        var d3 = Date.parse(regstaDate);
+        var d4 = Date.parse(regendDate);
+        if (d3 < d4 && d4 < d1 && d1 < d2){
+            var minn = $("#txtAttMin").val();
+            var maxx = $("#txtAttMax").val()
+            if (minn > maxx){
+                checkMatchingEvt(location,staDate,endDate);
+            } else {
+                alert("Minimum attendee should be lower than maximum attendee")
+            }
+        } else {
+            alert("Input date is invalid!")
+        }
 
     })
     function checkMatchingEvt(location, staDate, endDate) {

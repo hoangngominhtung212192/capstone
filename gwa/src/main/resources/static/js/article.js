@@ -57,47 +57,7 @@ $(document).ready(function () {
     }
     searchArticle();
 
-    function authentication() {
 
-        $.ajax({
-            type: "GET",
-            url: "/gwa/api/user/checkLogin",
-            complete: function (xhr, status) {
-
-                if (status == "success") {
-                    // username click
-                    usernameClick();
-
-                    var xhr_data = xhr.responseText;
-                    var jsonResponse = JSON.parse(xhr_data);
-
-                    role_session = jsonResponse["role"].name;
-                    account_session_id = jsonResponse["id"];
-
-                    var username = jsonResponse["username"];
-                    console.log(role_session + " " + username + " is on session!");
-
-                    // click profile button
-                    profileClick(account_session_id);
-
-                    // display username, profile and logout button
-                    $("#username").text(username)
-                    $("#username").css("display", "block");
-                    $(".dropdown-menu-custom-profile").css("display", "block");
-                    $(".dropdown-menu-custom-logout").css("display", "block");
-
-                    // get current profile
-                    account_profile_on_page_id = getUrlParameter('accountID');
-                    getProfile();
-                } else {
-                    // display login and register button
-                    console.log("Guest is accessing !");
-                    window.location.href = "/login";
-                }
-
-            }
-        });
-    }
     function appendResult(result){
         for (var i = 0; i < result.length; i++) {
             var article = $('<div class="single-blog-post d-flex row">\n' +
@@ -168,7 +128,7 @@ $(document).ready(function () {
                 appendResult(data);
             },
             error : function(e) {
-                alert("No event with matching title found!");
+                alert("No article with matching title found!");
                 console.log("ERROR: ", e);
             }
         });

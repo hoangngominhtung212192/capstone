@@ -96,54 +96,74 @@ $(document).ready(function() {
         var location = $("#txtLocation").val();
         var staDate = $("#txtStartDate").val();
         var endDate = $("#txtEndDate").val();
-        checkMatchingEvt(location,staDate,endDate);
 
+        var regstaDate = $('#txtRegStartDate').val();
+        var regendDate = $('#txtRegEndDate').val();
+        var d1 = Date.parse(staDate);
+        var d2 = Date.parse(endDate);
+        var d3 = Date.parse(regstaDate);
+        var d4 = Date.parse(regendDate);
+        if (d3 < d4 && d4 < d1 && d1 < d2){
+            var minn = $("#txtAttMin").val();
+            var maxx = $("#txtAttMax").val()
+            if (minn > maxx){
+                checkMatchingEvt(location,staDate,endDate);
+            } else {
+                alert("Minimum attendee should be lower than maximum attendee")
+            }
+        } else {
+            alert("Input date is invalid!")
+        }
     })
     function checkMatchingEvt(location, staDate, endDate) {
+
         var address = $("#txtLocation").val();
-        var lat = $('#txtLat').val();
-        var long = $('#txtLong').val();
-        var addrlocation = address + "@" + lat + "@" + long;
+        if (address != ""){
+            var lat = $('#txtLat').val();
+            var long = $('#txtLong').val();
+            var addrlocation = address + "@" + lat + "@" + long;
 
-        $.ajax({
-            type: "POST",
-            url: "/gwa/api/event/checkMatchingLocaNtime",
-            data: {
-                location: location,
-                staDate: staDate,
-                endDate: endDate,
-            },
+            $.ajax({
+                type: "POST",
+                url: "/gwa/api/event/checkMatchingLocaNtime",
+                data: {
+                    location: location,
+                    staDate: staDate,
+                    endDate: endDate,
+                },
 
-            success:function (result, status) {
-                console.log("result len: "+result.length);
-                if (result.length==0){
-                    var formEvent = {
-                        title : $("#txtTitle").val(),
-                        location : addrlocation,
-                        description : $("#txtDescription").val(),
-                        startDate : $("#txtStartDate").val(),
-                        endDate : $("#txtEndDate").val(),
-                        regDateStart : $("#txtRegStartDate").val(),
-                        regDateEnd : $("#txtRegEndDate").val(),
-                        maxAttendee : $("#txtAttMax").val(),
-                        minAttendee : $("#txtAttMin").val(),
-                        ticketPrice : $("#txtPrice").val(),
-                        content : CKEDITOR.instances.contentEditor.getData(),
-                        status : $("#cboStatus").val(),
+                success:function (result, status) {
+                    console.log("result len: "+result.length);
+                    if (result.length==0){
+                        var formEvent = {
+                            title : $("#txtTitle").val(),
+                            location : addrlocation,
+                            description : $("#txtDescription").val(),
+                            startDate : $("#txtStartDate").val(),
+                            endDate : $("#txtEndDate").val(),
+                            regDateStart : $("#txtRegStartDate").val(),
+                            regDateEnd : $("#txtRegEndDate").val(),
+                            maxAttendee : $("#txtAttMax").val(),
+                            minAttendee : $("#txtAttMin").val(),
+                            ticketPrice : $("#txtPrice").val(),
+                            content : CKEDITOR.instances.contentEditor.getData(),
+                            status : $("#cboStatus").val(),
 
+                        }
+
+                        createEvent(formEvent);
+                    } else{
+                        alert("There are events with matching location and time!!");
                     }
-
-                    createEvent(formEvent);
-                } else{
-                    alert("There are events with matching location and time!!");
+                },
+                error:function (e) {
                 }
-            },
-            error:function (e) {
-                alert("err");
-                console.log("error: ",e);
-            }
 
-        })
+            })
+        } else{
+            console.log("location is null");
+        }
+
     }
     function createEvent(data) {
         // formData.append("photoBtn", imageFile, "thumbEvt#"+$('#txtTitle').val() + "." + type);

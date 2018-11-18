@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Dashboard</title>
+  <title>Admin | Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -236,8 +236,8 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Dashboard
-        <small>Version 2.0</small>
+        Event
+        <small>Create Event</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -250,19 +250,20 @@
       <div class="row">
         <div class="col-xs-12" style="width: 100%; margin-left: 20px;">
           <div class="box" style="padding: 10px">
+            <form>
             <div class="box-header">
               <h1 class="box-title">Create a new event</h1>
             </div>
             <h4>Title</h4>
-            <input type="text" class="form-control"style="background-color: white" placeholder="Title" id="txtTitle"/>
+            <input type="text" class="form-control"style="background-color: white" placeholder="Title" id="txtTitle" required maxlength="250"/>
             <h4>Location</h4>
             <!--<input type="text" class="form-control"style="background-color: white" placeholder="Location" id="txtLocation"/>-->
             <div id="locationField">
               <input id="txtLocation" placeholder="Enter your address" class="form-control"
-                     onFocus="geolocate()" type="text"></input>
+                     onFocus="geolocate()" type="text" required maxlength="250"></input>
             </div>
-            <input type="text" readonly id="txtLat" class="form-control" style="width: 300px">
-            <input type="text" readonly id="txtLong" class="form-control" style="width: 300px">
+            <input type="text" readonly id="txtLat" class="form-control" style="width: 300px;display: none;" >
+            <input type="text" readonly id="txtLong" class="form-control" style="width: 300px;display: none;" >
             <script>
                 // This example displays an address form, using the autocomplete feature
                 // of the Google Places API to help users fill in the information.
@@ -337,7 +338,7 @@
                 }
             </script>
             <h4>Description</h4>
-            <textarea id="txtDescription" class="form-control"></textarea>
+            <textarea id="txtDescription" class="form-control" required maxlength="250"></textarea>
             <h4>Thumbnail image</h4>
             <img id="imgthumb" src="#" style="width: 250px">
 
@@ -351,35 +352,25 @@
                   style="display: none; margin-top: 10px;font-size: 15px; color: red"></span>
 
             <h4>Start date</h4>
-            <input type="date" class="form-control"style="background-color: white" placeholder="Start date" id="txtStartDate"/>
+            <input type="date" class="form-control"style="background-color: white" placeholder="Start date" id="txtStartDate" required maxlength="250"/>
             <h4>End date</h4>
-            <input type="date" class="form-control"style="background-color: white" placeholder="End date" id="txtEndDate"/>
+            <input type="date" class="form-control"style="background-color: white" placeholder="End date" id="txtEndDate" required/>
             <h4>Start registration date</h4>
-            <input type="date" class="form-control"style="background-color: white" placeholder="Start date" id="txtRegStartDate"/>
+            <input type="date" class="form-control"style="background-color: white" placeholder="Start date" id="txtRegStartDate" required/>
             <h4>End registration date</h4>
-            <input type="date" class="form-control"style="background-color: white" placeholder="End date" id="txtRegEndDate"/>
+            <input type="date" class="form-control"style="background-color: white" placeholder="End date" id="txtRegEndDate" required/>
             <h4>Maximum number of attendee</h4>
-            <input type="text" class="form-control"style="background-color: white" placeholder="Max number of attendee" id="txtAttMax"/>
+            <input type="text" class="form-control"style="background-color: white" placeholder="Max number of attendee" id="txtAttMax" required/>
             <h4>Minimum number of attendee</h4>
-            <input type="text" class="form-control"style="background-color: white" placeholder="Max number of attendee" id="txtAttMin"/>
+            <input type="text" class="form-control"style="background-color: white" placeholder="Max number of attendee" id="txtAttMin" required/>
             <h4>Ticket price</h4>
-            <input type="text" class="form-control"style="background-color: white" placeholder="Price" id="txtPrice"/>
+            <input type="text" class="form-control"style="background-color: white" placeholder="Price" id="txtPrice" required/>
             <h4>Status</h4>
             <select id="cboStatus" class="editable-select" >
               <option value="Active">Active</option>
               <option value="Inactive">Inactive</option>
               <option value="Cancelled">Cancelled</option>
-            </select>&nbsp;
-            <!--<h4>Thumbnail image</h4>-->
-            <!--<input type="hidden" value="" id="txtThumbnailURL">-->
-            <!--<div>-->
-              <!--<form method="POST" name="singleUploadForm" id="singleUploadForm"  >-->
-                <!--File:-->
-                <!--<input type="file" name="file" id="singleFileUploadInput" required/> <br/>-->
-                <!--<input type="submit" value="Upload"/>-->
-              <!--</form>-->
-            <!--</div>-->
-            <!--<input type="submit" value="Upload" id="testUpload"/>-->
+            </select>&nbsp
             <h4>Content</h4>
             <div style="margin-bottom: 10px">
               <textarea name="contentEditor" id="contentEditor" ></textarea>
@@ -392,23 +383,21 @@
                     // filebrowserImageUploadUrl: 'http://localhost:8080/gwa/images/upload',
                 });
             </script>
-            <button id="submitBtn">Submit</button>
-            <button id="deleteBtn">Delete</button>
+            <input type="submit" id="submitBtn" value="Submit"></input>
             <!--    End ASC/DESC    -->
             <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="confi-modal">
               <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                   <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Are you sure you want to delete this article?</h4>
+                    <h4 class="modal-title" id="myModalLabel"></h4>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-default" id="modal-btn-yes" >Yes</button>
-                    <button type="button" class="btn btn-primary" id="modal-btn-no">No</button>
                   </div>
                 </div>
               </div>
             </div>
+            </form>
           </div>
           <!-- /.col -->
         </div>

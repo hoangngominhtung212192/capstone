@@ -39,6 +39,7 @@ public interface ArticleWS {
 
     @RequestMapping(value = "/searchArticleByStatusAndPage", method = RequestMethod.POST)
     ResponseEntity<List<Object>> searchArticleByStatusAndPage(@RequestParam("title") String title,
+                                                            @RequestParam("cate") String cate,
                                                             @RequestParam("status") String status,
                                                             @RequestParam("sorttype") String sorttype,
                                                             @RequestParam("pageNum") int pageNum);
