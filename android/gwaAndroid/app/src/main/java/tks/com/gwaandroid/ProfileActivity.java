@@ -21,6 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import tks.com.gwaandroid.api.UserAPI;
+import tks.com.gwaandroid.constant.AppConstant;
 import tks.com.gwaandroid.model.Profile;
 import tks.com.gwaandroid.network.RetrofitClientInstance;
 
@@ -89,10 +90,10 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void bindingData(Profile result) {
         if (result.getAvatar() != null) {
-            Picasso picasso = Picasso.with(this);
+            Picasso picasso = Picasso.get();
 
             if (result.getAvatar().contains("localhost:8080")) {
-                String imageUrl = result.getAvatar().replace("localhost", "192.168.1.6");
+                String imageUrl = result.getAvatar().replace("localhost", AppConstant.HOST_NAME);
                 picasso.load(imageUrl)
                         .placeholder((R.drawable.loading_icon))
                         .fit()
