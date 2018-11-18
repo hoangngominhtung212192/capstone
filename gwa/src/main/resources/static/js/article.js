@@ -168,7 +168,7 @@ $(document).ready(function () {
     $("#btnListArticle").click(function (event) {
         event.preventDefault();
         $('#searchDiv').css("display", "block");
-        $('#cbCateType').css("display", "block");
+        $('#cbCateType').css("display", "inline-block");
         $('#btnListArticle').addClass("active");
         $('#btnGetMyArticles').removeClass("active");
 
