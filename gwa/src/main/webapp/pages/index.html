@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,11 +13,488 @@
     <title>Gunpla World</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="/img/favicon.ico">
-
+    <link rel="icon" href="/gwa/src/main/resources/static/css/img/core-img/favicon.ico">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
     <!-- Core Stylesheet -->
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/gwa/css/jquery.growl.css">
+    <link rel="stylesheet" href="/gwa/css/style.css">
+    <link rel="stylesheet" href="/gwa/css/trademarket.css">
+    <!--<script type="text/javascript" src="/gwa/js/ckeditor/ckeditor.js"></script>-->
 
+    <!-- js -->
+    <script type="text/javascript" src="/gwa/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/gwa/js/html-importer.js"></script>
+
+    <style>
+        /* This is for profile & notification area */
+        /* loading */
+        .loading {
+            position: fixed;
+            z-index: 999;
+            height: 2em;
+            width: 2em;
+            margin: auto;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+        }
+
+        .loading:before {
+            content: '';
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .loading:not(:required) {
+            /* hide "loading..." text */
+            font: 0/0 a;
+            color: transparent;
+            text-shadow: none;
+            background-color: transparent;
+            border: 0;
+        }
+
+        .loading:not(:required):after {
+            content: '';
+            display: block;
+            font-size: 10px;
+            width: 1em;
+            height: 1em;
+            margin-top: -0.5em;
+            -webkit-animation: spinner 1500ms infinite linear;
+            -moz-animation: spinner 1500ms infinite linear;
+            -ms-animation: spinner 1500ms infinite linear;
+            -o-animation: spinner 1500ms infinite linear;
+            animation: spinner 1500ms infinite linear;
+            border-radius: 0.5em;
+            -webkit-box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) -1.5em 0 0 0, rgba(0, 0, 0, 0.5) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+            box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) -1.5em 0 0 0, rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+        }
+
+        /* Animation */
+
+        @-webkit-keyframes spinner {
+            0% {
+                -webkit-transform: rotate(0deg);
+                -moz-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                -o-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                -moz-transform: rotate(360deg);
+                -ms-transform: rotate(360deg);
+                -o-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+
+        @-moz-keyframes spinner {
+            0% {
+                -webkit-transform: rotate(0deg);
+                -moz-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                -o-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                -moz-transform: rotate(360deg);
+                -ms-transform: rotate(360deg);
+                -o-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+
+        @-o-keyframes spinner {
+            0% {
+                -webkit-transform: rotate(0deg);
+                -moz-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                -o-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                -moz-transform: rotate(360deg);
+                -ms-transform: rotate(360deg);
+                -o-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spinner {
+            0% {
+                -webkit-transform: rotate(0deg);
+                -moz-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                -o-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                -moz-transform: rotate(360deg);
+                -ms-transform: rotate(360deg);
+                -o-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+
+        .navbar-custom-menu {
+            float: right;
+            font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+            font-weight: 400;
+            height: 100%;
+            width: auto;
+        }
+
+        @media (min-width: 768px) {
+            .navbar-nav {
+                float: left;
+                margin: 0;
+            }
+        }
+
+        .nav {
+            padding-left: 0;
+            margin-bottom: 0;
+            list-style: none;
+            height: 100%;
+        }
+
+        .navbar-custom-menu>.navbar-nav>li {
+            position: relative;
+            margin-top: 25px;
+        }
+
+        .nav>li>a {
+            color: #fff;
+            line-height: 20px;
+            position: relative;
+            display: block;
+            padding: 10px 15px;
+            background-color: transparent;
+            text-decoration: none;
+        }
+
+        @media (min-width: 768px) {
+            .navbar-nav > li > a {
+                padding-top: 15px;
+                padding-bottom: 15px;
+            }
+        }
+
+        .navbar-nav>.user-menu .user-image {
+            float: left;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            margin-right: 10px;
+            margin-top: -2px;
+        }
+
+        .nav>li>a>img {
+            max-width: none;
+            border: 0
+        }
+
+        .navbar-custom-menu>.navbar-nav>li>.dropdown-menu {
+            position: absolute;
+            right: 0;
+            left: auto;
+        }
+
+        .navbar-nav>.user-menu>.dropdown-menu, .navbar-nav>.user-menu>.dropdown-menu>.user-body {
+            border-bottom-right-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+
+        .navbar-nav>.user-menu>.dropdown-menu {
+            border-top-right-radius: 0;
+            border-top-left-radius: 0;
+            padding: 1px 0 0 0;
+            border-top-width: 0;
+            width: 280px;
+            margin-top: 0;
+            display: block;
+        }
+
+        .navbar-nav>.notification-menu-custom>.dropdown-menu {
+            border-top-right-radius: 0;
+            border-top-left-radius: 0;
+            border-top-width: 0;
+            width: 280px;
+            margin-top: 0;
+            display: block;
+            padding-right: 0px;
+        }
+
+
+        .navbar-nav> .notification-menu-custom > a > span.label-warning {
+            position: absolute;
+            top: -10px;
+            right: 22px;
+            text-align: center;
+            font-size: 9px;
+            padding: 2px 3px;
+            line-height: .9;
+            background-color: #00a65a !important;
+            margin: 20px 0 3px 0;
+        }
+
+        .navbar-nav .notification-menu-custom ul.menu  {
+            max-height: 200px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            overflow-x: hidden;
+        }
+
+        .navbar-nav .notification-menu-custom ul.menu a  {
+            color: #4682B4;
+            padding: 10px;
+            display: block;
+            border-bottom: 1px solid #f4f4f4;
+            text-decoration: none;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .navbar-nav .notification-menu-custom ul.menu li  {
+            background-color: lightgoldenrodyellow;
+            margin-top: 3px;
+        }
+
+        .navbar-nav .notification-menu-custom li.header  {
+            font-size: 15px;
+            font-family: Candara;
+            text-shadow: 0 1px 0 #ccc, 0 5px 2px rgba(0, 0, 0, .25), 0 10px 2px rgba(0, 0, 0, .15);
+            margin-left: 12px;
+            margin-bottom: 12px;
+        }
+
+        .navbar-nav .notification-menu-custom ul.menu li:hover  {
+            opacity: 0.8;
+        }
+
+        .dropdown-menu {
+            box-shadow: none;
+            border-color: #eee;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 1000;
+            display: none;
+            float: left;
+            min-width: 160px;
+            padding: 5px 0;
+            margin: 2px 0 0;
+            font-size: 14px;
+            text-align: left;
+            list-style: none;
+            background-color: #fff;
+            -webkit-background-clip: padding-box;
+            background-clip: padding-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+            box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        }
+
+        .navbar-nav>.user-menu>.dropdown-menu>li.user-header {
+            height: 175px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        li.user-header {
+            background-color: #3c8dbc;
+        }
+
+        .navbar-nav>.user-menu>.dropdown-menu>li.user-header>img {
+            z-index: 5;
+            height: 90px;
+            width: 90px;
+            border: 3px solid;
+            border-color: transparent;
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .img-circle {
+            border-radius: 50%;
+        }
+
+        .navbar-nav>.user-menu>.dropdown-menu>li.user-header>p {
+            z-index: 5;
+            color: #fff;
+            color: rgba(255,255,255,0.8);
+            font-size: 17px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .navbar-nav>.user-menu>.dropdown-menu>li.user-header>p>small {
+            display: block;
+            font-size: 12px;
+        }
+
+        .navbar-nav>.user-menu>.dropdown-menu>.user-footer {
+            background-color: #f9f9f9;
+            padding: 10px;
+            height: 55px;
+        }
+
+        .pull-left {
+            float: left!important;
+        }
+
+        .navbar-nav>.user-menu>.dropdown-menu>.user-footer .btn-default {
+            color: #666666;
+        }
+
+        .btn.btn-flat {
+            border-radius: 0;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none;
+            border-width: 1px;
+            display: inline-block;
+        }
+
+        .btn-default {
+            background-color: #f4f4f4;
+            color: #444;
+            border: 1px solid transparent;
+            display: inline-block;
+            padding: 6px 12px;
+            margin-bottom: 0;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.42857143;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-image: none;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .pull-right {
+            float: right!important;
+        }
+
+        .btnProfile {
+            display: block;
+            width: 65px;
+            height: 35px;
+            background: #e9e9e9;
+            padding: 7px;
+            text-align: center;
+            color: #666666;
+            font-weight: normal;
+            transition: none;
+            float: left;
+        }
+
+        .btnProfile:hover {
+            border: 1px solid #99a4ac;
+            cursor: pointer;
+            color: #666666;
+            text-decoration: none;
+        }
+
+        .btnSignout {
+            display: block;
+            width: 75px;
+            height: 35px;
+            background: #e9e9e9;
+            padding: 7px;
+            text-align: center;
+            color: #666666;
+            font-weight: normal;
+            transition: none;
+        }
+
+        .btnSignout:hover {
+            border: 1px solid #99a4ac;
+            cursor: pointer;
+            color: #666666;
+            text-decoration: none;
+        }
+
+        .btnAdmin {
+            display: block;
+            width: 85px;
+            height: 35px;
+            background: #e9e9e9;
+            padding: 7px;
+            text-align: center;
+            color: #666666;
+            font-weight: normal;
+            transition: none;
+            margin-left: 20px;
+        }
+
+        .btnAdmin:hover {
+            border: 1px solid #99a4ac;
+            cursor: pointer;
+            color: #666666;
+            text-decoration: none;
+        }
+
+        .user-menu:hover, #notification-li:hover {
+            background-color: #CC0000;
+        }
+
+        .user-body {
+            width: 100%;
+            height: 60px;
+            padding-top: 10px;
+        }
+
+        .statistic {
+            width: 33%;
+            text-align: center;
+            float: left;
+            font-weight: 600;
+            color: darkblue;
+        }
+
+        .statistic-detail {
+            width: 33%;
+            float: left;
+            text-align: center;
+            color: black;
+        }
+
+        #dropdown-profile, #dropdown-notification {
+            display: none;
+        }
+
+        .hidden-xs {
+            font-weight: bold;
+            font-family: Verdana,sans-serif;
+            font-size: 14px;
+        }
+        /*  End profile & notification area  */
+    </style>
 </head>
 
 <body>
@@ -34,19 +512,109 @@
                             <a href="index.html" style="color: white; font: 3em sans-serif;">Gunpla World</a>
                         </div>
 
+                        <div id="profile-div" class="navbar-custom-menu">
+                            <ul class="nav navbar-nav">
+                                <!-- notification -->
+                                <li id="notification-li" class="dropdown notification-menu-custom">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                        <i class="fa fa-bell-o"></i>
+                                        <span id="numberOfNew" class="label label-warning">10</span>
+                                    </a>
+                                    <ul id="dropdown-notification" class="dropdown-menu">
+                                        <li id="notice-new" class="header">You have 10 notifications</li>
+                                        <li>
+                                            <!-- inner menu: contains the actual data -->
+                                            <ul id="ul-notification" class="menu">
+                                                <!--<li>-->
+                                                <!--<a href="#">-->
+                                                <!--<i class="fa fa-warning text-yellow" style="color: red;"></i> Very long description-->
+                                                <!--here that may not fit into the-->
+                                                <!--page and may cause design problems-->
+                                                <!--</a>-->
+                                                <!--</li>-->
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <!--    profile     -->
+                                <li id="username-li" class="dropdown user user-menu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <img id="thumbAvatar-new" src="/gwa/img/avatar_2x.png" class="user-image"
+                                             alt="User Image">
+                                        <span id="fullname-new" class="hidden-xs">Minh Tung</span>
+                                    </a>
+                                    <ul id="dropdown-profile" class="dropdown-menu">
+                                        <!-- User image -->
+                                        <li class="user-header">
+                                            <img id="thumbAvatar-dropdown" src="/gwa/img/avatar_2x.png"
+                                                 onerror="this.src='/gwa/img/avatar_2x.png'"
+                                                 class="img-circle" alt="User Image">
+                                            <p>
+                                                <span id="fullname-dropdown">Minh Tung</span>
+                                                <small id="membersince">Member since Nov. 2018</small>
+                                            </p>
+                                        </li>
+                                        <!-- Menu Body -->
+                                        <li class="user-body">
+                                            <div class="statistic">
+                                                <span>
+                                                    Proposal
+                                                </span>
+                                            </div>
+                                            <div class="statistic">
+                                                 <span>
+                                                     Buy
+                                                 </span>
+                                            </div>
+                                            <div class="statistic">
+                                                 <span>
+                                                     Sell
+                                                 </span>
+                                            </div>
+                                            <div class="statistic-detail">
+                                                <span id="proposal">
+                                                    0
+                                                </span>
+                                            </div>
+                                            <div class="statistic-detail">
+                                                 <span id="buy">
+                                                     0
+                                                 </span>
+                                            </div>
+                                            <div class="statistic-detail">
+                                                 <span id="sell">
+                                                     0
+                                                 </span>
+                                            </div>
+                                            <!-- /.row -->
+                                        </li>
+                                        <!-- Menu Footer-->
+                                        <li class="user-footer">
+                                            <div class="pull-left">
+                                                <a id="profile-new" href="#" class="btnProfile">Profile</a>
+                                            </div>
+                                            <div class="pull-left">
+                                                <a id="adminBtn" style="display: none;" href="#"
+                                                   class="btnAdmin">Admin</a>
+                                            </div>
+                                            <div class="pull-right">
+                                                <a id="logout-new" href="" class="btnSignout">Sign out</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
                         <!-- Login Search Area -->
-                        <div class="login-search-area d-flex align-items-center">
+                        <div id="loginForm" style="margin-right: 50px; display: none!important;"
+                             class="login-search-area d-flex align-items-center">
                             <!-- Login -->
-                            <div class="login d-flex">
-                                <a href="#">Login</a>
-                                <a href="#">Register</a>
-                            </div>
-                            <!-- Search Form -->
-                            <div class="search-form">
-                                <form action="#" method="post">
-                                    <input type="search" name="search" class="form-control" placeholder="Search">
-                                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                                </form>
+                            <div class="account login d-flex">
+                                <a style="font-family: Verdana,sans-serif; font-size: 15px;"
+                                   id="loginbtn" href="/gwa/login"><b>Login</b></a>
+                                <a style="font-family: Verdana,sans-serif; font-size: 15px;"
+                                   id="register" href="/gwa/register"><b>Register</b></a>
                             </div>
                         </div>
                     </div>
@@ -64,7 +632,7 @@
 
                     <!-- Logo -->
                     <div class="logo">
-                        <a href="index.html"><img src="/img/logo.png" alt=""></a>
+                        <a href="/gwa/"><img src="/gwa/img/logo.png" alt=""></a>
                     </div>
 
                     <!-- Navbar Toggler -->
@@ -83,38 +651,11 @@
                         <!-- Nav Start -->
                         <div class="classynav">
                             <ul>
-                                <li class="active"><a href="index.html">Home</a></li>
-                                <li><a href="#">Pages</a>
-                                    <ul class="dropdown">
-                                        <li><a href="index.html">Home</a></li>
-                                        <li><a href="#">Dropdown</a>
-                                            <ul class="dropdown">
-                                                <li><a href="index.html">Home</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a href="#">Mega Menu</a>
-                                    <div class="megamenu">
-                                        <ul class="single-mega cn-col-3">
-                                            <li class="title">Catagories</li>
-                                            <li><a href="index.html">Home</a></li>
-                                        </ul>
-                                        <ul class="single-mega cn-col-3">
-                                            <li class="title">Catagories</li>
-                                            <li><a href="index.html">Home</a></li>
-                                        </ul>
-                                        <ul class="single-mega cn-col-3">
-                                            <li class="title">Catagories</li>
-                                            <li><a href="index.html">Home</a></li>
-                                        </ul>
-
-                                    </div>
-                                </li>
-                                <li><a href="#">Articles</a></li>
-                                <li><a href="#">Events</a></li>
-                                <li><a href="#">Trade market</a></li>
-                                <li><a href="contact.html">Contact</a></li>
+                                <li class="active"><a href="/gwa/">Home</a></li>
+                                <li><a href="/gwa/model">GUNDAM</a></li>
+                                <li><a href="/gwa/article">Articles</a></li>
+                                <li><a href="/gwa/event">Events</a></li>
+                                <li><a href="/gwa/trade-market">Trade market</a></li>
                             </ul>
                         </div>
                         <!-- Nav End -->
@@ -124,80 +665,40 @@
         </div>
     </div>
 </header>
-<!-- ##### Header Area End ##### -->
-
-<!-- ##### Hero Area Start ##### -->
-<div class="hero-area">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-12 col-lg-8">
-                <!-- Breaking News Widget -->
-                <div class="breaking-news-area d-flex align-items-center">
-                    <div class="news-title">
-                        <p>Breaking News</p>
-                    </div>
-                    <div id="breakingNewsTicker" class="ticker">
-                        <ul>
-                            <li><a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a></li>
-                            <li><a href="#">Welcome to Colorlib Family.</a></li>
-                            <li><a href="#">Nam eu metus sitsit amet, consec!</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Breaking News Widget -->
-                <div class="breaking-news-area d-flex align-items-center mt-15">
-                    <div class="news-title title2">
-                        <p>International</p>
-                    </div>
-                    <div id="internationalTicker" class="ticker">
-                        <ul>
-                            <li><a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a></li>
-                            <li><a href="#">Nam eu metus sitsit amet, consec!</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-<!-- ##### Hero Area End ##### -->
-
 <!-- ##### Featured Post Area Start ##### -->
 <div class="featured-post-area">
     <div class="container">
         <div class="row">
             <div class="col-12 col-md-6 col-lg-8">
-                <div class="row">
+                <div class="row" id="topEvents">
 
                     <!-- Single Featured Post -->
-                    <div class="col-12 col-lg-7">
-                        <div class="single-blog-post featured-post">
-                            <div class="post-thumb">
-                            </div>
-                            <div class="post-data">
-                                <a href="#" class="post-catagory">Finance</a>
-                                <a href="#" class="post-title">
-                                    <h6>Financial news: A new company is born today at the stock market</h6>
-                                </a>
-                                <div class="post-meta">
-                                    <p class="post-author">By <a href="#">Christinne Williams</a></p>
-                                    <p class="post-excerp">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-                                        eu metus sit amet odio sodales placerat. Sed varius leo ac leo fermentum, eu
-                                        cursus nunc maximus. Integer convallis nisi nibh, et ornare neque ullamcorper
-                                        ac. Nam id congue lectus, a venenatis massa. Maecenas justo libero, vulputate
-                                        vel nunc id, blandit feugiat sem. </p>
-                                    <!-- Post Like & Post Comment -->
-                                    <div class="d-flex align-items-center">
-                                        <a href="#" class="post-like"><img src="/img/like.png" alt="">
-                                            <span>392</span></a>
-                                        <a href="#" class="post-comment"><img src="/img/chat.png" alt=""> <span>10</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <!--<div class="col-12 col-lg-7">-->
+                        <!--<div class="single-blog-post featured-post">-->
+                            <!--<div class="post-thumb">-->
+                            <!--</div>-->
+                            <!--<div class="post-data">-->
+                                <!--<a href="#" class="post-catagory">Finance</a>-->
+                                <!--<a href="#" class="post-title">-->
+                                    <!--<h6>Financial news: A new company is born today at the stock market</h6>-->
+                                <!--</a>-->
+                                <!--<div class="post-meta">-->
+                                    <!--<p class="post-author">By <a href="#">Christinne Williams</a></p>-->
+                                    <!--<p class="post-excerp">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam-->
+                                        <!--eu metus sit amet odio sodales placerat. Sed varius leo ac leo fermentum, eu-->
+                                        <!--cursus nunc maximus. Integer convallis nisi nibh, et ornare neque ullamcorper-->
+                                        <!--ac. Nam id congue lectus, a venenatis massa. Maecenas justo libero, vulputate-->
+                                        <!--vel nunc id, blandit feugiat sem. </p>-->
+                                    <!--&lt;!&ndash; Post Like & Post Comment &ndash;&gt;-->
+                                    <!--<div class="d-flex align-items-center">-->
+                                        <!--<a href="#" class="post-like"><img src="/img/like.png" alt="">-->
+                                            <!--<span>392</span></a>-->
+                                        <!--<a href="#" class="post-comment"><img src="/img/chat.png" alt=""> <span>10</span></a>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
 
                     <div class="col-12 col-lg-5">
                         <!-- Single Featured Post -->
@@ -607,7 +1108,6 @@
 <!-- ##### Footer Area Start ##### -->
 <footer class="footer-area">
 
-    <!-- Main Footer Area -->
     <div class="main-footer-area">
         <div class="container">
             <div class="row">
@@ -617,13 +1117,12 @@
                     <div class="footer-widget-area mt-80">
                         <!-- Footer Logo -->
                         <div class="footer-logo">
-                            <a href="index.html"><img src="/img/logo.png" alt=""></a>
+                            <a href="/gwa/" style="color: white; font: 3em sans-serif;">Gunpla World</a>
                         </div>
                         <!-- List -->
                         <ul class="list">
-                            <li><a href="mailto:contact@youremail.com">contact@youremail.com</a></li>
-                            <li><a href="tel:+4352782883884">+43 5278 2883 884</a></li>
-                            <li><a href="http://yoursitename.com">www.yoursitename.com</a></li>
+                            <li><a href="mailto:contact@youremail.com">gunplaworld@gmail.com</a></li>
+                            <li><a href="tel:+4352782883884">+84 981 875 113</a></li>
                         </ul>
                     </div>
                 </div>
@@ -635,10 +1134,11 @@
                         <h4 class="widget-title">Quick Links</h4>
                         <!-- List -->
                         <ul class="list">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Articles</a></li>
-                            <li><a href="#">Events</a></li>
-                            <li><a href="#">Trade market</a></li>
+                            <li class="active"><a href="/gwa/">Home</a></li>
+                            <li><a href="/gwa/model">GUNDAM</a></li>
+                            <li><a href="/gwa/article">Articles</a></li>
+                            <li><a href="/gwa/event">Events</a></li>
+                            <li><a href="/gwa/trade-market">Trade market</a></li>
                         </ul>
                     </div>
                 </div>
@@ -650,7 +1150,7 @@
                         <h4 class="widget-title">Follow us</h4>
                         <!-- List -->
                         <ul class="list">
-                            <li><a href="#">Facebook</a></li>
+                            <li><a href="http://www.facebook.com">Facebook</a></li>
                         </ul>
                     </div>
                 </div>
@@ -662,7 +1162,7 @@
                         <div class="row h-100 align-items-center">
                             <div class="col-12">
                                 <!-- Copywrite -->
-                                <p>copywrite lol</p>
+                                <p>Copywrite GUNPLA</p>
                             </div>
                         </div>
                     </div>
@@ -675,15 +1175,20 @@
 
 <!-- ##### All Javascript Files ##### -->
 <!-- jQuery-2.2.4 js -->
-<script src="/js/jquery/jquery-2.2.4.min.js"></script>
+<script src="/gwa/js/jquery/jquery-2.2.4.min.js"></script>
 <!-- Popper js -->
-<script src="/js/bootstrap/popper.min.js"></script>
+<script src="/gwa/js/bootstrap/popper.min.js"></script>
 <!-- Bootstrap js -->
-<script src="/js/bootstrap/bootstrap.min.js"></script>
+<script src="/gwa/js/bootstrap/bootstrap.min.js"></script>
 <!-- All Plugins js -->
-<script src="/js/plugins/plugins.js"></script>
-<!-- Active js -->
-<script src="/js/active.js"></script>
+<!--<script src="/gwa/js/plugins/plugins.js"></script>-->
+<!--&lt;!&ndash; Active js &ndash;&gt;-->
+<!--<script src="/gwa/js/active.js"></script>-->
+
+<script src="/gwa/js/plugins/jquery.twbsPagination.js"></script>
+<script src="/gwa/js/plugins/jquery.growl.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASrDg7CwB0GQ_XGzWfbkP4RUE_31YCy1M&libraries=places&callback=initAutocomplete"
+        type="text/javascript"></script>
 </body>
 
 </html>

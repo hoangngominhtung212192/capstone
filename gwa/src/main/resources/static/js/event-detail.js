@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    var loggedName;
     authentication();
     var today = new Date();
     var dd = today.getDate();
@@ -30,6 +31,7 @@ $(document).ready(function () {
                 if (status == "success") {
                     $("#confi-modal").modal('show');
                 } else {
+                    // $.growl.notice({message: "Redirecting ro"});
                     alert("You will be redirected to the login page!")
                     console.log("Guest is accessing !");
                     window.location.href = "/gwa/login";
@@ -215,7 +217,7 @@ $(document).ready(function () {
                     $('#hidID').val(result.id);
                     curEvnId = result.id;
                     console.log("ev id is "+curEvnId);
-                    // $('#lblUsername').append(username_session.toString());
+                    $('#lblUsername').append(loggedName);
                     $('#txtPrice').append(result.ticketPrice);
                     $('#lblTimeRated').append(result.numberOfRating);
                     $('#lblTodayDate').append(today.toString());
@@ -229,7 +231,7 @@ $(document).ready(function () {
                 }
             },
             error : function(e) {
-                alert("Error!")
+                alert("Error! Something went wrong!")
                 console.log("ERROR: ", e);
             }
         });
@@ -264,13 +266,13 @@ $(document).ready(function () {
                 console.log('rmnslots: '+result);
                 var iamount = parseInt(amount);
                 if (result<amount){
-                    alert('There are not enough tickets! Please change the amount of tickets.');
+                    $.growl.error({message: "There aren't enough tickets! Please change the number of tickets you want!"});
                 } else{
                     registerAtt();
                 }
             },
             error : function(e) {
-                alert("Error!")
+                // alert("Error!")
                 console.log("ERROR: ", e);
             }
         });
@@ -291,13 +293,14 @@ $(document).ready(function () {
                     date : today.toString()
                 },
                 success : function(result, status) {
-                    alert("Registered successfully!")
+                    $.growl.notice({message: "Registered successfully!"});
+                    // alert("Registered successfully!")
                     location.reload(true);
                     console.log(result);
                     console.log(status);
                 },
                 error : function(e) {
-                    alert("Error!")
+                    $.growl.error({message: "Register failed!"});
                     console.log("ERROR: ", e);
                 }
             });
@@ -346,6 +349,7 @@ $(document).ready(function () {
                     var jsonResponse = JSON.parse(xhr_data);
 
                     var username = jsonResponse["username"];
+                    loggedName = jsonResponse["username"];
                     var thumbAvatar = jsonResponse["avatar"];
                     console.log(jsonResponse["role"].name + " " + username + " is on session!");
                     $("#membersince").text("Member since " + jsonResponse["createdDate"].split(" ")[0]);
@@ -562,6 +566,14 @@ $(document).ready(function () {
                     window.location.href = "/gwa/pages/profile.html?accountID=" + objectID;
                 } else if (type == "Model") {
                     window.location.href = "/gwa/pages/modeldetail.html?modelID=" + objectID;
+                } else if (type == "Tradepost") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
+                } else if (type == "OrderSent") {
+                    window.location.href = "/gwa/trade-market/my-order";
+                } else if (type == "OrderReceived") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
+                } else if (type == "Article") {
+                    window.location.href = "/gwa/article/detail?id=" + objectID;
                 }
             });
         });

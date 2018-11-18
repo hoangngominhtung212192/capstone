@@ -96,78 +96,127 @@ $(document).ready(function() {
         var location = $("#txtLocation").val();
         var staDate = $("#txtStartDate").val();
         var endDate = $("#txtEndDate").val();
-        checkMatchingEvt(location,staDate,endDate);
 
-    })
-    function checkMatchingEvt(location, staDate, endDate) {
-        var address = $("#txtLocation").val();
-        var lat = $('#txtLat').val();
-        var long = $('#txtLong').val();
-        var addrlocation = address + "@" + lat + "@" + long;
-
-        $.ajax({
-            type: "POST",
-            url: "/gwa/api/event/checkMatchingLocaNtime",
-            data: {
-                location: location,
-                staDate: staDate,
-                endDate: endDate,
-            },
-
-            success:function (result, status) {
-                console.log("result len: "+result.length);
-                if (result.length==0){
-                    var formEvent = {
-                        title : $("#txtTitle").val(),
-                        location : addrlocation,
-                        description : $("#txtDescription").val(),
-                        startDate : $("#txtStartDate").val(),
-                        endDate : $("#txtEndDate").val(),
-                        regDateStart : $("#txtRegStartDate").val(),
-                        regDateEnd : $("#txtRegEndDate").val(),
-                        maxAttendee : $("#txtAttMax").val(),
-                        minAttendee : $("#txtAttMin").val(),
-                        ticketPrice : $("#txtPrice").val(),
-                        content : CKEDITOR.instances.contentEditor.getData(),
-                        status : $("#cboStatus").val(),
-
-                    }
-
-                    createEvent(formEvent);
-                } else{
-                    alert("There are events with matching location and time!!");
-                }
-            },
-            error:function (e) {
-                alert("err");
-                console.log("error: ",e);
+        var regstaDate = $('#txtRegStartDate').val();
+        var regendDate = $('#txtRegEndDate').val();
+        var d1 = Date.parse(staDate);
+        var d2 = Date.parse(endDate);
+        var d3 = Date.parse(regstaDate);
+        var d4 = Date.parse(regendDate);
+        if (d3 < d4 && d4 < d1 && d1 < d2){
+            var minn = $("#txtAttMin").val();
+            var maxx = $("#txtAttMax").val()
+            if (minn > maxx){
+                checkMatchingEvt(staDate,endDate);
+            } else {
+                $.growl.error({message: "Minimum attendee should be lower than maximum attendee"});
             }
+        } else {
+            $.growl.error({message: "Input date is invalid!"});
+        }
+    })
+    function checkMatchingEvt(staDate, endDate) {
 
-        })
+        var address = $("#txtLocation").val();
+        if (address != ""){
+            var lat = $('#txtLat').val();
+            var long = $('#txtLong').val();
+            var addrlocation = address + "@" + lat + "@" + long;
+
+            $.ajax({
+                type: "POST",
+                url: "/gwa/api/event/checkMatchingLocaNtime",
+                data: {
+                    location: addrlocation,
+                    staDate: staDate,
+                    endDate: endDate,
+                },
+
+                success:function (result, status) {
+                    console.log("result len: "+result.length);
+                    if (result.length==0){
+                        var formEvent = {
+                            title : $("#txtTitle").val(),
+                            location : addrlocation,
+                            description : $("#txtDescription").val(),
+                            startDate : $("#txtStartDate").val(),
+                            endDate : $("#txtEndDate").val(),
+                            regDateStart : $("#txtRegStartDate").val(),
+                            regDateEnd : $("#txtRegEndDate").val(),
+                            maxAttendee : $("#txtAttMax").val(),
+                            minAttendee : $("#txtAttMin").val(),
+                            ticketPrice : $("#txtPrice").val(),
+                            content : CKEDITOR.instances.contentEditor.getData(),
+                            status : $("#cboStatus").val(),
+
+                        }
+
+                        createEvent(formEvent);
+                    } else{
+                        $.growl.error({message: "There are events with matching location and time!!"});
+                    }
+                },
+                error:function (e) {
+                    console.log("error: ",e);
+                }
+
+            })
+        } else{
+            console.log("location is null");
+        }
+
     }
     function createEvent(data) {
         // formData.append("photoBtn", imageFile, "thumbEvt#"+$('#txtTitle').val() + "." + type);
         console.log(data);
+        var valid = true;
+        if ($("#txtTitle").val() == ""){
+            valid = false;
+            $.growl.error({message: "Please enter title"});
+        }
+        if ($("#txtLocation").val() == ""){
+            valid = false;
+            $.growl.error({message: "Please enter location"});
+        }
+        if ($("#txtDescription").val() == ""){
+            valid = false;
+            $.growl.error({message: "Please enter description"});
+        }
+        if ($("#txtAttMax").val() == ""){
+            valid = false;
+            $.growl.error({message: "Please enter max attendee"});
+        }
+        if ($("#txtAttMin").val() == ""){
+            valid = false;
+            $.growl.error({message: "Please enter min attendee"});
+        }
+        if ($("#txtPrice").val() == ""){
+            valid = false;
+            $.growl.error({message: "Please enter max attendee"});
+        }
 
-        $.ajax({
-            type : "POST",
-            contentType : "application/json",
-            url : "/gwa/api/event/createEvent",
-            data : JSON.stringify(data),
-            success : function(result, status) {
-                var type = imagetype.split("/")[1];
-                formData.append("id", result.id);
-                formData.append("photoBtn", imageFile, "thumbEvt"+$('#txtTitle').val() + "." + type);
-                ajaxImagePost(formData);
-                alert("Event created successfully!");
-                window.location.href = "/gwa/event/detail?id=" + result.id;
+        if (valid == true){
+            $.ajax({
+                type : "POST",
+                contentType : "application/json",
+                url : "/gwa/api/event/createEvent",
+                data : JSON.stringify(data),
+                success : function(result, status) {
+                    var type = imagetype.split("/")[1];
+                    formData.append("id", result.id);
+                    formData.append("photoBtn", imageFile, "thumbEvt"+$('#txtTitle').val() + "." + type);
+                    ajaxImagePost(formData);
+                    alert("Event created successfully!");
+                    window.location.href = "/gwa/event/detail?id=" + result.id;
 
-            },
-            error : function(e) {
-                alert("Error!")
-                console.log("ERROR: ", e);
-            }
-        });
+                },
+                error : function(e) {
+                    alert("Error!")
+                    console.log("ERROR: ", e);
+                }
+            });
+        }
+
     }
 
     /* Begin authentication & notification */
@@ -344,6 +393,14 @@ $(document).ready(function() {
                     window.location.href = "/gwa/pages/profile.html?accountID=" + objectID;
                 } else if (type == "Model") {
                     window.location.href = "/gwa/pages/modeldetail.html?modelID=" + objectID;
+                } else if (type == "Tradepost") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
+                } else if (type == "OrderSent") {
+                    window.location.href = "/gwa/trade-market/my-order";
+                } else if (type == "OrderReceived") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
+                } else if (type == "Article") {
+                    window.location.href = "/gwa/article/detail?id=" + objectID;
                 }
             });
         });

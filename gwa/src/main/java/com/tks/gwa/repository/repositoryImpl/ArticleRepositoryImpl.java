@@ -132,16 +132,18 @@ public class ArticleRepositoryImpl extends GenericRepositoryImpl<Article, Intege
         return (int) result;
     }
     @Override
-    public List<Article> searchArticleByStatusAndSort(String title, String status, String sorttype, int pageNum) {
+    public List<Article> searchArticleByStatusAndSort(String title, String cate, String status, String sorttype, int pageNum) {
         String sortSql = "";
         if (sorttype.equalsIgnoreCase("asc")){
             sortSql = " ORDER BY date ASC";
         } else {
             sortSql = " ORDER BY date DESC";
         }
-        String sql = "FROM " + Article.class.getName()+ " WHERE title LIKE :title AND approvalStatus = :status" + sortSql;
+        String sql = "FROM " + Article.class.getName()+ " WHERE title LIKE :title AND category LIKE :category AND approvalStatus = :status" + sortSql;
         Query query = this.entityManager.createQuery(sql);
         query.setParameter("title", "%"+title+"%");
+        query.setParameter("category", "%"+cate+"%");
+
         query.setParameter("status", status);
         query.setFirstResult((pageNum-1) * AppConstant.EVENT_MAX_RECORD_PER_PAGE);
         query.setMaxResults(AppConstant.EVENT_MAX_RECORD_PER_PAGE);

@@ -59,34 +59,6 @@ var defaultPaginationOpts = {
             totalPages: totalPage
         }));
     }
-    function getEventData() {
-        $.ajax({
-            type : "POST",
-            url : "/gwa/api/event/getEventByStatusAndPage",
-            data : {
-                status : currentStatus,
-                sorttype : currentSortType,
-                pageNum : currentPage
-            },
-            async: false,
-            success : function(result, status) {
-                var data = result[1];
-                totalPage = result[0];
-                console.log(result);
-                console.log(status);
-
-                for (var i in data){
-                    appendResult(data[i]);
-                }
-
-
-            },
-            error : function(e) {
-                alert("No event with matching title found!");
-                console.log("ERROR: ", e);
-            }
-        });
-    }
 
     $("#btnSearch").click(function (event) {
         currentPage = 1;
@@ -534,6 +506,14 @@ var defaultPaginationOpts = {
                     window.location.href = "/gwa/pages/profile.html?accountID=" + objectID;
                 } else if (type == "Model") {
                     window.location.href = "/gwa/pages/modeldetail.html?modelID=" + objectID;
+                } else if (type == "Tradepost") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
+                } else if (type == "OrderSent") {
+                    window.location.href = "/gwa/trade-market/my-order";
+                } else if (type == "OrderReceived") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
+                } else if (type == "Article") {
+                    window.location.href = "/gwa/article/detail?id=" + objectID;
                 }
             });
         });

@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    var currentStatus = "approved";
+    authentication();
+    var currentStatus = "Approved";
 
     var currentSortType = $("#cbSortType option:selected").val();
 
@@ -57,47 +58,7 @@ $(document).ready(function () {
     }
     searchArticle();
 
-    function authentication() {
 
-        $.ajax({
-            type: "GET",
-            url: "/gwa/api/user/checkLogin",
-            complete: function (xhr, status) {
-
-                if (status == "success") {
-                    // username click
-                    usernameClick();
-
-                    var xhr_data = xhr.responseText;
-                    var jsonResponse = JSON.parse(xhr_data);
-
-                    role_session = jsonResponse["role"].name;
-                    account_session_id = jsonResponse["id"];
-
-                    var username = jsonResponse["username"];
-                    console.log(role_session + " " + username + " is on session!");
-
-                    // click profile button
-                    profileClick(account_session_id);
-
-                    // display username, profile and logout button
-                    $("#username").text(username)
-                    $("#username").css("display", "block");
-                    $(".dropdown-menu-custom-profile").css("display", "block");
-                    $(".dropdown-menu-custom-logout").css("display", "block");
-
-                    // get current profile
-                    account_profile_on_page_id = getUrlParameter('accountID');
-                    getProfile();
-                } else {
-                    // display login and register button
-                    console.log("Guest is accessing !");
-                    window.location.href = "/login";
-                }
-
-            }
-        });
-    }
     function appendResult(result){
         for (var i = 0; i < result.length; i++) {
             var article = $('<div class="single-blog-post d-flex row">\n' +
@@ -123,7 +84,37 @@ $(document).ready(function () {
             $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
                 totalPages: totalPage,
                 currentPage: currentPage,
-                startPage: currentPage,
+                startPage: currentPage
+
+            }));
+        }
+    }
+    function appendMyResult(result){
+        for (var i = 0; i < result.length; i++) {
+            var article = $('<div class="single-blog-post d-flex row">\n' +
+                '<div class="post-thumb col-sm-2" style="max-height: inherit;">\n' +
+                '<img src="'+result[i].thumbImage+'" alt=""><br/>\n' +
+                '</div>'+
+                '                                <div class="post-data col-sm-10">\n' +
+                '                                    <a href="#" class="post-catagory">' + result[i].category + '</a>\n' +
+                '                                    <div class="post-meta">\n' +
+                '                                        <a href="/gwa/article/detail?id=' + result[i].id +'" class="post-title">\n' +
+                '                                            <h6>' + result[i].title + ' <span >['+result[i].approvalStatus+']</span></h6>\n' +
+                '                                        </a>\n' +
+                '                                        <p class="post-date">' + result[i].date + '</p>\n' +
+                '                                        <p >Author: '+result[i].account.username+ '</p>\n' +
+                '                                    </div>\n' +
+                '                                </div>\n' +
+                '                            </div><hr/>');
+
+            $('#search-result').append(article);
+        }
+        $pagination.twbsPagination('destroy');
+        if (totalPage > 1){
+            $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+                totalPages: totalPage,
+                currentPage: currentPage,
+                startPage: currentPage
 
             }));
         }
@@ -139,8 +130,8 @@ $(document).ready(function () {
     })
 
     function searchArticle() {
-        // console.log(data);
-        var displayDiv = document.getElementById("search-result");
+        console.log("searching article");
+        // var displayDiv = document.getElementById("search-result");
         var searchValue = $("#txtSearch").val();
 
         $.ajax({
@@ -148,8 +139,9 @@ $(document).ready(function () {
             url : "/gwa/api/article/searchArticleByStatusAndPage",
             data : {
                 title : searchValue,
+                cate : $("#cbCateType").val(),
                 status : currentStatus,
-                sorttype : currentSortType,
+                sorttype :$("#cbSortType option:selected").val(),
                 pageNum : currentPage
             },
             async: false,
@@ -168,7 +160,7 @@ $(document).ready(function () {
                 appendResult(data);
             },
             error : function(e) {
-                alert("No event with matching title found!");
+                alert("No article with matching title found!");
                 console.log("ERROR: ", e);
             }
         });
@@ -176,6 +168,7 @@ $(document).ready(function () {
     $("#btnListArticle").click(function (event) {
         event.preventDefault();
         $('#searchDiv').css("display", "block");
+        $('#cbCateType').css("display", "block");
         $('#btnListArticle').addClass("active");
         $('#btnGetMyArticles').removeClass("active");
 
@@ -190,6 +183,7 @@ $(document).ready(function () {
     $("#btnGetMyArticles").click(function (event) {
         event.preventDefault();
         $('#searchDiv').css("display", "none");
+        $('#cbCateType').css("display", "none");
         $('#btnListArticle').removeClass("active");
         $('#btnGetMyArticles').addClass("active");
 
@@ -222,7 +216,7 @@ $(document).ready(function () {
                 $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
                     totalPages: totalPage
                 }));
-                appendResult(data);
+                appendMyResult(data);
             },
             error : function(e) {
                 alert("No event with matching title found!");
@@ -238,7 +232,7 @@ $(document).ready(function () {
         $("#dropdown-notification").css("display", "none");
     })
 
-    authentication();
+
 
     var account_session_id;
 
@@ -473,6 +467,14 @@ $(document).ready(function () {
                     window.location.href = "/gwa/pages/profile.html?accountID=" + objectID;
                 } else if (type == "Model") {
                     window.location.href = "/gwa/pages/modeldetail.html?modelID=" + objectID;
+                } else if (type == "Tradepost") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
+                } else if (type == "OrderSent") {
+                    window.location.href = "/gwa/trade-market/my-order";
+                } else if (type == "OrderReceived") {
+                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
+                } else if (type == "Article") {
+                    window.location.href = "/gwa/article/detail?id=" + objectID;
                 }
             });
         });

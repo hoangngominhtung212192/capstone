@@ -61,7 +61,6 @@ public class ArticleWSImpl implements ArticleWS {
         Account getacc = getA.getAccount();
 
         article.setAccount(getacc);
-        article.setApprovalStatus("Pending");
         article.setDate(getA.getDate());
 
         Article updatedarticle = articleService.updateArticle(article);
@@ -95,8 +94,8 @@ public class ArticleWSImpl implements ArticleWS {
     }
 
     @Override
-    public ResponseEntity<List<Object>> searchArticleByStatusAndPage(String title, String status, String sorttype, int pageNum) {
-        List<Object> result = articleService.searchArticleWithSortAndPageByStatus(title, status, sorttype, pageNum);
+    public ResponseEntity<List<Object>> searchArticleByStatusAndPage(String title, String cate, String status, String sorttype, int pageNum) {
+        List<Object> result = articleService.searchArticleWithSortAndPageByStatus(title, cate, status, sorttype, pageNum);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
