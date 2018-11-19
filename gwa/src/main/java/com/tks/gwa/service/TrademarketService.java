@@ -50,6 +50,10 @@ public interface TrademarketService {
     Tradepost approveTradepost(int tradepostId);
     Tradepost declineTradepost(int tradepostId, String reason);
 
+    //For schedule
+
+    void autoRejectAllOrderByScheduler();
+
 
 
 
