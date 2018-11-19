@@ -245,6 +245,22 @@
       </ol>
     </section>
 
+    <div id="myModal" class="modal fade">
+      <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="icon-box">
+              <i class="material-icons">&#10004;</i>
+            </div>
+          </div>
+          <div class="modal-body text-center">
+            <h4>Great!</h4>
+            <p>Article created successfully!</p>
+            <button id="success-btn" class="btn btn-success" data-dismiss="modal"><span>OK</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- Main content -->
     <section class="content">
       <div class="row">
@@ -271,9 +287,12 @@
             <h4>Category</h4>
             <select id="cboCate" class="combo-box">
               <option value="News">News</option>
-              <option value="Tutorial">Tutorial</option>
+              <option value="Tutorials">Tutorials</option>
               <option value="Paint">Paint</option>
-              <option value="Custom Build">Custom Build</option>
+              <option value="Advice">Advice</option>
+              <option value="Lifestyle">Lifestyle</option>
+              <option value="Reviews">Reviews</option>
+              <option value="Shopping Guides">Shopping Guides</option>
             </select>
             <h4>Status</h4>
             <select id="cboStatus" class="editable-select" >
@@ -316,15 +335,7 @@
 <script src="/gwa/admin/bower_components/fastclick/lib/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/gwa/admin/dist/js/adminlte.min.js"></script>
-<!-- Sparkline -->
-<script src="/gwa/admin/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
-<!-- jvectormap  -->
-<script src="/gwa/admin/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="/gwa/admin/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-<!-- SlimScroll -->
-<script src="/gwa/admin/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-<!-- ChartJS -->
-<script src="/gwa/bower_components/chart.js/Chart.js"></script>
+
 
 <script src="/gwa/js/plugins/jquery.growl.js"></script>
 </body>

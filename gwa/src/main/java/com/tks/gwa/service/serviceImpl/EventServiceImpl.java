@@ -174,13 +174,9 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Object> getNearEventByLocation(String location, long range, String sorttype, int pageNum) {
-        int totalRecord = eventRepository.countEventBySearchStatus("", "active");
-        int totalPage = totalRecord / AppConstant.EVENT_MAX_RECORD_PER_PAGE;
-        if (totalRecord % AppConstant.EVENT_MAX_RECORD_PER_PAGE > 0){
-            totalPage +=1;
-        }
+
         List<Object> result = new ArrayList<>();
-        result.add(totalPage);
+
         List<Event> eventList = eventRepository.searchEventByStatusAndSort("", "Active", sorttype, pageNum);
         List<Event> resultEList = new ArrayList<>();
         System.out.println("my location: "+location);
@@ -197,8 +193,13 @@ public class EventServiceImpl implements EventService {
             System.out.println("checking distance of event id"+event.getId());
 //            LatLng to = GoogleMapHelper.getLatLngFromAddress(event.getLocation());
             LatLng to = new LatLng();
-            to.lat = Double.valueOf(event.getLocation().split("@")[1]);
-            to.lng = Double.valueOf(event.getLocation().split("@")[2]);
+//            Double comparelat = Double.valueOf(event.getLocation().split("@")[1]);
+            try {
+                to.lat = Double.valueOf(event.getLocation().split("@")[1]);
+                to.lng = Double.valueOf(event.getLocation().split("@")[2]);
+            } catch (ArrayIndexOutOfBoundsException e){
+                continue;
+            }
 
             if (to.equals(null)){
                 continue;
@@ -210,7 +211,13 @@ public class EventServiceImpl implements EventService {
                 resultEList.add(eventList.get(i));
             }
         }
-        result.add(resultEList);
+        int totalRecord = resultEList.size();
+        int totalPage = totalRecord / AppConstant.EVENT_MAX_RECORD_PER_PAGE;
+        if (totalRecord % AppConstant.EVENT_MAX_RECORD_PER_PAGE > 0){
+            totalPage +=1;
+        }
+        result.add(0, totalPage);
+        result.add(1, resultEList);
 
         return result;
     }

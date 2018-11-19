@@ -76,7 +76,7 @@ public class ArticleServiceImpl implements ArticleService {
     public List<Object> searchArticleWithSortAndPageByStatus(String title, String cate, String status, String sorttype, int pageNum) {
         List<Article> eventList = articleRepository.searchArticleByStatusAndSort(title, cate, status, sorttype, pageNum);
 
-        int totalRecord = eventList.size();
+        int totalRecord = articleRepository.countArticleBySearchStatus(title, cate, status, sorttype);
         int totalPage = totalRecord / AppConstant.EVENT_MAX_RECORD_PER_PAGE;
         if (totalRecord % AppConstant.EVENT_MAX_RECORD_PER_PAGE > 0){
             totalPage +=1;
@@ -91,7 +91,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<Object> getMyArticleByPageAndStatus(int id, String sorttype, int pageNum) {
         List<Article> eventList = articleRepository.searchArticleByAuthorSort(id, sorttype, pageNum);
-        int totalRecord = eventList.size();
+        int totalRecord = articleRepository.countArticleByAuthor(id);
         int totalPage = totalRecord / AppConstant.EVENT_MAX_RECORD_PER_PAGE;
         if (totalRecord % AppConstant.EVENT_MAX_RECORD_PER_PAGE > 0){
             totalPage +=1;

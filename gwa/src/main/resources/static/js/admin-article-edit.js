@@ -100,18 +100,6 @@ $(document).ready(function () {
         });
     }
 
-    function getSelectIndexCate(cate){
-        switch (cate) {
-            case "News":
-                return 1;
-                break;
-            case "Tutorial":
-                return 2;
-                break;
-            case "Custom build":
-                return 3;
-                break;
-    }}
 
     $("#btnSubmit").click(function (event) {
         var valid = true;
@@ -146,11 +134,16 @@ $(document).ready(function () {
                 mm = '0' + mm
             }
 
-            today = yyyy + "-" + mm + "-" + dd;
+            today = yyyy + "/" + mm + "/" + dd;
+            var curImage ;
+            if (!checkImage){
+                curImage = $('#imgthumb').attr('src');
+            }
             var formArticle = {
                 id: id,
                 title: $("#txtTitle").val(),
                 content: CKEDITOR.instances.contentEditor.getData(),
+                thumbImage : curImage,
                 description: $('#txtDescription').val(),
                 category: $("#cboCate").val(),
                 modifiedDate: today,
@@ -197,10 +190,10 @@ $(document).ready(function () {
             url : "/gwa/api/article/updateArticle",
             data : JSON.stringify(data),
             success : function(result, status) {
-
                 if(checkImage){
+                    var type = imagetype.split("/")[1];
                     formData.append("id", result.id);
-                    formData.append("photoBtn", imageFile, "thumbArt"+$('#txtTitle').val() + "." + type);
+                    formData.append("photoBtn", imageFile, "thumbArt" + "." + type);
                     ajaxImagePost(formData);
                 }
 
@@ -211,8 +204,10 @@ $(document).ready(function () {
                     notidescription = "Your article was disapproved!"
                     addNewNotification();
                 }
-                alert("Article updated successfully!");
-                window.location.href = "/gwa/admin/article";
+                $("#myModal").modal({backdrop: 'static', keyboard: false});
+                $("#success-btn").on("click", function() {
+                    window.location.href = "/gwa/admin/article";
+                });
             },
             error : function(e) {
                 alert("Error! Update article failed!")

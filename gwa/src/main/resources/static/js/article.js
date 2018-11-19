@@ -60,6 +60,8 @@ $(document).ready(function () {
 
 
     function appendResult(result){
+        $('#search-result').html("");
+        console.log("drawing");
         for (var i = 0; i < result.length; i++) {
             var article = $('<div class="single-blog-post d-flex row">\n' +
                 '<div class="post-thumb col-sm-2" style="max-height: inherit;">\n' +
@@ -71,8 +73,8 @@ $(document).ready(function () {
                 '                                        <a href="/gwa/article/detail?id=' + result[i].id +'" class="post-title">\n' +
                 '                                            <h6>' + result[i].title + '</h6>\n' +
                 '                                        </a>\n' +
-                '                                        <p class="post-date">' + result[i].date + '</p>\n' +
-                '                                        <p >Author: '+result[i].account.username+ '</p>\n' +
+                '                                        <p class="post-date">' + result[i].date + ' | Author: '+result[i].account.username+ '</p>\n' +
+                '                                        <p >' + result[i].description + '</p>\n' +
                 '                                    </div>\n' +
                 '                                </div>\n' +
                 '                            </div><hr/>');
@@ -127,7 +129,7 @@ $(document).ready(function () {
         }
         isSearch = true;
         searchArticle();
-    })
+    });
 
     function searchArticle() {
         console.log("searching article");
@@ -172,10 +174,6 @@ $(document).ready(function () {
         $('#btnListArticle').addClass("active");
         $('#btnGetMyArticles').removeClass("active");
 
-        var searchDiv = document.getElementById("search-result");
-        while (searchDiv.firstChild) {
-            searchDiv.removeChild(searchDiv.firstChild);
-        }
         isSearch = true;
         currentPage = 1;
         searchArticle();
@@ -259,7 +257,8 @@ $(document).ready(function () {
                     profileClick(jsonResponse["id"]);
                     getSessionProfile(jsonResponse["id"]);
                     account_session_id = jsonResponse["id"];
-                    ajaxGetAllNotification(jsonResponse["id"]);
+                    ajaxGetAllNotification(parseInt(jsonResponse["id"]));
+                    console.log("got notification");
                     ajaxGetStatistic(jsonResponse["id"]);
 
                     // display username, profile and logout button
@@ -401,6 +400,9 @@ $(document).ready(function () {
 
                 lastPage = result[0];
                 renderNotification(result[1]);
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
             }
         })
     }
@@ -425,7 +427,7 @@ $(document).ready(function () {
     var countNotSeen = 0;
 
     function renderNotification(result) {
-
+console.log("rendering notification");
         $.each(result, function (index, value) {
 
             var appendNotification = "";

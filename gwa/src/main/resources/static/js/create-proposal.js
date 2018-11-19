@@ -81,6 +81,7 @@ $(document).ready(function() {
 
                 } else {
                     // display login and register button
+                    window.location.href = "/gwa/login";
                     console.log("Guest is accessing !");
                     $("#profile-div").css("display", "none");
                     $("#loginForm").css("display", "block");

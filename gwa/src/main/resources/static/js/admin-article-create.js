@@ -86,7 +86,7 @@ $(document).ready(function() {
                 mm = '0' + mm
             }
 
-            today = dd + '/' + mm + '/' + yyyy;
+            today = yyyy + "/" + mm + "/" + dd;
             var formArticle = {
                 title: $("#txtTitle").val(),
                 description: $('#txtDescription').val(),
@@ -114,8 +114,11 @@ $(document).ready(function() {
                 formData.append("id", result.id);
                 formData.append("photoBtn", imageFile, "thumbArt"+$('#txtTitle').val() + "." + type);
                 ajaxImagePost(formData);
-                alert("Article created successfully!");
-                window.location.href = "/gwa/admin/article/";
+                $("#myModal").modal({backdrop: 'static', keyboard: false});
+                $("#success-btn").on("click", function() {
+                    window.location.href = "/gwa/admin/article/";
+                });
+
 
             },
             error : function(e) {
