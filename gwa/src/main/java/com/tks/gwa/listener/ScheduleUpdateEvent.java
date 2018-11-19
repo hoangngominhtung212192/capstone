@@ -1,6 +1,8 @@
 package com.tks.gwa.listener;
 
+import com.tks.gwa.service.EventService;
 import com.tks.gwa.utils.FileUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -13,6 +15,9 @@ public class ScheduleUpdateEvent implements Runnable {
     private AtomicBoolean running = new AtomicBoolean(false);
     private int interval;
     private String date;
+
+    @Autowired
+    private EventService eventService;
 
     @Override
     public void run() {
@@ -32,6 +37,7 @@ public class ScheduleUpdateEvent implements Runnable {
                         interval/1000/60/60, date);
 
                 // Begin process update
+                eventService.checkNUpdateEventStatus();
 
                 // End process update
 

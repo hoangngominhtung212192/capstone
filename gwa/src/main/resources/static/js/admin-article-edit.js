@@ -175,11 +175,32 @@ $(document).ready(function () {
 
     modalConfirm(function(confirm){
         if(confirm){
+            deleteArticle();
             console.log("yes");
         }else{
             console.log("no");
         }
     });
+
+    function deleteArticle() {
+        console.log("delete article id "+id);
+        $.ajax({
+            type : "GET",
+            url: "/gwa/api/article/deleteArticle?id=" + id,
+            success : function(result, status) {
+                $("#lblModalMessage").html("Article deleted");
+                $("#myModal").modal({backdrop: 'static', keyboard: false});
+                $("#success-btn").on("click", function() {
+                    window.location.href = "/gwa/admin/article";
+                });
+
+            },
+            error : function(e) {
+                alert("Error! Delete article failed!")
+                console.log("ERROR: ", e);
+            }
+        });
+    }
 
     var notidescription;
     function updateArticle(data) {

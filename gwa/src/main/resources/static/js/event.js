@@ -69,8 +69,20 @@ var defaultPaginationOpts = {
         };
         isSearch = true;
         searchEv();
+        // testSchedule()
 
     });
+
+    function testSchedule() {
+        $.ajax({
+            type : "POST",
+            url : "/gwa/api/event/checkcheck",
+            async: false,
+            success : function(result, status) {
+                alert("ok");
+            },
+        });
+    }
 
     function searchEv() {
         var searchValue = $("#txtSearch").val();

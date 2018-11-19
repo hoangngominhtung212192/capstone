@@ -2,11 +2,11 @@ package com.tks.gwa.service.serviceImpl;
 
 import com.google.maps.model.LatLng;
 import com.tks.gwa.constant.AppConstant;
-import com.tks.gwa.entity.Event;
-import com.tks.gwa.entity.Eventattendee;
+import com.tks.gwa.entity.*;
 import com.tks.gwa.repository.EventAttendeeRepository;
 import com.tks.gwa.repository.EventRepository;
 import com.tks.gwa.service.EventService;
+import com.tks.gwa.service.NotificationService;
 import com.tks.gwa.utils.GoogleMapHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -27,6 +27,11 @@ public class EventServiceImpl implements EventService {
     @Autowired
     private EventRepository eventRepository;
 
+    @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
+    private EventAttendeeRepository eventAttendeeRepository;
 
     @Override
     public List<Event> getAllEvent() {
@@ -222,5 +227,41 @@ public class EventServiceImpl implements EventService {
         return result;
     }
 
+    @Override
+    public void checkNUpdateEventStatus() {
+        List<Event> listAll = eventRepository.getAll();
+        Date date = new Date();
+        for (int i = 0; i < listAll.size(); i++) {
+            Event curE = listAll.get(i);
+            try {
+                Date evDate = new SimpleDateFormat("yyyy-MM-dd").parse(curE.getRegDateEnd());
+                if (date.compareTo(evDate)>0 && (curE.getNumberOfAttendee() < curE.getMinAttendee()) ){
+                    //got affected event
+                    eventRepository.updateEventStatus(curE.getId());
+                    //list of attendee of this event
+                    List<Eventattendee> listatt = eventAttendeeRepository.searchAttendeeByEvent(curE.getId());
+                    if (!listatt.isEmpty()){
+                        for (int j = 0; j < listatt.size(); j++) {
+                            Eventattendee attendee = listatt.get(j);
 
+                            Notification notification = new Notification();
+                            notification.setDescription("An event you signed up for was cancelled");
+                            notification.setAccount(attendee.getAccount());
+
+                            Notificationtype notificationtype = new Notificationtype();
+                            notificationtype.setId(7);
+
+                            notification.setNotificationtype(notificationtype);
+                            notification.setObjectID(curE.getId());
+
+                            notificationService.addNewNotification(notification);
+                        }
+                    }
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+                continue;
+            }
+        }
+    }
 }

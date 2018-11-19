@@ -214,8 +214,12 @@ $(document).ready(function() {
                     formData.append("id", result.id);
                     formData.append("photoBtn", imageFile, "thumbEvt"+$('#txtTitle').val() + "." + type);
                     ajaxImagePost(formData);
-                    alert("Event created successfully!");
-                    window.location.href = "/gwa/event/detail?id=" + result.id;
+                    $("#myModal").modal({backdrop: 'static', keyboard: false});
+                    $("#success-btn").on("click", function() {
+                        window.location.href = "/gwa/event/detail?id="+result.id;
+                    });
+                    // alert("Event created successfully!");
+                    // window.location.href = "/gwa/event/detail?id=" + result.id;
 
                 },
                 error : function(e) {

@@ -3,6 +3,7 @@ $(document).ready(function() {
     var imagetype;
     var imageFile;
     var formData = new FormData();
+    // var loggedUserID;
     $("#photoBtn").change(function (e) {
         console.log($("#photoBtn").val());
 
@@ -90,6 +91,9 @@ $(document).ready(function() {
             var formArticle = {
                 title: $("#txtTitle").val(),
                 description: $('#txtDescription').val(),
+                account : {
+                    id : account_session_id
+                },
                 content: CKEDITOR.instances.contentEditor.getData(),
                 category: $("#cboCate").val(),
                 date: today,

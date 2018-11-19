@@ -98,7 +98,7 @@ $(document).ready(function() {
                 content : CKEDITOR.instances.content.getData(),
                 category : $("#cboCate").val(),
                 modifiedDate : today,
-                approvalStatus : 'userpending',
+                approvalStatus : 'Pending',
             }
 
             ajaxPost(formArticle);
@@ -118,7 +118,7 @@ $(document).ready(function() {
             url : "/gwa/api/article/createArticle",
             data : JSON.stringify(data),
             success : function(result, status) {
-                alert("article created")
+                // alert("article created")
                 var type = imagetype.split("/")[1];
                 formData.append("id", result.id);
                 formData.append("photoBtn", imageFile, "thumbArt"+$('#txtTitle').val() + "." + type);

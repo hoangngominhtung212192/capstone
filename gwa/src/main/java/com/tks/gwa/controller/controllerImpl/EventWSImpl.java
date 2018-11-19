@@ -257,4 +257,11 @@ public class EventWSImpl implements EventWS {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<String> checkcheck() {
+        eventService.checkNUpdateEventStatus();
+        return new ResponseEntity<>("ok", HttpStatus.OK);
+    }
+
+
 }

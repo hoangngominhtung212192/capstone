@@ -60,15 +60,28 @@ $(document).ready(function () {
             totalPages: totalPage
         }));
     }
-    searchEv();
+    // searchEv();
     $("#btnSearch").click(function (event) {
         currentPage = 1;
         event.preventDefault();
 
         isSearch = true;
         searchEv();
+        // testSchedule();
 
     });
+
+    function testSchedule() {
+        console.log("testing");
+        $.ajax({
+            type : "POST",
+            url : "/gwa/api/event/checkcheck",
+            async: false,
+            success : function(result, status) {
+                alert("ok");
+            },
+        });
+    }
 
     function searchEv() {
         var searchValue = $("#txtSearch").val();
