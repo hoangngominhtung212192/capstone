@@ -103,15 +103,11 @@ $(document).ready(function() {
         var d2 = Date.parse(endDate);
         var d3 = Date.parse(regstaDate);
         var d4 = Date.parse(regendDate);
+        var minn = $("#txtAttMin").val();
+        var maxx = $("#txtAttMax").val();
+        console.log("min: "+minn+" max: "+maxx);
         if (d3 < d4 && d4 < d1 && d1 < d2){
-            var minn = $("#txtAttMin").val();
-            var maxx = $("#txtAttMax").val()
-            if (minn > maxx){
-                $.growl.error({message: "Minimum attendee should be lower than maximum attendee"});
-            } else {
-                checkMatchingEvt(staDate,endDate);
-
-            }
+            checkMatchingEvt(staDate,endDate);
         } else {
             $.growl.error({message: "Input date is invalid!"});
         }
@@ -193,9 +189,20 @@ $(document).ready(function() {
         }
         if ($("#txtPrice").val() == ""){
             valid = false;
-            $.growl.error({message: "Please enter max attendee"});
+            $.growl.error({message: "Please enter price"});
         }
-
+        // var regstaDate = $('#txtRegStartDate').val();
+        // var regendDate = $('#txtRegEndDate').val();
+        // var d1 = Date.parse(staDate);
+        // var d2 = Date.parse(endDate);
+        // var d3 = Date.parse(regstaDate);
+        // var d4 = Date.parse(regendDate);
+        var minn = $("#txtAttMin").val();
+        var maxx = $("#txtAttMax").val();
+        if (minn > maxx){
+            valid = false;
+            $.growl.error({message: "Minimum attendee should be lower than maximum attendee"});
+        }
         if (valid == true){
             $.ajax({
                 type : "POST",

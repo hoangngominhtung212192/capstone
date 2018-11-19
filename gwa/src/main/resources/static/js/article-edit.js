@@ -138,14 +138,19 @@ $(document).ready(function () {
             }
 
             today = yyyy + "/" + mm + "/" + dd;
+            var curImage ;
+            if (!checkImage){
+                curImage = $('#imgthumb').attr('src');
+            }
             var formArticle = {
                 id : id,
                 title : $("#title").val(),
                 description : $('#txtDescription').val(),
                 content : CKEDITOR.instances.content.getData(),
+                thumbImage : curImage,
                 category : $("#cboCate").val(),
                 modifiedDate : today,
-                approvalStatus : 'userpending',
+                approvalStatus : 'Pending',
             }
 
             updateArticle(formArticle);
@@ -194,9 +199,10 @@ $(document).ready(function () {
                 }
                 console.log(result);
                 console.log(status);
-                // alert("Article updated successfully!");
-                $.growl.notice({message: "Article updated successfully!"});
-                window.location.href = "detail?id=" + result.id;
+                $("#myModal").modal({backdrop: 'static', keyboard: false});
+                $("#success-btn").on("click", function() {
+                    window.location.href = "/gwa/article/detail?id="+result.id;
+                });
             },
             error : function(e) {
                 alert("Error!")

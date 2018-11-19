@@ -151,14 +151,21 @@ $(document).ready(function() {
             },
 
             success:function (result, status) {
-                console.log("result len: "+result.length);
+                // console.log(": "+result.length);
+
                 if (result.length==0){
+                    var curImage ;
+                    if (checkImage==false){
+                        curImage = $('#imgthumb').attr('src');
+                        console.log("current thum: "+curImage);
+                    }
                     var formEvent = {
                         // $('#hiddenEvID').val(result.id);
                         id : $("#hiddenEvID").val(),
                         title : $("#txtTitle").val(),
                         location : addrlocation,
                         description : $("#txtDescription").val(),
+                        thumbImage : curImage,
                         startDate : $("#txtStartDate").val(),
                         endDate : $("#txtEndDate").val(),
                         regDateStart : $("#txtRegStartDate").val(),
@@ -224,12 +231,13 @@ $(document).ready(function() {
                     if(checkImage){
                         var type = imagetype.split("/")[1];
                         formData.append("id", result.id);
-                        formData.append("photoBtn", imageFile, "thumbEvt"+$('#txtTitle').val() + "." + type);
+                        formData.append("photoBtn", imageFile, "thumbEvt" + "." + type);
                         ajaxImagePost(formData);
                     }
-
-                    alert("Event updated successfully!");
-                    window.location.href = "/gwa/event/detail?id=" + result.id;
+                    $("#myModal").modal({backdrop: 'static', keyboard: false});
+                    $("#success-btn").on("click", function() {
+                        window.location.href = "/gwa/event/detail?id="+result.id;
+                    });
 
                 },
                 error : function(e) {
