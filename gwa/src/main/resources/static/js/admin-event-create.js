@@ -107,9 +107,10 @@ $(document).ready(function() {
             var minn = $("#txtAttMin").val();
             var maxx = $("#txtAttMax").val()
             if (minn > maxx){
-                checkMatchingEvt(staDate,endDate);
-            } else {
                 $.growl.error({message: "Minimum attendee should be lower than maximum attendee"});
+            } else {
+                checkMatchingEvt(staDate,endDate);
+
             }
         } else {
             $.growl.error({message: "Input date is invalid!"});

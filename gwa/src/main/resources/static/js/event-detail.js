@@ -110,7 +110,8 @@ $(document).ready(function () {
                 feedback: $('textarea#txtFeedback').val()
             },
             success: function (result, status) {
-                alert("Feedback sent! Thank you for your time.")
+                alert("Feedback sent! Thank you for your time.");
+                window.location.href = "/gwa/event/detail?id="+id;
             },
             error : function(e) {
                 alert("feedback failed");

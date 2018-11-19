@@ -1,44 +1,92 @@
-$(document).ready(function() {
-    authentication()
-    var loggedUsername;
-
-    $("#btnSubmit").click(function (event) {
-        event.preventDefault();
-        var formData = {
-
-        }
-
-        createProposal();
-
-    })
-    function createProposal() {
-        console.log();
-
+$(document).ready(function () {
+    var currentPage = 1;
+    searchEv();
+    function searchEv() {
+        console.log("getting evens")
         $.ajax({
             type : "POST",
-            // contentType : "application/json",
-            url : "/gwa/api/proposal/createProposal",
+            url : "/gwa/api/event/searchEventByStatusAndPage",
             data : {
-                username : loggedUsername,
-                eventTitle : $('#txtTitle').val(),
-                description : $('#txtDescription').val(),
-                location : $('#txtLocation').val(),
-                content : CKEDITOR.instances.contentEditor.getData(),
-
+                title : "",
+                status : "Active",
+                sorttype : "desc",
+                pageNum : 1
             },
+            async: false,
             success : function(result, status) {
-                alert("Proposal sent. Thank you for your input!");
-                window.location.href = "/gwa/event";
+                var data = result[1];
+                totalPage = result[0];
+                console.log(result);
+                console.log(status);
+                console.log("page num: "+currentPage);
+                console.log("seach numb of pages: "+result[0]);
+                // currentPage = 1;
 
+                appendEvent(data);
             },
             error : function(e) {
-                alert("Error!")
+                alert("No event with matching title found!");
                 console.log("ERROR: ", e);
             }
         });
     }
 
-    // authentication();
+    function appendEvent(result){
+        var topEvdiv = document.getElementById("topEvents")
+        var eventDiv1 = $('<div class="single-blog-post featured-post">\n' +
+            '                            <div class="post-thumb">\n' +
+            '<img src="'+result[0].thumbImage+'" style="width: 400px; max-height: 350px" alt="">' +
+            '                            </div>\n' +
+            '                            <div class="post-data">\n' +
+            '                                <a href="#" class="post-title">\n' +
+            '                                    <h6>'+result[0].title+'</h6>\n' +
+            '                                </a>\n' +
+            '                                <div class="post-meta">\n' +
+            '                                    <p class="post-excerp">'+result[0].description+'</p>\n' +
+            '                                </div>\n' +
+            '                            </div>\n' +
+            '                        </div>');
+        $('#BigEv').append(eventDiv1);
+        var eventDiv2 = $('<div class="single-blog-post featured-post-2">\n' +
+            '                            <div class="post-thumb">\n' +
+            '<img src="'+result[1].thumbImage+'" style="width: 280px; max-height: 200px" alt="">' +
+            '                            </div>\n' +
+            '                            <div class="post-data">\n' +
+            '                                <div class="post-meta">\n' +
+            '                                    <a href="#" class="post-title">\n' +
+            '                                        <h6>'+result[1].title+'</h6>\n' +
+            '                                    </a>\n' +
+            '                                </div>\n' +
+            '                            </div>\n' +
+            '                        </div>');
+        var eventDiv3 = $('<div class="single-blog-post featured-post-2">\n' +
+            '                            <div class="post-thumb">\n' +
+            '<img src="'+result[2].thumbImage+'" style="width: 280px; max-height: 200px" alt="">' +
+            '                            </div>\n' +
+            '                            <div class="post-data">\n' +
+            '                                <div class="post-meta">\n' +
+            '                                    <a href="#" class="post-title">\n' +
+            '                                        <h6>'+result[2].title+'</h6>\n' +
+            '                                    </a>\n' +
+            '                                </div>\n' +
+            '                            </div>\n' +
+            '                        </div>');
+        $('#smallerEvDiv').append(eventDiv2);
+        $('#smallerEvDiv').append(eventDiv3);
+
+    }
+
+
+
+
+    /*   Begin authentication and notification  */
+    // process UI
+    $(document).click(function (event) {
+        $("#dropdown-profile").css("display", "none");
+        $("#dropdown-notification").css("display", "none");
+    })
+
+    authentication();
 
     var account_session_id;
 
@@ -57,7 +105,6 @@ $(document).ready(function() {
                     var jsonResponse = JSON.parse(xhr_data);
 
                     var username = jsonResponse["username"];
-                    loggedUsername = jsonResponse["username"];
                     var thumbAvatar = jsonResponse["avatar"];
                     console.log(jsonResponse["role"].name + " " + username + " is on session!");
                     $("#membersince").text("Member since " + jsonResponse["createdDate"].split(" ")[0]);
@@ -74,6 +121,7 @@ $(document).ready(function() {
                         $("#thumbAvatar-new").attr("src", thumbAvatar);
                         $("#thumbAvatar-dropdown").attr("src", thumbAvatar);
                     }
+                    $("#btnGetMyArticles").css("display", "block");
 
                     if (jsonResponse["role"].name == "ADMIN") {
                         $("#adminBtn").css("display", "block");
@@ -273,14 +321,6 @@ $(document).ready(function() {
                     window.location.href = "/gwa/pages/profile.html?accountID=" + objectID;
                 } else if (type == "Model") {
                     window.location.href = "/gwa/pages/modeldetail.html?modelID=" + objectID;
-                } else if (type == "Tradepost") {
-                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
-                } else if (type == "OrderSent") {
-                    window.location.href = "/gwa/trade-market/my-order";
-                } else if (type == "OrderReceived") {
-                    window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
-                } else if (type == "Article") {
-                    window.location.href = "/gwa/article/detail?id=" + objectID;
                 }
             });
         });
@@ -351,4 +391,5 @@ $(document).ready(function() {
 
     /* End notification */
     /*   End authentication and notification  */
+
 })
