@@ -298,10 +298,15 @@ $(document).ready(function () {
                 success : function(result, status) {
                     // $.growl.notice({message: "Registered successfully!"});
                     // alert("Registered successfully!")
-                    location.reload(true);
-                    $.growl.notice({message: "Registered successfully!"});
-                    console.log(result);
-                    console.log(status);
+                    $("#lblModalMessage").html("Registered sucessfully!");
+                    $("#myModal").modal({backdrop: 'static', keyboard: false});
+                    $("#success-btn").on("click", function() {
+                        location.reload(true);
+                    });
+                    // location.reload(true);
+                    // $.growl.notice({message: "Registered successfully!"});
+                    // console.log(result);
+                    // console.log(status);
                 },
                 error : function(e) {
                     $.growl.error({message: "Register failed!"});
