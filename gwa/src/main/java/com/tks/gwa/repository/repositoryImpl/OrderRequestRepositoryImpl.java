@@ -151,6 +151,23 @@ public class OrderRequestRepositoryImpl extends GenericRepositoryImpl<Orderreque
         return this.read(orderId);
     }
 
+    @Override
+    public List<Orderrequest> getAllPendingOrderrequest() {
+        String sql = "SELECT o FROM " + Orderrequest.class.getName() +
+                " AS o WHERE o.status =:status";
+
+        Query query = this.entityManager.createQuery(sql);
+        query.setParameter("status", AppConstant.PENDING_STATUS);
+
+        List<Orderrequest> result = null;
+        try {
+            result = (List<Orderrequest>) query.getResultList();
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     String getSortSql(int sortType) {
         String sortSql = "";
         if (AppConstant.TRADEPOST.SORT_DATE_DESC == sortType) {

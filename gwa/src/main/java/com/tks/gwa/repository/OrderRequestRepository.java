@@ -20,4 +20,6 @@ public interface OrderRequestRepository {
     int countRequestWithStatusByAccountId(int accountId, String status);
 
     Orderrequest getOrderrequestById(int orderId);
+
+    List<Orderrequest> getAllPendingOrderrequest();
 }

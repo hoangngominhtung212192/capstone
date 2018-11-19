@@ -71,6 +71,8 @@ public class AppConstant {
         public static final int MAX_REQUEST_PER_PAGE =5;
         public static final int FEEDBACK_TYPE_OWNER_TO_TRADER = 1;
         public static final int FEEDBACK_TYPE_TRADER_TO_OWNER = 2;
+
+        public static final long AUTO_DECLINE_ORDER_TIME = 2*24*60*60*1000; //milisecond -> 2 day
     }
 
     public static final String LOG_FILE_MODEL_CRAWL = "./crawlmodel.dat";

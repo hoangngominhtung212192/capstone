@@ -6,7 +6,7 @@ import com.tks.gwa.dto.*;
 import com.tks.gwa.entity.*;
 import com.tks.gwa.repository.*;
 import com.tks.gwa.service.TrademarketService;
-import com.tks.gwa.utils.DateStringConverter;
+import com.tks.gwa.utils.DatetimeHelper;
 import com.tks.gwa.utils.GoogleMapHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +38,9 @@ public class TrademarketServiceImpl implements TrademarketService {
 
     @Autowired
     private  TraderatingRepository traderatingRepository;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
 
 
     //get Trade Post using ID
@@ -89,7 +92,7 @@ public class TrademarketServiceImpl implements TrademarketService {
 
         //Set Account to newTradepost
         newTradepost.setAccount(traderProfile.getAccount());
-        newTradepost.setPostedDate(DateStringConverter.dateConvertToString(new Date()));
+        newTradepost.setPostedDate(DatetimeHelper.dateConvertToString(new Date()));
         Tradepost tradepostResult = null;
 
         try {
@@ -208,7 +211,7 @@ public class TrademarketServiceImpl implements TrademarketService {
             return -1;
         }
 
-        editTradepost.setLastModified(DateStringConverter.dateConvertToString(new Date()));
+        editTradepost.setLastModified(DatetimeHelper.dateConvertToString(new Date()));
         Tradepost tradepostResult = null;
 
         try {
@@ -507,14 +510,14 @@ public class TrademarketServiceImpl implements TrademarketService {
     @Override
     public boolean acceptOrder(int orderId) {
         String status = AppConstant.APPROVED_STATUS;
-        String dateSet = DateStringConverter.dateConvertToString(new Date());
+        String dateSet = DatetimeHelper.dateConvertToString(new Date());
         return orderRequestRepository.setOrderStatus(orderId,status,dateSet, null, null);
     }
 
     @Override
     public boolean declineOrder(int orderId, String reason) {
         String status = AppConstant.DECLINED_STATUS;
-        String dateSet = DateStringConverter.dateConvertToString(new Date());
+        String dateSet = DatetimeHelper.dateConvertToString(new Date());
         Tradepost updateQuantityTradepost = orderRequestRepository.getTradepostByOrderId(orderId);
         int quantityToAdd = orderRequestRepository.getOrderQuantityByOrderId(orderId);
         int currentQuantity = updateQuantityTradepost.getQuantity();
@@ -525,14 +528,14 @@ public class TrademarketServiceImpl implements TrademarketService {
     @Override
     public boolean confirmOrderSucceed(int orderId) {
         String status = AppConstant.SUCCEED_STATUS;
-        String dateSet = DateStringConverter.dateConvertToString(new Date());
+        String dateSet = DatetimeHelper.dateConvertToString(new Date());
         return orderRequestRepository.setOrderStatus(orderId,status,dateSet,null,null);
     }
 
     @Override
     public boolean cancelOrder(int orderId, String reason) {
         String status = AppConstant.CANCELLED_STATUS;
-        String dateSet = DateStringConverter.dateConvertToString(new Date());
+        String dateSet = DatetimeHelper.dateConvertToString(new Date());
         Tradepost updateQuantityTradepost = orderRequestRepository.getTradepostByOrderId(orderId);
         int quantityToAdd = orderRequestRepository.getOrderQuantityByOrderId(orderId);
         int currentQuantity = updateQuantityTradepost.getQuantity();
@@ -557,7 +560,7 @@ public class TrademarketServiceImpl implements TrademarketService {
         newOrder.setTradepost(tradepost);
         newOrder.setAccount(updateProfile.getAccount());
         newOrder.setBillingAddress(orderDTO.getAddress());
-        newOrder.setOrderDate(DateStringConverter.dateConvertToString(new Date()));
+        newOrder.setOrderDate(DatetimeHelper.dateConvertToString(new Date()));
         newOrder.setQuantity(orderDTO.getQuantity());
         orderRequestRepository.addNewOrderRequest(newOrder);
 
@@ -593,7 +596,7 @@ public class TrademarketServiceImpl implements TrademarketService {
             traderating.setFeedbackType(feedbackType);
             traderating.setComment(comment);
             traderating.setRating(value);
-            traderating.setRatingDate(DateStringConverter.dateConvertToString(new Date()));
+            traderating.setRatingDate(DatetimeHelper.dateConvertToString(new Date()));
             if(feedbackType == AppConstant.TRADEPOST.FEEDBACK_TYPE_OWNER_TO_TRADER){
                 traderating.setFromUser(orderrequest.getTradepost().getAccount());
                 traderating.setToUser(orderrequest.getAccount());
@@ -791,6 +794,39 @@ public class TrademarketServiceImpl implements TrademarketService {
         tradepost.setRejectReason(reason);
         Tradepost updatedTradepost = tradepostRepository.updateTradepost(tradepost);
         return updatedTradepost;
+    }
+
+    /******************************* SCHEDULER METHOD ************************************************/
+    @Override
+    public void autoRejectAllOrderByScheduler() {
+        String rejectReason = "Auto decline by scheduler: This order is 2 days old";
+        Date now = new Date();
+
+        List<Orderrequest> orderrequestList = orderRequestRepository.getAllPendingOrderrequest();
+        for (int i = 0; i < orderrequestList.size(); i++) {
+            Orderrequest orderrequest = orderrequestList.get(i);
+            Date orderDate = DatetimeHelper.stringConvertToDate(orderrequest.getOrderDate());
+            long diff = DatetimeHelper.diffInMilliseconds(orderDate,now);
+            if (diff >= AppConstant.TRADEPOST.AUTO_DECLINE_ORDER_TIME){
+                this.declineOrder(orderrequest.getId(),rejectReason);
+
+                String noticationText = "You have order with id="+ orderrequest.getId() +" has rejected by scheduler automatic.";
+
+                Notification notification = new Notification();
+                notification.setSeen(AppConstant.NOTIFICATION_NOT_SEEN);
+                notification.setDate(DatetimeHelper.dateConvertToString(now));
+                notification.setAccount(orderrequest.getAccount());
+                notification.setDescription(noticationText);
+                Notificationtype notificationtype = new Notificationtype();
+                notificationtype.setId(4);
+                notificationtype.setName("OrderSent");
+                notification.setNotificationtype(notificationtype);
+                notification.setObjectID(orderrequest.getId());
+
+                notificationRepository.create(notification);
+
+            }
+        }
     }
 
 
