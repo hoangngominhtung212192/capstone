@@ -206,6 +206,16 @@ public class WebControllerImpl implements WebController {
     }
 
     @Override
+    public ModelAndView crawlArticlePage() {
+        return new ModelAndView("crawl-article");
+    }
+
+    @Override
+    public ModelAndView pendingArticlePage() {
+        return new ModelAndView("pending-article");
+    }
+
+    @Override
     public ModelAndView pendingTradepostPage() {
         return new ModelAndView("manipulate-tradepost");
     }

@@ -184,4 +184,56 @@ public class ArticleRepositoryImpl extends GenericRepositoryImpl<Article, Intege
         return listres;
     }
 
+    @Override
+    public List<Article> searchPending(int pageNumber, int pageSize, String txtSearch, String orderBy) {
+        boolean txtSearch_flag = false;
+
+        String sql = "SELECT a FROM " + Article.class.getName() + " AS a WHERE a.approvalStatus='crawlpending'";
+
+        if (txtSearch.length() > 0) {
+            sql += " AND a.title LIKE :title";
+            txtSearch_flag = true;
+        }
+
+        if (orderBy.equalsIgnoreCase("Ascending")) {
+            sql += " ORDER BY a.date ASC";
+        } else {
+            sql += " ORDER BY a.date DESC";
+        }
+
+        Query query = this.entityManager.createQuery(sql);
+
+        if (txtSearch_flag) {
+            query.setParameter("title", "%" + txtSearch + "%");
+        }
+
+        query.setFirstResult((pageNumber - 1) * pageSize);
+        query.setMaxResults(pageSize);
+
+        List<Article> articleList = query.getResultList();
+
+        return articleList;
+    }
+
+    @Override
+    public int getCountSearchPending(String txtSearch) {
+
+        boolean txtSearch_flag = false;
+
+        String sql = "SELECT count(a.id) FROM " + Article.class.getName() + " AS a WHERE a.approvalStatus='crawlpending'";
+
+        if (txtSearch.length() > 0) {
+            sql += " AND a.title LIKE :title";
+            txtSearch_flag = true;
+        }
+
+        Query query = this.entityManager.createQuery(sql);
+
+        if (txtSearch_flag) {
+            query.setParameter("title", "%" + txtSearch + "%");
+        }
+
+        return (int) (long) query.getSingleResult();
+    }
+
 }

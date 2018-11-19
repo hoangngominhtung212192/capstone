@@ -1,6 +1,7 @@
 package com.tks.gwa.controller;
 
 import com.tks.gwa.controller.controllerImpl.ArticleWSImpl;
+import com.tks.gwa.dto.LogCrawl;
 import com.tks.gwa.entity.Article;
 import com.tks.gwa.service.ArticleService;
 import org.springframework.http.ResponseEntity;
@@ -50,4 +51,22 @@ public interface ArticleWS {
     @RequestMapping(value = "/uploadArticleImage", method = RequestMethod.POST)
     ResponseEntity<Article> updateArticleImage(@RequestParam(value = "photoBtn", required = false) MultipartFile photoBtn,
                                            @RequestParam("id") int id);
+
+    @RequestMapping(value = "/crawl/getLog", method = RequestMethod.GET)
+    ResponseEntity<List<LogCrawl>> getLogCrawl();
+
+    @RequestMapping(value = "/crawl", method = RequestMethod.GET)
+    ResponseEntity<String> crawlArticle();
+
+    @RequestMapping(value = "/crawl/getStatus", method = RequestMethod.GET)
+    ResponseEntity<LogCrawl> getCrawlStatus();
+
+    @RequestMapping(value = "/searchPending", method = RequestMethod.GET)
+    ResponseEntity<List<Object>> searchPendingArticle(@RequestParam("pageNumber") int pageNumber,
+                                                    @RequestParam("type") String type,
+                                                    @RequestParam("txtSearch") String txtSearch,
+                                                    @RequestParam("orderBy") String orderBy);
+
+    @RequestMapping(value = "/approve", method = RequestMethod.GET)
+    ResponseEntity<Article> approvePendingArticle(@RequestParam("id") int id);
 }

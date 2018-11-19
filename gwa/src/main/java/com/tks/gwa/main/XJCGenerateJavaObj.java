@@ -1,14 +1,15 @@
 package com.tks.gwa.main;
 
-import com.tks.gwa.utils.StringHelper;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
-
+//import com.tks.gwa.crawler.ModelCrawl;
+//import com.tks.gwa.utils.StringHelper;
+//
+//import java.text.ParseException;
+//import java.text.SimpleDateFormat;
+//import java.util.Calendar;
+//import java.util.Date;
+//import java.util.TimeZone;
+//import java.util.concurrent.TimeUnit;
+//
 //
 //import com.sun.codemodel.JCodeModel;
 //import com.sun.tools.xjc.api.ErrorListener;
@@ -20,9 +21,9 @@ import java.util.concurrent.TimeUnit;
 //
 //import java.io.File;
 //import java.io.IOException;
-//
+
 public class XJCGenerateJavaObj {
-//
+
 //    public static void main(String[] args) {
 //        String output = "src/main/java";
 //        SchemaCompiler sc = XJC.createSchemaCompiler();
@@ -52,8 +53,8 @@ public class XJCGenerateJavaObj {
 //            }
 //        });
 //
-//        sc.forcePackageName("com.tks.gwa.jaxb");
-//        File schema = new File("src/main/webapp/schema/models.xsd");
+//        sc.forcePackageName("com.tks.gwa.jaxb.article");
+//        File schema = new File("src/main/webapp/schema/articles.xsd");
 //        InputSource is = new InputSource(schema.toURI().toString());
 //        sc.parseSchema(is);
 //        S2JJAXBModel model = sc.bind();
@@ -160,7 +161,6 @@ public class XJCGenerateJavaObj {
 //        } catch (ParseException e) {
 //            e.printStackTrace();
 //        }
-
 
     }
 }

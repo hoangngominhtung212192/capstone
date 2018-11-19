@@ -24,6 +24,22 @@ public class AppConstant {
 
     public static final String URL_GUNDAM_MODEL_IMAGE_END_SIGN = "margin-top:30px;";
 
+    public static final String URL_ARTICLE_CONTEXT_PATH = "https://www.gunpla101.com";
+
+    public static final String URL_ARTICLE_CRAWL = "https://www.gunpla101.com/?s=";
+
+    public static final String URL_ARTICLE_CRAWL_BEGIN_SIGN = "w-grid-list";
+
+    public static final String URL_ARTICLE_CRAWL_END_SIGN = "navigation pagination";
+
+    public static final String URL_ARTICLE_PAGE_BEGIN_SIGN = "navigation pagination";
+
+    public static final String URL_ARTICLE_PAGE_END_SIGN = "next page-numbers";
+
+    public static final String URL_ARTICLE_DETAIL_BEGIN_SIGN = "mainContentOfPage";
+
+    public static final String URL_ARTICLE_DETAIL_END_SIGN = "conv-place conv-place_after_post";
+
     public static final String APPROVED_STATUS = "approved";
     public static final String DECLINED_STATUS = "declined";
     public static final String PENDING_STATUS = "pending";
@@ -58,6 +74,8 @@ public class AppConstant {
     }
 
     public static final String LOG_FILE_MODEL_CRAWL = "./crawlmodel.dat";
+
+    public static final String LOG_FILE_ARTICLE_CRAWL = "./crawlarticle.dat";
 
     public static final String LOG_FILE_SCHEDULE = "./logschedule.dat";
 
