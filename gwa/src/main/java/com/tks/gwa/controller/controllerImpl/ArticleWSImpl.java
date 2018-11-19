@@ -32,11 +32,6 @@ public class ArticleWSImpl implements ArticleWS {
     @Override
     public ResponseEntity<Article> createArticle(@RequestBody Article article) {
 
-        Account testacc = new Account();
-        testacc.setId(1);
-
-        article.setAccount(testacc);
-
         Article newarticle = articleService.createArticle(article);
 
         return new ResponseEntity<Article>(newarticle, HttpStatus.OK);
@@ -73,8 +68,10 @@ public class ArticleWSImpl implements ArticleWS {
     }
 
     @Override
-    public ResponseEntity<String> deleteArticle(@RequestBody Article article) {
-        return null;
+    public ResponseEntity<String> deleteArticle(int id) {
+        Article arr = articleService.getArticleByID(id);
+        articleService.deleteArticle(arr);
+        return new ResponseEntity<>("Success", HttpStatus.OK);
     }
 
     @Override

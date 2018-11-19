@@ -25,8 +25,8 @@ public interface ArticleWS {
     @RequestMapping(value = "/updateArticle", method = RequestMethod.POST)
     ResponseEntity<Article> updateArticle(@RequestBody Article article);
 
-    @RequestMapping(value = "/deleteArticle", method = RequestMethod.POST)
-    ResponseEntity<String> deleteArticle(@RequestBody Article article);
+    @RequestMapping(value = "/deleteArticle", method = RequestMethod.GET)
+    ResponseEntity<String> deleteArticle(@RequestParam("id") int id);
 
     @RequestMapping(value = "/getAllArticle", method = RequestMethod.POST)
     ResponseEntity<List<Article>> searchAllArticle();

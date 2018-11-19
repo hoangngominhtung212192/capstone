@@ -23,5 +23,5 @@ public interface EventRepository extends GenericRepository<Event, Integer> {
     int countEventBySearchStatus(String title, String status);
     List<Event> getEventByStatusAndSort(String status, String sorttype, int pageNum);
     List<Event> searchEventByStatusAndSort(String title, String status, String sorttype, int pageNum);
-//    List<Event> updateEventStatus(String status);
+    int updateEventStatus(int id);
 }

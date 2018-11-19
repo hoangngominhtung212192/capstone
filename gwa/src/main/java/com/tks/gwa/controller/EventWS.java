@@ -81,4 +81,7 @@ public interface EventWS {
                                                 @RequestParam("range") long range,
                                                 @RequestParam("sorttype") String sorttype,
                                                 @RequestParam("pageNum") int pageNum);
+    @RequestMapping(value = "/checkcheck", method = RequestMethod.POST)
+    ResponseEntity<String> checkcheck();
+
 }

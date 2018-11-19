@@ -21,4 +21,6 @@ public interface EventService {
     List<Object> searchEventWithSortAndPageByStatus(String title, String status, String sorttype, int pageNum);
     List<Object> getNearEventByLocation(String location, long range, String sorttype, int pageNum);
 //    List<Object> getEventByTitleWithSortAndPageByStatus(int accountid, String sorttype, int pageNum);
+
+    void checkNUpdateEventStatus();
 }

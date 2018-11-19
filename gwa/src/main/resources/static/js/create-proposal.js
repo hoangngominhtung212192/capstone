@@ -27,8 +27,12 @@ $(document).ready(function() {
 
             },
             success : function(result, status) {
-                alert("Proposal sent. Thank you for your input!");
-                window.location.href = "/gwa/event";
+                // alert("Proposal sent. Thank you for your input!");
+                // window.location.href = "/gwa/event";
+                $("#myModal").modal({backdrop: 'static', keyboard: false});
+                $("#success-btn").on("click", function() {
+                    window.location.href = "/gwa/event";
+                });
 
             },
             error : function(e) {

@@ -235,10 +235,12 @@ public class EventRepositoryImpl extends GenericRepositoryImpl<Event, Integer> i
         return listres;
     }
 
-//    @Override
-//    public List<Event> updateEventStatus(String status) {
-////        String sql = "UPDATE " + Event.class.getName()+ " SET status ='Inactive' WHERE numberOfAttendee < minAttendee";
-////        Query query = this.entityManager.createQuery(sql);
-//        return null;
-//    }
+    @Override
+    public int updateEventStatus(int id) {
+        String sql = "UPDATE " + Event.class.getName()+ " e SET e.status = 'Inactive' WHERE e.id = :id";
+        Query query = this.entityManager.createQuery(sql);
+        query.setParameter("id", id);
+        int result = query.executeUpdate();
+        return result;
+    }
 }

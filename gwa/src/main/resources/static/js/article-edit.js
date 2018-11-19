@@ -151,11 +151,11 @@ $(document).ready(function () {
                 category : $("#cboCate").val(),
                 modifiedDate : today,
                 approvalStatus : 'Pending',
-            }
+            };
 
             updateArticle(formArticle);
         }
-    })
+    });
 
 
         var modalConfirm = function(callback){
