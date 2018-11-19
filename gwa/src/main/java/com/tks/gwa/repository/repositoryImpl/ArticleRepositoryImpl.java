@@ -116,11 +116,13 @@ public class ArticleRepositoryImpl extends GenericRepositoryImpl<Article, Intege
     }
 
     @Override
-    public int countArticleBySearchStatus(String title, String status) {
-        String sql = "SELECT COUNT(e) FROM " + Article.class.getName()+" AS e WHERE e.approvalStatus =:status AND e.title LIKE :title";
+    public int countArticleBySearchStatus(String title, String cate, String status, String sorttype) {
+        String sql = "SELECT COUNT(e) FROM " + Article.class.getName()+" AS e WHERE e.title LIKE :title AND e.category LIKE :category AND e.approvalStatus = :status";
         Query query = this.entityManager.createQuery(sql);
-        query.setParameter("status", status);
         query.setParameter("title", "%"+title+"%");
+        query.setParameter("category", "%"+cate+"%");
+
+        query.setParameter("status", status);
         long result = 0;
         try{
             result = (long) query.getSingleResult();
@@ -157,6 +159,23 @@ public class ArticleRepositoryImpl extends GenericRepositoryImpl<Article, Intege
             return listres;
         }
         return listres;
+    }
+
+    @Override
+    public int countArticleByAuthor(int id) {
+        String sql = "SELECT COUNT(e) FROM " + Article.class.getName()+" AS e WHERE e.account.id = :accountID";
+        Query query = this.entityManager.createQuery(sql);
+        query.setParameter("accountID", id);
+
+        long result = 0;
+        try{
+            result = (long) query.getSingleResult();
+        } catch (NoResultException e) {
+            System.out.println("no article foudn");
+            return 0;
+        }
+
+        return (int) result;
     }
 
     @Override

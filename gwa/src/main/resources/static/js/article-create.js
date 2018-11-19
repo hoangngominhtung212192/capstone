@@ -124,10 +124,10 @@ $(document).ready(function() {
                 formData.append("photoBtn", imageFile, "thumbArt"+$('#txtTitle').val() + "." + type);
                 ajaxImagePost(formData);
 
-                alert("Article created successfully!");
-                $.growl.notice({message: "Article created successfully!"});
-
-                window.location.href = "detail?id=" + result.id;
+                $("#myModal").modal({backdrop: 'static', keyboard: false});
+                $("#success-btn").on("click", function() {
+                    window.location.href = "/gwa/article/detail?id="+result.id;
+                });
 
             },
             error : function(e) {

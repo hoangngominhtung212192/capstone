@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/dl">
+    android:id="@+id/dl"
+    tools:context=".MainActivity">
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,8 +15,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context="tks.com.gwaandroid.MainActivity">
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -51,7 +51,6 @@
                 app:backgroundTint="#0000AA"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
                 android:src="@drawable/search"
                 android:layout_marginBottom="20dp"
                 android:layout_marginRight="20dp"
@@ -59,7 +58,6 @@
         </RelativeLayout>
 
     </LinearLayout>
-
 
     <android.support.design.widget.NavigationView
         android:layout_width="wrap_content"

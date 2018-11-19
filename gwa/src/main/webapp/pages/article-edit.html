@@ -502,6 +502,22 @@
 </head>
 
 <body>
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="icon-box">
+                    <i class="material-icons">&#10004;</i>
+                </div>
+            </div>
+            <div class="modal-body text-center">
+                <h4>Great!</h4>
+                <p>Article updated!</p>
+                <button id="success-btn" class="btn btn-success" data-dismiss="modal"><span>OK</span></button>
+            </div>
+        </div>
+    </div>
+</div>
     <!-- ##### Header Area Start ##### -->
     <header class="header-area">
         <!-- Top Header Area -->
@@ -693,9 +709,12 @@
             <h5>Category</h5>
             <select id="cboCate" class="custom-select my-1 mr-sm-2">
                 <option value="News">News</option>
-                <option value="Tutorial">Tutorial</option>
+                <option value="Tutorials">Tutorials</option>
                 <option value="Paint">Paint</option>
-                <option value="Custom Build">Custom Build</option>
+                <option value="Advice">Advice</option>
+                <option value="Lifestyle">Lifestyle</option>
+                <option value="Reviews">Reviews</option>
+                <option value="Shopping Guides">Shopping Guides</option>
             </select>
             <h5>Description</h5>
             <textarea id="txtDescription" style="height: 80px; width: 500px; margin-bottom: 10px" class="form-control"></textarea>

@@ -110,8 +110,10 @@ $(document).ready(function () {
                 feedback: $('textarea#txtFeedback').val()
             },
             success: function (result, status) {
-                alert("Feedback sent! Thank you for your time.");
-                window.location.href = "/gwa/event/detail?id="+id;
+                $("#myModal").modal({backdrop: 'static', keyboard: false});
+                $("#success-btn").on("click", function() {
+                    window.location.href = "/gwa/event/detail?id="+result.id;
+                });
             },
             error : function(e) {
                 alert("feedback failed");
@@ -294,9 +296,10 @@ $(document).ready(function () {
                     date : today.toString()
                 },
                 success : function(result, status) {
-                    $.growl.notice({message: "Registered successfully!"});
+                    // $.growl.notice({message: "Registered successfully!"});
                     // alert("Registered successfully!")
                     location.reload(true);
+                    $.growl.notice({message: "Registered successfully!"});
                     console.log(result);
                     console.log(status);
                 },
