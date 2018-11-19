@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="/gwa/css/index/jquery.fileupload-ui.css">
 
     <script type="text/javascript" src="/gwa/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/gwa/js/search-account.js"></script>
+    <script type="text/javascript" src="/gwa/js/crawl-article.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -42,9 +42,127 @@
     <!-- Google Font -->
     <!--<link rel="stylesheet"-->
     <!--href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">-->
+    <style>
+        .modal-confirm {
+            color: #434e65;
+            width: 525px;
+        }
+        .modal-confirm .modal-content {
+            padding: 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+        }
+        .modal-confirm .modal-header {
+            background: #47c9a2;
+            border-bottom: none;
+            position: relative;
+            text-align: center;
+            margin: -20px -20px 0;
+            border-radius: 5px 5px 0 0;
+            padding: 35px;
+        }
+        .modal-confirm h4 {
+            text-align: center;
+            font-size: 36px;
+            margin: 10px 0;
+        }
+        .modal-confirm .form-control, .modal-confirm .btn {
+            min-height: 40px;
+            border-radius: 3px;
+        }
+        .modal-confirm .close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: #fff;
+            text-shadow: none;
+            opacity: 0.5;
+        }
+        .modal-confirm .close:hover {
+            opacity: 0.8;
+        }
+        .modal-confirm .icon-box {
+            color: #fff;
+            width: 95px;
+            height: 95px;
+            display: inline-block;
+            border-radius: 50%;
+            z-index: 9;
+            border: 5px solid #fff;
+            padding: 15px;
+            text-align: center;
+        }
+        .modal-confirm .icon-box i {
+            font-size: 64px;
+            margin: -4px 0 0 -4px;
+        }
+        .modal-confirm.modal-dialog {
+            margin-top: 80px;
+        }
+        .modal-confirm .btn {
+            color: #fff;
+            border-radius: 4px;
+            background: #eeb711;
+            text-decoration: none;
+            transition: all 0.4s;
+            line-height: normal;
+            border-radius: 30px;
+            margin-top: 10px;
+            padding: 6px 20px;
+            border: none;
+        }
+        .modal-confirm .btn:hover, .modal-confirm .btn:focus {
+            background: #eda645;
+            outline: none;
+        }
+        .modal-confirm .btn span {
+            margin: 1px 3px 0;
+            float: left;
+        }
+        .modal-confirm .btn i {
+            margin-left: 1px;
+            font-size: 20px;
+            float: right;
+        }
+        .trigger-btn {
+            display: inline-block;
+            margin: 100px auto;
+        }
+    </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div id="loading" class="loading" style="display: none;">Loading&#8230;</div>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 style="margin: 0; font-weight: 700; font-size: 1.5em;
+                        " class="modal-title" id="myModalLabel">Are you sure?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="modal-btn-si">No</button>
+                <button type="button" class="btn btn-primary" id="modal-btn-no">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div id="modal-header" class="modal-header">
+                <div class="icon-box">
+                    <i class="material-icons">&#10004;</i>
+                </div>
+            </div>
+            <div class="modal-body text-center">
+                <h4 id="modal-h4">Great!</h4>
+                <p id="modal-p">The system is beginning to execute Crawling Process.</p>
+                <button id="success-btn" class="btn btn-success" data-dismiss="modal"><span>OK</span></button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="wrapper">
     <!--<script>HTMLImporter.import("/pages/admin-header.html");</script>-->
     <header class="main-header">
@@ -246,12 +364,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                ACCOUNT
-                <small>Search account</small>
+                Article
+                <small>Crawl article</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li class="active">Manage Account</li>
+                <li class="active">Crawl Article</li>
             </ol>
         </section>
 
@@ -261,76 +379,60 @@
                 <div class="col-xs-12" style="width: 100%;">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title" style="font-weight: normal;">Latest Accounts</h3>
+                            <a id="crawlBtn" href="#">CRAWL</a>
+
+                            <input type="checkbox" id="switch" />
+                            <label id="lbSwitch" for="switch">Toggle</label>
                         </div>
-                        <form action="#" method="get" class="sidebar-form">
-                            <div class="input-group">
-                                <input id="txtSearch" type="text" name="q" class="form-control"
-                                       placeholder="Search..."> <span class="input-group-btn">
-										<button type="submit" name="search" id="search-btn"
-                                                class="btn btn-flat">
-											<i class="fa fa-search"></i>
-										</button>
-									</span>
+                        <div id="crawlRecordsDiv" class="box-header">
+                            <div style="width: 48%; float: left; margin-right: 2%;">
+                                <span style="float: right;"><b>Crawl records:</b> <span id="numOfCrawl"></span></span>
                             </div>
-                        </form>
-
-                        <div class="io-list-header" style="margin-top: 25px; margin-left: 12px;">
-
-                            <div class="col-left">
-                                <span class="txt">Order by</span>&nbsp;
-                                <div class="styled-select slate">
-                                    <select id="cbo-order-1" class="editable-select">
-                                        <option value="Register Date">Register Date</option>
-                                    </select>&nbsp;
-                                </div>
-
-                                <!--    Begin ASC/DESC    -->
-                                <div class="styled-select slate">
-                                    <select id="cbo-orderBy" class="editable-select">
-                                        <option value="Descending">Descending</option>
-                                        <option value="Ascending">Ascending</option>
-                                    </select>&nbsp;
-                                </div>
-                            </div>
-                            <div class="col-right">
-                                <div id="pagination-content" class="my-pagination" style="margin-right: 17px;">
-                                </div>
+                            <div style="width: 50%; float: left;">
+                                <span style="float: left;"><b>New records:</b> <span id="numOfNew"></span></span>
                             </div>
                         </div>
+
+                        <!--<div class="io-list-header" style="margin: 10px; margin-left: 12px;">-->
+
+                        <!--<div class="col-right">-->
+                        <!--<div class="my-pagination" style="margin-right: 17px;">-->
+                        <!--<span class="my-page my-active">First</span>-->
+                        <!--<span class="my-page"><a href="#">Prev</a></span>-->
+                        <!--<span class="my-page my-active">1</span>-->
+                        <!--<span class="my-page"><a href="#">2</a></span>-->
+                        <!--<span class="my-page"><a href="#">3</a></span>-->
+                        <!--<span class="my-page"><a href="#">4</a></span>-->
+                        <!--<span class="my-page"><a href="#">5</a></span>-->
+                        <!--<span class="my-page">...</span>-->
+                        <!--<span class="my-page"><a href="#">Next</a></span>-->
+                        <!--<span class="my-page"><a href="#">Last</a></span>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
                         <!--    End ASC/DESC    -->
 
                         <!-- /.box-header -->
-                        <div class="box-body" style="margin-top: 65px;">
-                            <table id="accountTable" class="table table-bordered table-hover">
+                        <div class="box-body">
+                            <table id="bookTable" class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th style="text-align: center;">ID</th>
-                                    <th>Fullname</th>
-                                    <th>Username</th>
-                                    <th>Email</th>
-                                    <th>DateTime</th>
+                                    <th style="width: 60px;">ID</th>
+                                    <th>Date Time</th>
+                                    <th>Crawl Records</th>
+                                    <th>New Records</th>
                                     <th>Status</th>
-                                    <th>Address</th>
                                 </tr>
                                 </thead>
-                                <tbody id="accountBody">
-                                <!--<tr>-->
-                                    <!--<td class="accountID">1</td>-->
-                                    <!--<td class="fullname">00 QAN[T] Full Saber</td>-->
-                                    <!--<td class="usernameTD"><a href="#">tunghoang</a></td>-->
-                                    <!--<td class="emailTD">Master Grade</td>-->
-                                    <!--<td class="datetimeTD">2018-10-25 00:36:33</td>-->
-                                    <!--<td class="accountStatus">crawlpending</td>-->
-                                    <!--<td class="addressTD">Bandai</td>-->
-                                <!--</tr>-->
+                                <tbody id="tbody-crawl">
+                                <!-- this is ajax load content-->
                                 </tbody>
                             </table>
-                            <h3 id="no-record" style="display: none;">No record match !!</h3>
                         </div>
                         <!-- /.box-body -->
                     </div>
                     <!-- /.box -->
+
                 </div>
                 <!-- /.col -->
             </div>

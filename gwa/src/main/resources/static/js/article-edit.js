@@ -115,7 +115,7 @@ $(document).ready(function () {
             valid = false;
             $.growl.error({message: "Please enter article's description"});
         }
-        if ($('#content').val() == ""){
+        if (CKEDITOR.instances.content.getData() == ""){
             valid = false;
             $.growl.error({message: "Please enter article's content"});
         }

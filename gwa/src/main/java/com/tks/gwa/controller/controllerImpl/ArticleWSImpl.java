@@ -1,8 +1,10 @@
 package com.tks.gwa.controller.controllerImpl;
 
 import com.tks.gwa.controller.ArticleWS;
+import com.tks.gwa.dto.LogCrawl;
 import com.tks.gwa.entity.Account;
 import com.tks.gwa.entity.Article;
+import com.tks.gwa.listener.ArticleThreadCrawler;
 import com.tks.gwa.service.ArticleService;
 import com.tks.gwa.service.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class ArticleWSImpl implements ArticleWS {
 
     @Autowired
     ArticleService articleService;
+
+    @Autowired
+    ArticleThreadCrawler articleThreadCrawler;
 
     @Override
     public ResponseEntity<Article> createArticle(@RequestBody Article article) {
@@ -123,5 +128,76 @@ public class ArticleWSImpl implements ArticleWS {
             }
         }
         return new ResponseEntity<>(article, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<LogCrawl>> getLogCrawl() {
+
+        System.out.println("[ArticleWS] Begin getLogCrawl()");
+
+        List<LogCrawl> logCrawlList = articleService.getLogCrawlFromFile();
+
+        return new ResponseEntity<>(logCrawlList, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> crawlArticle() {
+
+        System.out.println("[ArticleWS] Begin crawlArticle()");
+
+        if (articleThreadCrawler.isInprogress()) {
+            return new ResponseEntity<String>("System is already crawling", HttpStatus.valueOf(400));
+        }
+
+        Thread articleCrawl = new Thread(articleThreadCrawler, "ArticleThreadCrawler");
+        articleCrawl.start();
+
+        return new ResponseEntity<String>("System is beginning crawling", HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<LogCrawl> getCrawlStatus() {
+        System.out.println("[ArticleWS] Begin getCrawlStatus()");
+
+        LogCrawl logCrawl = new LogCrawl();
+
+        boolean inProgress = articleThreadCrawler.isInprogress();
+        logCrawl.setInProgress(inProgress);
+
+        int records = articleThreadCrawler.getCrawlRecords();
+        logCrawl.setNumberOfRecords(records + "");
+
+        int newRecords = articleThreadCrawler.getNewRecords();
+        logCrawl.setNumberOfNewRecords(newRecords + "");
+
+        return new ResponseEntity<>(logCrawl, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<Object>> searchPendingArticle(int pageNumber, String type, String txtSearch, String orderBy) {
+
+        System.out.println("[ArticleWS] Begin searchPendingArticle() with data:");
+        System.out.println("Page number: " + pageNumber);
+        System.out.println("Type: " + type);
+        System.out.println("Search value: " + txtSearch);
+        System.out.println("OrderBy: " + orderBy);
+
+        List<Object> resultList = articleService.searchPendingArticle(pageNumber, type, txtSearch, orderBy);
+
+        return new ResponseEntity<>(resultList, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Article> approvePendingArticle(int id) {
+
+        System.out.println("[ArticleWS] Begin approvePendingArticle with articleID: " + id);
+
+        Article article = articleService.approveArticle(id);
+
+        if (article != null) {
+            return new ResponseEntity<>(article, HttpStatus.OK);
+        }
+
+        return null;
     }
 }

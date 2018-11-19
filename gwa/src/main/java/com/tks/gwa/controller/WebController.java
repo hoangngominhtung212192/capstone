@@ -122,4 +122,10 @@ public interface WebController {
 
     @RequestMapping(value = "/admin/schedule/manage")
     public ModelAndView manageSchedule();
+
+    @RequestMapping(value = "/admin/article/crawl")
+    public ModelAndView crawlArticlePage();
+
+    @RequestMapping(value = "/admin/article/pending")
+    public ModelAndView pendingArticlePage();
 }

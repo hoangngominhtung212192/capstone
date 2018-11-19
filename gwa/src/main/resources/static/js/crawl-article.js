@@ -1,226 +1,5 @@
 $(document).ready(function () {
-    var checkImage = false;
-    var imagetype;
-    var imageFile;
-    var formData = new FormData();
-    $("#photoBtn").change(function (e) {
-        console.log($("#photoBtn").val());
 
-        for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
-
-            var file = e.originalEvent.srcElement.files[i];
-            imagetype = file.type;
-            var match = ["image/jpeg", "image/png", "image/jpg"];
-            if (!((imagetype == match[0]) || (imagetype == match[1]) || (imagetype == match[2]))) {
-                checkImage = false;
-                alert("select img pls");
-                // $("#imgError").css("display", "block");
-                // $("#imgError").text("Please select image only");
-            } else {
-                var reader = new FileReader();
-                reader.onloadend = function () {
-                    $("#imgthumb").attr("src", reader.result);
-                    // $("#avatar").css("height", "202px");
-                    // $("#avatar").css("width", "202px");
-                }
-                reader.readAsDataURL(file);
-
-                imageFile = file;
-
-                checkImage = true;
-
-                // $("#imgError").css("display", "none");
-                // $("#imgError").text("");
-            }
-
-        }
-    });
-
-    function ajaxImagePost(formData) {
-        console.log("updating image for "+formData)
-        $.ajax({
-            type: "POST",
-            contentType: false,
-            processData: false,
-            url: "/gwa/api/article/uploadArticleImage",
-            data: formData,
-            success: function (result) {
-                console.log(result);
-            },
-            error: function (e) {
-                console.log("ERROR: ", e);
-            }
-        })
-    }
-
-
-    var getUrlParameter = function getUrlParameter() {
-        var sPageURL = window.location.href;
-        console.log(sPageURL);
-        var url = new URL(sPageURL);
-        var c = url.searchParams.get("id");
-        console.log(c);
-        arId = parseInt(c);
-        return arId;
-    }
-    var id = getUrlParameter();
-
-    showArticle(id);
-    var articleAuthorID;
-    var articleurl;
-
-    function showArticle(data) {
-        console.log("showing article with id: " + data);
-
-        $.ajax({
-            type : "POST",
-            contentType : "application/json",
-            url : "/gwa/api/article/getArticle",
-            data : JSON.stringify(data),
-            success : function(result, status) {
-                console.log(result);
-                console.log(status);
-                if (result){
-                    articleurl = "/gwa/article/detail?id="+result.id;
-                    articleAuthorID = result.account.id;
-                    $('#cboStatus').val(result.approvalStatus);
-                    $("#imgthumb").attr("src", result.thumbImage);
-                    $('#cboCate').val(result.category);
-                    $('#txtTitle').val(result.title);
-                    $('#txtDescription').val(result.description);
-                    $('#date').append(result.date);
-                    $('#contentEditor').html(result.content);
-                    $('#author').append(result.account.username);
-                }
-            },
-            error : function(e) {
-                alert("Error!")
-                console.log("ERROR: ", e);
-            }
-        });
-    }
-
-    function getSelectIndexCate(cate){
-        switch (cate) {
-            case "News":
-                return 1;
-                break;
-            case "Tutorial":
-                return 2;
-                break;
-            case "Custom build":
-                return 3;
-                break;
-    }}
-
-    $("#btnSubmit").click(function (event) {
-        var valid = true;
-        if ($('#txtTitle').val() == "") {
-            valid = false;
-            $.growl.error({message: "Please enter title"});
-        }
-        if ($('#txtDescription').val() == ""){
-            valid = false;
-            $.growl.error({message: "Please enter article's description"});
-        }
-        if (CKEDITOR.instances.contentEditor.getData() == ""){
-            valid = false;
-            $.growl.error({message: "Please enter article's content"});
-        }
-        if ($('#imgthumb').attr("src") == "#"){
-            valid = false;
-            $.growl.error({message: "Please select a thumbnail image"});
-        }
-        if (valid == true) {
-            event.preventDefault();
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth() + 1; //January is 0!
-            var yyyy = today.getFullYear();
-
-            if (dd < 10) {
-                dd = '0' + dd
-            }
-
-            if (mm < 10) {
-                mm = '0' + mm
-            }
-
-            today = yyyy + "-" + mm + "-" + dd;
-            var formArticle = {
-                id: id,
-                title: $("#txtTitle").val(),
-                content: CKEDITOR.instances.contentEditor.getData(),
-                description: $('#txtDescription').val(),
-                category: $("#cboCate").val(),
-                modifiedDate: today,
-                date: $('#lblDate').val(),
-                approvalStatus: $("#cboStatus :selected").val(),
-            }
-
-            updateArticle(formArticle);
-        }
-    })
-
-
-    var modalConfirm = function(callback){
-
-        $("#deleteBtn").on("click", function(){
-            $("#confi-modal").modal('show');
-        });
-
-        $("#modal-btn-yes").on("click", function(){
-            callback(true);
-            $("#confi-modal").modal('hide');
-        });
-
-        $("#modal-btn-no").on("click", function(){
-            callback(false);
-            $("#confi-modal").modal('hide');
-        });
-    };
-
-    modalConfirm(function(confirm){
-        if(confirm){
-            console.log("yes");
-        }else{
-            console.log("no");
-        }
-    });
-
-    var notidescription;
-    function updateArticle(data) {
-        console.log("updating")
-        $.ajax({
-            type : "POST",
-            contentType : "application/json",
-            url : "/gwa/api/article/updateArticle",
-            data : JSON.stringify(data),
-            success : function(result, status) {
-
-                if(checkImage){
-                    formData.append("id", result.id);
-                    formData.append("photoBtn", imageFile, "thumbArt"+$('#txtTitle').val() + "." + type);
-                    ajaxImagePost(formData);
-                }
-
-                if (result.status = "Approved"){
-                    notidescription = "Your article was approved!"
-                    addNewNotification();
-                } else if(result.status = "Disapproved"){
-                    notidescription = "Your article was disapproved!"
-                    addNewNotification();
-                }
-                alert("Article updated successfully!");
-                window.location.href = "/gwa/admin/article";
-            },
-            error : function(e) {
-                alert("Error! Update article failed!")
-                console.log("ERROR: ", e);
-            }
-        });
-    }
-    /* Begin authentication & notification */
     authentication();
 
     var createdDate;
@@ -314,6 +93,176 @@ $(document).ready(function () {
         });
     }
 
+    ajaxGetCrawlingStatus();
+
+    ajaxGetLog();
+
+    function ajaxGetLog() {
+        $("#loading").css("display", "block");
+
+        var listResult = [];
+        var count = 0;
+
+        $.ajax({
+            type: "GET",
+            url: "/gwa/api/article/crawl/getLog",
+            success: function (result) {
+                console.log(result);
+
+                $("#tbody-crawl").empty();
+                $.each(result, function (idx, value) {
+                    listResult[count] = value;
+                    count++;
+                });
+
+                // sort by date, reverse data
+                for (var i = count - 1; i >= 0; i--) {
+                    if (listResult[i].status == "Crawling") {
+                        $("#tbody-crawl").append("<tr>\n" +
+                            "<td>" + listResult[i].id + "</td>\n" +
+                            "<td>" + listResult[i].crawlDateTime + "</td>\n" +
+                            "<td>" + listResult[i].numberOfRecords + "</td>\n" +
+                            "<td style=\"color: darkblue;\">" + listResult[i].numberOfNewRecords + "</td>\n" +
+                            "<td style=\"color: red;\"><b>" + listResult[i].status + "</b></td>\n" +
+                            "</tr>")
+                    } else {
+                        $("#tbody-crawl").append("<tr>\n" +
+                            "<td>" + listResult[i].id + "</td>\n" +
+                            "<td>" + listResult[i].crawlDateTime + "</td>\n" +
+                            "<td>" + listResult[i].numberOfRecords + "</td>\n" +
+                            "<td style=\"color: darkblue;\">" + listResult[i].numberOfNewRecords + "</td>\n" +
+                            "<td style=\"color: green;\"><b>" + listResult[i].status + "</b></td>\n" +
+                            "</tr>")
+                    }
+                }
+                $("#loading").css("display", "none");
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    var crawlStatus = false;
+
+    function ajaxGetCrawlingStatus() {
+
+        $.ajax({
+            type: "GET",
+            url: "/gwa/api/article/crawl/getStatus",
+            success: function (result) {
+                if (result.inProgress) {
+                    $("#numOfCrawl").text(result.numberOfRecords);
+                    $("#numOfNew").text(result.numberOfNewRecords);
+
+                    console.log("Number of records: " + result.numberOfRecords + " - Number of new: " + result.numberOfNewRecords);
+
+                    $("#switch").css("display", "block");
+                    $("#lbSwitch").css("display", "block");
+                    $("#crawlRecordsDiv").css("display", "block");
+                    crawlStatus = true;
+                } else {
+                    $("#switch").css("display", "none");
+                    $("#lbSwitch").css("display", "none");
+                    $("#crawlRecordsDiv").css("display", "none");
+                    crawlStatus = false;
+                }
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    var interval;
+
+    $("#switch").change(function (e) {
+
+        if ($(this).prop('checked') == true) {
+            $("#crawlRecordsDiv").css("display", "block")
+
+            if (crawlStatus) {
+                interval = setInterval(function () {
+                    loopforever()
+                }, 3000);
+            }
+        } else {
+            $("#crawlRecordsDiv").css("display", "none");
+            if (interval) {
+                clearInterval(interval);
+            }
+        }
+    });
+
+    function loopforever() {
+        if (!crawlStatus) {
+            clearInterval(interval);
+            window.location.href = "/gwa/admin/article/crawl";
+        }
+
+        ajaxGetCrawlingStatus();
+    }
+
+    $("#crawlBtn").click(function (e) {
+        e.preventDefault();
+
+        $("#mi-modal").modal({backdrop: 'static', keyboard: false});
+        $("#modal-btn-si").on("click", function(){
+            $("#mi-modal").modal('hide');
+            $("#modal-btn-no").prop("onclick", null).off("click");
+            $("#modal-btn-si").prop("onclick", null).off("click");
+        });
+
+        $("#modal-btn-no").on("click", function(e) {
+
+            $("#loading").css("display", "block");
+
+            ajaxCrawlArticle();
+
+            $("#switch").css("display", "block");
+            $("#lbSwitch").css("display", "block");
+            $("#crawlRecordsDiv").css("display", "block");
+
+            setTimeout(function () {
+                ajaxGetLog();
+                ajaxGetCrawlingStatus();
+                $("#loading").css("display", "none");
+            }, 2000);
+
+            $("#mi-modal").modal('hide');
+            $("#modal-btn-no").prop("onclick", null).off("click");
+            $("#modal-btn-si").prop("onclick", null).off("click");
+        });
+    });
+
+    function ajaxCrawlArticle() {
+
+        $.ajax({
+            type: "GET",
+            url: "/gwa/api/article/crawl",
+            success: function (message) {
+                $("#modal-header").css("display", "block");
+
+                $("#myModal").modal({backdrop: 'static', keyboard: false});
+                $("#success-btn").on("click", function() {
+                });
+            },
+            complete: function (xhr, txtStatus) {
+                if (txtStatus == "error") {
+
+                    var xhr_data = xhr.responseText;
+
+                    $("#modal-header").css("display", "none");
+                    $("#modal-h4").text("Oops!");
+                    $("#modal-p").text(xhr_data);
+                    $("#myModal").modal({backdrop: 'static', keyboard: false});
+                    $("#success-btn").on("click", function() {
+                    });
+                }
+            }
+        });
+    }
+
     /*   This is for notification area   */
     var pageNumber = 1;
     var lastPage;
@@ -360,15 +309,29 @@ $(document).ready(function () {
             if (!value.seen) {
                 // not seen yet
                 countNotSeen++;
-                appendNotification += "<li style='background-color: lightgoldenrodyellow;'>\n"
+                appendNotification += "<li>\n"
             } else {
                 // already seen
                 appendNotification += "<li style='background-color: white;'>\n"
             }
 
+            var iconType = "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> ";
+
+            if (value.notificationtype.name == "Profile"){
+                iconType = "<i class=\"fa fa-user-circle-o text-yellow\" style=\"color: darkred;\"></i> ";
+            }else if (value.notificationtype.name == "Model") {
+                iconType = "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "Tradepost") {
+                iconType = "<i class=\"fa fa-check-square-o text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "OrderSent") {
+                iconType = "<i class=\"fa fa fa-paper-plane text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "OrderReceived") {
+                iconType = "<i class=\"fa fa fa-bullhorn text-yellow\" style=\"color: darkred;\"></i> ";
+            }
+
             appendNotification += "<a id='" + value.id + "-" + value.notificationtype.name + "-" + value.objectID +
                 "' href=\"#\">\n" +
-                "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> " + value.description + "</a>\n" +
+                iconType + value.description + "</a>\n" +
                 "</li>";
 
             $("#ul-notification").append(appendNotification);
@@ -400,8 +363,6 @@ $(document).ready(function () {
                     window.location.href = "/gwa/trade-market/my-order";
                 } else if (type == "OrderReceived") {
                     window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
-                } else if (type == "Article") {
-                    window.location.href = "/gwa/article/detail?id=" + objectID;
                 }
             });
         });
@@ -422,16 +383,16 @@ $(document).ready(function () {
     }
 
     function addNewNotification() {
-        var description = notidescription;
+        var description = $("#txtReason").val();
 
         var formNotification = {
             description: description,
-            objectID: id,
+            objectID: account_profile_on_page_id,
             account: {
-                id: articleAuthorID
+                id: account_profile_on_page_id
             },
             notificationtype: {
-                id: 6
+                id: 1
             }
         }
 
@@ -468,6 +429,4 @@ $(document).ready(function () {
         });
     }
     /* End notification */
-    /* End authentication & notification */
-
 })

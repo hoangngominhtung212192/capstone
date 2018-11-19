@@ -27,5 +27,17 @@ public interface ArticleRepository extends GenericRepository<Article, Integer>{
     int countArticleBySearchStatus(String title, String status);
     List<Article> searchArticleByStatusAndSort(String title, String cate, String status, String sorttype, int pageNum);
     List<Article> searchArticleByAuthorSort(int id, String sorttype, int pageNum);
+
+    /**
+     *
+     * @return
+     */
+    List<Article> searchPending(int pageNumber, int pageSize, String txtSearch, String orderBy);
+
+    /**
+     *
+     * @return
+     */
+    int getCountSearchPending(String txtSearch);
 }
 

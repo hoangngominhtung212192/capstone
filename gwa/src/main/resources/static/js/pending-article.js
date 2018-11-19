@@ -1,131 +1,5 @@
-$(document).ready(function() {
-    var checkImage = false;
-    var imagetype;
-    var imageFile;
-    var formData = new FormData();
-    $("#photoBtn").change(function (e) {
-        console.log($("#photoBtn").val());
+$(document).ready(function () {
 
-        for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
-
-            var file = e.originalEvent.srcElement.files[i];
-            imagetype = file.type;
-            var match = ["image/jpeg", "image/png", "image/jpg"];
-            if (!((imagetype == match[0]) || (imagetype == match[1]) || (imagetype == match[2]))) {
-                checkImage = false;
-                alert("select img pls");
-                // $("#imgError").css("display", "block");
-                // $("#imgError").text("Please select image only");
-            } else {
-                var reader = new FileReader();
-                reader.onloadend = function () {
-                    $("#imgthumb").attr("src", reader.result);
-                }
-                reader.readAsDataURL(file);
-
-                imageFile = file;
-
-                checkImage = true;
-
-                // $("#imgError").css("display", "none");
-                // $("#imgError").text("");
-            }
-
-        }
-    });
-
-    function ajaxImagePost(formData) {
-        console.log("updating image for "+formData)
-        $.ajax({
-            type: "POST",
-            contentType: false,
-            processData: false,
-            url: "/gwa/api/article/uploadArticleImage",
-            data: formData,
-            success: function (result) {
-                console.log(result);
-            },
-            error: function (e) {
-                console.log("ERROR: ", e);
-            }
-        })
-    }
-
-
-    $("#btnSubmit").click(function (event) {
-        event.preventDefault();
-        var valid = true;
-        if ($('#txtTitle').val() == "") {
-            valid = false;
-            $.growl.error({message: "Please enter title"});
-        }
-        if ($('#txtDescription').val() == ""){
-            valid = false;
-            $.growl.error({message: "Please enter article's description"});
-        }
-        if (CKEDITOR.instances.contentEditor.getData() == ""){
-            valid = false;
-            $.growl.error({message: "Please enter article's content"});
-        }
-        if ($('#imgthumb').attr("src") == "#"){
-            valid = false;
-            $.growl.error({message: "Please select a thumbnail image"});
-        }
-        if (valid == true) {
-            console.log("valid");
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth() + 1; //January is 0!
-            var yyyy = today.getFullYear();
-
-            if (dd < 10) {
-                dd = '0' + dd
-            }
-
-            if (mm < 10) {
-                mm = '0' + mm
-            }
-
-            today = dd + '/' + mm + '/' + yyyy;
-            var formArticle = {
-                title: $("#txtTitle").val(),
-                description: $('#txtDescription').val(),
-                content: CKEDITOR.instances.contentEditor.getData(),
-                category: $("#cboCate").val(),
-                date: today,
-                approvalStatus: $('#cboStatus').val(),
-            }
-
-            ajaxPost(formArticle);
-        }
-    })
-
-    function ajaxPost(data) {
-        // console.log("creating aritlce")
-        console.log(data);
-
-        $.ajax({
-            type : "POST",
-            contentType : "application/json",
-            url : "/gwa/api/article/createArticle",
-            data : JSON.stringify(data),
-            success : function(result, status) {
-                var type = imagetype.split("/")[1];
-                formData.append("id", result.id);
-                formData.append("photoBtn", imageFile, "thumbArt"+$('#txtTitle').val() + "." + type);
-                ajaxImagePost(formData);
-                alert("Article created successfully!");
-                window.location.href = "/gwa/admin/article/";
-
-            },
-            error : function(e) {
-                alert("Error!")
-                console.log("ERROR: ", e);
-            }
-        });
-    }
-
-    /* Begin authentication & notification */
     authentication();
 
     var createdDate;
@@ -219,6 +93,202 @@ $(document).ready(function() {
         });
     }
 
+    ajaxGetAllPending(1, "");
+
+    var txtSearch;
+    var orderBy;
+
+    function ajaxGetAllPending(pageNumber, type) {
+        $("#loading").css("display", "block");
+
+        txtSearch = $("#txtSearch").val();
+        orderBy = $("select[id='cbo-orderBy'] option:selected").text();
+
+        if (!txtSearch) {
+            txtSearch = "";
+        }
+
+        setTimeout(function () {
+            $.ajax({
+                type: "GET",
+                url: "/gwa/api/article/searchPending?pageNumber=" + pageNumber + "&type=" + type + "&txtSearch=" + txtSearch +
+                "&orderBy=" + orderBy,
+                success: function (result) {
+                    if (result) {
+                        console.log(result);
+                        // reset data and pagination
+                        $("#pagination-content").empty();
+                        $("#pendingBody").empty();
+                        $("#no-record").css("display", "none");
+
+                        if (result[1].length > 0) {
+                            pagination(result[0]);
+                            renderData(result[1]);
+                        } else {
+                            $("#no-record").css("display", "block");
+                        }
+                    }
+                },
+                error: function (e) {
+                    console.log("ERROR: ", e);
+                }
+            });
+
+            $("#loading").css("display", "none");
+        }, 300);
+    }
+
+    function pagination(value) {
+        var render_pagination = "";
+
+        if (value.currentPage == 1) {
+            render_pagination += "<span class=\"my-page my-active\">First</span>\n" +
+                "<span class=\"my-page my-active\">Prev</span>\n";
+        } else {
+            render_pagination += "<span id=\"first\" class=\"my-page\">First</span>\n" +
+                "<span id=\"prev\" class=\"my-page\">Prev</span>\n"
+        }
+        if (value.currentPage > 5) {
+            render_pagination += "<span class=\"my-page\">...</span>\n";
+        }
+        for (var i = value.beginPage; i <= value.lastPage; i++) {
+            if (i < (value.beginPage + 5)) {
+                if (value.currentPage == i) {
+                    render_pagination += "<span class=\"my-page my-active\">" + i + "</span>\n";
+                } else {
+                    render_pagination += "<span id=\"page" + i + "\" class=\"my-page\">" + i + "</span>\n"
+                }
+            }
+        }
+        if (value.lastPage >= (value.beginPage + 5)) {
+            render_pagination += "<span class=\"my-page\">...</span>\n";
+        }
+        if (value.currentPage == value.lastPage) {
+            render_pagination += "<span class=\"my-page my-active\">Next</span>\n" +
+                "<span class=\"my-page my-active\">Last</span>\n";
+        } else {
+            render_pagination += "<span id=\"next\" class=\"my-page\">Next</span>\n" +
+                "<span id=\"last\" class=\"my-page\">Last</span>\n"
+        }
+
+        $("#pagination-content").append(render_pagination);
+
+        for (var i = value.beginPage; i <= value.lastPage; i++) {
+            if (i < (value.beginPage + 5)) {
+                $("#page" + i).click(function (e) {
+                    e.preventDefault();
+
+                    var index = $(this).attr('id').replace('page', '');
+
+                    ajaxGetAllPending(index, "");
+                });
+            }
+        }
+
+        $("#next").click(function (e) {
+            e.preventDefault();
+
+            ajaxGetAllPending(value.currentPage, "Next");
+        });
+
+        $("#last").click(function (e) {
+            e.preventDefault();
+
+            ajaxGetAllPending(value.currentPage, "Last");
+        });
+
+        $("#first").click(function (e) {
+            e.preventDefault();
+
+            ajaxGetAllPending(value.currentPage, "First");
+        });
+
+        $("#prev").click(function (e) {
+            e.preventDefault();
+
+            ajaxGetAllPending(value.currentPage, "Prev");
+        });
+    };
+
+    function renderData(data) {
+        $.each(data, function (index, value) {
+            var append = "";
+
+            append += "<tr>\n" +
+                "<td class=\"modelCode\" style=\"width: 150px;\">" + value.category + "</td>\n" +
+                "<td class=\"modelName\" style=\"width: 250px;\"><a href=\"/gwa/article/detail?id=" + value.id + "\">"
+                + value.title + "</a></td>\n" +
+                "<td class=\"crawlDate\">" + value.date + "</td>\n" +
+                "<td class=\"modelName\" style=\"width: 250px;\">";
+
+            if (value.description) {
+                append += value.description;
+            } else {
+                append += "N/A";
+            }
+
+            append += "</td>\n" +
+                "<td class=\"modelStatus\">crawlpending</td>\n" +
+                "<td>\n" +
+                "<a id='" + value.id + "' class=\"approveBtn\" href=\"#\">Approve</a>\n" +
+                "<a class=\"moreInfoBtn\" href=\"/gwa/article/detail?id=" + value.id + "\">More</a>\n" +
+                "</td>\n" +
+                "</tr>"
+
+            $("#pendingBody").append(append);
+
+            $("#" + value.id).click(function (e) {
+                e.preventDefault();
+
+                var id = $(this).attr('id');
+
+                $("#mi-modal").modal({backdrop: 'static', keyboard: false});
+                $("#modal-btn-si").on("click", function(e){
+                    $("#mi-modal").modal('hide');
+                    $("#modal-btn-no").prop("onclick", null).off("click");
+                    $("#modal-btn-si").prop("onclick", null).off("click");
+                });
+
+                $("#modal-btn-no").on("click", function(e){
+                    approveArticle(id);
+                    $("#mi-modal").modal('hide');
+                    $("#modal-btn-no").prop("onclick", null).off("click");
+                    $("#modal-btn-si").prop("onclick", null).off("click");
+                });
+            });
+        });
+    }
+
+    function approveArticle(id) {
+        $.ajax({
+            type: "GET",
+            url: "/gwa/api/article/approve?id=" + id,
+            success: function (result) {
+                console.log("Approved article: " + result);
+
+                $("#myModal").modal({backdrop: 'static', keyboard: false});
+                $("#success-btn").on("click", function() {
+                    ajaxGetAllPending(1, "");
+                });
+
+                $('body').css("padding-right", "0px");
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
+    $("#search-btn").click(function (e) {
+        e.preventDefault();
+
+        ajaxGetAllPending(1, "");
+    })
+
+    $("#cbo-orderBy").on('change', function () {
+        ajaxGetAllPending(1, "");
+    });
+
     /*   This is for notification area   */
     var pageNumber = 1;
     var lastPage;
@@ -265,15 +335,29 @@ $(document).ready(function() {
             if (!value.seen) {
                 // not seen yet
                 countNotSeen++;
-                appendNotification += "<li style='background-color: lightgoldenrodyellow;'>\n"
+                appendNotification += "<li>\n"
             } else {
                 // already seen
                 appendNotification += "<li style='background-color: white;'>\n"
             }
 
+            var iconType = "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> ";
+
+            if (value.notificationtype.name == "Profile"){
+                iconType = "<i class=\"fa fa-user-circle-o text-yellow\" style=\"color: darkred;\"></i> ";
+            }else if (value.notificationtype.name == "Model") {
+                iconType = "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "Tradepost") {
+                iconType = "<i class=\"fa fa-check-square-o text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "OrderSent") {
+                iconType = "<i class=\"fa fa fa-paper-plane text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "OrderReceived") {
+                iconType = "<i class=\"fa fa fa-bullhorn text-yellow\" style=\"color: darkred;\"></i> ";
+            }
+
             appendNotification += "<a id='" + value.id + "-" + value.notificationtype.name + "-" + value.objectID +
                 "' href=\"#\">\n" +
-                "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> " + value.description + "</a>\n" +
+                iconType + value.description + "</a>\n" +
                 "</li>";
 
             $("#ul-notification").append(appendNotification);
@@ -373,6 +457,5 @@ $(document).ready(function() {
         });
     }
     /* End notification */
-    /* End authentication & notification */
 
 })

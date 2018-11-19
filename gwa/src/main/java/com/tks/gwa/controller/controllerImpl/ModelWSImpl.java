@@ -123,7 +123,7 @@ public class ModelWSImpl implements ModelWS {
     @Override
     public ResponseEntity<List<LogCrawl>> getLogCrawl() {
 
-        System.out.println("[ModelWS] Begin getLogCrawl");
+        System.out.println("[ModelWS] Begin getLogCrawl()");
 
         List<LogCrawl> logCrawlList = modelService.getLogCrawlFromFile();
 
@@ -132,6 +132,8 @@ public class ModelWSImpl implements ModelWS {
 
     @Override
     public ResponseEntity<String> crawlModel() {
+
+        System.out.println("[ModelWS] Begin crawlModel()");
 
         if (modelThreadCrawler.isInprogress()) {
             return new ResponseEntity<String>("System is already crawling", HttpStatus.valueOf(400));
