@@ -116,7 +116,7 @@ $(document).ready(function() {
             success : function(result, status) {
                 var type = imagetype.split("/")[1];
                 formData.append("id", result.id);
-                formData.append("photoBtn", imageFile, "thumbArt"+$('#txtTitle').val() + "." + type);
+                formData.append("photoBtn", imageFile, "thumbArt" + "." + type);
                 ajaxImagePost(formData);
                 $("#myModal").modal({backdrop: 'static', keyboard: false});
                 $("#success-btn").on("click", function() {

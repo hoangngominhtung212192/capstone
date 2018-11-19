@@ -194,7 +194,7 @@ $(document).ready(function () {
                 if(checkImage){
                     var type = imagetype.split("/")[1];
                     formData.append("id", result.id);
-                    formData.append("photoBtn", imageFile, "thumbArt"+$('#txtTitle').val() + "." + type);
+                    formData.append("photoBtn", imageFile, "thumbArt" + "." + type);
                     ajaxImagePost(formData);
                 }
                 console.log(result);
