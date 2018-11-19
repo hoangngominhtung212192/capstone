@@ -60,7 +60,6 @@ public class FileUploadServiceIpml implements FileUploadService {
 
     @Override
     public Resource loadFileAsResource(String fileName) {
-        System.out.println("aaaaaaaaaa" + fileStorageLocation.toUri());
         try {
             Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
             Resource resource = new UrlResource(filePath.toUri());
