@@ -1,6 +1,5 @@
 package tks.com.gwaandroid;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -15,10 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -90,14 +86,15 @@ public class MainActivity extends AppCompatActivity {
 
                 if (id == R.id.myprofile) {
                     Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                    MainActivity.this.startActivity(intent);
+                    startActivity(intent);
                 } else if (id == R.id.notification) {
                     Toast.makeText(MainActivity.this, "Notification", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.gundam) {
                     Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                    MainActivity.this.startActivity(intent);
+                    startActivity(intent);
                 } else if (id == R.id.exchange) {
-                    Toast.makeText(MainActivity.this, "Exchange", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, TradeMarketActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.signout) {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.clear();
@@ -105,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
                     Toast.makeText(MainActivity.this, "Logout successfully!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    MainActivity.this.startActivity(intent);
+                    startActivity(intent);
                 }
 
                 return true;
