@@ -1,6 +1,7 @@
 $(document).ready(function () {
-    var loggedName;
+
     authentication();
+    var username;
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth()+1; //January is 0!
@@ -178,6 +179,7 @@ $(document).ready(function () {
             contentType : "application/json",
             url : "/gwa/api/event/getEvent",
             data : JSON.stringify(data),
+
             success : function(result, status) {
 
                 if (result){
@@ -274,6 +276,7 @@ $(document).ready(function () {
                 eventid : eventid
             },
             success : function(result, status) {
+
                 console.log('rmnslots: '+result);
                 var iamount = parseInt(amount);
                 if (result<amount){
@@ -304,17 +307,12 @@ $(document).ready(function () {
                     date : today.toString()
                 },
                 success : function(result, status) {
-                    // $.growl.notice({message: "Registered successfully!"});
-                    // alert("Registered successfully!")
+                    $("#confi-modal").modal('hide');
                     $("#lblModalMessage").html("Registered sucessfully!");
                     $("#myModal").modal({backdrop: 'static', keyboard: false});
                     $("#success-btn").on("click", function() {
                         location.reload(true);
                     });
-                    // location.reload(true);
-                    // $.growl.notice({message: "Registered successfully!"});
-                    // console.log(result);
-                    // console.log(status);
                 },
                 error : function(e) {
                     $.growl.error({message: "Register failed!"});
@@ -365,7 +363,7 @@ $(document).ready(function () {
                     var xhr_data = xhr.responseText;
                     var jsonResponse = JSON.parse(xhr_data);
 
-                    var username = jsonResponse["username"];
+                    username = jsonResponse["username"];
                     loggedName = jsonResponse["username"];
                     var thumbAvatar = jsonResponse["avatar"];
                     console.log(jsonResponse["role"].name + " " + username + " is on session!");
