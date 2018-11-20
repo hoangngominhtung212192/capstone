@@ -219,10 +219,11 @@ $(document).ready(function () {
                     ajaxImagePost(formData);
                 }
 
-                if (result.status = "Approved"){
+                if (result.approvalStatus == "Approved"){
                     notidescription = "Your article was approved!"
+                    console.log("sending approval noti");
                     addNewNotification();
-                } else if(result.status = "Disapproved"){
+                } else if(result.approvalStatus == "Disapproved"){
                     notidescription = "Your article was disapproved!"
                     addNewNotification();
                 }
