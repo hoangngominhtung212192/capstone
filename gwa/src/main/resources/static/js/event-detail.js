@@ -215,11 +215,19 @@ $(document).ready(function () {
                         document.getElementById('ratingDiv').style.display = 'none';
                         // $('#ratingDiv').hide();
                     }
-                    console.log("Stars: "+stars)
+                    console.log("Stars: "+stars);
+                    if (result.status == "Inactive") {
+                        $('#lblEvStatus').html("This event was cancelled");
+                        document.getElementById('btnRegister').style.display = 'none';
+                    }
+                    if (result.status == "Finished") {
+                        document.getElementById('btnRegister').style.display = 'none';
+                    }
 
                     $('#hidID').val(result.id);
                     curEvnId = result.id;
                     console.log("ev id is "+curEvnId);
+                    console.log("logged name "+loggedName);
                     $('#lblUsername').append(loggedName);
                     $('#txtPrice').append(result.ticketPrice);
                     $('#lblTimeRated').append(result.numberOfRating);
@@ -583,6 +591,8 @@ $(document).ready(function () {
                     window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
                 } else if (type == "Article") {
                     window.location.href = "/gwa/article/detail?id=" + objectID;
+                } else if (type == "Event") {
+                    window.location.href = "/gwa/event/detail?id=" + objectID;
                 }
             });
         });

@@ -194,7 +194,7 @@ $(document).ready(function () {
                 if(checkImage){
                     var type = imagetype.split("/")[1];
                     formData.append("id", result.id);
-                    formData.append("photoBtn", imageFile, "thumbArt" + "." + type);
+                    formData.append("photoBtn", imageFile, "thumbArtID" +result.id + "." + type);
                     ajaxImagePost(formData);
                 }
                 console.log(result);
@@ -453,6 +453,8 @@ $(document).ready(function () {
                     window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
                 } else if (type == "Article") {
                     window.location.href = "/gwa/article/detail?id=" + objectID;
+                } else if (type == "Event") {
+                    window.location.href = "/gwa/event/detail?id=" + objectID;
                 }
             });
         });
