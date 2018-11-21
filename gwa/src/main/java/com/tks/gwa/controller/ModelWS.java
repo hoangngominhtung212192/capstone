@@ -95,4 +95,11 @@ public interface ModelWS {
 
     @RequestMapping(value = "/getSearchFilters", method = RequestMethod.GET)
     ResponseEntity<List<ModelSearchFilter>> getListModelSearchFilters();
+
+    @RequestMapping(value = "/manageModel", method = RequestMethod.GET)
+    ResponseEntity<List<Object>> manageModel(@RequestParam("pageNumber") int pageNumber,
+                                                    @RequestParam("type") String type,
+                                                    @RequestParam("txtSearch") String txtSearch,
+                                                    @RequestParam("orderBy") String orderBy,
+                                                    @RequestParam("status") String status);
 }

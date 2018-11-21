@@ -840,7 +840,7 @@ $(document).ready(function () {
         $.each(result, function (idx, value) {
 
             appendRelatedTrade += "<div class=\"words-top-five\">\n" +
-                "                    <a href=\"#\">" + value.model + "</a>\n" +
+                "                    <a href=\"/gwa/trade-market/view-trade?tradepostId=" + value.id +"\">" + value.title + "</a>\n" +
                 "                </div>";
 
         });
@@ -877,7 +877,7 @@ $(document).ready(function () {
         $.each(result, function (idx, value) {
 
             appendRelatedArticle += "<div class=\"words-top-five\">\n" +
-                "                    <a href=\"#\">" + value.title + "</a>\n" +
+                "                    <a href=\"/gwa/article/detail?id=" + value.id + "\">" + value.title + "</a>\n" +
                 "                </div>";
 
         });
@@ -1141,7 +1141,7 @@ $(document).ready(function () {
             url: "/gwa/api/model/delete?modelID=" + modelID,
             success: function (result) {
                 alert("Delete successfully !");
-                window.location.href = "/gwa/model/";
+                window.location.href = "/gwa/admin/model/manage";
             },
             error: function (e) {
                 console.log("ERROR: ", e);

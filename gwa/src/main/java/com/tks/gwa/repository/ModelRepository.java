@@ -101,4 +101,16 @@ public interface ModelRepository extends GenericRepository<Model, Integer> {
      * @return
      */
     List<Model> getTop5Rating();
+
+    /**
+     *
+     * @return
+     */
+    List<Model> searchModelAdminSide(int pageNumber, int pageSize, String txtSearch, String orderBy, String status);
+
+    /**
+     *
+     * @return
+     */
+    int getCountSearchModelAdminSide(String txtSearch, String status);
 }

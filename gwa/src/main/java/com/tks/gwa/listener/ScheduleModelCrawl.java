@@ -1,6 +1,9 @@
 package com.tks.gwa.listener;
 
+import com.tks.gwa.crawler.ArticleCrawl;
+import com.tks.gwa.crawler.ModelCrawl;
 import com.tks.gwa.utils.FileUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -13,6 +16,12 @@ public class ScheduleModelCrawl implements Runnable {
     private AtomicBoolean running = new AtomicBoolean(false);
     private int interval;
     private String date;
+
+    @Autowired
+    private ModelCrawl modelCrawl;
+
+    @Autowired
+    private ArticleCrawl articleCrawl;
 
     @Override
     public void run() {
@@ -28,11 +37,14 @@ public class ScheduleModelCrawl implements Runnable {
 
                 // log file
                 date = getCurrentTimeStamp();
-                FileUtil.logSchedule("[Schedule Model Crawl] System is beginning to crawl model after cycle sleep",
-                        interval/1000/60/60, date);
+                FileUtil.logSchedule("[Schedule GUNDAM Crawl] System is beginning to crawl gundam and article" +
+                                " after cycle sleep", interval/1000/60/60, date);
 
                 // Begin process update
-
+                // crawl model process
+                modelCrawl.crawl();
+                //crawl article process
+                articleCrawl.crawl();
                 // End process update
 
             } catch (InterruptedException e) {

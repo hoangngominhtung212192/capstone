@@ -14,19 +14,19 @@ import java.util.List;
 public interface ScheduleWS {
 
     @RequestMapping(value = "/startSModelCrawl", method = RequestMethod.GET)
-    ResponseEntity<String> startModelCrawlSchedule(@RequestParam("hours") int hours);
+    ResponseEntity<String> startModelCrawlSchedule(@RequestParam("hours") String hours);
 
     @RequestMapping(value = "/stopSModelCrawl", method = RequestMethod.GET)
     ResponseEntity<String> stopModelCrawlSchedule();
 
     @RequestMapping(value = "/startSUpdateTrade", method = RequestMethod.GET)
-    ResponseEntity<String> startUpdateTradeSchedule(@RequestParam("hours") int hours);
+    ResponseEntity<String> startUpdateTradeSchedule(@RequestParam("hours") String hours);
 
     @RequestMapping(value = "/stopSUpdateTrade", method = RequestMethod.GET)
     ResponseEntity<String> stopUpdateTradeSchedule();
 
     @RequestMapping(value = "/startSUpdateEvent", method = RequestMethod.GET)
-    ResponseEntity<String> startUpdateEventSchedule(@RequestParam("hours") int hours);
+    ResponseEntity<String> startUpdateEventSchedule(@RequestParam("hours") String hours);
 
     @RequestMapping(value = "/stopSUpdateEvent", method = RequestMethod.GET)
     ResponseEntity<String> stopUpdateEventSchedule();
