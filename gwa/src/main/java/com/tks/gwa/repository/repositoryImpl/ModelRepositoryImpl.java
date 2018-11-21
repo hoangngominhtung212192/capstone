@@ -316,11 +316,11 @@ public class ModelRepositoryImpl extends GenericRepositoryImpl<Model, Integer> i
             }
 
             // status condition
-//            if (!mark_first) {
-//                sql += " WHERE m.status='Available'";
-//            } else {
-//                sql += " AND m.status='Available'";
-//            }
+            if (!mark_first) {
+                sql += " WHERE m.status='Available'";
+            } else {
+                sql += " AND m.status='Available'";
+            }
 
             // filter orderby condition
             String orderBy = modelSDTO.getOrderBy();
@@ -492,11 +492,11 @@ public class ModelRepositoryImpl extends GenericRepositoryImpl<Model, Integer> i
             }
 
             // status condition
-//            if (!mark_first) {
-//                sql += " WHERE m.status='Available'";
-//            } else {
-//                sql += " AND m.status='Available'";
-//            }
+            if (!mark_first) {
+                sql += " WHERE m.status='Available'";
+            } else {
+                sql += " AND m.status='Available'";
+            }
 
             // filter orderby condition
             String orderBy = modelSDTO.getOrderBy();
@@ -566,7 +566,8 @@ public class ModelRepositoryImpl extends GenericRepositoryImpl<Model, Integer> i
     @Override
     public List<Model> getTop5Rating() {
 
-        String sql = "SELECT m FROM " + Model.class.getName() + " AS m ORDER BY m.numberOfRating/m.numberOfRater DESC";
+        String sql = "SELECT m FROM " + Model.class.getName() + " AS m " +
+                "WHERE m.status='Available' ORDER BY m.numberOfRating/m.numberOfRater DESC";
 
         Query query = this.entityManager.createQuery(sql);
         query.setMaxResults(5);
@@ -574,5 +575,59 @@ public class ModelRepositoryImpl extends GenericRepositoryImpl<Model, Integer> i
         List<Model> result = query.getResultList();
 
         return result;
+    }
+
+    @Override
+    public List<Model> searchModelAdminSide(int pageNumber, int pageSize, String txtSearch, String orderBy, String status) {
+        boolean txtSearch_flag = false;
+
+        String sql = "SELECT m FROM " + Model.class.getName() + " AS m WHERE m.status =:status";
+
+        if (txtSearch.length() > 0) {
+            sql += " AND m.name LIKE :name";
+            txtSearch_flag = true;
+        }
+
+        if (orderBy.equalsIgnoreCase("Ascending")) {
+            sql += " ORDER BY m.createdDate ASC";
+        } else {
+            sql += " ORDER BY m.createdDate DESC";
+        }
+
+        Query query = this.entityManager.createQuery(sql);
+        query.setParameter("status", status);
+
+        if (txtSearch_flag) {
+            query.setParameter("name", "%" + txtSearch + "%");
+        }
+
+        query.setFirstResult((pageNumber - 1) * pageSize);
+        query.setMaxResults(pageSize);
+
+        List<Model> modelList = query.getResultList();
+
+        return modelList;
+    }
+
+    @Override
+    public int getCountSearchModelAdminSide(String txtSearch, String status) {
+
+        boolean txtSearch_flag = false;
+
+        String sql = "SELECT count(m.id) FROM " + Model.class.getName() + " AS m WHERE m.status =:status";
+
+        if (txtSearch.length() > 0) {
+            sql += " AND m.name LIKE :name";
+            txtSearch_flag = true;
+        }
+
+        Query query = this.entityManager.createQuery(sql);
+        query.setParameter("status", status);
+
+        if (txtSearch_flag) {
+            query.setParameter("name", "%" + txtSearch + "%");
+        }
+
+        return (int) (long) query.getSingleResult();
     }
 }

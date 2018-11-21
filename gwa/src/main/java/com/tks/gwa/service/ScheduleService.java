@@ -12,7 +12,7 @@ public interface ScheduleService {
      *
      * @param hours
      */
-    public void startScheduleModelCrawl(int hours);
+    public void startScheduleModelCrawl(String hours);
 
     /**
      *
@@ -23,7 +23,7 @@ public interface ScheduleService {
      *
      * @param hours
      */
-    public void startScheduleUpdateTrade(int hours);
+    public void startScheduleUpdateTrade(String hours);
 
     /**
      *
@@ -34,7 +34,7 @@ public interface ScheduleService {
      *
      * @param hours
      */
-    public void startScheduleUpdateEvent(int hours);
+    public void startScheduleUpdateEvent(String hours);
 
     /**
      *

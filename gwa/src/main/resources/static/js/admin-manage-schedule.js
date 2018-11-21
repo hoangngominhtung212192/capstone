@@ -148,9 +148,9 @@ $(document).ready(function () {
 
             var iconType = "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> ";
 
-            if (value.notificationtype.name == "Profile"){
+            if (value.notificationtype.name == "Profile") {
                 iconType = "<i class=\"fa fa-user-circle-o text-yellow\" style=\"color: darkred;\"></i> ";
-            }else if (value.notificationtype.name == "Model") {
+            } else if (value.notificationtype.name == "Model") {
                 iconType = "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> ";
             } else if (value.notificationtype.name == "Tradepost") {
                 iconType = "<i class=\"fa fa-check-square-o text-yellow\" style=\"color: darkred;\"></i> ";
@@ -572,13 +572,13 @@ $(document).ready(function () {
             if (checkCycle(txtCycle)) {
 
                 $("#mi-modal").modal({backdrop: 'static', keyboard: false});
-                $("#modal-btn-si").on("click", function(e){
+                $("#modal-btn-si").on("click", function (e) {
                     $("#mi-modal").modal('hide');
                     $("#modal-btn-no").prop("onclick", null).off("click");
                     $("#modal-btn-si").prop("onclick", null).off("click");
                 });
 
-                $("#modal-btn-no").on("click", function(e){
+                $("#modal-btn-no").on("click", function (e) {
                     // ajax call
                     ajaxStartModelCrawlSchedule(txtCycle);
                     $("#mi-modal").modal('hide');
@@ -605,11 +605,16 @@ $(document).ready(function () {
             $("#errorCycle").css("display", "block");
             $("#errorCycle").text("Please input cycle!");
         } else {
-            if (!number.match("^[0-9]+$")) {
+            if (!number.match("^[0-9\\.]+$")) {
                 check = false;
 
                 $("#errorCycle").css("display", "block");
                 $("#errorCycle").text("Number only!!");
+            } else if (number <= 0 || number > 480) {
+                check = false;
+
+                $("#errorCycle").css("display", "block");
+                $("#errorCycle").text("Out of range, must be larger than 0 and lower than 20 days");
             } else {
                 $("#errorCycle").css("display", "none");
             }
@@ -621,20 +626,20 @@ $(document).ready(function () {
     function ajaxStartModelCrawlSchedule(cycle) {
 
         $.ajax({
-           type: "GET",
-           url: "/gwa/api/schedule/startSModelCrawl?hours=" + cycle,
-           success: function (result) {
+            type: "GET",
+            url: "/gwa/api/schedule/startSModelCrawl?hours=" + cycle,
+            success: function (result) {
 
-               $("#success-p").text("Schedule of Model Crawl is running successfully!");
-               $("#myModal").modal({backdrop: 'static', keyboard: false});
-               $("#success-btn").on("click", function() {
-                   checkRunningSchedule();
-                   $("#success-btn").prop("onclick", null).off("click");
-               });
-           },
-           error: function (e) {
-               console.log("ERROR: ", e);
-           }
+                $("#success-p").text("Schedule of Model Crawl is running successfully!");
+                $("#myModal").modal({backdrop: 'static', keyboard: false});
+                $("#success-btn").on("click", function () {
+                    checkRunningSchedule();
+                    $("#success-btn").prop("onclick", null).off("click");
+                });
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            }
         });
     }
 
@@ -642,13 +647,13 @@ $(document).ready(function () {
         e.preventDefault();
 
         $("#mi-modal").modal({backdrop: 'static', keyboard: false});
-        $("#modal-btn-si").on("click", function(e){
+        $("#modal-btn-si").on("click", function (e) {
             $("#mi-modal").modal('hide');
             $("#modal-btn-no").prop("onclick", null).off("click");
             $("#modal-btn-si").prop("onclick", null).off("click");
         });
 
-        $("#modal-btn-no").on("click", function(e){
+        $("#modal-btn-no").on("click", function (e) {
             // ajax call
             ajaxStopModelCrawlSchedule();
             $("#mi-modal").modal('hide');
@@ -666,7 +671,7 @@ $(document).ready(function () {
 
                 $("#success-p").text("Schedule of Model Crawl is stopped!");
                 $("#myModal").modal({backdrop: 'static', keyboard: false});
-                $("#success-btn").on("click", function() {
+                $("#success-btn").on("click", function () {
                     checkRunningSchedule();
                     $("#success-btn").prop("onclick", null).off("click");
                 });
@@ -698,13 +703,13 @@ $(document).ready(function () {
             if (checkCycle(txtCycle)) {
 
                 $("#mi-modal").modal({backdrop: 'static', keyboard: false});
-                $("#modal-btn-si").on("click", function(e){
+                $("#modal-btn-si").on("click", function (e) {
                     $("#mi-modal").modal('hide');
                     $("#modal-btn-no").prop("onclick", null).off("click");
                     $("#modal-btn-si").prop("onclick", null).off("click");
                 });
 
-                $("#modal-btn-no").on("click", function(e){
+                $("#modal-btn-no").on("click", function (e) {
                     // ajax call
                     ajaxStartUpdateTradeSchedule(txtCycle);
                     $("#mi-modal").modal('hide');
@@ -730,7 +735,7 @@ $(document).ready(function () {
 
                 $("#success-p").text("Schedule of Update Trade is running successfully!");
                 $("#myModal").modal({backdrop: 'static', keyboard: false});
-                $("#success-btn").on("click", function() {
+                $("#success-btn").on("click", function () {
                     checkRunningSchedule();
                     $("#success-btn").prop("onclick", null).off("click");
                 });
@@ -745,13 +750,13 @@ $(document).ready(function () {
         e.preventDefault();
 
         $("#mi-modal").modal({backdrop: 'static', keyboard: false});
-        $("#modal-btn-si").on("click", function(e){
+        $("#modal-btn-si").on("click", function (e) {
             $("#mi-modal").modal('hide');
             $("#modal-btn-no").prop("onclick", null).off("click");
             $("#modal-btn-si").prop("onclick", null).off("click");
         });
 
-        $("#modal-btn-no").on("click", function(e){
+        $("#modal-btn-no").on("click", function (e) {
             // ajax call
             ajaxStopUpdateTradeSchedule();
             $("#mi-modal").modal('hide');
@@ -769,7 +774,7 @@ $(document).ready(function () {
 
                 $("#success-p").text("Schedule of Update Trade is stopped!");
                 $("#myModal").modal({backdrop: 'static', keyboard: false});
-                $("#success-btn").on("click", function() {
+                $("#success-btn").on("click", function () {
                     checkRunningSchedule();
                     $("#success-btn").prop("onclick", null).off("click");
                 });
@@ -801,13 +806,13 @@ $(document).ready(function () {
             if (checkCycle(txtCycle)) {
 
                 $("#mi-modal").modal({backdrop: 'static', keyboard: false});
-                $("#modal-btn-si").on("click", function(e){
+                $("#modal-btn-si").on("click", function (e) {
                     $("#mi-modal").modal('hide');
                     $("#modal-btn-no").prop("onclick", null).off("click");
                     $("#modal-btn-si").prop("onclick", null).off("click");
                 });
 
-                $("#modal-btn-no").on("click", function(e){
+                $("#modal-btn-no").on("click", function (e) {
                     // ajax call
                     ajaxStartUpdateEventSchedule(txtCycle);
                     $("#mi-modal").modal('hide');
@@ -833,7 +838,7 @@ $(document).ready(function () {
 
                 $("#success-p").text("Schedule of Update Event is running successfully!");
                 $("#myModal").modal({backdrop: 'static', keyboard: false});
-                $("#success-btn").on("click", function() {
+                $("#success-btn").on("click", function () {
                     checkRunningSchedule();
                     $("#success-btn").prop("onclick", null).off("click");
                 });
@@ -848,13 +853,13 @@ $(document).ready(function () {
         e.preventDefault();
 
         $("#mi-modal").modal({backdrop: 'static', keyboard: false});
-        $("#modal-btn-si").on("click", function(e){
+        $("#modal-btn-si").on("click", function (e) {
             $("#mi-modal").modal('hide');
             $("#modal-btn-no").prop("onclick", null).off("click");
             $("#modal-btn-si").prop("onclick", null).off("click");
         });
 
-        $("#modal-btn-no").on("click", function(e){
+        $("#modal-btn-no").on("click", function (e) {
             // ajax call
             ajaxStopUpdateEventSchedule();
             $("#mi-modal").modal('hide');
@@ -872,7 +877,7 @@ $(document).ready(function () {
 
                 $("#success-p").text("Schedule of Update Event is stopped!");
                 $("#myModal").modal({backdrop: 'static', keyboard: false});
-                $("#success-btn").on("click", function() {
+                $("#success-btn").on("click", function () {
                     checkRunningSchedule();
                     $("#success-btn").prop("onclick", null).off("click");
                 });

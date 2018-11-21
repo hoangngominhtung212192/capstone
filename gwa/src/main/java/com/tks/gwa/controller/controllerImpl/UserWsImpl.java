@@ -96,13 +96,13 @@ public class UserWsImpl implements UserWS {
             if (account != null) {
                 account.setPassword(null);
 
-                String role = (String) session.getAttribute("ROLE");
-                System.out.println("[UserWs] Role in session: " + role);
-
-                Role roleEntity = new Role();
-                roleEntity.setName(role);
-
-                account.setRole(roleEntity);
+//                String role = (String) session.getAttribute("ROLE");
+//                System.out.println("[UserWs] Role in session: " + role);
+//
+//                Role roleEntity = new Role();
+//                roleEntity.setName(role);
+//
+//                account.setRole(roleEntity);
                 return new ResponseEntity<Account>(account, HttpStatus.OK);
             }
         }

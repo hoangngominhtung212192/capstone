@@ -332,7 +332,7 @@ $(document).ready(function () {
 
         appendNonOwn += "<div class=\"col-sm-6\" style=\"background-color: white; padding-top: 20px;\n" +
             "                       margin-left: 20px; padding-bottom: 20px; border: 1px solid #f0f0f0; box-shadow: 0px 0px 5px #aaa;\n" +
-            "                            height: 400px;margin-top: 50px;\">\n" +
+            "                            height: 450px;margin-top: 50px;\">\n" +
             "                <div class=\"container\">\n" +
             "                    <form class=\"form\" id=\"profileForm\">\n" +
             "                        <div class=\"row\">\n" +
@@ -340,8 +340,23 @@ $(document).ready(function () {
             "                            <div class=\"col-sm-12\">\n" +
             "                                <div class=\"form-group\">\n" +
             "                                    <div class=\"col-xs-6\">\n" +
-            "                                        <h4 class=\"about-title\">About</h4>\n" +
-            "                                    </div>\n" +
+            "                                        <h4 class=\"about-title\">About</h4>\n";
+
+        if (current_role == "MEMBER") {
+            appendNonOwn += "<span id=\"nonOwnRole\" style=\"\n" +
+                "    font-weight: bold !important; color: darkblue\n" +
+                "\">Member</span>";
+        } else if (current_role == "BUYERSELLER") {
+            appendNonOwn += "<span id=\"nonOwnRole\" style=\"\n" +
+                "    font-weight: bold !important; color: rgb(102, 51, 0)\n" +
+                "\">BuyerSeller</span>";
+        } else {
+            appendNonOwn += "<span id=\"nonOwnRole\" style=\"\n" +
+                "    font-weight: bold !important; color: darkred\n" +
+                "\">Admin</span>";
+        }
+
+        appendNonOwn += "                                    </div>\n" +
             "                                </div>\n" +
             "                                <br/>\n" +
             "                            </div>\n" +
@@ -866,6 +881,17 @@ $(document).ready(function () {
             }
             $("#loading").css("display", "none");
         }, 500);
+
+
+        if (result.account.role.name == "MEMBER") {
+            $("#role").text("[Member] ");
+        } else if (result.account.role.name == "BUYERSELLER") {
+            $("#role").text("[BuyerSeller] ");
+            $("#role").css("color", "#663300");
+        } else {
+            $("#role").text("[Admin] ");
+            $("#role").css("color", "darkred");
+        }
 
         $("#usernameTitle").text(result.account.username);
         $("#status").val(result.account.status);

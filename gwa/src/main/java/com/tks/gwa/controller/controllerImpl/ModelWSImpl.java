@@ -406,4 +406,18 @@ public class ModelWSImpl implements ModelWS {
         return new ResponseEntity<>(modelSearchFilters, HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<List<Object>> manageModel(int pageNumber, String type, String txtSearch, String orderBy, String status) {
+        System.out.println("[ModelWS] Begin manageModel() with data:");
+        System.out.println("Page number: " + pageNumber);
+        System.out.println("Type: " + type);
+        System.out.println("Search value: " + txtSearch);
+        System.out.println("OrderBy: " + orderBy);
+        System.out.println("Status: " + status);
+
+        List<Object> resultList = modelService.manageModel(pageNumber, type, txtSearch, orderBy, status);
+
+        return new ResponseEntity<>(resultList, HttpStatus.OK);
+    }
+
 }

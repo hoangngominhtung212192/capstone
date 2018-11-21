@@ -755,7 +755,7 @@ public class ModelServiceImpl implements ModelService {
                     Profile profile = profileRepository.findProfileByAccountID(modelratingList.get(i).getAccount().getId());
                     modelratingList.get(i).getAccount().setAvatar(profile.getAvatar());
                 }
-                
+
                 result.add(modelratingList);
 
                 return result;
@@ -795,7 +795,7 @@ public class ModelServiceImpl implements ModelService {
                             // log to console
                             System.out.println("");
                             System.out.println("Similarity between " + modelName + " vs " + tradepostList.get(j).getModel() + ": "
-                            + StringHelper.similarity(modelName, tradepostList.get(j).getModel()));
+                                    + StringHelper.similarity(modelName, tradepostList.get(j).getModel()));
 
                             result.add(tradepostList.get(j));
 
@@ -908,51 +908,102 @@ public class ModelServiceImpl implements ModelService {
 
         if (modelList != null) {
             for (Model model : modelList) {
-                ModelSearchFilter modelSearchFilter = new ModelSearchFilter();
+                if (model.getStatus().equalsIgnoreCase("Available")) {
 
-                modelSearchFilter.setId(model.getId());
-                modelSearchFilter.setName(model.getName());
+                    ModelSearchFilter modelSearchFilter = new ModelSearchFilter();
 
-                List<Modelimage> modelimageList = modelimageRepository.findImagesByModelID(model.getId());
-                // set the first image in galery to be thumbImage
-                if (modelimageList.size() > 0) {
-                    String thumbImage = getThumbImage(modelimageList, "Package");
+                    modelSearchFilter.setId(model.getId());
+                    modelSearchFilter.setName(model.getName());
 
-                    if (thumbImage == null) {
-                        thumbImage = getThumbImage(modelimageList, "Item picture");
+                    List<Modelimage> modelimageList = modelimageRepository.findImagesByModelID(model.getId());
+                    // set the first image in galery to be thumbImage
+                    if (modelimageList.size() > 0) {
+                        String thumbImage = getThumbImage(modelimageList, "Package");
 
                         if (thumbImage == null) {
-                            thumbImage = getThumbImage(modelimageList, "Other picture");
+                            thumbImage = getThumbImage(modelimageList, "Item picture");
 
                             if (thumbImage == null) {
-                                thumbImage = getThumbImage(modelimageList, "Contents");
+                                thumbImage = getThumbImage(modelimageList, "Other picture");
 
                                 if (thumbImage == null) {
-                                    thumbImage = getThumbImage(modelimageList, "About item");
+                                    thumbImage = getThumbImage(modelimageList, "Contents");
 
                                     if (thumbImage == null) {
-                                        thumbImage = getThumbImage(modelimageList, "Color");
+                                        thumbImage = getThumbImage(modelimageList, "About item");
 
                                         if (thumbImage == null) {
-                                            thumbImage = getThumbImage(modelimageList, "Assembly guide");
+                                            thumbImage = getThumbImage(modelimageList, "Color");
+
+                                            if (thumbImage == null) {
+                                                thumbImage = getThumbImage(modelimageList, "Assembly guide");
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
+
+                        modelSearchFilter.setThumbImage(thumbImage);
+                    } else {
+                        // set default image
+                        modelSearchFilter.setThumbImage("https://www.1999.co.jp/itbig00/10009254.jpg");
                     }
 
-                    modelSearchFilter.setThumbImage(thumbImage);
-                } else {
-                    // set default image
-                    modelSearchFilter.setThumbImage("https://www.1999.co.jp/itbig00/10009254.jpg");
-                }
-
-                modelSearchFilters.add(modelSearchFilter);
+                    modelSearchFilters.add(modelSearchFilter);
+                } // end if equals status
             }
         }
 
         return modelSearchFilters;
+    }
+
+    @Override
+    public List<Object> manageModel(int pageNumber, String type, String txtSearch, String orderBy, String status) {
+
+        List<Object> result = new ArrayList<>();
+
+        int beginPage = 0;
+        int currentPage = 0;
+        int countTotal = 0;
+        int lastPage = 0;
+
+        int[] resultList = getCountResultAndLastPageManageModel(AppConstant.PAGE_SIZE, txtSearch, status);
+        countTotal = (int) resultList[0];
+        lastPage = (int) resultList[1];
+
+        if (type.equals("First")) {
+            currentPage = 1;
+        } else if (type.equals("Prev")) {
+            currentPage = pageNumber - 1;
+        } else if (type.equals("Next")) {
+            currentPage = pageNumber + 1;
+        } else if (type.equals("Last")) {
+            currentPage = lastPage;
+        } else {
+            currentPage = pageNumber;
+        }
+
+        if (currentPage <= 5) {
+            beginPage = 1;
+        } else if (currentPage % 5 != 0) {
+            beginPage = ((int) (currentPage / 5)) * 5 + 1;
+        } else {
+            beginPage = ((currentPage / 5) - 1) * 5 + 1;
+        }
+
+        Pagination pagination = new Pagination(countTotal, currentPage, lastPage, beginPage);
+        result.add(pagination);
+
+        List<Model> modelList = modelRepository.searchModelAdminSide(currentPage, AppConstant.PAGE_SIZE, txtSearch,
+                orderBy, status);
+
+        if (modelList == null) {
+            modelList = new ArrayList<Model>();
+        }
+        result.add(modelList);
+
+        return result;
     }
 
     public String getThumbImage(List<Modelimage> modelimageList, String imagetype) {
@@ -1001,5 +1052,22 @@ public class ModelServiceImpl implements ModelService {
         return listResult;
     }
 
+    public int[] getCountResultAndLastPageManageModel(int pageSize, String txtSearch, String status) {
+
+        int[] listResult = new int[2];
+        int countResult = modelRepository.getCountSearchModelAdminSide(txtSearch, status);
+        listResult[0] = countResult;
+
+        int lastPage = 1;
+
+        if (countResult % pageSize == 0) {
+            lastPage = countResult / pageSize;
+        } else {
+            lastPage = ((countResult / pageSize) + 1);
+        }
+        listResult[1] = lastPage;
+
+        return listResult;
+    }
 
 }

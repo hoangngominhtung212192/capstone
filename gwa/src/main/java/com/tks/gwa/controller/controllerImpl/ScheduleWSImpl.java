@@ -17,7 +17,7 @@ public class ScheduleWSImpl implements ScheduleWS {
     ScheduleService scheduleService;
 
     @Override
-    public ResponseEntity<String> startModelCrawlSchedule(int hours) {
+    public ResponseEntity<String> startModelCrawlSchedule(String hours) {
 
         System.out.println("[ScheduleWS] Begin startModelCrawlSchedule() with hours: " + hours);
 
@@ -37,7 +37,7 @@ public class ScheduleWSImpl implements ScheduleWS {
     }
 
     @Override
-    public ResponseEntity<String> startUpdateTradeSchedule(int hours) {
+    public ResponseEntity<String> startUpdateTradeSchedule(String hours) {
 
         System.out.println("[ScheduleWS] Begin startUpdateTradeSchedule() with hours: " + hours);
 
@@ -56,7 +56,7 @@ public class ScheduleWSImpl implements ScheduleWS {
     }
 
     @Override
-    public ResponseEntity<String> startUpdateEventSchedule(int hours) {
+    public ResponseEntity<String> startUpdateEventSchedule(String hours) {
 
         System.out.println("[ScheduleWS] Begin startUpdateEventSchedule() with hours: " + hours);
 

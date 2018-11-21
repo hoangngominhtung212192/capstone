@@ -216,6 +216,11 @@ public class WebControllerImpl implements WebController {
     }
 
     @Override
+    public ModelAndView manageModelPage() {
+        return new ModelAndView("admin-manage-model");
+    }
+
+    @Override
     public ModelAndView pendingTradepostPage() {
         return new ModelAndView("manipulate-tradepost");
     }
