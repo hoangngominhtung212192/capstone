@@ -69,6 +69,7 @@ var defaultPaginationOpts = {
         };
         isSearch = true;
         searchEv();
+        $('#lblMessage').css("display", "none");
         // testSchedule()
 
     });
@@ -85,6 +86,7 @@ var defaultPaginationOpts = {
     }
 
     function searchEv() {
+
         var searchValue = $("#txtSearch").val();
 
         console.log("searchvalue: "+searchValue);
@@ -229,7 +231,9 @@ var defaultPaginationOpts = {
     $("#btnNearbyEvents").click(function (event) {
         event.preventDefault();
         // showPosition();
+
         autoGetYourLocation();
+        $('#lblMessage').css("display", "block");
 
     })
 
@@ -526,6 +530,8 @@ var defaultPaginationOpts = {
                     window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
                 } else if (type == "Article") {
                     window.location.href = "/gwa/article/detail?id=" + objectID;
+                } else if (type == "Event") {
+                    window.location.href = "/gwa/event/detail?id=" + objectID;
                 }
             });
         });

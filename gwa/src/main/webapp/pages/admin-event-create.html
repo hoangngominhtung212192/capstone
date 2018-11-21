@@ -41,6 +41,22 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
+<div id="myModal" class="modal fade">
+  <div class="modal-dialog modal-confirm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="icon-box">
+          <i class="material-icons">&#10004;</i>
+        </div>
+      </div>
+      <div class="modal-body text-center">
+        <h4>Great!</h4>
+        <p id="lblModalMessage">Event created successfully!</p>
+        <button id="success-btn" class="btn btn-success" data-dismiss="modal"><span>OK</span></button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="wrapper">
   <!-- danh dau header -->
   <header class="main-header">
@@ -416,7 +432,7 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <script>HTMLImporter.import("/gwa/pages/admin-footer.html");</script>
+  <!--<script>HTMLImporter.import("/gwa/pages/admin-footer.html");</script>-->
 </div>
 <!-- ./wrapper -->
 

@@ -113,7 +113,7 @@ public class ArticleWSImpl implements ArticleWS {
     @Override
     public ResponseEntity<Article> updateArticleImage(MultipartFile photoBtn, int id) {
         String filename = fileUploadService.storeFile(photoBtn);
-
+        System.out.println("filename: "+filename);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/").path(filename).toUriString();
 
         Article article = articleService.getArticleByID(id);
