@@ -200,6 +200,7 @@ $(document).ready(function() {
         var minn = $("#txtAttMin").val();
         var maxx = $("#txtAttMax").val();
         if (minn > maxx){
+            console.log("minum is higer than maxx")
             valid = false;
             $.growl.error({message: "Minimum attendee should be lower than maximum attendee"});
         }
@@ -210,6 +211,7 @@ $(document).ready(function() {
                 url : "/gwa/api/event/createEvent",
                 data : JSON.stringify(data),
                 success : function(result, status) {
+                    console.log("event created!");
                     var type = imagetype.split("/")[1];
                     formData.append("id", result.id);
                     formData.append("photoBtn", imageFile, "thumbEvtID" +result.id + "." + type);
