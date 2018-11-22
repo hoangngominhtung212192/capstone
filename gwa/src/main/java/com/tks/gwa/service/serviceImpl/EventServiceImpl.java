@@ -8,6 +8,7 @@ import com.tks.gwa.repository.EventRepository;
 import com.tks.gwa.repository.NotificationRepository;
 import com.tks.gwa.service.EventService;
 import com.tks.gwa.service.NotificationService;
+import com.tks.gwa.utils.DatetimeHelper;
 import com.tks.gwa.utils.GoogleMapHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -245,12 +246,13 @@ public class EventServiceImpl implements EventService {
                     eventRepository.updateEventStatus(curE.getId());
                     //list of attendee of this event
                     List<Eventattendee> listatt = eventAttendeeRepository.searchAttendeeByEvent(curE.getId());
-                    if (!listatt.isEmpty()){
                         for (int j = 0; j < listatt.size(); j++) {
                             Eventattendee attendee = listatt.get(j);
-                            System.out.println("Sending notification to user id "+listatt.get(j).getId());
+//                            System.out.println("Sending notification to user id "+listatt.get(j).getAccount().getId());
 
                             Notification notification = new Notification();
+                            notification.setSeen(AppConstant.NOTIFICATION_NOT_SEEN);
+                            notification.setDate(DatetimeHelper.dateConvertToString(date));
                             notification.setDescription("An event you signed up for was cancelled.");
                             notification.setAccount(attendee.getAccount());
 
@@ -264,7 +266,6 @@ public class EventServiceImpl implements EventService {
                             notificationRepository.create(notification);
 //                            notificationService.addNewNotification(notification);
                         }
-                    }
                 }
             } catch (ParseException e) {
                 e.printStackTrace();

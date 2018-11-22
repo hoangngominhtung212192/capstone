@@ -13,6 +13,7 @@ public interface EventAttendeeRepository extends GenericRepository<Eventattendee
     Eventattendee addNewAttendee(Eventattendee attendee);
     Eventattendee updateAttendee(Eventattendee attendee);
     void deleteAttendee(Eventattendee attendee);
+    List<Eventattendee> searchRatedAttendeeByEvent(Integer eventid);
     List<Eventattendee> searchAttendeeByEvent(Integer eventid);
     Eventattendee getAttendeeInEvent(Integer userid, Integer eventid) throws NoResultException;
     Eventattendee getAttendee(int id);
