@@ -34,13 +34,13 @@ public interface TradeMarketControllerWs {
     ResponseEntity<ViewTradepostDTO> viewTradePost(@RequestParam("tradepostId") int tradepostId);
 
     @RequestMapping(value = "/get-my-trade", method = RequestMethod.GET)
-    ResponseEntity<List<Object>> getMyTradeList(@RequestParam("accountId") int accountId,
+    ResponseEntity<MyTradeDataList> getMyTradeList(@RequestParam("accountId") int accountId,
                                                     @RequestParam("status") String status,
                                                     @RequestParam("pageNumber") int pageNumber,
                                                     @RequestParam("sortType") int sortType);
 
     @RequestMapping(value = "/search-my-trade", method = RequestMethod.GET)
-    ResponseEntity<List<Object>> searchMyTradeList(@RequestParam("accountId") int accountId,
+    ResponseEntity<MyTradeDataList> searchMyTradeList(@RequestParam("accountId") int accountId,
                                                        @RequestParam("status") String status,
                                                        @RequestParam("pageNumber") int pageNumber,
                                                        @RequestParam("sortType") int sortType,
@@ -48,24 +48,24 @@ public interface TradeMarketControllerWs {
 
 
     @RequestMapping(value = "/get-trade-listing", method = RequestMethod.GET)
-    ResponseEntity<List<Object>> getTradeListing(@RequestParam("tradeType") String tradeType,
+    ResponseEntity<TradingDataList> getTradeListing(@RequestParam("tradeType") String tradeType,
                                                           @RequestParam("pageNumber") int pageNumber,
                                                           @RequestParam("sortType") int sortType);
 
     @RequestMapping(value = "/search-trade-listing", method = RequestMethod.GET)
-    ResponseEntity<List<Object>> getSearchTradeListing(@RequestParam("tradeType") String tradeType,
+    ResponseEntity<TradingDataList> getSearchTradeListing(@RequestParam("tradeType") String tradeType,
                                                                 @RequestParam("pageNumber") int pageNumber,
                                                                 @RequestParam("sortType") int sortType,
                                                                 @RequestParam("keyword") String keyword);
     @RequestMapping(value = "/search-location-trade-listing", method = RequestMethod.GET)
-    ResponseEntity<List<Object>> getSearchTradeListingWithLocation(@RequestParam("tradeType") String tradeType,
+    ResponseEntity<TradingDataList> getSearchTradeListingWithLocation(@RequestParam("tradeType") String tradeType,
                                                                    @RequestParam("sortType") int sortType,
                                                                    @RequestParam("keyword") String keyword,
                                                                    @RequestParam("location") String location,
                                                                    @RequestParam("range") long range);
 
     @RequestMapping(value = "/get-order-by-trade-post", method = RequestMethod.GET)
-    ResponseEntity<List<Object>> getOrderByTradepost(@RequestParam("tradepostId") int tradepostId,
+    ResponseEntity<OrderRequestDataList> getOrderByTradepost(@RequestParam("tradepostId") int tradepostId,
                                                      @RequestParam("status") String status,
                                                      @RequestParam("pageNumber") int pageNumber,
                                                      @RequestParam("sortType") int sortType);
@@ -92,7 +92,7 @@ public interface TradeMarketControllerWs {
                                        @RequestParam("email") String email);
 
     @RequestMapping(value = "/get-my-order", method = RequestMethod.GET)
-    ResponseEntity<List<Object>> getMyOrder(@RequestParam("accountId") int accountId,
+    ResponseEntity<MyOrderDataList> getMyOrder(@RequestParam("accountId") int accountId,
                                             @RequestParam("status") String status,
                                             @RequestParam("pageNumber") int pageNumber,
                                             @RequestParam("sortType") int sortType);

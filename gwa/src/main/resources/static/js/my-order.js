@@ -246,7 +246,7 @@ $(document).ready(function () {
             type: "GET",
             url: "/gwa/api/notification/getAll?pageNumber=" + pageNumber + "&accountID=" + accountID,
             success: function (result) {
-                console.log(result);
+                // console.log(result);
 
                 lastPage = result[0];
                 renderNotification(result[1]);
@@ -319,9 +319,9 @@ $(document).ready(function () {
                 var objectID = $(this).attr('id').split("-")[2];
 
                 // log to console
-                console.log("Notification ID: " + notificationID);
-                console.log("Type: " + type);
-                console.log("ObjectID: " + objectID);
+                // console.log("Notification ID: " + notificationID);
+                // console.log("Type: " + type);
+                // console.log("ObjectID: " + objectID);
 
                 // set seen status to 0 --> means user has seen this current notification
                 ajaxUpdateNotificationStatus(notificationID);
@@ -365,7 +365,7 @@ $(document).ready(function () {
             type: "POST",
             url: "/gwa/api/notification/update?notificationID=" + notificationID,
             success: function (result) {
-                console.log(result);
+                // console.log(result);
             },
             error: function (e) {
                 console.log("ERROR: ", e);
@@ -404,7 +404,7 @@ function ajaxPostNewNotification(data) {
         url: "/gwa/api/notification/addNew",
         data: JSON.stringify(data),
         success: function (result) {
-            console.log(result);
+            // console.log(result);
         },
         error: function (e) {
             console.log("ERROR: ", e);
@@ -452,15 +452,15 @@ function loadMyOrderData() {
             if (status == "success") {
                 var xhr_data = xhr.responseText;
                 var jsonResponse = JSON.parse(xhr_data);
-                console.log(jsonResponse);
-                var data = jsonResponse[2];
+                // console.log(jsonResponse);
+                var data = jsonResponse["data"];
                 if (data != "") {
-                    totalPage = jsonResponse[0];
+                    totalPage = jsonResponse["totalPage"];
                 } else {
                     totalPage = 0;
                 }
                 renderData(data);
-                console.log(data);
+                // console.log(data);
             } else {
                 result = null;
                 // console.log("Trade post not found!");

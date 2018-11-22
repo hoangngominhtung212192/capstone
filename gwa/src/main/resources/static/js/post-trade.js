@@ -228,13 +228,13 @@ $(document).ready(function () {
         var lastPage;
 
         function ajaxGetAllNotification(accountID) {
-            console.log(pageNumber);
+            // console.log(pageNumber);
 
             $.ajax({
                 type: "GET",
                 url: "/gwa/api/notification/getAll?pageNumber=" + pageNumber + "&accountID=" + accountID,
                 success: function (result) {
-                    console.log(result);
+                    // console.log(result);
 
                     lastPage = result[0];
                     renderNotification(result[1]);
@@ -307,9 +307,9 @@ $(document).ready(function () {
                     var objectID = $(this).attr('id').split("-")[2];
 
                     // log to console
-                    console.log("Notification ID: " + notificationID);
-                    console.log("Type: " + type);
-                    console.log("ObjectID: " + objectID);
+                    // console.log("Notification ID: " + notificationID);
+                    // console.log("Type: " + type);
+                    // console.log("ObjectID: " + objectID);
 
                     // set seen status to 0 --> means user has seen this current notification
                     ajaxUpdateNotificationStatus(notificationID);
@@ -353,7 +353,7 @@ $(document).ready(function () {
                 type: "POST",
                 url: "/gwa/api/notification/update?notificationID=" + notificationID,
                 success: function (result) {
-                    console.log(result);
+                    // console.log(result);
                 },
                 error: function (e) {
                     console.log("ERROR: ", e);
@@ -479,7 +479,7 @@ function ajaxPostNewNotification(data) {
         url: "/gwa/api/notification/addNew",
         data: JSON.stringify(data),
         success: function (result) {
-            console.log(result);
+            // console.log(result);
         },
         error: function (e) {
             console.log("ERROR: ", e);
@@ -495,7 +495,7 @@ function ajaxSubmitForm(form) {
     });
     var url = $(form).attr("action");
     var formDataJson = JSON.stringify(formObj);
-    console.log(formDataJson);
+    // console.log(formDataJson);
     $.ajax({
         url: url,
         type: "POST",
@@ -584,7 +584,7 @@ function checkAuthorization(userId) {
 
 function loadEditForm(editformData) {
     ImageNamePrefix = "tradepost_" + currentAccountName + "_" + currentTradePostID + "_";
-    console.log(ImageNamePrefix);
+    // console.log(ImageNamePrefix);
     //SET EDIT API TO FORM
     $("#tradepostForm").attr("action", "/gwa/api/tradepost/edit-trade-post");
     //SET NAME OF BUTTOM
@@ -612,6 +612,7 @@ function loadEditForm(editformData) {
     $("#tradeModel").val(editformData["tradeModel"]);
     $("#tradeDesc").val(editformData["tradeDesc"]);
 
+
     var imgListArr = [];
     imgListArr = editformData["imageUploadedList"];
 
@@ -631,6 +632,7 @@ function loadEditForm(editformData) {
     $("#traderPhone").val(editformData["traderPhone"]);
     $("#traderEmail").val(editformData["traderEmail"]);
     $("#traderAddress").val(editformData["traderAddress"]);
+    $("#traderLatlng").val(editformData["traderLatlng"]);
 
 
 }
@@ -719,6 +721,7 @@ $("#addressSelectForm").validate({
         var addressText = $("#traderAddress"),
             addressFromModelText = $("#selectAddressFull");
         addressText.val(addressFromModelText.val());
+        addressToLatlng(addressText.val())
         $.growl.notice({title: "Select Address: ", message: addressText.val()});
     }
 
@@ -877,6 +880,20 @@ function checkValidRequest() {
     return false;
 }
 
+function addressToLatlng(address) {
+    var geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode( { 'address': address}, function(results, status) {
+
+        if (status == google.maps.GeocoderStatus.OK) {
+            var latitude = results[0].geometry.location.lat();
+            var longitude = results[0].geometry.location.lng();
+            var result = latitude + "," + longitude;
+            console.log(result);
+            $("#traderLatlng").val(result);
+        }
+    });
+}
 function autoGetYourLocation() {
     waitingDialog.show('Getting your location...', {dialogSize: '', progressType: 'info'});
     setTimeout(function () {
@@ -906,6 +923,8 @@ function showPosition(position) {
         function (results, status) {
             if (status == google.maps.GeocoderStatus.OK && results[0]) {
                 $("#traderAddress").val(results[0].formatted_address);
+                // console.log(lat + "," + lng);
+                $("#traderLatlng").val(lat + "," + lng);
 
             }
         }

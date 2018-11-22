@@ -1,9 +1,7 @@
 package com.tks.gwa.controller.controllerImpl;
 
 import com.tks.gwa.controller.TradeMarketControllerWs;
-import com.tks.gwa.dto.NewOrderDTO;
-import com.tks.gwa.dto.TradepostRequestData;
-import com.tks.gwa.dto.ViewTradepostDTO;
+import com.tks.gwa.dto.*;
 import com.tks.gwa.entity.Orderrequest;
 import com.tks.gwa.entity.Tradepost;
 import com.tks.gwa.service.TrademarketService;
@@ -195,15 +193,15 @@ public class TradeMarketControllerWsImpl implements TradeMarketControllerWs {
     }
 
     @Override
-    public ResponseEntity<List<Object>> getMyTradeList(@RequestParam("accountId") int accountId,
-                                                           @RequestParam("status") String status,
-                                                           @RequestParam("pageNumber") int pageNumber,
-                                                           @RequestParam("sortType") int sortType) {
+    public ResponseEntity<MyTradeDataList> getMyTradeList(@RequestParam("accountId") int accountId,
+                                                          @RequestParam("status") String status,
+                                                          @RequestParam("pageNumber") int pageNumber,
+                                                          @RequestParam("sortType") int sortType) {
         System.out.println("[TRADEMARKET CONTROLLER][GET MY TRADE LIST]: Accessing" );
-        List<Object> result = new ArrayList<Object>();
+        MyTradeDataList result = new MyTradeDataList();
         if (accountId <= 0){
             System.out.println("[TRADEMARKET CONTROLLER][GET MY TRADE LIST]: Request Data is null" );
-            return (ResponseEntity<List<Object>>) ResponseEntity.status(HttpStatus.BAD_REQUEST);
+            return (ResponseEntity<MyTradeDataList>) ResponseEntity.status(HttpStatus.BAD_REQUEST);
         }
         System.out.println("[TRADEMARKET CONTROLLER][GET MY TRADE LIST]: Get all trade post from accountId: " + accountId );
         try {
@@ -212,23 +210,23 @@ public class TradeMarketControllerWsImpl implements TradeMarketControllerWs {
         }catch (Exception e){
             System.out.println("[TRADEPOST CONTROLLER][GET MY TRADE LIST]: ERROR on EXECUTE database server" );
             e.printStackTrace();
-            return new ResponseEntity<List<Object>>(result,HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<MyTradeDataList>(result,HttpStatus.INTERNAL_SERVER_ERROR);
         }
         System.out.println("[TRADEPOST CONTROLLER][GET MY TRADE LIST]: Successfully!" );
-        return new ResponseEntity<List<Object>>(result,HttpStatus.OK);
+        return new ResponseEntity<MyTradeDataList>(result,HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<Object>> searchMyTradeList(@RequestParam("accountId") int accountId,
+    public ResponseEntity<MyTradeDataList> searchMyTradeList(@RequestParam("accountId") int accountId,
                                                               @RequestParam("status") String status,
                                                               @RequestParam("pageNumber") int pageNumber,
                                                               @RequestParam("sortType") int sortType,
                                                               @RequestParam("keyword") String keyword) {
         System.out.println("[TRADEMARKET CONTROLLER][SEARCH MY TRADE LIST]: Accessing" );
-        List<Object> result = new ArrayList<Object>();
+        MyTradeDataList result = new MyTradeDataList();
         if (accountId <= 0){
             System.out.println("[TRADEMARKET CONTROLLER][SEARCH MY TRADE LIST]: Request Data is null" );
-            return (ResponseEntity<List<Object>>) ResponseEntity.status(HttpStatus.BAD_REQUEST);
+            return (ResponseEntity<MyTradeDataList>) ResponseEntity.status(HttpStatus.BAD_REQUEST);
         }
         System.out.println("[TRADEMARKET CONTROLLER][SEARCH MY TRADE LIST]: Search all trade post from accountId: "
                 + accountId + " - Keyword: " + keyword);
@@ -237,24 +235,24 @@ public class TradeMarketControllerWsImpl implements TradeMarketControllerWs {
         }catch (Exception e){
             System.out.println("[TRADEPOST CONTROLLER][SEARCH MY TRADE LIST]: ERROR on EXECUTE database server" );
             e.printStackTrace();
-            return new ResponseEntity<List<Object>>(result,HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<MyTradeDataList>(result,HttpStatus.INTERNAL_SERVER_ERROR);
         }
         System.out.println("[TRADEPOST CONTROLLER][SEARCH MY TRADE LIST]: Successfully!" );
-        return new ResponseEntity<List<Object>>(result,HttpStatus.OK);
+        return new ResponseEntity<MyTradeDataList>(result,HttpStatus.OK);
     }
 
 
     @Override
-    public ResponseEntity<List<Object>> getTradeListing(@RequestParam("tradeType") String tradeType,
-                                                                 @RequestParam("pageNumber") int pageNumber,
-                                                                 @RequestParam("sortType") int sortType) {
+    public ResponseEntity<TradingDataList> getTradeListing(@RequestParam("tradeType") String tradeType,
+                                                           @RequestParam("pageNumber") int pageNumber,
+                                                           @RequestParam("sortType") int sortType) {
 
 
         System.out.println("[TRADEMARKET CONTROLLER][GET TRADE LISTING]: Accessing" );
-        List<Object> result = new ArrayList<Object>();
+        TradingDataList result = new TradingDataList();
         if (pageNumber <= 0){
             System.out.println("[TRADEMARKET CONTROLLER][GET TRADE LISTING]: Request Data is null" );
-            return (ResponseEntity<List<Object>>) ResponseEntity.status(HttpStatus.BAD_REQUEST);
+            return (ResponseEntity<TradingDataList>) ResponseEntity.status(HttpStatus.BAD_REQUEST);
         }
         System.out.println("[TRADEMARKET CONTROLLER][GET TRADE LISTING]: Trade Type: " + tradeType );
         try {
@@ -262,23 +260,23 @@ public class TradeMarketControllerWsImpl implements TradeMarketControllerWs {
         }catch (Exception e){
             System.out.println("[TRADEPOST CONTROLLER][GET TRADE LISTING]: ERROR on EXECUTE database server" );
             e.printStackTrace();
-            return new ResponseEntity<List<Object>>(result,HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<TradingDataList>(result,HttpStatus.INTERNAL_SERVER_ERROR);
         }
         System.out.println("[TRADEPOST CONTROLLER][GET TRADE LISTING]: Successfully!" );
-        return new ResponseEntity<List<Object>>(result,HttpStatus.OK);
+        return new ResponseEntity<TradingDataList>(result,HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<Object>> getSearchTradeListing(@RequestParam("tradeType") String tradeType,
+    public ResponseEntity<TradingDataList> getSearchTradeListing(@RequestParam("tradeType") String tradeType,
                                                                        @RequestParam("pageNumber") int pageNumber,
                                                                        @RequestParam("sortType") int sortType,
                                                                        @RequestParam("keyword") String keyword) {
 
         System.out.println("[TRADEMARKET CONTROLLER][SEARCH TRADE LISTING]: Accessing" );
-        List<Object> result = new ArrayList<Object>();
+        TradingDataList result = new TradingDataList();
         if (pageNumber <= 0){
             System.out.println("[TRADEMARKET CONTROLLER][SEARCH TRADE LISTING]: Request Data is null" );
-            return (ResponseEntity<List<Object>>) ResponseEntity.status(HttpStatus.BAD_REQUEST);
+            return (ResponseEntity<TradingDataList>) ResponseEntity.status(HttpStatus.BAD_REQUEST);
         }
         System.out.println("[TRADEMARKET CONTROLLER][SEARCH TRADE LISTING]: Keyword: " + keyword );
         try {
@@ -287,44 +285,44 @@ public class TradeMarketControllerWsImpl implements TradeMarketControllerWs {
         }catch (Exception e){
             System.out.println("[TRADEPOST CONTROLLER][SEARCH TRADE LISTING]: ERROR on EXECUTE database server" );
             e.printStackTrace();
-            return new ResponseEntity<List<Object>>(result,HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<TradingDataList>(result,HttpStatus.INTERNAL_SERVER_ERROR);
         }
         System.out.println("[TRADEPOST CONTROLLER][SEARCH TRADE LISTING]: Successfully!" );
-        return new ResponseEntity<List<Object>>(result,HttpStatus.OK);
+        return new ResponseEntity<TradingDataList>(result,HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<Object>> getSearchTradeListingWithLocation(String tradeType, int sortType, String keyword, String location, long range) {
+    public ResponseEntity<TradingDataList> getSearchTradeListingWithLocation(String tradeType, int sortType, String keyword, String location, long range) {
         System.out.println("[TRADEMARKET CONTROLLER][SEARCH TRADE LISTING WITH LOCATION]: Accessing" );
-        List<Object> result = new ArrayList<Object>();
+        TradingDataList result = new TradingDataList();
         try {
             result = trademarketService.getSearchTradeListingWithLocationData(tradeType,sortType,keyword,location,range);
 
         }catch (Exception e){
             System.out.println("[TRADEPOST CONTROLLER][SEARCH TRADE LISTING WITH LOCATION]: ERROR on EXECUTE database server" );
             e.printStackTrace();
-            return new ResponseEntity<List<Object>>(result,HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<TradingDataList>(result,HttpStatus.INTERNAL_SERVER_ERROR);
         }
         System.out.println("[TRADEPOST CONTROLLER][SEARCH TRADE LISTING WITH LOCATION]: Successfully!" );
-        return new ResponseEntity<List<Object>>(result,HttpStatus.OK);
+        return new ResponseEntity<TradingDataList>(result,HttpStatus.OK);
     }
 
 
     @Override
-    public ResponseEntity<List<Object>> getOrderByTradepost(@RequestParam("tradepostId") int tradepostId,
+    public ResponseEntity<OrderRequestDataList> getOrderByTradepost(@RequestParam("tradepostId") int tradepostId,
                                                             @RequestParam("status") String status,
                                                             @RequestParam("pageNumber") int pageNumber,
                                                             @RequestParam("sortType") int sortType) {
-        List<Object> result = new ArrayList<Object>();
+        OrderRequestDataList result = new OrderRequestDataList();
         try {
             result = trademarketService.getAllRequestByTradepost(tradepostId,status,pageNumber,sortType);
 
         }catch (Exception e){
             System.out.println("[TRADEPOST CONTROLLER][GET ALL ORDER BY TRADEPOST]: ERROR on EXECUTE database server" );
             e.printStackTrace();
-            return new ResponseEntity<List<Object>>(result,HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<OrderRequestDataList>(result,HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<List<Object>>(result,HttpStatus.OK);
+        return new ResponseEntity<OrderRequestDataList>(result,HttpStatus.OK);
     }
 
     @Override
@@ -484,21 +482,21 @@ public class TradeMarketControllerWsImpl implements TradeMarketControllerWs {
     }
 
     @Override
-    public ResponseEntity<List<Object>> getMyOrder(@RequestParam("accountId") int accountId,
+    public ResponseEntity<MyOrderDataList> getMyOrder(@RequestParam("accountId") int accountId,
                                                    @RequestParam("status") String status,
                                                    @RequestParam("pageNumber") int pageNumber,
                                                    @RequestParam("sortType") int sortType) {
 
-        List<Object> result = new ArrayList<Object>();
+        MyOrderDataList result = new MyOrderDataList();
         try {
             result = trademarketService.getMyOrderData(accountId,status,pageNumber,sortType);
 
         }catch (Exception e){
             System.out.println("[TRADEPOST CONTROLLER][GET MY ORDER DATA]: ERROR on EXECUTE database server" );
             e.printStackTrace();
-            return new ResponseEntity<List<Object>>(result,HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<MyOrderDataList>(result,HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<List<Object>>(result,HttpStatus.OK);
+        return new ResponseEntity<MyOrderDataList>(result,HttpStatus.OK);
     }
 
     @Override

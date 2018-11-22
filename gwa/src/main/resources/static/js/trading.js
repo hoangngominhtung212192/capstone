@@ -2,7 +2,7 @@ var tradingData = [];
 var isSearch = false;
 var searchValue = "";
 var isLocationSearch = false;
-var addressSearch = "";
+var latlngSearch = "";
 var rangeValue = 0;
 var currentAddress = "";
 var currentSortType = 1;
@@ -250,7 +250,7 @@ $(document).ready(function () {
             type: "GET",
             url: "/gwa/api/notification/getAll?pageNumber=" + pageNumber + "&accountID=" + accountID,
             success: function (result) {
-                console.log(result);
+                // console.log(result);
 
                 lastPage = result[0];
                 renderNotification(result[1]);
@@ -323,9 +323,9 @@ $(document).ready(function () {
                 var objectID = $(this).attr('id').split("-")[2];
 
                 // log to console
-                console.log("Notification ID: " + notificationID);
-                console.log("Type: " + type);
-                console.log("ObjectID: " + objectID);
+                // console.log("Notification ID: " + notificationID);
+                // console.log("Type: " + type);
+                // console.log("ObjectID: " + objectID);
 
                 // set seen status to 0 --> means user has seen this current notification
                 ajaxUpdateNotificationStatus(notificationID);
@@ -386,7 +386,7 @@ $(document).ready(function () {
             url: "/gwa/api/notification/addNew",
             data: JSON.stringify(data),
             success: function (result) {
-                console.log(result);
+                // console.log(result);
             },
             error: function (e) {
                 console.log("ERROR: ", e);
@@ -400,7 +400,7 @@ $(document).ready(function () {
             type: "POST",
             url: "/gwa/api/notification/update?notificationID=" + notificationID,
             success: function (result) {
-                console.log(result);
+                // console.log(result);
             },
             error: function (e) {
                 console.log("ERROR: ", e);
@@ -415,10 +415,15 @@ $(document).ready(function () {
 function changeTab(ele) {
     currentTabSelected = $(ele).attr("data-tradeType");
     currentPage = 1;
-    if (isLocationSearch) {
-        loadLocationSearchData();
+    if (isSearch) {
+        if (isLocationSearch) {
+            loadLocationSearchData();
+        } else {
+            loadSearchData();
+        }
+
     } else {
-        loadSearchData();
+        loadTradingData();
     }
 
     $pagination.twbsPagination('destroy');
@@ -448,7 +453,7 @@ $("#sortTypeSelect").change(function () {
 });
 $("#inputSearch").on('keyup', function (e) {
     if (e.keyCode == 13) {
-        console.log("Enter");
+        // console.log("Enter");
         searchValue = $("#inputSearch").val();
         if (searchValue === "") {
             if (isSearch === true) {
@@ -468,7 +473,7 @@ $("#inputSearch").on('keyup', function (e) {
             currentPage = 1;
             if (isLocationSearch) {
                 rangeValue = $("#distance").val();
-                addressSearch = $("#locationInput").val();
+                latlngSearch = $("#searchLatLng").val();
                 loadLocationSearchData();
                 $("#noticeTitle").html("You are searching with keyword: " + searchValue + " - Range: " + rangeValue + "KM");
             } else {
@@ -494,6 +499,7 @@ $("#searchWithLocation").click(function () {
         setTimeout(function () {
             waitingDialog.hide();
             $("#locationInput").val(currentAddress);
+            addressToLatlng($("#locationInput").val());
         }, 1000);
         isLocationSearch = true;
 
@@ -519,10 +525,10 @@ function loadSearchData() {
             if (status == "success") {
                 var xhr_data = xhr.responseText;
                 var jsonResponse = JSON.parse(xhr_data);
-                console.log(jsonResponse);
-                tradingData = jsonResponse[1];
+                // console.log(jsonResponse);
+                tradingData = jsonResponse["data"];
                 if (tradingData != "") {
-                    totalPage = jsonResponse[0];
+                    totalPage = jsonResponse["totalPage"];
                 } else {
                     totalPage = 0;
                 }
@@ -536,6 +542,7 @@ function loadSearchData() {
 }
 
 function loadLocationSearchData() {
+    // console.log(latlngSearch);
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/gwa/api/tradepost/search-location-trade-listing",
@@ -544,7 +551,7 @@ function loadLocationSearchData() {
             tradeType: currentTabSelected,
             sortType: currentSortType,
             keyword: searchValue,
-            location: addressSearch,
+            location: latlngSearch,
             range: rangeValue * 1000
         },
         async: false,
@@ -552,11 +559,11 @@ function loadLocationSearchData() {
             if (status == "success") {
                 var xhr_data = xhr.responseText;
                 var jsonResponse = JSON.parse(xhr_data);
-                console.log(jsonResponse);
-                tradingData = jsonResponse[1];
-                currentAddress = addressSearch;
+                // console.log(jsonResponse);
+                tradingData = jsonResponse["data"];
+                currentAddress = $("#locationInput").val();
                 if (tradingData != "") {
-                    totalPage = jsonResponse[0];
+                    totalPage = jsonResponse["totalPage"];
                 } else {
                     totalPage = 0;
                 }
@@ -585,10 +592,10 @@ function loadTradingData() {
             if (status == "success") {
                 var xhr_data = xhr.responseText;
                 var jsonResponse = JSON.parse(xhr_data);
-                console.log(jsonResponse);
-                tradingData = jsonResponse[1];
+                // console.log(jsonResponse);
+                tradingData = jsonResponse["data"];
                 if (tradingData != "") {
-                    totalPage = jsonResponse[0];
+                    totalPage = jsonResponse["totalPage"];
                 } else {
                     totalPage = 0;
                 }
@@ -693,6 +700,21 @@ function renderRecord() {
 }
 
 
+function addressToLatlng(address) {
+    var geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode( { 'address': address}, function(results, status) {
+
+        if (status == google.maps.GeocoderStatus.OK) {
+            var latitude = results[0].geometry.location.lat();
+            var longitude = results[0].geometry.location.lng();
+            var result = latitude + "," + longitude;
+            $("#searchLatLng").val(result);
+        }
+    });
+}
+
+
 function autoGetYourLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
@@ -713,7 +735,6 @@ function showPosition(position) {
         function (results, status) {
             if (status == google.maps.GeocoderStatus.OK && results[0]) {
                 currentAddress = results[0].formatted_address;
-                // console.log(results[0].formatted_address);
 
             }
         }
@@ -782,6 +803,7 @@ $("#addressSelectForm").validate({
             $("#addressModal").modal('hide');
             addressText.val(addressFromModelText.val());
         }, 500);
+        addressToLatlng(addressText.val());
         $.growl.notice({title: "Select Address: ", message: addressText.val()});
     }
 
