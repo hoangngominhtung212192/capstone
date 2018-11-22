@@ -41,6 +41,22 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
+<div id="myModal" class="modal fade">
+  <div class="modal-dialog modal-confirm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="icon-box">
+          <i class="material-icons">&#10004;</i>
+        </div>
+      </div>
+      <div class="modal-body text-center">
+        <h4>Great!</h4>
+        <p id="lblModalMessage">Event created successfully!</p>
+        <button id="success-btn" class="btn btn-success" data-dismiss="modal"><span>OK</span></button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="wrapper">
   <!-- danh dau header -->
   <header class="main-header">
@@ -168,7 +184,7 @@
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/gwa/model/"><i class="fa fa-circle-o"></i> Manage model</a></li>
+            <li><a href="/gwa/admin/model/manage"><i class="fa fa-circle-o"></i> Manage model</a></li>
             <li><a href="/gwa/admin/model/create"><i class="fa fa-circle-o"></i> Create new model</a></li>
             <li><a href="/gwa/admin/model/pending"><i class="fa fa-circle-o"></i> Pending model</a></li>
             <li><a href="/gwa/admin/model/crawl"><i class="fa fa-circle-o"></i> Crawl model</a></li>
@@ -261,9 +277,9 @@
             <div class="box-header">
               <h1 class="box-title">Create a new event</h1>
             </div>
-            <h4>Title</h4>
+            <h3>Title</h3>
             <input type="text" class="form-control"style="background-color: white" placeholder="Title" id="txtTitle" required maxlength="250"/>
-            <h4>Location</h4>
+            <h3>Location</h3>
             <!--<input type="text" class="form-control"style="background-color: white" placeholder="Location" id="txtLocation"/>-->
             <div id="locationField">
               <input id="txtLocation" placeholder="Enter your address" class="form-control"
@@ -344,9 +360,9 @@
                     }
                 }
             </script>
-            <h4>Description</h4>
+            <h3>Description</h3>
             <textarea id="txtDescription" class="form-control" required maxlength="250"></textarea>
-            <h4>Thumbnail image</h4>
+            <h3>Thumbnail image</h3>
             <img id="imgthumb" src="#" style="width: 250px">
 
             <label for="photoBtn">
@@ -358,27 +374,27 @@
             <span id="imgError" class="error"
                   style="display: none; margin-top: 10px;font-size: 15px; color: red"></span>
 
-            <h4>Start date</h4>
+            <h3>Start date</h3>
             <input type="date" class="form-control"style="background-color: white" placeholder="Start date" id="txtStartDate" required maxlength="250"/>
-            <h4>End date</h4>
+            <h3>End date</h3>
             <input type="date" class="form-control"style="background-color: white" placeholder="End date" id="txtEndDate" required/>
-            <h4>Start registration date</h4>
+            <h3>Start registration date</h3>
             <input type="date" class="form-control"style="background-color: white" placeholder="Start date" id="txtRegStartDate" required/>
-            <h4>End registration date</h4>
+            <h3>End registration date</h3>
             <input type="date" class="form-control"style="background-color: white" placeholder="End date" id="txtRegEndDate" required/>
-            <h4>Maximum number of attendee</h4>
+            <h3>Maximum number of attendee</h3>
             <input type="text" class="form-control"style="background-color: white" placeholder="Max number of attendee" id="txtAttMax" required/>
-            <h4>Minimum number of attendee</h4>
+            <h3>Minimum number of attendee</h3>
             <input type="text" class="form-control"style="background-color: white" placeholder="Min number of attendee" id="txtAttMin" required/>
-            <h4>Ticket price</h4>
+            <h3>Ticket price</h3>
             <input type="text" class="form-control"style="background-color: white" placeholder="Price" id="txtPrice" required/>
-            <h4>Status</h4>
+            <h3>Status</h3>
             <select id="cboStatus" class="editable-select" >
               <option value="Active">Active</option>
               <option value="Inactive">Inactive</option>
               <option value="Cancelled">Cancelled</option>
             </select>&nbsp
-            <h4>Content</h4>
+            <h3>Content</h3>
             <div style="margin-bottom: 10px">
               <textarea name="contentEditor" id="contentEditor" ></textarea>
             </div>
@@ -416,7 +432,7 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <script>HTMLImporter.import("/gwa/pages/admin-footer.html");</script>
+  <!--<script>HTMLImporter.import("/gwa/pages/admin-footer.html");</script>-->
 </div>
 <!-- ./wrapper -->
 

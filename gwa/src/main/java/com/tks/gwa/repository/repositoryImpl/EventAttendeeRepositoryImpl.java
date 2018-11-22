@@ -82,6 +82,23 @@ public class EventAttendeeRepositoryImpl extends GenericRepositoryImpl<Eventatte
     }
 
     @Override
+    public int countAttendeeByAccoutnID(int accountID) {
+        String sql = "SELECT COUNT(e) FROM " + Eventattendee.class.getName()+" AS e WHERE 'accountID' = :accountID";
+        Query query = this.entityManager.createQuery(sql);
+        String accSt = String.valueOf(accountID);
+        query.setParameter("accountID", accSt);
+        long result = 0;
+        try{
+            result = (long) query.getSingleResult();
+        } catch (NoResultException e) {
+            System.out.println("no event foudn");
+            return 0;
+        }
+
+        return (int) result;
+    }
+
+    @Override
     public List<Eventattendee> getAttendeeByAccountID(int accountID, String sorttype, int pageNum) {
         String sortSql = "";
         if (sorttype.equalsIgnoreCase("asc")){

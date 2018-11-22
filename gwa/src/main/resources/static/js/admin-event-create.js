@@ -200,6 +200,7 @@ $(document).ready(function() {
         var minn = $("#txtAttMin").val();
         var maxx = $("#txtAttMax").val();
         if (minn > maxx){
+            console.log("minum is higer than maxx")
             valid = false;
             $.growl.error({message: "Minimum attendee should be lower than maximum attendee"});
         }
@@ -210,12 +211,17 @@ $(document).ready(function() {
                 url : "/gwa/api/event/createEvent",
                 data : JSON.stringify(data),
                 success : function(result, status) {
+                    console.log("event created!");
                     var type = imagetype.split("/")[1];
                     formData.append("id", result.id);
-                    formData.append("photoBtn", imageFile, "thumbEvt"+$('#txtTitle').val() + "." + type);
+                    formData.append("photoBtn", imageFile, "thumbEvtID" +result.id + "." + type);
                     ajaxImagePost(formData);
-                    alert("Event created successfully!");
-                    window.location.href = "/gwa/event/detail?id=" + result.id;
+                    $("#myModal").modal({backdrop: 'static', keyboard: false});
+                    $("#success-btn").on("click", function() {
+                        window.location.href = "/gwa/event/detail?id="+result.id;
+                    });
+                    // alert("Event created successfully!");
+                    // window.location.href = "/gwa/event/detail?id=" + result.id;
 
                 },
                 error : function(e) {
@@ -409,6 +415,8 @@ $(document).ready(function() {
                     window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
                 } else if (type == "Article") {
                     window.location.href = "/gwa/article/detail?id=" + objectID;
+                } else if (type == "Event") {
+                    window.location.href = "/gwa/event/detail?id=" + objectID;
                 }
             });
         });

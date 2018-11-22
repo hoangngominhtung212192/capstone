@@ -17,17 +17,13 @@
     <link rel="icon" href="/gwa/img/favicon.ico">
     <!-- Ionicons -->
     <link rel="stylesheet" href="/gwa/admin/bower_components/Ionicons/css/ionicons.min.css">
-    <!-- jvectormap -->
-    <link rel="stylesheet" href="/gwa/admin/bower_components/jvectormap/jquery-jvectormap.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="/gwa/admin/dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="/gwa/admin/dist/css/skins/skin-blue.min.css">
 
-    <![endif]-->
     <script type="text/javascript" src="/gwa/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/gwa/js/html-importer.js"></script>
     <script type="text/javascript" src="/gwa/js/admin-event.js"></script>
 
 
@@ -163,7 +159,7 @@
               </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="/gwa/model/"><i class="fa fa-circle-o"></i> Manage model</a></li>
+                        <li><a href="/gwa/admin/model/manage"><i class="fa fa-circle-o"></i> Manage model</a></li>
                         <li><a href="/gwa/admin/model/create"><i class="fa fa-circle-o"></i> Create new model</a></li>
                         <li><a href="/gwa/admin/model/pending"><i class="fa fa-circle-o"></i> Pending model</a></li>
                         <li><a href="/gwa/admin/model/crawl"><i class="fa fa-circle-o"></i> Crawl model</a></li>
@@ -266,6 +262,8 @@
                                 </form>
                             </div>
                         </form>
+                        <!--<input type="submit" name="search" id="btnSearchj"-->
+                               <!--class="btn btn-flat" value="test"/>-->
                         <div class="io-list-header" style="margin: 10px; margin-left: 12px;">
                             <select class="custom-select my-1 mr-sm-2" style="width: 250px;display: inline-block" id="cbSortType">
                                 <option value="desc" selected>Newest</option>
@@ -273,6 +271,7 @@
                             </select>
                             <select class="custom-select my-1 mr-sm-2" style="width: 250px;display: inline-block" id="cboStatus">
                                 <option value="Active" selected>Ongoing/future events</option>
+                                <option value="Inactive">Inactive events</option>
                                 <option value="Finished">Finished events</option>
                             </select>
                         </div>
@@ -328,8 +327,6 @@
 
         <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
-    <script>HTMLImporter.import("/pages/admin-footer.html");</script>
 </div>
 <!-- ./wrapper -->
 
@@ -338,22 +335,7 @@
 <!-- Bootstrap 3.3.7 -->
 <script src="/gwa/admin/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="/gwa/js/plugins/jquery.twbsPagination.js"></script>
-<!-- FastClick -->
-<script src="/gwa/admin/bower_components/fastclick/lib/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/gwa/admin/dist/js/adminlte.min.js"></script>
-<!-- Sparkline -->
-<script src="/gwa/admin/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
-<!-- jvectormap  -->
-<script src="/gwa/admin/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="/gwa/admin/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-<!-- SlimScroll -->
-<script src="/gwa/admin/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-<!-- ChartJS -->
-<script src="/gwa/bower_components/chart.js/Chart.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="/gwa/admin/dist/js/pages/dashboard2.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="/gwa/admin/dist/js/demo.js"></script>
 </body>
 </html>

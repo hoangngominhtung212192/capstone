@@ -3,6 +3,7 @@ $(document).ready(function() {
     var imagetype;
     var imageFile;
     var formData = new FormData();
+    // var loggedUserID;
     $("#photoBtn").change(function (e) {
         console.log($("#photoBtn").val());
 
@@ -90,6 +91,9 @@ $(document).ready(function() {
             var formArticle = {
                 title: $("#txtTitle").val(),
                 description: $('#txtDescription').val(),
+                account : {
+                    id : account_session_id
+                },
                 content: CKEDITOR.instances.contentEditor.getData(),
                 category: $("#cboCate").val(),
                 date: today,
@@ -112,7 +116,7 @@ $(document).ready(function() {
             success : function(result, status) {
                 var type = imagetype.split("/")[1];
                 formData.append("id", result.id);
-                formData.append("photoBtn", imageFile, "thumbArt"+$('#txtTitle').val() + "." + type);
+                formData.append("photoBtn", imageFile, "thumbArtID" +result.id + "." + type);
                 ajaxImagePost(formData);
                 $("#myModal").modal({backdrop: 'static', keyboard: false});
                 $("#success-btn").on("click", function() {
@@ -310,6 +314,8 @@ $(document).ready(function() {
                     window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
                 } else if (type == "Article") {
                     window.location.href = "/gwa/article/detail?id=" + objectID;
+                } else if (type == "Event") {
+                    window.location.href = "/gwa/event/detail?id=" + objectID;
                 }
             });
         });

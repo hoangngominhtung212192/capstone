@@ -33,13 +33,15 @@ public class ScheduleServiceImpl implements ScheduleService {
     Thread scheduleEventThread;
 
     @Override
-    public void startScheduleModelCrawl(int hours) {
+    public void startScheduleModelCrawl(String hours) {
+
+        float hour_int = Float.parseFloat(hours);
 
         // if not running
         if (!scheduleModelCrawl.isRunning()) {
 
             // convert hour to milliseconds
-            int interval = hours * 60 * 60 * 1000;
+            int interval = (int) (hour_int * 60 * 60 * 1000);
 
             // set default value
             scheduleModelCrawl.setInterval(interval);
@@ -58,13 +60,15 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public void startScheduleUpdateTrade(int hours) {
+    public void startScheduleUpdateTrade(String hours) {
+
+        float hour_int = Float.parseFloat(hours);
 
         // if not running
         if (!scheduleUpdateTrade.isRunning()) {
 
             // convert hour to milliseconds
-            int interval = hours * 60 * 60 * 1000;
+            int interval = (int) (hour_int * 60 * 60 * 1000);
 
             // set default value
             scheduleUpdateTrade.setInterval(interval);
@@ -83,13 +87,15 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public void startScheduleUpdateEvent(int hours) {
+    public void startScheduleUpdateEvent(String hours) {
+
+        float hour_int = Float.parseFloat(hours);
 
         // if not running
         if (!scheduleUpdateEvent.isRunning()) {
 
             // convert hour to milliseconds
-            int interval = hours * 60 * 60 * 1000;
+            int interval = (int) (hour_int * 60 * 60 * 1000);
 
             // set default value
             scheduleUpdateEvent.setInterval(interval);
@@ -139,7 +145,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                 String countdownTime = calculateCountdownTime(scheduleModelCrawl.getDate(), scheduleModelCrawl.getInterval());
 
                 scheduleModelCrawlStatus.add(countdownTime);
-                scheduleModelCrawlStatus.add(scheduleModelCrawl.getInterval()/1000/60/60);
+                scheduleModelCrawlStatus.add((float) scheduleModelCrawl.getInterval() / 1000 / 60 / 60);
             } catch (ParseException e) {
                 scheduleModelCrawlStatus.add("Parse error, invalid format of yyyy-MM-dd HH:mm:ss");
                 e.printStackTrace();
@@ -160,7 +166,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                 String countdownTime = calculateCountdownTime(scheduleUpdateTrade.getDate(), scheduleUpdateTrade.getInterval());
 
                 scheduleUpdateTradeStatus.add(countdownTime);
-                scheduleUpdateTradeStatus.add(scheduleUpdateTrade.getInterval()/1000/60/60);
+                scheduleUpdateTradeStatus.add((float) scheduleUpdateTrade.getInterval() / 1000 / 60 / 60);
             } catch (ParseException e) {
                 scheduleUpdateTradeStatus.add("Parse error, invalid format of yyyy-MM-dd HH:mm:ss");
                 e.printStackTrace();
@@ -181,7 +187,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                 String countdownTime = calculateCountdownTime(scheduleUpdateEvent.getDate(), scheduleUpdateEvent.getInterval());
 
                 scheduleUpdateEventStatus.add(countdownTime);
-                scheduleUpdateEventStatus.add(scheduleUpdateEvent.getInterval()/1000/60/60);
+                scheduleUpdateEventStatus.add((float) scheduleUpdateEvent.getInterval() / 1000 / 60 / 60);
             } catch (ParseException e) {
                 scheduleUpdateEventStatus.add("Parse error, invalid format of yyyy-MM-dd HH:mm:ss");
                 e.printStackTrace();

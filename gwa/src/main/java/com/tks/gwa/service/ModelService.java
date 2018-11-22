@@ -156,4 +156,10 @@ public interface ModelService {
      * @return
      */
     public List<ModelSearchFilter> getListFilters();
+
+    /**
+     *
+     * @return
+     */
+    public List<Object> manageModel(int pageNumber, String type, String txtSearch, String orderBy, String status);
 }

@@ -27,8 +27,12 @@ $(document).ready(function() {
 
             },
             success : function(result, status) {
-                alert("Proposal sent. Thank you for your input!");
-                window.location.href = "/gwa/event";
+                // alert("Proposal sent. Thank you for your input!");
+                // window.location.href = "/gwa/event";
+                $("#myModal").modal({backdrop: 'static', keyboard: false});
+                $("#success-btn").on("click", function() {
+                    window.location.href = "/gwa/event";
+                });
 
             },
             error : function(e) {
@@ -282,6 +286,8 @@ $(document).ready(function() {
                     window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
                 } else if (type == "Article") {
                     window.location.href = "/gwa/article/detail?id=" + objectID;
+                } else if (type == "Event") {
+                    window.location.href = "/gwa/event/detail?id=" + objectID;
                 }
             });
         });

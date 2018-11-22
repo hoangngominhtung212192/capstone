@@ -98,7 +98,7 @@ $(document).ready(function() {
                 content : CKEDITOR.instances.content.getData(),
                 category : $("#cboCate").val(),
                 modifiedDate : today,
-                approvalStatus : 'userpending',
+                approvalStatus : 'Pending',
             }
 
             ajaxPost(formArticle);
@@ -118,10 +118,10 @@ $(document).ready(function() {
             url : "/gwa/api/article/createArticle",
             data : JSON.stringify(data),
             success : function(result, status) {
-                alert("article created")
+                // alert("article created")
                 var type = imagetype.split("/")[1];
                 formData.append("id", result.id);
-                formData.append("photoBtn", imageFile, "thumbArt"+$('#txtTitle').val() + "." + type);
+                formData.append("photoBtn", imageFile, "thumbArtID" +result.id + "." + type);
                 ajaxImagePost(formData);
 
                 $("#myModal").modal({backdrop: 'static', keyboard: false});
@@ -380,6 +380,8 @@ $(document).ready(function() {
                     window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
                 } else if (type == "Article") {
                     window.location.href = "/gwa/article/detail?id=" + objectID;
+                } else if (type == "Event") {
+                    window.location.href = "/gwa/event/detail?id=" + objectID;
                 }
             });
         });

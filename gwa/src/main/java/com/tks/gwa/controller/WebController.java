@@ -128,4 +128,7 @@ public interface WebController {
 
     @RequestMapping(value = "/admin/article/pending")
     public ModelAndView pendingArticlePage();
+
+    @RequestMapping(value = "/admin/model/manage")
+    public ModelAndView manageModelPage();
 }

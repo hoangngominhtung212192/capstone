@@ -175,11 +175,32 @@ $(document).ready(function () {
 
     modalConfirm(function(confirm){
         if(confirm){
+            deleteArticle();
             console.log("yes");
         }else{
             console.log("no");
         }
     });
+
+    function deleteArticle() {
+        console.log("delete article id "+id);
+        $.ajax({
+            type : "GET",
+            url: "/gwa/api/article/deleteArticle?id=" + id,
+            success : function(result, status) {
+                $("#lblModalMessage").html("Article deleted");
+                $("#myModal").modal({backdrop: 'static', keyboard: false});
+                $("#success-btn").on("click", function() {
+                    window.location.href = "/gwa/admin/article";
+                });
+
+            },
+            error : function(e) {
+                alert("Error! Delete article failed!")
+                console.log("ERROR: ", e);
+            }
+        });
+    }
 
     var notidescription;
     function updateArticle(data) {
@@ -193,14 +214,16 @@ $(document).ready(function () {
                 if(checkImage){
                     var type = imagetype.split("/")[1];
                     formData.append("id", result.id);
-                    formData.append("photoBtn", imageFile, "thumbArt" + "." + type);
+
+                    formData.append("photoBtn", imageFile, "thumbArtID" +result.id + "." + type);
                     ajaxImagePost(formData);
                 }
 
-                if (result.status = "Approved"){
+                if (result.approvalStatus == "Approved"){
                     notidescription = "Your article was approved!"
+                    console.log("sending approval noti");
                     addNewNotification();
-                } else if(result.status = "Disapproved"){
+                } else if(result.approvalStatus == "Disapproved"){
                     notidescription = "Your article was disapproved!"
                     addNewNotification();
                 }
@@ -397,6 +420,8 @@ $(document).ready(function () {
                     window.location.href = "/gwa/trade-market/view-trade?tradepostId=" + objectID;
                 } else if (type == "Article") {
                     window.location.href = "/gwa/article/detail?id=" + objectID;
+                } else if (type == "Event") {
+                    window.location.href = "/gwa/event/detail?id=" + objectID;
                 }
             });
         });

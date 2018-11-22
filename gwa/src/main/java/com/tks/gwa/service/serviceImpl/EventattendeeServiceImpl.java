@@ -60,7 +60,7 @@ public class EventattendeeServiceImpl implements EventAttendeeService {
     public List<Object> getAttendeeByAccountID(int accountid, String sorttype, int pageNum) {
         List<Eventattendee> attList = attendeeRepository.getAttendeeByAccountID(accountid, sorttype, pageNum);
 
-        int totalRecord = attList.size();
+        int totalRecord = attendeeRepository.countAttendeeByAccoutnID(accountid);
         int totalPage = totalRecord / AppConstant.EVENT_MAX_RECORD_PER_PAGE;
         if (totalRecord % AppConstant.EVENT_MAX_RECORD_PER_PAGE > 0){
             totalPage +=1;
