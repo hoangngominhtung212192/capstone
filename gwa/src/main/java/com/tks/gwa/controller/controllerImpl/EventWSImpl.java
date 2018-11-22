@@ -1,6 +1,7 @@
 package com.tks.gwa.controller.controllerImpl;
 
 import com.tks.gwa.controller.EventWS;
+import com.tks.gwa.dto.EventSDTO;
 import com.tks.gwa.dto.UploadFileResponse;
 import com.tks.gwa.entity.Account;
 import com.tks.gwa.entity.Event;
@@ -202,7 +203,7 @@ public class EventWSImpl implements EventWS {
     @Override
     public ResponseEntity<List<Eventattendee>> getRatedAttendeeInEvent(@RequestParam Integer eventid) {
         System.out.println("earching by id "+eventid);
-        List<Eventattendee> alist = attendeeService.searchAttendeeByEvent(eventid);
+        List<Eventattendee> alist = attendeeService.searchRatedAttendeeByEvent(eventid);
         System.out.println("WS list size: "+alist.size());
         System.out.println("result list size: "+alist.size());
         return new ResponseEntity<>(alist, HttpStatus.OK);
@@ -225,6 +226,16 @@ public class EventWSImpl implements EventWS {
         List<Object> result = eventService.searchEventWithSortAndPageByStatus(title, status, sorttype, pageNum);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<EventSDTO> searchEventAlt(String title, String status, String sorttype, int pageNum) {
+        List<Object> result = eventService.searchEventWithSortAndPageByStatus(title, status, sorttype, pageNum);
+        EventSDTO sdto = new EventSDTO();
+        sdto.setTotalPage((Integer) result.get(0));
+        sdto.setEventList((List<Event>) result.get(1));
+
+        return new ResponseEntity<>(sdto, HttpStatus.OK);
     }
 
     @Override

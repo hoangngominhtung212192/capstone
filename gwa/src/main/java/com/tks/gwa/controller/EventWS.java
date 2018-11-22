@@ -1,5 +1,6 @@
 package com.tks.gwa.controller;
 
+import com.tks.gwa.dto.EventSDTO;
 import com.tks.gwa.entity.Event;
 import com.tks.gwa.entity.Eventattendee;
 import org.springframework.http.ResponseEntity;
@@ -70,6 +71,12 @@ public interface EventWS {
                                                          @RequestParam("status") String status,
                                                          @RequestParam("sorttype") String sorttype,
                                                          @RequestParam("pageNum") int pageNum);
+
+    @RequestMapping(value = "/searchEventAlt", method = RequestMethod.POST)
+    ResponseEntity<EventSDTO> searchEventAlt(@RequestParam("title") String title,
+                                             @RequestParam("status") String status,
+                                             @RequestParam("sorttype") String sorttype,
+                                             @RequestParam("pageNum") int pageNum);
 
     @RequestMapping(value = "/getMyListEvent", method = RequestMethod.POST)
     ResponseEntity<List<Object>> getMyListEvent(@RequestParam("accountID") Integer accountID,

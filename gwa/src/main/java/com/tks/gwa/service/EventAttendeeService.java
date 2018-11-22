@@ -11,6 +11,7 @@ public interface EventAttendeeService {
     Eventattendee addNewAttendee(Eventattendee attendee);
     Eventattendee updateAttendee(Eventattendee attendee);
     void deleteAttendee(Eventattendee attendee);
+    List<Eventattendee> searchRatedAttendeeByEvent(Integer eventid);
     List<Eventattendee> searchAttendeeByEvent(Integer eventid);
     Eventattendee getAttendeeInEvent(Integer userid, Integer eventid);
     Eventattendee getAttendeeByID(int id);
