@@ -2,13 +2,13 @@ package tks.com.gwaandroid;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,30 +18,33 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import retrofit2.Call;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import retrofit2.Callback;
 import retrofit2.Response;
-import tks.com.gwaandroid.adapter.CustomModelAdapter;
-import tks.com.gwaandroid.api.ModelAPI;
-import tks.com.gwaandroid.model.ModelDTO;
-import tks.com.gwaandroid.model.ModelSDTO;
+import tks.com.gwaandroid.adapter.CustomEventAdapter;
+import tks.com.gwaandroid.api.EventAPI;
+import tks.com.gwaandroid.model.Article;
+import tks.com.gwaandroid.model.Event;
+import tks.com.gwaandroid.model.EventSDTO;
 import tks.com.gwaandroid.network.RetrofitClientInstance;
 
-public class MainActivity extends AppCompatActivity {
+public class EventActivity extends AppCompatActivity {
 
     private DrawerLayout dl;
     private ActionBarDrawerToggle abdt;
 
     private RecyclerView mRecycleView;
-    private CustomModelAdapter adapter;
+    private CustomEventAdapter adapter;
     private RelativeLayout linearProgressBar;
     private int lastPage;
     private int currentPage;
-    private ModelSDTO lastSearch;
+    private String paramTitle = "";
+    private String paramSorttype = "desc";
+    private String paramStatus = "Active";
+    EventSDTO lastSearch ;
 
     private int currentVisiblePosition = 0;
 
@@ -51,15 +54,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_event);
 
         // initialize
         currentPage = 1;
-        lastSearch = new ModelSDTO();
+
+        // initialize object EventSDTO : lastSearch
+        lastSearch = new EventSDTO();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         // get recyclerview
-        mRecycleView = findViewById(R.id.recycleView);
+        mRecycleView = findViewById(R.id.erecycleView);
 
         // display progress bar
         linearProgressBar = (RelativeLayout) findViewById(R.id.linearProgressBar);
@@ -85,29 +90,29 @@ public class MainActivity extends AppCompatActivity {
                 int id = item.getItemId();
 
                 if (id == R.id.myprofile) {
-                    Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                    Intent intent = new Intent(EventActivity.this, ProfileActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.notification) {
-                    Toast.makeText(MainActivity.this, "Notification", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EventActivity.this, "Notification", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.gundam) {
-                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                    Intent intent = new Intent(EventActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.article) {
-                    Intent intent = new Intent(MainActivity.this, ArticleActivity.class);
+                    Intent intent = new Intent(EventActivity.this, ArticleActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.event) {
-                    Intent intent = new Intent(MainActivity.this, EventActivity.class);
+                    Intent intent = new Intent(EventActivity.this, EventActivity.class);
                     startActivity(intent);
-                } else if (id == R.id.exchange) {
-                    Intent intent = new Intent(MainActivity.this, TradeMarketActivity.class);
+                }  else if (id == R.id.exchange) {
+                    Intent intent = new Intent(EventActivity.this, TradeMarketActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.signout) {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.clear();
                     editor.commit();
 
-                    Toast.makeText(MainActivity.this, "Logout successfully!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    Toast.makeText(EventActivity.this, "Logout successfully!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(EventActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
 
@@ -116,17 +121,17 @@ public class MainActivity extends AppCompatActivity {
         });
         // end left menu
 
-        // request api and get last page first
+// request api and get last page first
         apiRequest(currentPage);
 
-        // on scroll event
         mRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-
+                System.out.println("curPage "+currentPage + " and last page "+lastPage);
                 if (!recyclerView.canScrollVertically(1)) {
                     if (currentPage < lastPage) {
+                        System.out.println("curPage "+currentPage + " and last page "+lastPage);
                         linearProgressBar.setVisibility(View.VISIBLE);
                         // save scroll last position
                         currentVisiblePosition = ((LinearLayoutManager) mRecycleView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
@@ -145,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     // on options left menu selected event
@@ -157,85 +163,76 @@ public class MainActivity extends AppCompatActivity {
     private void apiRequest(int pageNumber) {
 
         // api call
-        ModelAPI modelAPI = RetrofitClientInstance.getRetrofitInstance().create(ModelAPI.class);
+        EventAPI eventAPI = RetrofitClientInstance.getRetrofitInstance().create(EventAPI.class);
 
-        // post request with json body parameters
-        String json = "{\n" +
-                "\t\"searchValue\": \"\",\n" +
-                "\t\"productseries\": \"All\",\n" +
-                "\t\"seriestitle\": \"All\",\n" +
-                "\t\"price\": \"All\",\n" +
-                "\t\"manufacturer\": \"All\",\n" +
-                "\t\"pagination\": {\n" +
-                "\t\t\"currentPage\": " + pageNumber + ",\n" +
-                "\t\t\"type\": \"\"\n" +
-                "\t},\n" +
-                "\t\"orderBy\": \"Rating\",\n" +
-                "\t\"cending\": \"Descending\"\n" +
-                "}";
-
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), json);
-
-        Call<ModelSDTO> call = modelAPI.search(requestBody);
-
+        Call<EventSDTO> call =  eventAPI.searchEvent(paramTitle, paramStatus, paramSorttype, pageNumber);
         // execute request
-        call.enqueue(new Callback<ModelSDTO>() {
+        call.enqueue(new Callback<EventSDTO>() {
             // get json response
             @Override
-            public void onResponse(Call<ModelSDTO> call, Response<ModelSDTO> response) {
+            public void onResponse(Call<EventSDTO> call, Response<EventSDTO> response) {
                 // append data
-                appendData(response.body());
+                if (response.isSuccessful()) {
+                    System.out.println("Called search event api");
+                    System.out.println("ONRESPONSE total page " + response.body().getTotalPage());
+                    System.out.println("ONRESPONSE list size " + response.body().getEventList().size());
 
-                Log.d("Response Model Search", response.body().toString());
+                    appendData(response.body());
+
+
+                    Log.d("Response Event Search", response.body().toString());
+                } else {
+                    System.out.println("response failed");
+                }
             }
 
             // error
             @Override
-            public void onFailure(Call<ModelSDTO> call, Throwable t) {
+            public void onFailure(Call<EventSDTO> call, Throwable t) {
                 linearProgressBar.setVisibility(View.GONE);
                 Log.d("Error response", t.getMessage());
             }
         });
+
     }
 
-    private void appendData(ModelSDTO searchResult) {
-        lastSearch.setSeriestitle(searchResult.getSeriestitle());
-        lastSearch.setProductseries(searchResult.getProductseries());
-        lastSearch.setPrice(searchResult.getPrice());
-        lastSearch.setSearchValue(searchResult.getSearchValue());
-        lastSearch.setOrderBy(searchResult.getOrderBy());
-        lastSearch.setPagination(searchResult.getPagination());
-        lastSearch.setManufacturer(searchResult.getManufacturer());
+    private void appendData(EventSDTO resultList) {
 
-        List<ModelDTO> modelDTOList = lastSearch.getModelDTOList();
+        // tat ca parameter/field trong lastSearch khi chay lan dau deu dang la null
 
-        if (modelDTOList == null) {
-            modelDTOList = new ArrayList<ModelDTO>();
+        lastSearch.setTotalPage(resultList.getTotalPage());
+        System.out.println("total pages: "+resultList.getTotalPage());
+
+        List<Event> eventList = lastSearch.getEventList();
+        // dong nay de xuong duoi cho check null,
+         // cho nay khi chya lan dau, eventList dang la null, lay size cua no se bao bug NullPointerException
+        // if event list get from last Search is null (the first time) then initialize new one
+        if (eventList == null){
+            eventList = new ArrayList<>();
         }
 
-        // append current data to list
-        modelDTOList.addAll(searchResult.getModelDTOList());
+        //append current data to dea list
+        eventList.addAll(resultList.getEventList());
+        lastSearch.setEventList(eventList);
 
-        lastSearch.setModelDTOList(modelDTOList);
-
+        System.out.println("eventlist size  "+eventList.size());
         generateData(lastSearch);
+
     }
 
     // binding data to view
-    private void generateData(ModelSDTO modelSDTO) {
-        this.lastPage = modelSDTO.getPagination().getLastPage();
+    private void generateData(EventSDTO eventSDTO){
 
-        adapter = new CustomModelAdapter(modelSDTO, this);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+//        this.lastPage = (int) listObject.get(0);
+        this.lastPage = eventSDTO.getTotalPage();
+
+        adapter = new CustomEventAdapter(eventSDTO, this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(EventActivity.this);
         mRecycleView.setLayoutManager(layoutManager);
         mRecycleView.setAdapter(adapter);
 
         // scroll to the last position
         ((LinearLayoutManager) mRecycleView.getLayoutManager()).scrollToPosition(currentVisiblePosition);
         linearProgressBar.setVisibility(View.GONE);
-    }
-
-    public void searchClick(View view) {
-        Toast.makeText(this, "Click", Toast.LENGTH_SHORT).show();
     }
 }

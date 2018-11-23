@@ -32,6 +32,9 @@ public interface EventWS {
     @RequestMapping(value = "/getEvent", method = RequestMethod.POST)
     ResponseEntity<Event> getEvent(@RequestBody Integer eventid);
 
+    @RequestMapping(value = "/getEventAlt", method = RequestMethod.GET)
+    ResponseEntity<Event> getEventAlt(@RequestParam("id") Integer id);
+
     @RequestMapping(value = "/getRemainingSlots", method = RequestMethod.POST)
     ResponseEntity<Integer> getRemainingSlots(@RequestBody Integer eventid);
 
@@ -72,7 +75,7 @@ public interface EventWS {
                                                          @RequestParam("sorttype") String sorttype,
                                                          @RequestParam("pageNum") int pageNum);
 
-    @RequestMapping(value = "/searchEventAlt", method = RequestMethod.POST)
+    @RequestMapping(value = "/searchEventAlt", method = RequestMethod.GET)
     ResponseEntity<EventSDTO> searchEventAlt(@RequestParam("title") String title,
                                              @RequestParam("status") String status,
                                              @RequestParam("sorttype") String sorttype,

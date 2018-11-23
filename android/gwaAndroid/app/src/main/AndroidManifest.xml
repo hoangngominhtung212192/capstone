@@ -22,7 +22,11 @@
         </activity>
         <activity android:name=".SignUpActivity" />
         <activity android:name=".ModelDetailActivity" />
+        <activity android:name=".EventDetailActivity" />
+        <activity android:name=".ArticleDetailActivity" />
         <activity android:name=".GalleryActivity" />
+        <activity android:name=".EventActivity" />
+        <activity android:name=".ArticleActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".TradeMarketActivity"></activity>
     </application>

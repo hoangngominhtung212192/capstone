@@ -1,6 +1,7 @@
 package com.tks.gwa.controller.controllerImpl;
 
 import com.tks.gwa.controller.ArticleWS;
+import com.tks.gwa.dto.ArticleSDTO;
 import com.tks.gwa.dto.LogCrawl;
 import com.tks.gwa.entity.Account;
 import com.tks.gwa.entity.Article;
@@ -55,6 +56,13 @@ public class ArticleWSImpl implements ArticleWS {
     }
 
     @Override
+    public ResponseEntity<Article> getArticleAlt(@RequestParam Integer id) {
+        Article article = articleService.getArticleByID(id);
+
+        return new ResponseEntity<Article>(article, HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<Article> updateArticle(@RequestBody Article article) {
         Article getA = articleService.getArticleByID(article.getId());
 
@@ -99,6 +107,17 @@ public class ArticleWSImpl implements ArticleWS {
     public ResponseEntity<List<Object>> searchArticleByStatusAndPage(String title, String cate, String status, String sorttype, int pageNum) {
         List<Object> result = articleService.searchArticleWithSortAndPageByStatus(title, cate, status, sorttype, pageNum);
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<ArticleSDTO> searchArticleByAlt(String title, String cate, String status, String sorttype, int pageNum) {
+        List<Object> result = articleService.searchArticleWithSortAndPageByStatus(title, cate, status, sorttype, pageNum);
+        ArticleSDTO sdto = new ArticleSDTO();
+
+        sdto.setTotalPage((Integer) result.get(0));
+        sdto.setArticleList((List<Article>) result.get(1));
+
+        return new ResponseEntity<>(sdto, HttpStatus.OK);
     }
 
     @Override
