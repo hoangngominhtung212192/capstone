@@ -1305,15 +1305,16 @@ a.verified i {
     width: 100%;
 }
 
-.carousel-indicators {
-    position: absolute;
-    width: 100%;
-    left: 0;
-    bottom: -129px;
-    margin-left: 0;
-    border: none;
-    text-align: left;
-}
+/*.carousel-indicators {*/
+    /*position: absolute;*/
+    /*width: 100%;*/
+    /*left: 0;*/
+    /*bottom: -130px;*/
+    /*margin-top: 10px;*/
+    /*margin-left: 0;*/
+    /*border: none;*/
+    /*text-align: left;*/
+/*}*/
 
 .featured-img {
     position: absolute;
@@ -1340,7 +1341,8 @@ a.verified i {
 }
 
 #product-carousel .carousel-indicators {
-    bottom: -140px;
+    /*padding-bottom: 100px;*/
+    bottom: -40px;
 }
 
 #product-carousel .carousel-indicators li,
@@ -1397,6 +1399,9 @@ a.verified i {
 
 #product-carousel:hover .carousel-control {
     opacity: 1;
+}
+#product-carousel .carousel-inner {
+    text-align: center;
 }
 
 .slider-text h2 {
@@ -3973,14 +3978,14 @@ input, select, a, .transition,
         font-size: 24px;
     }
 
-    #product-carousel {
-        margin-bottom: 150px;
-    }
+    /*#product-carousel {*/
+        /*margin-bottom: 150px;*/
+    /*}*/
 
-    #product-carousel .carousel-indicators li,
-    #product-carousel .carousel-indicators li.active {
-        margin-left: 28px;
-    }
+    /*#product-carousel .carousel-indicators li,*/
+    /*#product-carousel .carousel-indicators li.active {*/
+        /*margin-left: 28px;*/
+    /*}*/
 
     #home-section h2 {
         font-size: 45px;
@@ -4447,26 +4452,26 @@ input, select, a, .transition,
         padding: 30px 0;
     }
 
-    #product-carousel {
-        margin-bottom: 115px;
-    }
+    /*#product-carousel {*/
+        /*margin-bottom: 115px;*/
+    /*}*/
 
-    #product-carousel .carousel-indicators li,
-    #product-carousel .carousel-indicators li.active {
-        height: 70px;
-        width: 68px;
-        margin-left: 8px;
-    }
+    /*#product-carousel .carousel-indicators li,*/
+    /*#product-carousel .carousel-indicators li.active {*/
+        /*height: 70px;*/
+        /*width: 68px;*/
+        /*margin-left: 8px;*/
+    /*}*/
 
-    #product-carousel .carousel-control {
-        font-size: 28px;
-        line-height: 28px;
-        margin-top: -14px;
-    }
+    /*#product-carousel .carousel-control {*/
+        /*font-size: 28px;*/
+        /*line-height: 28px;*/
+        /*margin-top: -14px;*/
+    /*}*/
 
-    #product-carousel .carousel-indicators {
-        bottom: -105px;
-    }
+    /*#product-carousel .carousel-indicators {*/
+        /*bottom: -105px;*/
+    /*}*/
 
     .slider-text h2 {
         font-size: 24px;
@@ -4774,23 +4779,23 @@ input, select, a, .transition,
         height: 60px;
     }
 
-    .slider {
-        padding: 25px;
-    }
+    /*.slider {*/
+        /*padding: 25px;*/
+    /*}*/
 
-    #product-carousel {
-        margin-bottom: 80px;
-    }
+    /*#product-carousel {*/
+        /*margin-bottom: 80px;*/
+    /*}*/
 
-    #product-carousel .carousel-indicators li,
-    #product-carousel .carousel-indicators li.active {
-        height: 37px;
-        width: 38px;
-    }
+    /*#product-carousel .carousel-indicators li,*/
+    /*#product-carousel .carousel-indicators li.active {*/
+        /*height: 37px;*/
+        /*width: 38px;*/
+    /*}*/
 
-    #product-carousel .carousel-indicators {
-        bottom: -70px;
-    }
+    /*#product-carousel .carousel-indicators {*/
+        /*bottom: -70px;*/
+    /*}*/
 
     #main .slider-text h3.title {
         font-size: 24px;

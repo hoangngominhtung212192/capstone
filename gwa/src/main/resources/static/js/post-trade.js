@@ -656,6 +656,7 @@ function loadProfileData(accountID) {
             $("#traderPhone").val(traderPhone);
             $("#traderEmail").val(traderEmail);
             $("#traderAddress").val(traderAddress);
+            addressToLatlng(traderAddress);
         },
         error: function (e) {
             console.log("ERROR: ", e);
