@@ -227,7 +227,7 @@ public class EventRepositoryImpl extends GenericRepositoryImpl<Event, Integer> i
 
         try {
             listres = query.getResultList();
-            System.out.println("got "+listres.size() +" results");
+            System.out.println("got "+listres.size() +" event results");
         } catch (NoResultException e) {
             System.out.println("no event found");
             return listres;

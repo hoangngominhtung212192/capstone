@@ -78,6 +78,12 @@ public class EventWSImpl implements EventWS {
     }
 
     @Override
+    public ResponseEntity<Event> getEventAlt(@RequestParam Integer id) {
+        System.out.println("getting detail event id "+id);
+        return new ResponseEntity<>(eventService.getEvent(id), HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<Integer> getRemainingSlots(Integer eventid) {
         Event ee = eventService.getEvent(eventid);
         Integer rmnTk = ee.getMaxAttendee() - ee.getNumberOfAttendee();
@@ -230,11 +236,14 @@ public class EventWSImpl implements EventWS {
 
     @Override
     public ResponseEntity<EventSDTO> searchEventAlt(String title, String status, String sorttype, int pageNum) {
+        System.out.println("showing evetnlist pagenum "+pageNum);
         List<Object> result = eventService.searchEventWithSortAndPageByStatus(title, status, sorttype, pageNum);
         EventSDTO sdto = new EventSDTO();
         sdto.setTotalPage((Integer) result.get(0));
-        sdto.setEventList((List<Event>) result.get(1));
+        System.out.println("SDTO total page: "+result.get(0));
 
+        sdto.setEventList((List<Event>) result.get(1));
+        System.out.println("SDTO list size: "+((List<Event>) result.get(1)).size());
         return new ResponseEntity<>(sdto, HttpStatus.OK);
     }
 

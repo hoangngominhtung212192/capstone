@@ -21,6 +21,18 @@
 
     </item>
     <item
+        android:id="@+id/article"
+        android:title="Article"
+        android:icon="@drawable/acticleicon">
+
+    </item>
+    <item
+        android:id="@+id/event"
+        android:title="Events"
+        android:icon="@drawable/eventicon">
+
+    </item>
+    <item
         android:id="@+id/exchange"
         android:title="Exchange"
         android:icon="@drawable/ic_shopping_cart_black_24dp">

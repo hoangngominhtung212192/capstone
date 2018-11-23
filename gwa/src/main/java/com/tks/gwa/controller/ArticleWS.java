@@ -1,6 +1,7 @@
 package com.tks.gwa.controller;
 
 import com.tks.gwa.controller.controllerImpl.ArticleWSImpl;
+import com.tks.gwa.dto.ArticleSDTO;
 import com.tks.gwa.dto.LogCrawl;
 import com.tks.gwa.entity.Article;
 import com.tks.gwa.service.ArticleService;
@@ -21,6 +22,9 @@ public interface ArticleWS {
 
     @RequestMapping(value = "/getArticle", method = RequestMethod.POST)
     ResponseEntity<Article> getArticle(@RequestBody Integer id);
+
+    @RequestMapping(value = "/getArticleAlt", method = RequestMethod.GET)
+    ResponseEntity<Article> getArticleAlt(@RequestParam("id") Integer id);
 
     @RequestMapping(value = "/updateArticle", method = RequestMethod.POST)
     ResponseEntity<Article> updateArticle(@RequestBody Article article);
@@ -44,6 +48,14 @@ public interface ArticleWS {
                                                             @RequestParam("status") String status,
                                                             @RequestParam("sorttype") String sorttype,
                                                             @RequestParam("pageNum") int pageNum);
+
+    @RequestMapping(value = "/searchArticleByAlt", method = RequestMethod.GET)
+    ResponseEntity<ArticleSDTO> searchArticleByAlt(@RequestParam("title") String title,
+                                                   @RequestParam("cate") String cate,
+                                                   @RequestParam("status") String status,
+                                                   @RequestParam("sorttype") String sorttype,
+                                                   @RequestParam("pageNum") int pageNum);
+
     @RequestMapping(value = "/getMyArticle", method = RequestMethod.POST)
     ResponseEntity<List<Object>> getMyArticle(@RequestParam("id") int id,
                                               @RequestParam("sorttype") String sorttype,

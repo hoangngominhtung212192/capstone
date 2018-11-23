@@ -99,7 +99,13 @@ public class ModelDetailActivity extends AppCompatActivity {
                 } else if (id == R.id.gundam) {
                     Intent intent = new Intent(ModelDetailActivity.this, MainActivity.class);
                     ModelDetailActivity.this.startActivity(intent);
-                } else if (id == R.id.exchange) {
+                } else if (id == R.id.article) {
+                    Intent intent = new Intent(ModelDetailActivity.this, ArticleActivity.class);
+                    startActivity(intent);
+                } else if (id == R.id.event) {
+                    Intent intent = new Intent(ModelDetailActivity.this, EventActivity.class);
+                    startActivity(intent);
+                }  else if (id == R.id.exchange) {
                     Toast.makeText(ModelDetailActivity.this, "Exchange", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.signout) {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
