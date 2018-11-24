@@ -465,6 +465,7 @@
                 android:padding="5dp"
                 app:cardElevation="4dp">
                 <Button
+                    android:onClick="clickToSendOrder"
                     android:visibility="visible"
                     android:id="@+id/btn_send_order"
                     android:background="@color/colorAccent"
@@ -473,6 +474,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <Button
+                    android:onClick="clickToManageOrder"
                     android:visibility="gone"
                     android:id="@+id/btn_manage_order"
                     android:background="@color/colorPrimary"

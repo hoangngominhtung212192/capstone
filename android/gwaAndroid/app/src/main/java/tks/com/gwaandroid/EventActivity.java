@@ -104,7 +104,7 @@ public class EventActivity extends AppCompatActivity {
                     Intent intent = new Intent(EventActivity.this, EventActivity.class);
                     startActivity(intent);
                 }  else if (id == R.id.exchange) {
-                    Intent intent = new Intent(EventActivity.this, TradeMarketActivity.class);
+                    Intent intent = new Intent(EventActivity.this, TrademarketActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.signout) {
                     SharedPreferences.Editor editor = sharedPreferences.edit();

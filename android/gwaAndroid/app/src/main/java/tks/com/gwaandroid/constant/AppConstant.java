@@ -5,14 +5,15 @@ package tks.com.gwaandroid.constant;
  */
 
 public class AppConstant {
+    public static final String MAP_SDK_API_KEY = "AIzaSyASrDg7CwB0GQ_XGzWfbkP4RUE_31YCy1M";
 
     public static final String checkEmail = "^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$";
 
     public static final String checkString = "[A-Za-z\\s]+";
 
     public static final String checkUsername = "[A-Za-z]+";
-    public static final String BASE_URL = "http://192.168.1.5:8080/gwa/";
-    public static final String HOST_NAME = "192.168.1.5";
+    public static final String BASE_URL = "http://192.168.12.100:8080/gwa/";
+    public static final String HOST_NAME = "192.168.12.100";
 
     //SortType
     public static final int SORT_DATE_DESC = 1;

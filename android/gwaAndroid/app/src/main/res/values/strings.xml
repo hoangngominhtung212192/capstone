@@ -27,29 +27,6 @@
 
     <string name="search_hint">search hint</string>
 
-    <!-- Trade Sort Type -->
-    <string-array name="trade_sort_array">
-        <item>Date Descending</item>
-        <item>Date Ascending</item>
-        <item>Price Ascending</item>
-        <item>Price Descending</item>
-    </string-array>
-    <string-array name="order_sort_array">
-        <item>Date Ascending</item>
-        <item>Date Descending</item>
-    </string-array>
-
-    <!-- Tab Name -->
-    <string-array name="trading_tab">
-        <item>All listing</item>
-        <item>Buying</item>
-        <item>Selling</item>
-    </string-array>
-    <string-array name="mytrade_tab">
-        <item>On Trading</item>
-        <item>Pending Approval</item>
-        <item>Rejected</item>
-    </string-array>
 
 
 </resources>

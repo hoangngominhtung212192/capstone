@@ -43,7 +43,15 @@ public class ProfileActivity extends AppCompatActivity {
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int accountID = sharedPreferences.getInt("ACCOUNTID", 0);
-        requestApi(accountID);
+
+        //Get accountID from another activity want to view someone profile
+        int viewProfileID = getIntent().getIntExtra("PROFILEID", 0);
+        if (viewProfileID > 0){
+            requestApi(viewProfileID);
+        }else {
+            requestApi(accountID);
+        }
+
     }
 
     private void initialize() {
