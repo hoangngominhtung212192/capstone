@@ -112,6 +112,7 @@ $(document).ready(function () {
             },
             success: function (result, status) {
                 $("#myModal").modal({backdrop: 'static', keyboard: false});
+                $("#lblModalMessage").html("Feedback sent! Thank you for your time!");
                 $("#success-btn").on("click", function() {
                     window.location.href = "/gwa/event/detail?id="+result.id;
                 });
