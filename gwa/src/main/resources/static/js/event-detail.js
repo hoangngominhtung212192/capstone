@@ -229,8 +229,11 @@ $(document).ready(function () {
                     $('#hidID').val(result.id);
                     curEvnId = result.id;
                     console.log("ev id is "+curEvnId);
-                    console.log("logged name "+loggedName);
-                    $('#lblUsername').append(loggedName);
+                    // console.log("logged name "+loggedName);
+                    if (account_session_id != null){
+                        $('#lblUsername').append(loggedName);
+                    }
+
                     $('#txtPrice').append(result.ticketPrice);
                     $('#lblTimeRated').append(result.numberOfRating);
                     $('#lblTodayDate').append(today.toString());
@@ -308,7 +311,7 @@ $(document).ready(function () {
                 },
                 success : function(result, status) {
                     $("#confi-modal").modal('hide');
-                    $("#lblModalMessage").html("Registered sucessfully!");
+                    $("#lblModalMessage").html("Registered successfully!");
                     $("#myModal").modal({backdrop: 'static', keyboard: false});
                     $("#success-btn").on("click", function() {
                         location.reload(true);
