@@ -139,7 +139,7 @@ $(document).ready(function () {
             },
             success : function(result, status) {
                 console.log("found evn raters:" +result.length);
-                if (result){
+                if (result.length > 0){
                     document.getElementById('raterArea').style.display = 'block';
                     for (var i = 0; i < 5 ; i++) {
                         var arater = $('<div class="panel">\n' +
