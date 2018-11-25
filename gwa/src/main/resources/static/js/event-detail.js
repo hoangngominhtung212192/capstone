@@ -33,7 +33,7 @@ $(document).ready(function () {
                     $("#confi-modal").modal('show');
                 } else {
                     // $.growl.notice({message: "Redirecting ro"});
-                    alert("You will be redirected to the login page!")
+                    // alert("You will be redirected to the login page!")
                     console.log("Guest is accessing !");
                     window.location.href = "/gwa/login";
                 }
@@ -125,7 +125,7 @@ $(document).ready(function () {
         });
     });
     $("#btnRegister").on("click", function () {
-        checkAuth()
+        checkAuth();
     });
     getRatedAttendeeEvent(id);
     function getRatedAttendeeEvent(id) {
