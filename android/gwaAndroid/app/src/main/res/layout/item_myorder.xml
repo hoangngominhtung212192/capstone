@@ -16,26 +16,28 @@
         android:weightSum="4">
 
         <RelativeLayout
-            android:id="@+id/manageorder_user_wrap"
+            android:id="@+id/myorder_trade_wrap"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1">
 
             <ImageView
-                android:id="@+id/item_manageorder_avatar"
+                android:id="@+id/item_myorder_thumbnail"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:src="@drawable/man"
+                android:src="@drawable/gundam_icon"
                 android:scaleType="centerCrop" />
 
             <TextView
-                android:id="@+id/item_manageorder_username"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:id="@+id/item_myorder_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/item_manageorder_avatar"
+                android:layout_below="@id/item_myorder_thumbnail"
                 android:gravity="center"
-                android:text="Username"
+                android:text="Tradepost title"
                 android:textStyle="bold" />
 
         </RelativeLayout>
@@ -52,19 +54,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Request On:"
+                android:text="Ordered On:"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/item_manageorder_requestDate"
+                android:id="@+id/item_myorder_requestDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="2018-11-25 21:04:26" />
 
             <TextView
-                android:visibility="gone"
-                android:id="@+id/item_manageorder_stateTitle"
+                android:visibility="visible"
+                android:id="@+id/item_myorder_stateTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -72,8 +74,8 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:visibility="gone"
-                android:id="@+id/item_manageorder_stateDate"
+                android:visibility="visible"
+                android:id="@+id/item_myorder_stateDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -83,15 +85,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="	Quantity:"
+                android:text="	Quantity - Total:"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/item_manageorder_quantity"
+                android:id="@+id/item_myorder_quantity_total"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="12"
+                android:text="12 - 180$"
                 android:textColor="@color/colorAccent" />
 
         </LinearLayout>
@@ -105,47 +107,28 @@
             android:padding="5dp">
 
             <Button
-                android:id="@+id/btn_manageorder_accept"
+                android:id="@+id/btn_myorder_contact"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
                 android:background="@android:color/holo_green_dark"
-                android:text="Accept"
+                android:text="Contact"
                 android:textColor="@color/white"
                 android:visibility="visible" />
 
-            <Button
-                android:id="@+id/btn_manageorder_decline"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="5dp"
-                android:background="@android:color/holo_red_light"
-                android:text="Decline"
-                android:textColor="@color/white"
-                android:visibility="visible" />
 
             <Button
-                android:id="@+id/btn_manageorder_done"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="5dp"
-                android:background="@android:color/holo_blue_dark"
-                android:text="Done"
-                android:textColor="@color/white"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/btn_manageorder_cancel"
+                android:id="@+id/btn_myorder_cancel"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
                 android:background="@android:color/holo_red_dark"
                 android:text="Cancel"
                 android:textColor="@color/white"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <Button
-                android:id="@+id/btn_manageorder_rating"
+                android:id="@+id/btn_myorder_rating"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
@@ -155,7 +138,7 @@
                 android:visibility="gone" />
 
             <Button
-                android:id="@+id/btn_manageorder_rated"
+                android:id="@+id/btn_myorder_rated"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"
@@ -165,7 +148,7 @@
                 android:visibility="gone" />
 
             <Button
-                android:id="@+id/btn_manageorder_reason"
+                android:id="@+id/btn_myorder_reason"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="5dp"

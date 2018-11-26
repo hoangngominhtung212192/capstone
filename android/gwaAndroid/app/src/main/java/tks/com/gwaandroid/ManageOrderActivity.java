@@ -105,7 +105,7 @@ public class ManageOrderActivity extends AppCompatActivity {
 
     }
 
-    private void loadManageOrderData() {
+    public void loadManageOrderData() {
         TrademarketAPI trademarketAPI = RetrofitClientInstance.getRetrofitInstance()
                 .create(TrademarketAPI.class);
 

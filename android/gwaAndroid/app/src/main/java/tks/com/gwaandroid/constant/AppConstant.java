@@ -37,4 +37,8 @@ public class AppConstant {
     //Trade Condition
     public static final int INT_TRADE_CONDITION_NEW = 1;
     public static final int INT_TRADE_CONDITION_USED = 2;
+
+    //Feedback Type
+    public static final int FEEDBACK_TYPE_OWNER_TO_TRADER = 1;
+    public static final int FEEDBACK_TYPE_TRADER_TO_OWNER = 2;
 }
