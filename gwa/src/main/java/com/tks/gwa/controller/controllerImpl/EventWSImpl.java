@@ -101,13 +101,27 @@ public class EventWSImpl implements EventWS {
         Eventattendee attet = new Eventattendee();
         attet.setAccount(testacc);
         attet.setEvent(nev);
-        attet.setDate(date.toString());
+        attet.setDate(date);
         attet.setAmount(amount);
         //
         attendeeService.addNewAttendee(attet);
-        Event eee = attet.getEvent();
-        int curAttNum = eee.getNumberOfAttendee();
-        eee.setNumberOfAttendee(curAttNum+1);
+        return new ResponseEntity<>("Register successfully.", HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> registerEventAlt(int eventid, int userid, int amount, String date) {
+        Account testacc = new Account();
+        testacc.setId(userid);
+
+        Event nev = eventService.getEvent(eventid);
+        nev.setNumberOfAttendee(nev.getNumberOfAttendee()+amount);
+        Eventattendee attet = new Eventattendee();
+        attet.setAccount(testacc);
+        attet.setEvent(nev);
+        attet.setDate(date);
+        attet.setAmount(amount);
+        //
+        attendeeService.addNewAttendee(attet);
         return new ResponseEntity<>("Register successfully.", HttpStatus.OK);
     }
 
@@ -181,6 +195,22 @@ public class EventWSImpl implements EventWS {
 
         }
 
+    }
+
+    @Override
+    public ResponseEntity<Boolean> getAttendeeInEventAlt(int userid, int eventid) {
+        boolean check = false;
+        Eventattendee aa = attendeeService.getAttendeeInEvent(userid, eventid);
+        if (aa!=null){
+            System.out.println(userid +" is attendee");
+            check = true;
+            return new ResponseEntity<>(check, HttpStatus.OK);
+        } else {
+            System.out.println(userid +" is not attendee");
+            check = false;
+            return new ResponseEntity<>(check, HttpStatus.NOT_FOUND);
+
+        }
     }
 
     @Autowired

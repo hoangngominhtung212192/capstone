@@ -37,6 +37,7 @@
         <activity android:name=".SignUpActivity" />
         <activity android:name=".ModelDetailActivity" />
         <activity android:name=".EventDetailActivity" />
+        <activity android:name=".EventRegisterActivity" />
         <activity android:name=".ArticleDetailActivity" />
         <activity android:name=".GalleryActivity" />
         <activity android:name=".EventActivity" />

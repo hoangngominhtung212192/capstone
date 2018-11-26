@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="tks.com.gwaandroid.EventDetailActivity"
+    tools:context="tks.com.gwaandroid.EventRegisterActivity"
     android:orientation="vertical"
-    android:id="@+id/dl_event_detail">
+    android:id="@+id/dl_register_event">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -49,8 +49,8 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
                     <TextView
-                        android:id="@+id/eventTitle"
-                        android:text="Title"
+                        android:id="@+id/lbl1"
+                        android:text="Registration info"
                         android:textColor="@color/colorPrimaryDark"
                         android:textStyle="bold"
                         android:layout_centerHorizontal="true"
@@ -60,43 +60,46 @@
                         android:gravity="center"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
+                        android:layout_gravity="center"
                         android:textSize="17dp" />
 
-                    <TextView
-                        android:id="@+id/date"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="dateStart" />
+                    <!--<TextView-->
+                        <!--android:id="@+id/lbl2"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Your name: " />-->
 
                     <TextView
-                        android:id="@+id/location"
+                        android:id="@+id/lbl3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Location" />
+                        android:text="Today's date: " />
 
                     <TextView
-                        android:id="@+id/price"
+                        android:id="@+id/lbl4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Price" />
+                        android:text="Remaining tickets: " />
 
-                    <WebView
-                        android:id="@+id/eContent"
-                        android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/lbl5"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/eventTitle"/>
+                        android:text="Number of tickets you want: " />
+
+                    <EditText
+                        android:id="@+id/myticket"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:hint="Tickets"/>
 
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/btnRegEvt"
-                        android:text="Register"
-                        android:onClick="redirectReg"/>
-                    <TextView
-                        android:id="@+id/lbl6"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="You've registered to this event!" />
+                        android:id="@+id/btnSubmitRegEvt"
+                        android:text="Submit"
+                        android:onClick="submitReg"/>
 
                 </LinearLayout>
 

@@ -1,5 +1,6 @@
 package tks.com.gwaandroid;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -41,8 +43,9 @@ public class EventDetailActivity extends AppCompatActivity {
     private ActionBarDrawerToggle abdt;
     private RelativeLayout linearProgressBar;
 
-    private TextView title, date, location, price;
+    private TextView title, date, location, price, message1;
     private WebView content;
+    private Button btn;
 //    private RelativeLayout layout_star_rating;
 
     private SharedPreferences sharedPreferences;
@@ -59,7 +62,7 @@ public class EventDetailActivity extends AppCompatActivity {
         // get id from intent params
         Intent intent = getIntent();
         id = Integer.parseInt(intent.getStringExtra("eventID"));
-
+        checkUserIsAttendee();
         // request api
         // a little bit delay
         new android.os.Handler().postDelayed(
@@ -128,8 +131,43 @@ public class EventDetailActivity extends AppCompatActivity {
         date = (TextView) findViewById(R.id.date);
         location = (TextView) findViewById(R.id.location);
         price = (TextView) findViewById(R.id.price);
+        message1 = (TextView) findViewById(R.id.lbl6);
+
         content = (WebView) findViewById(R.id.eContent);
 
+        btn = (Button) findViewById(R.id.btnRegEvt);
+
+    }
+
+    private void checkUserIsAttendee(){
+        int userid = sharedPreferences.getInt("ACCOUNTID", 0);
+        int eventid = id;
+        EventAPI eventAPI = RetrofitClientInstance.getRetrofitInstance().create(EventAPI.class);
+
+        Call<Boolean> call = eventAPI.getAttendeeInEventAlt(userid, eventid);
+
+        call.enqueue(new Callback<Boolean>() {
+            // get json response
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+
+                if (response.isSuccessful()) {
+//                    Toast.makeText(EventDetailActivity.this, "Is an attendee", Toast.LENGTH_SHORT).show();
+                    btn.setVisibility(View.GONE);
+                    message1.setVisibility(View.VISIBLE);
+                } else {
+                    message1.setVisibility(View.GONE);
+//                    Toast.makeText(EventDetailActivity.this, "Not an attendee", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            // error
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+//                linearProgressBar.setVisibility(View.GONE);
+                Log.d("Error response", t.getMessage());
+            }
+        });
     }
 
     // on options left menu selected event
@@ -193,6 +231,14 @@ public class EventDetailActivity extends AppCompatActivity {
         }
 
         linearProgressBar.setVisibility(View.GONE);
+    }
+    private Context context;
+
+    public void redirectReg(View view){
+
+        Intent intent = new Intent(this, EventRegisterActivity.class);
+        intent.putExtra("eventID", id + "");
+        startActivity(intent);
     }
 
 }
