@@ -235,6 +235,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public void checkNUpdateEventStatus() {
         List<Event> listAll = eventRepository.getAll();
+        System.out.println("Checking for outdated events");
         Date date = new Date();
         for (int i = 0; i < listAll.size(); i++) {
             Event curE = listAll.get(i);
@@ -248,7 +249,7 @@ public class EventServiceImpl implements EventService {
                     List<Eventattendee> listatt = eventAttendeeRepository.searchAttendeeByEvent(curE.getId());
                         for (int j = 0; j < listatt.size(); j++) {
                             Eventattendee attendee = listatt.get(j);
-//                            System.out.println("Sending notification to user id "+listatt.get(j).getAccount().getId());
+                            System.out.println("Sending notification to user id "+listatt.get(j).getAccount().getId());
 
                             Notification notification = new Notification();
                             notification.setSeen(AppConstant.NOTIFICATION_NOT_SEEN);

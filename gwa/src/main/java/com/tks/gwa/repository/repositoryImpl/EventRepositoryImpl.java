@@ -237,6 +237,7 @@ public class EventRepositoryImpl extends GenericRepositoryImpl<Event, Integer> i
 
     @Override
     public int updateEventStatus(int id) {
+        System.out.println("updating event id "+id+" to inactive");
         String sql = "UPDATE " + Event.class.getName()+ " e SET e.status = 'Inactive' WHERE e.id = :id";
         Query query = this.entityManager.createQuery(sql);
         query.setParameter("id", id);
