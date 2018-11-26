@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
 
 public class FileUtil {
 
-    public static void logSchedule(String description, int cycle, String date) {
+    public static void logSchedule(String description, float cycle, String date) {
         File f = null;
         FileWriter fw = null;
         PrintWriter pw = null;
@@ -121,7 +121,7 @@ public class FileUtil {
                 StringTokenizer stk = new StringTokenizer(details, ";");
                 int id = Integer.parseInt(stk.nextToken());
                 String description = stk.nextToken();
-                int cycle = Integer.parseInt(stk.nextToken());
+                float cycle = Float.parseFloat(stk.nextToken());
                 String date = stk.nextToken();
 
                 LogSchedule logSchedule = new LogSchedule(id, description, cycle, date);

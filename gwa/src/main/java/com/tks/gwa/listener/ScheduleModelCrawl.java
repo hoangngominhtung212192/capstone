@@ -38,7 +38,7 @@ public class ScheduleModelCrawl implements Runnable {
                 // log file
                 date = getCurrentTimeStamp();
                 FileUtil.logSchedule("[Schedule GUNDAM Crawl] System is beginning to crawl gundam and article" +
-                                " after cycle sleep", interval/1000/60/60, date);
+                                " after cycle sleep", (float) interval/1000/60/60, date);
 
                 // Begin process update
                 // crawl model process
