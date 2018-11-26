@@ -8,12 +8,10 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -30,92 +28,89 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import tks.com.gwaandroid.adapter.CustomTradingAdapter;
+import tks.com.gwaandroid.adapter.CustomMyTradeAdapter;
 import tks.com.gwaandroid.api.TrademarketAPI;
 import tks.com.gwaandroid.constant.AppConstant;
-import tks.com.gwaandroid.model.TradingDataResponse;
-import tks.com.gwaandroid.model.TradingModel;
+import tks.com.gwaandroid.model.MyTradeDataResponse;
+import tks.com.gwaandroid.model.MyTradeModel;
 import tks.com.gwaandroid.network.RetrofitClientInstance;
 
-public class TradingActivity extends AppCompatActivity {
+public class MyTradeActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     private DrawerLayout dl;
     private ActionBarDrawerToggle abdt;
     private SharedPreferences sharedPreferences;
 
-    int currentPage, totalPage, sortType;
-    String tradeType;
+    int currentPage, totalPage, sortType, accountId;
+    String status;
 
-    RecyclerView trading_list;
+    RecyclerView mytrade_list;
     TextView empty_text;
-    CustomTradingAdapter adapter;
-    List<TradingModel> tradingData;
+    CustomMyTradeAdapter adapter;
+    List<MyTradeModel> mytradeData;
     int currentVisiblePosition;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trading);
-        setTitle("TRADING");
+        setContentView(R.layout.activity_my_trade);
+        setTitle("MY TRADE");
+
 
         //Init
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        tradeType = AppConstant.TYPE_ALL;
+        accountId = sharedPreferences.getInt("ACCOUNTID", 0);
+        status = AppConstant.APPROVED_STATUS;
         currentPage = 1;
         sortType = AppConstant.SORT_DATE_DESC;
         currentVisiblePosition = 0;
 
-        tradingData = new ArrayList<TradingModel>();
+        mytradeData = new ArrayList<MyTradeModel>();
 
-
-
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.trading_nav);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.mytrade_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
-                    case R.id.nav_trading_all:
-                        tradeType = AppConstant.TYPE_ALL;
+                    case R.id.nav_mytrade_ontrading:
+                        status = AppConstant.APPROVED_STATUS;
                         break;
-                    case R.id.nav_trading_buy:
-                        tradeType = AppConstant.TYPE_BUY;
+                    case R.id.nav_mytrade_pending:
+                        status = AppConstant.PENDING_STATUS;
                         break;
-                    case R.id.nav_trading_sell:
-                        tradeType = AppConstant.TYPE_SELL;
+                    case R.id.nav_mytrade_rejected:
+                        status = AppConstant.DECLINED_STATUS;
                         break;
                 }
                 currentPage = 1;
                 currentVisiblePosition = 0;
-                tradingData = new ArrayList<TradingModel>();
-                loadTradingData();
+                mytradeData = new ArrayList<MyTradeModel>();
+                loadMyTradeData();
                 return true;
             }
         });
 
-
-        trading_list = findViewById(R.id.list_trading);
-        trading_list.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mytrade_list = findViewById(R.id.list_mytrade);
+        mytrade_list.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
                 if (!recyclerView.canScrollVertically(1)) {
                     if (currentPage < totalPage) {
-                        currentVisiblePosition = ((LinearLayoutManager) trading_list.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+                        currentVisiblePosition = ((LinearLayoutManager) mytrade_list.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
 
                         // a little bit delay
                         currentPage++;
-                        loadTradingData();
+                        loadMyTradeData();
                     }
                 }
             }
         });
 
-
         //load Data
-        loadTradingData();
+        loadMyTradeData();
 
 
         // left menu
@@ -139,29 +134,29 @@ public class TradingActivity extends AppCompatActivity {
                 int id = item.getItemId();
 
                 if (id == R.id.myprofile) {
-                    Intent intent = new Intent(TradingActivity.this, ProfileActivity.class);
+                    Intent intent = new Intent(MyTradeActivity.this, ProfileActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.notification) {
-                    Toast.makeText(TradingActivity.this, "Notification", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyTradeActivity.this, "Notification", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.gundam) {
-                    Intent intent = new Intent(TradingActivity.this, MainActivity.class);
+                    Intent intent = new Intent(MyTradeActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.article) {
-                    Intent intent = new Intent(TradingActivity.this, ArticleActivity.class);
+                    Intent intent = new Intent(MyTradeActivity.this, ArticleActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.event) {
-                    Intent intent = new Intent(TradingActivity.this, EventActivity.class);
+                    Intent intent = new Intent(MyTradeActivity.this, EventActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.exchange) {
-                    Intent intent = new Intent(TradingActivity.this, TrademarketActivity.class);
+                    Intent intent = new Intent(MyTradeActivity.this, TrademarketActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.signout) {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.clear();
                     editor.commit();
 
-                    Toast.makeText(TradingActivity.this, "Logout successfully!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(TradingActivity.this, LoginActivity.class);
+                    Toast.makeText(MyTradeActivity.this, "Logout successfully!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MyTradeActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
 
@@ -170,6 +165,7 @@ public class TradingActivity extends AppCompatActivity {
         });
         // end left menu
     }
+
     // on options left menu selected event
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -185,51 +181,50 @@ public class TradingActivity extends AppCompatActivity {
         return true;
     }
 
-    private void loadTradingData() {
-
+    private void loadMyTradeData() {
         TrademarketAPI trademarketAPI = RetrofitClientInstance.getRetrofitInstance()
                 .create(TrademarketAPI.class);
 
-        Call<TradingDataResponse> trademarketAPICall = trademarketAPI.getTradingData(tradeType, currentPage, sortType);
+        Call<MyTradeDataResponse> trademarketAPICall = trademarketAPI.getMyTradeData(accountId,status,currentPage,sortType);
 
-        trademarketAPICall.enqueue(new Callback<TradingDataResponse>() {
+        trademarketAPICall.enqueue(new Callback<MyTradeDataResponse>() {
             @Override
-            public void onResponse(Call<TradingDataResponse> call, Response<TradingDataResponse> response) {
-                TradingDataResponse result = response.body();
+            public void onResponse(Call<MyTradeDataResponse> call, Response<MyTradeDataResponse> response) {
+                MyTradeDataResponse result = response.body();
                 totalPage = result.getTotalPage();
-                Log.d("TRADINGAPI", "totalPage: " + totalPage);
-                Log.d("TRADINGAPI", "listSize: " + result.getData().size());
-                List<TradingModel> pageData = result.getData();
-                tradingData.addAll(pageData);
-                renderTradingData(tradingData);
+                Log.d("MYTRADEAPI", "totalPage: " + totalPage);
+                Log.d("MYTRADEAPI", "listSize: " + result.getData().size());
+                List<MyTradeModel> pageData = result.getData();
+                mytradeData.addAll(pageData);
+                renderMyTradeData(mytradeData);
             }
 
             @Override
-            public void onFailure(Call<TradingDataResponse> call, Throwable t) {
-                Log.d("TRADINGAPI", "onFailure: " + t.getMessage());
-
+            public void onFailure(Call<MyTradeDataResponse> call, Throwable t) {
+                Log.d("MYTRADEAPI", "onFailure: " + t.getMessage());
             }
         });
 
     }
 
-    private void renderTradingData(List<TradingModel> tradingData) {
-        empty_text = (TextView) findViewById(R.id.txt_empty_trading);
+    private void renderMyTradeData(List<MyTradeModel> mytradeData) {
 
-        if(tradingData == null || tradingData.size() < 1){
+        empty_text = (TextView) findViewById(R.id.txt_empty_mytrade);
+
+        if(mytradeData == null || mytradeData.size() < 1){
             empty_text.setText("EMPTY");
             empty_text.setVisibility(View.VISIBLE);
-            trading_list.setVisibility(View.GONE);
+            mytrade_list.setVisibility(View.GONE);
         }else {
-            trading_list.setVisibility(View.VISIBLE);
+            mytrade_list.setVisibility(View.VISIBLE);
             empty_text.setVisibility(View.GONE);
-            adapter = new CustomTradingAdapter(tradingData, TradingActivity.this);
-            RecyclerView.LayoutManager layoutManager = new GridLayoutManager(TradingActivity.this, 2);
-            trading_list.setLayoutManager(layoutManager);
-            trading_list.setAdapter(adapter);
+            adapter = new CustomMyTradeAdapter(mytradeData, MyTradeActivity.this);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MyTradeActivity.this);
+            mytrade_list.setLayoutManager(layoutManager);
+            mytrade_list.setAdapter(adapter);
 
             // scroll to the last position
-            ((LinearLayoutManager) trading_list.getLayoutManager()).scrollToPosition(currentVisiblePosition);
+            ((LinearLayoutManager) mytrade_list.getLayoutManager()).scrollToPosition(currentVisiblePosition);
         }
     }
 
@@ -237,7 +232,7 @@ public class TradingActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
-            loadTradingData();
+            loadMyTradeData();
         }
     }
 }

@@ -118,6 +118,7 @@ public class CustomTradingAdapter extends RecyclerView.Adapter<CustomTradingAdap
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, TradeDetailsActivity.class);
                 intent.putExtra("TRADEPOSTID", model.getTradepost().getId());
+                intent.putExtra("CALLINGACTIVITY", "TRADING");
                 mContext.startActivity(intent);
             }
         });

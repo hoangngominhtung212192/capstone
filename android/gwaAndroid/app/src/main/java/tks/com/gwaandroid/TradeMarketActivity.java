@@ -24,6 +24,8 @@ public class TrademarketActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trademarket);
 
+        setTitle("TRADE MARKET");
+
         //Init
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
@@ -79,9 +81,13 @@ public class TrademarketActivity extends AppCompatActivity {
     }
 
     public void openMyOrderActivity(View view) {
+        Intent intent = new Intent(this, MyOrderActivity.class);
+        startActivity(intent);
     }
 
     public void openMyTradeActivity(View view) {
+        Intent intent = new Intent(this, MyTradeActivity.class);
+        startActivity(intent);
     }
 
     public void openTradingActivity(View view) {

@@ -279,7 +279,8 @@ public class TrademarketServiceImpl implements TrademarketService {
         if (tradepost != null) {
             try {
                 String[] images = this.getImageArrayByTradepostId(tradepostId);
-                ViewTradepostDTO dto = new ViewTradepostDTO(tradepost, images);
+                int totalOrder = orderRequestRepository.getAllRequestByTradepostId(tradepostId).size();
+                ViewTradepostDTO dto = new ViewTradepostDTO(tradepost,totalOrder,images);
                 return dto;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -310,9 +311,12 @@ public class TrademarketServiceImpl implements TrademarketService {
                     traderatingRepository.checkTraderatingExistByOrderIdAndFeedbackType(orderrequestList.get(i).getId(),
                             AppConstant.TRADEPOST.FEEDBACK_TYPE_OWNER_TO_TRADER));
 
+            Profile profile = profileRepository.findProfileByAccountID(orderrequestList.get(i).getAccount().getId());
+
             Account emptyAcc = new Account();
             emptyAcc.setUsername(orderrequestList.get(i).getAccount().getUsername());
             emptyAcc.setId(orderrequestList.get(i).getAccount().getId());
+            emptyAcc.setAvatar(profile.getAvatar());
             orderrequestList.get(i).setAccount(emptyAcc);
             Tradepost emptyTradepost = new Tradepost();
             emptyTradepost.setId(orderrequestList.get(i).getTradepost().getId());
