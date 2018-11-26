@@ -92,6 +92,11 @@
                         android:id="@+id/btnRegEvt"
                         android:text="Register"
                         android:onClick="redirectReg"/>
+                    <TextView
+                        android:id="@+id/lbl6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="You've registered to this event!" />
 
                 </LinearLayout>
 

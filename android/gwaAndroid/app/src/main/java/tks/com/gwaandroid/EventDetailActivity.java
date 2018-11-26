@@ -43,7 +43,7 @@ public class EventDetailActivity extends AppCompatActivity {
     private ActionBarDrawerToggle abdt;
     private RelativeLayout linearProgressBar;
 
-    private TextView title, date, location, price;
+    private TextView title, date, location, price, message1;
     private WebView content;
     private Button btn;
 //    private RelativeLayout layout_star_rating;
@@ -62,7 +62,7 @@ public class EventDetailActivity extends AppCompatActivity {
         // get id from intent params
         Intent intent = getIntent();
         id = Integer.parseInt(intent.getStringExtra("eventID"));
-
+        checkUserIsAttendee();
         // request api
         // a little bit delay
         new android.os.Handler().postDelayed(
@@ -131,10 +131,12 @@ public class EventDetailActivity extends AppCompatActivity {
         date = (TextView) findViewById(R.id.date);
         location = (TextView) findViewById(R.id.location);
         price = (TextView) findViewById(R.id.price);
+        message1 = (TextView) findViewById(R.id.lbl6);
+
         content = (WebView) findViewById(R.id.eContent);
 
         btn = (Button) findViewById(R.id.btnRegEvt);
-        checkUserIsAttendee();
+
     }
 
     private void checkUserIsAttendee(){
@@ -150,13 +152,12 @@ public class EventDetailActivity extends AppCompatActivity {
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
 
                 if (response.isSuccessful()) {
-                    Toast.makeText(EventDetailActivity.this, "Is an attendee", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(EventDetailActivity.this, "Is an attendee", Toast.LENGTH_SHORT).show();
                     btn.setVisibility(View.GONE);
-//                    bindingData(response.isSuccessful());
-
-                    Log.d("Response Model Detail", response.body().toString());
+                    message1.setVisibility(View.VISIBLE);
                 } else {
-                    Toast.makeText(EventDetailActivity.this, "Not an attendee", Toast.LENGTH_SHORT).show();
+                    message1.setVisibility(View.GONE);
+//                    Toast.makeText(EventDetailActivity.this, "Not an attendee", Toast.LENGTH_SHORT).show();
                 }
             }
 
