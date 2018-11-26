@@ -38,9 +38,28 @@ public class EventAttendeeRepositoryImpl extends GenericRepositoryImpl<Eventatte
     }
 
     @Override
-    public List<Eventattendee> searchAttendeeByEvent(Integer eventid) {
-        System.out.println("earching by id "+eventid);
+    public List<Eventattendee> searchRatedAttendeeByEvent(Integer eventid) {
+        System.out.println("searching rated attendee in event by id "+eventid);
         String sql = "FROM " + Eventattendee.class.getName()+ " WHERE eventid = :eventid AND rating > 0";
+
+        Query query = this.entityManager.createQuery(sql);
+        query.setParameter("eventid", eventid );
+        List<Eventattendee> listres = null;
+
+        try {
+            listres = query.getResultList();
+        } catch (NoResultException e) {
+            System.out.println("search FAILED!!");
+            return listres;
+        }
+
+        return listres;
+    }
+
+    @Override
+    public List<Eventattendee> searchAttendeeByEvent(Integer eventid) {
+        System.out.println("searching attendee in event by id "+eventid);
+        String sql = "FROM " + Eventattendee.class.getName()+ " WHERE eventid = :eventid";
 
         Query query = this.entityManager.createQuery(sql);
         query.setParameter("eventid", eventid );

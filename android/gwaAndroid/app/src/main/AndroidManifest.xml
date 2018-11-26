@@ -5,6 +5,13 @@
     <!-- Internet Permission -->
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- GOOGLE MAP API Permission -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,6 +19,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyASrDg7CwB0GQ_XGzWfbkP4RUE_31YCy1M" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity android:name=".MainActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -22,9 +36,20 @@
         </activity>
         <activity android:name=".SignUpActivity" />
         <activity android:name=".ModelDetailActivity" />
+        <activity android:name=".EventDetailActivity" />
+        <activity android:name=".EventRegisterActivity" />
+        <activity android:name=".ArticleDetailActivity" />
         <activity android:name=".GalleryActivity" />
+        <activity android:name=".EventActivity" />
+        <activity android:name=".ArticleActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".TradeMarketActivity"></activity>
+        <activity android:name=".TradingActivity"/>
+        <activity android:name=".TrademarketActivity" />
+        <activity android:name=".TradeDetailsActivity" />
+        <activity android:name=".GetDirectionActivity" />
+        <activity android:name=".MyTradeActivity" />
+        <activity android:name=".MyOrderActivity" />
+        <activity android:name=".ManageOrderActivity"></activity>
     </application>
 
 </manifest>

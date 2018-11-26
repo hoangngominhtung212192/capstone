@@ -85,12 +85,14 @@ $(document).ready(function () {
                                         $("#tradePostDiv").hide();
                                     }
                                 }
+
                             } else {
                                 noticeTitle = "Post your new trade";
                                 $("#noticeTitle").css("color", "green");
                                 loadProfileData(id);
                                 $("#tradePostDiv").show();
                             }
+                            fileupInit();
                         } else if (role == "ADMIN") {
 
                             $("#adminBtn").css("display", "block");
@@ -228,13 +230,13 @@ $(document).ready(function () {
         var lastPage;
 
         function ajaxGetAllNotification(accountID) {
-            console.log(pageNumber);
+            // console.log(pageNumber);
 
             $.ajax({
                 type: "GET",
                 url: "/gwa/api/notification/getAll?pageNumber=" + pageNumber + "&accountID=" + accountID,
                 success: function (result) {
-                    console.log(result);
+                    // console.log(result);
 
                     lastPage = result[0];
                     renderNotification(result[1]);
@@ -307,9 +309,9 @@ $(document).ready(function () {
                     var objectID = $(this).attr('id').split("-")[2];
 
                     // log to console
-                    console.log("Notification ID: " + notificationID);
-                    console.log("Type: " + type);
-                    console.log("ObjectID: " + objectID);
+                    // console.log("Notification ID: " + notificationID);
+                    // console.log("Type: " + type);
+                    // console.log("ObjectID: " + objectID);
 
                     // set seen status to 0 --> means user has seen this current notification
                     ajaxUpdateNotificationStatus(notificationID);
@@ -355,7 +357,7 @@ $(document).ready(function () {
                 type: "POST",
                 url: "/gwa/api/notification/update?notificationID=" + notificationID,
                 success: function (result) {
-                    console.log(result);
+                    // console.log(result);
                 },
                 error: function (e) {
                     console.log("ERROR: ", e);
@@ -363,89 +365,90 @@ $(document).ready(function () {
             });
         }
 
-        /* End notification */
-        /*   End authentication and notification  */
+        function fileupInit() {
+            /* FILE UP JQUERY INIT */
+            $.fileup({
+                url: "/gwa/uploadFile", //Link Ajax call len server
+                inputID: 'upload-2', //ID form up hinh
+                queueID: 'upload-2-queue',
+                dropzoneID: '', //Setting ten div chua vua drop de load file
+                files: imageListFileUp, //Load hinh san co tu database len
+                fieldName: 'file',
+                lang: 'en',
+                sizeLimit: 2500000,
+                filesLimit: 5,
+                method: 'post',
+                timeout: null,
+                autostart: false,
+                templateFile: '<div id="fileup-[INPUT_ID]-[FILE_NUM]" class="fileup-file [TYPE]">\n' +
+                    '    <div class="fileup-preview">\n' +
+                    '        <img src="[PREVIEW_SRC]" alt="[NAME]"/>\n' +
+                    '    </div>\n' +
+                    '    <div class="fileup-container">\n' +
+                    '        <div class="fileup-description">\n' +
+                    '            <span class="fileup-name">[NAME]</span> (<span class="fileup-size">[SIZE_HUMAN]</span>)\n' +
+                    '        </div>\n' +
+                    '        <div class="fileup-controls">\n' +
+                    '            <span class="fileup-remove" id="remove-[FILE_NUM]" onclick="$.fileup(\'[INPUT_ID]\', \'remove\', \'[FILE_NUM]\');" title="[REMOVE]"></span>\n' +
+                    // '            <span class="fileup-upload" onclick="$.fileup(\'[INPUT_ID]\', \'upload\', \'[FILE_NUM]\');">[UPLOAD]</span>\n' +
+                    // '            <span class="fileup-abort" onclick="$.fileup(\'[INPUT_ID]\', \'abort, \'[FILE_NUM]\');" style="display:none">[ABORT]</span>\n' +
+                    '        </div>\n' +
+                    '        <div class="fileup-result"></div>\n' +
+                    '        <div class="fileup-progress">\n' +
+                    '            <div class="fileup-progress-bar"></div>\n' +
+                    '        </div>\n' +
+                    '    </div>\n' +
+                    '    <div class="fileup-clear"></div>\n' +
+                    '</div>',
+                onSelect: function (file) {
+                    fileSelected++;// Khi them 1 hinh thi tang bo dem len
+                    $('#multiple button').show();
+                },
+                onRemove: function (file, total, file_number) {//Event khi xoa 1 tam hinh tren giao dien
+                    fileSelected--;// Moi lan xoa 1 hinh thi tru bo dem di 1
 
+                    if (file === '*' || total === 1) {//Khi nhan xoa het tat ca / xoa toi hinh cuoi cung
+                        $('#multiple button').hide();//an nut remove all
+                        fileSelected = 0; //Dat lai bo dem file da chon
+                    }
 
-        /* FILE UP JQUERY INIT */
-        $.fileup({
-            url: "/gwa/uploadFile", //Link Ajax call len server
-            inputID: 'upload-2', //ID form up hinh
-            queueID: 'upload-2-queue',
-            dropzoneID: '', //Setting ten div chua vua drop de load file
-            files: imageListFileUp, //Load hinh san co tu database len
-            fieldName: 'file',
-            lang: 'en',
-            sizeLimit: 2500000,
-            filesLimit: 5,
-            method: 'post',
-            timeout: null,
-            autostart: false,
-            templateFile: '<div id="fileup-[INPUT_ID]-[FILE_NUM]" class="fileup-file [TYPE]">\n' +
-                '    <div class="fileup-preview">\n' +
-                '        <img src="[PREVIEW_SRC]" alt="[NAME]"/>\n' +
-                '    </div>\n' +
-                '    <div class="fileup-container">\n' +
-                '        <div class="fileup-description">\n' +
-                '            <span class="fileup-name">[NAME]</span> (<span class="fileup-size">[SIZE_HUMAN]</span>)\n' +
-                '        </div>\n' +
-                '        <div class="fileup-controls">\n' +
-                '            <span class="fileup-remove" id="remove-[FILE_NUM]" onclick="$.fileup(\'[INPUT_ID]\', \'remove\', \'[FILE_NUM]\');" title="[REMOVE]"></span>\n' +
-                // '            <span class="fileup-upload" onclick="$.fileup(\'[INPUT_ID]\', \'upload\', \'[FILE_NUM]\');">[UPLOAD]</span>\n' +
-                // '            <span class="fileup-abort" onclick="$.fileup(\'[INPUT_ID]\', \'abort, \'[FILE_NUM]\');" style="display:none">[ABORT]</span>\n' +
-                '        </div>\n' +
-                '        <div class="fileup-result"></div>\n' +
-                '        <div class="fileup-progress">\n' +
-                '            <div class="fileup-progress-bar"></div>\n' +
-                '        </div>\n' +
-                '    </div>\n' +
-                '    <div class="fileup-clear"></div>\n' +
-                '</div>',
-            onSelect: function (file) {
-                fileSelected++;// Khi them 1 hinh thi tang bo dem len
-                $('#multiple button').show();
-            },
-            onRemove: function (file, total, file_number) {//Event khi xoa 1 tam hinh tren giao dien
-                fileSelected--;// Moi lan xoa 1 hinh thi tru bo dem di 1
-
-                if (file === '*' || total === 1) {//Khi nhan xoa het tat ca / xoa toi hinh cuoi cung
-                    $('#multiple button').hide();//an nut remove all
-                    fileSelected = 0; //Dat lai bo dem file da chon
-                }
-
-                //Kiem tra file da lua tren database chua
-                if (file.file.saved) {
-                    //Neu co thi go khoi danh sach link hinh anh
-                    for (var i = 0; i < FiletoSubmit.length; i++) {
-                        if (FiletoSubmit[i].split("downloadFile/")[1].split(".")[0].split(ImageNamePrefix)[1] == file_number) {//lay id cua tam anh == so thu tu file tren form
-                            FiletoSubmit.splice(i, 1);// go tam hinh co so thu tu = id tam hinh
+                    //Kiem tra file da lua tren database chua
+                    if (file.file.saved) {
+                        //Neu co thi go khoi danh sach link hinh anh
+                        for (var i = 0; i < FiletoSubmit.length; i++) {
+                            if (FiletoSubmit[i].split("downloadFile/")[1].split(".")[0].split(ImageNamePrefix)[1] == file_number) {//lay id cua tam anh == so thu tu file tren form
+                                FiletoSubmit.splice(i, 1);// go tam hinh co so thu tu = id tam hinh
+                            }
                         }
                     }
+
+                },
+                onSuccess: function (response, file_number, file) {
+                    $.growl.notice({title: "Upload success!", message: file.name});
+                    FiletoSubmit.push(JSON.parse(response)['fileDownloadUri']);
+                },
+                onError: function (event, file, file_number) {
+                    var textErr = "";
+                    if (event === "files_limit") {
+                        textErr = "The number of selected file exceeds the limit(5)";
+                    }
+                    if (event === "file_type") {
+                        textErr = "File " + file.name + " is not image file types";
+                    }
+                    if (event === "file_duplicate") {
+                        textErr = "File " + file.name + " is duplicated";
+                    }
+                    if (event === "size_limit") {
+                        textErr = "File " + file.name + " is exceeds the size limit.";
+                    }
+                    $.growl.error({title: "Upload Image Error: ", message: textErr});
                 }
 
-            },
-            onSuccess: function (response, file_number, file) {
-                $.growl.notice({title: "Upload success!", message: file.name});
-                FiletoSubmit.push(JSON.parse(response)['fileDownloadUri']);
-            },
-            onError: function (event, file, file_number) {
-                var textErr = "";
-                if (event === "files_limit") {
-                    textErr = "The number of selected file exceeds the limit(5)";
-                }
-                if (event === "file_type") {
-                    textErr = "File " + file.name + " is not image file types";
-                }
-                if (event === "file_duplicate") {
-                    textErr = "File " + file.name + " is duplicated";
-                }
-                if (event === "size_limit") {
-                    textErr = "File " + file.name + " is exceeds the size limit.";
-                }
-                $.growl.error({title: "Upload Image Error: ", message: textErr});
-            }
+            });
+        }
 
-        });
+        /* End notification */
+        /*   End authentication and notification  */
     }
     else {
         notFoundStatus = 1;
@@ -456,6 +459,20 @@ $(document).ready(function () {
     }
     $('[data-title="tooltip"]').tooltip();
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ADD NEW NOTIFICATION FUNCTION */
 function addNewNotification(desc,objectId,account,notiType) {
 
@@ -481,7 +498,7 @@ function ajaxPostNewNotification(data) {
         url: "/gwa/api/notification/addNew",
         data: JSON.stringify(data),
         success: function (result) {
-            console.log(result);
+            // console.log(result);
         },
         error: function (e) {
             console.log("ERROR: ", e);
@@ -497,7 +514,7 @@ function ajaxSubmitForm(form) {
     });
     var url = $(form).attr("action");
     var formDataJson = JSON.stringify(formObj);
-    console.log(formDataJson);
+    // console.log(formDataJson);
     $.ajax({
         url: url,
         type: "POST",
@@ -585,8 +602,9 @@ function checkAuthorization(userId) {
 }
 
 function loadEditForm(editformData) {
+    // console.log(editformData);
     ImageNamePrefix = "tradepost_" + currentAccountName + "_" + currentTradePostID + "_";
-    console.log(ImageNamePrefix);
+    // console.log(ImageNamePrefix);
     //SET EDIT API TO FORM
     $("#tradepostForm").attr("action", "/gwa/api/tradepost/edit-trade-post");
     //SET NAME OF BUTTOM
@@ -614,6 +632,7 @@ function loadEditForm(editformData) {
     $("#tradeModel").val(editformData["tradeModel"]);
     $("#tradeDesc").val(editformData["tradeDesc"]);
 
+
     var imgListArr = [];
     imgListArr = editformData["imageUploadedList"];
 
@@ -628,11 +647,13 @@ function loadEditForm(editformData) {
         imageListFileUp.push(fileupObj);
     }
 
+
     //Trader profile load
     $("#traderName").val(editformData["traderName"]);
     $("#traderPhone").val(editformData["traderPhone"]);
     $("#traderEmail").val(editformData["traderEmail"]);
     $("#traderAddress").val(editformData["traderAddress"]);
+    $("#traderLatlng").val(editformData["traderLatlng"]);
 
 
 }
@@ -654,6 +675,7 @@ function loadProfileData(accountID) {
             $("#traderPhone").val(traderPhone);
             $("#traderEmail").val(traderEmail);
             $("#traderAddress").val(traderAddress);
+            addressToLatlng(traderAddress);
         },
         error: function (e) {
             console.log("ERROR: ", e);
@@ -721,6 +743,7 @@ $("#addressSelectForm").validate({
         var addressText = $("#traderAddress"),
             addressFromModelText = $("#selectAddressFull");
         addressText.val(addressFromModelText.val());
+        addressToLatlng(addressText.val())
         $.growl.notice({title: "Select Address: ", message: addressText.val()});
     }
 
@@ -879,6 +902,20 @@ function checkValidRequest() {
     return false;
 }
 
+function addressToLatlng(address) {
+    var geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode( { 'address': address}, function(results, status) {
+
+        if (status == google.maps.GeocoderStatus.OK) {
+            var latitude = results[0].geometry.location.lat();
+            var longitude = results[0].geometry.location.lng();
+            var result = latitude + "," + longitude;
+            console.log(result);
+            $("#traderLatlng").val(result);
+        }
+    });
+}
 function autoGetYourLocation() {
     waitingDialog.show('Getting your location...', {dialogSize: '', progressType: 'info'});
     setTimeout(function () {
@@ -908,6 +945,8 @@ function showPosition(position) {
         function (results, status) {
             if (status == google.maps.GeocoderStatus.OK && results[0]) {
                 $("#traderAddress").val(results[0].formatted_address);
+                // console.log(lat + "," + lng);
+                $("#traderLatlng").val(lat + "," + lng);
 
             }
         }

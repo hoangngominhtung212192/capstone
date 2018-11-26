@@ -1,5 +1,7 @@
 package tks.com.gwaandroid;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -12,9 +14,11 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -92,8 +96,14 @@ public class MainActivity extends AppCompatActivity {
                 } else if (id == R.id.gundam) {
                     Intent intent = new Intent(MainActivity.this, MainActivity.class);
                     startActivity(intent);
+                } else if (id == R.id.article) {
+                    Intent intent = new Intent(MainActivity.this, ArticleActivity.class);
+                    startActivity(intent);
+                } else if (id == R.id.event) {
+                    Intent intent = new Intent(MainActivity.this, EventActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.exchange) {
-                    Intent intent = new Intent(MainActivity.this, TradeMarketActivity.class);
+                    Intent intent = new Intent(MainActivity.this, TrademarketActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.signout) {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -146,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
+
 
     // api request method
     private void apiRequest(int pageNumber) {

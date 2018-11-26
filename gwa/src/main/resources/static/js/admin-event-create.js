@@ -103,11 +103,47 @@ $(document).ready(function() {
         var d2 = Date.parse(endDate);
         var d3 = Date.parse(regstaDate);
         var d4 = Date.parse(regendDate);
+        var valid = true;
+        if ($("#txtTitle").val() == ""){
+            valid = false;
+            $.growl.error({message: "Please enter title"});
+        }
+        if ($("#txtLocation").val() == ""){
+            valid = false;
+            $.growl.error({message: "Please enter location"});
+        }
+        if ($("#txtDescription").val() == ""){
+            valid = false;
+            $.growl.error({message: "Please enter description"});
+        }
+        if ($("#txtAttMax").val() == ""){
+            valid = false;
+            $.growl.error({message: "Please enter max attendee"});
+        }
+        if ($("#txtAttMin").val() == ""){
+            valid = false;
+            $.growl.error({message: "Please enter min attendee"});
+        }
+        if ($("#txtPrice").val() == ""){
+            valid = false;
+            $.growl.error({message: "Please enter price"});
+        }
+        if ($('#imgthumb').attr("src") == "#"){
+            valid = false;
+            $.growl.error({message: "Please select a thumbnail image"});
+        }
         var minn = $("#txtAttMin").val();
         var maxx = $("#txtAttMax").val();
-        console.log("min: "+minn+" max: "+maxx);
-        if (d3 < d4 && d4 < d1 && d1 < d2){
-            checkMatchingEvt(staDate,endDate);
+        if (minn > maxx){
+            console.log("minum is higer than maxx");
+            valid = false;
+            $.growl.error({message: "Minimum attendee should be lower than maximum attendee"});
+        }
+        if (d3 < d4 && d4 < d1 && d1 < d2 ){
+            console.log("valid");
+            if (valid == true){
+                checkMatchingEvt(staDate,endDate);
+            }
         } else {
             $.growl.error({message: "Input date is invalid!"});
         }
@@ -167,43 +203,6 @@ $(document).ready(function() {
         // formData.append("photoBtn", imageFile, "thumbEvt#"+$('#txtTitle').val() + "." + type);
         console.log(data);
         var valid = true;
-        if ($("#txtTitle").val() == ""){
-            valid = false;
-            $.growl.error({message: "Please enter title"});
-        }
-        if ($("#txtLocation").val() == ""){
-            valid = false;
-            $.growl.error({message: "Please enter location"});
-        }
-        if ($("#txtDescription").val() == ""){
-            valid = false;
-            $.growl.error({message: "Please enter description"});
-        }
-        if ($("#txtAttMax").val() == ""){
-            valid = false;
-            $.growl.error({message: "Please enter max attendee"});
-        }
-        if ($("#txtAttMin").val() == ""){
-            valid = false;
-            $.growl.error({message: "Please enter min attendee"});
-        }
-        if ($("#txtPrice").val() == ""){
-            valid = false;
-            $.growl.error({message: "Please enter price"});
-        }
-        // var regstaDate = $('#txtRegStartDate').val();
-        // var regendDate = $('#txtRegEndDate').val();
-        // var d1 = Date.parse(staDate);
-        // var d2 = Date.parse(endDate);
-        // var d3 = Date.parse(regstaDate);
-        // var d4 = Date.parse(regendDate);
-        var minn = $("#txtAttMin").val();
-        var maxx = $("#txtAttMax").val();
-        if (minn > maxx){
-            console.log("minum is higer than maxx")
-            valid = false;
-            $.growl.error({message: "Minimum attendee should be lower than maximum attendee"});
-        }
         if (valid == true){
             $.ajax({
                 type : "POST",

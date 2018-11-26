@@ -31,6 +31,9 @@ public class Tradepost implements Serializable {
     @Column(name = "location")
     private String location;
 
+    @Column(name = "latlng")
+    private String latlng;
+
     @Column(name = "model")
     private String model;
 
@@ -210,5 +213,13 @@ public class Tradepost implements Serializable {
 
     public void setNumberOfStar(int numberOfStar) {
         this.numberOfStar = numberOfStar;
+    }
+
+    public String getLatlng() {
+        return latlng;
+    }
+
+    public void setLatlng(String latlng) {
+        this.latlng = latlng;
     }
 }

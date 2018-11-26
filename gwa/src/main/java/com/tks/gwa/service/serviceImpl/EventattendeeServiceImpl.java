@@ -41,6 +41,11 @@ public class EventattendeeServiceImpl implements EventAttendeeService {
     }
 
     @Override
+    public List<Eventattendee> searchRatedAttendeeByEvent(Integer eventid) {
+        return attendeeRepository.searchRatedAttendeeByEvent(eventid);
+    }
+
+    @Override
     public List<Eventattendee> searchAttendeeByEvent(Integer eventid) {
         return attendeeRepository.searchAttendeeByEvent(eventid);
     }

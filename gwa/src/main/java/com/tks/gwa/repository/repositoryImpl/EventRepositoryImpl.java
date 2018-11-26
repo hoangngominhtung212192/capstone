@@ -227,7 +227,7 @@ public class EventRepositoryImpl extends GenericRepositoryImpl<Event, Integer> i
 
         try {
             listres = query.getResultList();
-            System.out.println("got "+listres.size() +" results");
+            System.out.println("got "+listres.size() +" event results");
         } catch (NoResultException e) {
             System.out.println("no event found");
             return listres;
@@ -237,6 +237,7 @@ public class EventRepositoryImpl extends GenericRepositoryImpl<Event, Integer> i
 
     @Override
     public int updateEventStatus(int id) {
+        System.out.println("updating event id "+id+" to inactive");
         String sql = "UPDATE " + Event.class.getName()+ " e SET e.status = 'Inactive' WHERE e.id = :id";
         Query query = this.entityManager.createQuery(sql);
         query.setParameter("id", id);

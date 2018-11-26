@@ -23,16 +23,16 @@ public interface TrademarketService {
 
 
     ViewTradepostDTO getViewTradePostData(int tradepostId);
-    List<Object> getAllRequestByTradepost(int tradepostId, String status, int pageNumber, int sortType);
+    OrderRequestDataList getAllRequestByTradepost(int tradepostId, String status, int pageNumber, int sortType);
 
 
-    List<Object> getMyTradeData(int accountId, String status, int pageNumber, int sortType);
-    List<Object> getSearchMyTradeData(int accountId, String status, int pageNumber, int sortType, String keyword);
+    MyTradeDataList getMyTradeData(int accountId, String status, int pageNumber, int sortType);
+    MyTradeDataList getSearchMyTradeData(int accountId, String status, int pageNumber, int sortType, String keyword);
 
 
-    List<Object> getTradeListingData(String tradeType, int pageNumber, int sortType);
-    List<Object> getSearchTradeListingData(String tradeType, int pageNumber, int sortType, String keyword);
-    List<Object> getSearchTradeListingWithLocationData(String tradeType, int sortType, String keyword, String location, long range);
+    TradingDataList getTradeListingData(String tradeType, int pageNumber, int sortType);
+    TradingDataList getSearchTradeListingData(String tradeType, int pageNumber, int sortType, String keyword);
+    TradingDataList getSearchTradeListingWithLocationData(String tradeType, int sortType, String keyword, String location, long range);
 
 
     boolean acceptOrder(int orderId);
@@ -44,7 +44,7 @@ public interface TrademarketService {
     boolean ratingTrade(int orderId, int feedbackType, int value, String comment);
 
 
-    List<Object> getMyOrderData(int accountId, String status, int pageNumber, int sortType);
+    MyOrderDataList getMyOrderData(int accountId, String status, int pageNumber, int sortType);
 
     List<Object> searchPendingTradepost(int pageNumber, String type, String txtSearch, String orderBy);
     Tradepost approveTradepost(int tradepostId);

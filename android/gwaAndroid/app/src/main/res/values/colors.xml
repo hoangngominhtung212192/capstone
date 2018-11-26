@@ -12,4 +12,6 @@
     <color name="startBlue">#09c6df</color>
     <color name="endBlue">#0bcce6</color>
     <color name="red">#550000</color>
+    <color name="buying">#00FF7F</color>
+    <color name="selling">#FF4081</color>
 </resources>

@@ -23,11 +23,13 @@ public class TradepostRequestData {
     private String traderEmail;
     private String traderPhone;
     private String traderAddress;
+    private String traderLatlng;
+
 
     public TradepostRequestData() {
     }
 
-    public TradepostRequestData(int traderId, int tradeId, String tradeType, String tradeTitle, String[] imageUploadedList, String tradeCondition, Double tradePrice, String tradeNegotiable, int tradeQuantity, String tradeBrand, String tradeModel, String tradeDesc, String traderName, String traderEmail, String traderPhone, String traderAddress) {
+    public TradepostRequestData(int traderId, int tradeId, String tradeType, String tradeTitle, String[] imageUploadedList, String tradeCondition, Double tradePrice, String tradeNegotiable, int tradeQuantity, String tradeBrand, String tradeModel, String tradeDesc, String traderName, String traderEmail, String traderPhone, String traderAddress, String traderLatlng) {
         this.traderId = traderId;
         this.tradeId = tradeId;
         this.tradeType = tradeType;
@@ -44,6 +46,7 @@ public class TradepostRequestData {
         this.traderEmail = traderEmail;
         this.traderPhone = traderPhone;
         this.traderAddress = traderAddress;
+        this.traderLatlng = traderLatlng;
     }
 
     public int getTraderId() {
@@ -172,6 +175,14 @@ public class TradepostRequestData {
 
     public void setTraderAddress(String traderAddress) {
         this.traderAddress = traderAddress;
+    }
+
+    public String getTraderLatlng() {
+        return traderLatlng;
+    }
+
+    public void setTraderLatlng(String traderLatlng) {
+        this.traderLatlng = traderLatlng;
     }
 
     @Override

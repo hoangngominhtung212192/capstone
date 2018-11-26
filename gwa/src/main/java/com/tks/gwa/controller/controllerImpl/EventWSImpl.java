@@ -1,6 +1,7 @@
 package com.tks.gwa.controller.controllerImpl;
 
 import com.tks.gwa.controller.EventWS;
+import com.tks.gwa.dto.EventSDTO;
 import com.tks.gwa.dto.UploadFileResponse;
 import com.tks.gwa.entity.Account;
 import com.tks.gwa.entity.Event;
@@ -77,6 +78,12 @@ public class EventWSImpl implements EventWS {
     }
 
     @Override
+    public ResponseEntity<Event> getEventAlt(@RequestParam Integer id) {
+        System.out.println("getting detail event id "+id);
+        return new ResponseEntity<>(eventService.getEvent(id), HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<Integer> getRemainingSlots(Integer eventid) {
         Event ee = eventService.getEvent(eventid);
         Integer rmnTk = ee.getMaxAttendee() - ee.getNumberOfAttendee();
@@ -94,13 +101,27 @@ public class EventWSImpl implements EventWS {
         Eventattendee attet = new Eventattendee();
         attet.setAccount(testacc);
         attet.setEvent(nev);
-        attet.setDate(date.toString());
+        attet.setDate(date);
         attet.setAmount(amount);
         //
         attendeeService.addNewAttendee(attet);
-        Event eee = attet.getEvent();
-        int curAttNum = eee.getNumberOfAttendee();
-        eee.setNumberOfAttendee(curAttNum+1);
+        return new ResponseEntity<>("Register successfully.", HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> registerEventAlt(int eventid, int userid, int amount, String date) {
+        Account testacc = new Account();
+        testacc.setId(userid);
+
+        Event nev = eventService.getEvent(eventid);
+        nev.setNumberOfAttendee(nev.getNumberOfAttendee()+amount);
+        Eventattendee attet = new Eventattendee();
+        attet.setAccount(testacc);
+        attet.setEvent(nev);
+        attet.setDate(date);
+        attet.setAmount(amount);
+        //
+        attendeeService.addNewAttendee(attet);
         return new ResponseEntity<>("Register successfully.", HttpStatus.OK);
     }
 
@@ -176,6 +197,22 @@ public class EventWSImpl implements EventWS {
 
     }
 
+    @Override
+    public ResponseEntity<Boolean> getAttendeeInEventAlt(int userid, int eventid) {
+        boolean check = false;
+        Eventattendee aa = attendeeService.getAttendeeInEvent(userid, eventid);
+        if (aa!=null){
+            System.out.println(userid +" is attendee");
+            check = true;
+            return new ResponseEntity<>(check, HttpStatus.OK);
+        } else {
+            System.out.println(userid +" is not attendee");
+            check = false;
+            return new ResponseEntity<>(check, HttpStatus.NOT_FOUND);
+
+        }
+    }
+
     @Autowired
     private FileUploadService fileUploadService;
 
@@ -202,7 +239,7 @@ public class EventWSImpl implements EventWS {
     @Override
     public ResponseEntity<List<Eventattendee>> getRatedAttendeeInEvent(@RequestParam Integer eventid) {
         System.out.println("earching by id "+eventid);
-        List<Eventattendee> alist = attendeeService.searchAttendeeByEvent(eventid);
+        List<Eventattendee> alist = attendeeService.searchRatedAttendeeByEvent(eventid);
         System.out.println("WS list size: "+alist.size());
         System.out.println("result list size: "+alist.size());
         return new ResponseEntity<>(alist, HttpStatus.OK);
@@ -225,6 +262,19 @@ public class EventWSImpl implements EventWS {
         List<Object> result = eventService.searchEventWithSortAndPageByStatus(title, status, sorttype, pageNum);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<EventSDTO> searchEventAlt(String title, String status, String sorttype, int pageNum) {
+        System.out.println("showing evetnlist pagenum "+pageNum);
+        List<Object> result = eventService.searchEventWithSortAndPageByStatus(title, status, sorttype, pageNum);
+        EventSDTO sdto = new EventSDTO();
+        sdto.setTotalPage((Integer) result.get(0));
+        System.out.println("SDTO total page: "+result.get(0));
+
+        sdto.setEventList((List<Event>) result.get(1));
+        System.out.println("SDTO list size: "+((List<Event>) result.get(1)).size());
+        return new ResponseEntity<>(sdto, HttpStatus.OK);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.tks.gwa.controller;
 
+import com.tks.gwa.dto.EventSDTO;
 import com.tks.gwa.entity.Event;
 import com.tks.gwa.entity.Eventattendee;
 import org.springframework.http.ResponseEntity;
@@ -31,11 +32,24 @@ public interface EventWS {
     @RequestMapping(value = "/getEvent", method = RequestMethod.POST)
     ResponseEntity<Event> getEvent(@RequestBody Integer eventid);
 
+    @RequestMapping(value = "/getEventAlt", method = RequestMethod.GET)
+    ResponseEntity<Event> getEventAlt(@RequestParam("id") Integer id);
+
     @RequestMapping(value = "/getRemainingSlots", method = RequestMethod.POST)
     ResponseEntity<Integer> getRemainingSlots(@RequestBody Integer eventid);
 
     @RequestMapping(value = "/registerEvent", method = RequestMethod.POST)
-    ResponseEntity<String> registerEvent(@RequestParam int eventid, @RequestParam int userid, @RequestParam int amount, @RequestParam String date);
+    ResponseEntity<String> registerEvent(@RequestParam int eventid,
+                                         @RequestParam int userid,
+                                         @RequestParam int amount,
+                                         @RequestParam String date);
+
+    @RequestMapping(value = "/registerEventAlt", method = RequestMethod.GET)
+    ResponseEntity<String> registerEventAlt(@RequestParam("eventid") int eventid,
+                                         @RequestParam("userid") int userid,
+                                         @RequestParam("amount") int amount,
+                                         @RequestParam("date") String date);
+
 
     @RequestMapping(value = "/feedbackEvent", method = RequestMethod.POST)
     ResponseEntity<Event> feedbackEvent(@RequestParam int eventid, @RequestParam int attendeeid, @RequestParam int rating, @RequestParam String feedback);
@@ -51,6 +65,10 @@ public interface EventWS {
 
     @RequestMapping(value = "/getAttendeeInEvent", method = RequestMethod.POST)
     ResponseEntity<Eventattendee> getAttendeeInEvent(@RequestParam int userid, @RequestParam int eventid);
+
+    @RequestMapping(value = "/getAttendeeInEventAlt", method = RequestMethod.GET)
+    ResponseEntity<Boolean> getAttendeeInEventAlt(@RequestParam("userid") int userid,
+                                                  @RequestParam("eventid") int eventid);
 
 
     @RequestMapping(value = "/uploadEventImage", method = RequestMethod.POST)
@@ -70,6 +88,12 @@ public interface EventWS {
                                                          @RequestParam("status") String status,
                                                          @RequestParam("sorttype") String sorttype,
                                                          @RequestParam("pageNum") int pageNum);
+
+    @RequestMapping(value = "/searchEventAlt", method = RequestMethod.GET)
+    ResponseEntity<EventSDTO> searchEventAlt(@RequestParam("title") String title,
+                                             @RequestParam("status") String status,
+                                             @RequestParam("sorttype") String sorttype,
+                                             @RequestParam("pageNum") int pageNum);
 
     @RequestMapping(value = "/getMyListEvent", method = RequestMethod.POST)
     ResponseEntity<List<Object>> getMyListEvent(@RequestParam("accountID") Integer accountID,

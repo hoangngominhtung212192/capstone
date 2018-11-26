@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
     <item
         android:id="@+id/myprofile"
         android:title="My Profile"
@@ -16,6 +18,18 @@
         android:id="@+id/gundam"
         android:title="GUNDAM"
         android:icon="@drawable/gundam_icon">
+
+    </item>
+    <item
+        android:id="@+id/article"
+        android:title="Article"
+        android:icon="@drawable/acticleicon">
+
+    </item>
+    <item
+        android:id="@+id/event"
+        android:title="Events"
+        android:icon="@drawable/eventicon">
 
     </item>
     <item

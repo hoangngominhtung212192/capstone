@@ -153,6 +153,7 @@ public class TrademarketServiceImpl implements TrademarketService {
         result.setTradePrice(tradepost.getPrice());
         result.setTradeQuantity(tradepost.getQuantity());
         result.setTraderAddress(tradepost.getLocation());
+        result.setTraderLatlng(tradepost.getLatlng());
         Profile profile = null;
         try {
             profile = profileRepository.findProfileByAccountID(tradepost.getAccount().getId());
@@ -278,7 +279,8 @@ public class TrademarketServiceImpl implements TrademarketService {
         if (tradepost != null) {
             try {
                 String[] images = this.getImageArrayByTradepostId(tradepostId);
-                ViewTradepostDTO dto = new ViewTradepostDTO(tradepost, images);
+                int totalOrder = orderRequestRepository.getAllRequestByTradepostId(tradepostId).size();
+                ViewTradepostDTO dto = new ViewTradepostDTO(tradepost,totalOrder,images);
                 return dto;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -289,8 +291,8 @@ public class TrademarketServiceImpl implements TrademarketService {
 
     //LOAD ALL REQUEST BY TRADE POST ID
     @Override
-    public List<Object> getAllRequestByTradepost(int tradepostId, String status, int pageNumber, int sortType) {
-        List<Object> result = new ArrayList<Object>();
+    public OrderRequestDataList getAllRequestByTradepost(int tradepostId, String status, int pageNumber, int sortType) {
+        OrderRequestDataList result = new OrderRequestDataList();
 
         int totalRecord = orderRequestRepository.countRequestWithStatusByTradepostId(tradepostId, status);
         int totalPage = totalRecord/ AppConstant.TRADEPOST.MAX_REQUEST_PER_PAGE;
@@ -298,8 +300,7 @@ public class TrademarketServiceImpl implements TrademarketService {
             totalPage = totalPage + 1;
         }
 
-        result.add(totalPage);
-        result.add(totalRecord);
+        result.setTotalPage(totalPage);
 
         List<Orderrequest> orderrequestList =
                 orderRequestRepository.getTradepostRequestDataByStatusAndInPageNumberWithSorting(
@@ -310,15 +311,18 @@ public class TrademarketServiceImpl implements TrademarketService {
                     traderatingRepository.checkTraderatingExistByOrderIdAndFeedbackType(orderrequestList.get(i).getId(),
                             AppConstant.TRADEPOST.FEEDBACK_TYPE_OWNER_TO_TRADER));
 
+            Profile profile = profileRepository.findProfileByAccountID(orderrequestList.get(i).getAccount().getId());
+
             Account emptyAcc = new Account();
             emptyAcc.setUsername(orderrequestList.get(i).getAccount().getUsername());
             emptyAcc.setId(orderrequestList.get(i).getAccount().getId());
+            emptyAcc.setAvatar(profile.getAvatar());
             orderrequestList.get(i).setAccount(emptyAcc);
             Tradepost emptyTradepost = new Tradepost();
             emptyTradepost.setId(orderrequestList.get(i).getTradepost().getId());
             orderrequestList.get(i).setTradepost(emptyTradepost);
         }
-        result.add(orderrequestList);
+        result.setData(orderrequestList);
         return result;
     }
 
@@ -327,11 +331,11 @@ public class TrademarketServiceImpl implements TrademarketService {
 
     //Get DATA IN PAGE MY TRADE
     @Override
-    public List<Object> getMyTradeData(int accountId, String status, int pageNumber, int sortType) {
-        List<Object> result = new ArrayList<Object>();
+    public MyTradeDataList getMyTradeData(int accountId, String status, int pageNumber, int sortType) {
+        MyTradeDataList result = new MyTradeDataList();
 
         int totalPage = tradepostRepository.countTotalPageByStatusAndAccount(status, accountId);
-        result.add(totalPage);
+        result.setTotalPage(totalPage);
 
         List<MyTradeDTO> dtoList = new ArrayList<MyTradeDTO>();
         List<Tradepost> tradepostList = tradepostRepository.getTradepostByAccountStatusAndSortTypeInPageNumber(accountId, status, pageNumber, sortType);
@@ -358,17 +362,17 @@ public class TrademarketServiceImpl implements TrademarketService {
             dtoList.add(myTradeDTO);
         }
 
-        result.add(dtoList);
+        result.setData(dtoList);
 
         return result;
     }
 
     //GET SEARCH DATA IN PAGE MY TRADE
     @Override
-    public List<Object> getSearchMyTradeData(int accountId, String status, int pageNumber, int sortType, String keyword) {
-        List<Object> result = new ArrayList<Object>();
+    public MyTradeDataList getSearchMyTradeData(int accountId, String status, int pageNumber, int sortType, String keyword) {
+        MyTradeDataList result = new MyTradeDataList();
         int totalPage = tradepostRepository.countTotalPageByAccountStatusWithKeyword(accountId, status, keyword);
-        result.add(totalPage);
+        result.setTotalPage(totalPage);
 
         List<MyTradeDTO> dtoList = new ArrayList<MyTradeDTO>();
         List<Tradepost> tradepostList =
@@ -398,7 +402,7 @@ public class TrademarketServiceImpl implements TrademarketService {
             dtoList.add(myTradeDTO);
         }
 
-        result.add(dtoList);
+        result.setData(dtoList);
 
         return result;
     }
@@ -409,11 +413,12 @@ public class TrademarketServiceImpl implements TrademarketService {
 
     //GET DATA IN PAGE TRADING
     @Override
-    public List<Object> getTradeListingData(String tradeType, int pageNumber, int sortType) {
-        List<Object> result = new ArrayList<Object>();
+    public TradingDataList getTradeListingData(String tradeType, int pageNumber, int sortType) {
+        TradingDataList result = new TradingDataList();
 
         int totalPage = tradepostRepository.countTotalPageByTradeType(tradeType);
-        result.add(totalPage);
+
+        result.setTotalPage(totalPage);
 
         List<TradeListingDTO> listingDTOList = new ArrayList<TradeListingDTO>();
         List<Tradepost> tradepostList = tradepostRepository.getTradepostByTradeTypeAndSortTypeInPageNumber(tradeType, pageNumber, sortType);
@@ -432,18 +437,18 @@ public class TrademarketServiceImpl implements TrademarketService {
             TradeListingDTO dto = new TradeListingDTO(tradepost, thumbnail);
             listingDTOList.add(dto);
         }
-        result.add(listingDTOList);
+        result.setData(listingDTOList);
         return result;
     }
 
 
     //GET SEARCH DATA IN PAGE TRADING
     @Override
-    public List<Object> getSearchTradeListingData(String tradeType, int pageNumber, int sortType, String keyword) {
-        List<Object> result = new ArrayList<Object>();
+    public TradingDataList getSearchTradeListingData(String tradeType, int pageNumber, int sortType, String keyword) {
+        TradingDataList result = new TradingDataList();
 
         int totalPage = tradepostRepository.countTotalPageByTradeTypeWithKeyword(tradeType, keyword);
-        result.add(totalPage);
+        result.setTotalPage(totalPage);
 
         List<TradeListingDTO> dtoList = new ArrayList<TradeListingDTO>();
         List<Tradepost> tradepostList =
@@ -465,25 +470,30 @@ public class TrademarketServiceImpl implements TrademarketService {
             dtoList.add(dto);
         }
 
-        result.add(dtoList);
+        result.setData(dtoList);
         return result;
     }
 
     //SEARCH WITH LOCATION
     @Override
-    public List<Object> getSearchTradeListingWithLocationData(String tradeType, int sortType, String keyword,
+    public TradingDataList getSearchTradeListingWithLocationData(String tradeType, int sortType, String keyword,
                                                               String location, long range) {
-        List<Object> result = new ArrayList<Object>();
-        result.add(1);
+        TradingDataList result = new TradingDataList();
+        result.setTotalPage(1);
         List<TradeListingDTO> dtoList = new ArrayList<TradeListingDTO>();
         List<Tradepost> tradepostList =
                 tradepostRepository.searchAllTradepostByAccountStatusAndSortTypeWithKeyword(tradeType,sortType,keyword);
-        LatLng from = GoogleMapHelper.getLatLngFromAddress(location);
+        LatLng from = new LatLng();
+        from.lat = Double.parseDouble(location.split(",")[0]);
+        from.lng = Double.parseDouble(location.split(",")[1]);
         for (int i = 0; i < tradepostList.size(); i++) {
             Tradepost tradepost = tradepostList.get(i);
             int tradepostId = tradepost.getId();
-            LatLng to = GoogleMapHelper.getLatLngFromAddress(tradepost.getLocation());
+            LatLng to = new LatLng();
+            to.lat = Double.parseDouble(tradepost.getLatlng().split(",")[0]);
+            to.lng = Double.parseDouble(tradepost.getLatlng().split(",")[1]);
             long distance = GoogleMapHelper.calculateDistanceBetweenTwoPoint(from,to);
+            System.out.println("FROM: " + from + " - TO: " + to + " = " + distance);
             if (distance <= range){
                 String thumbnail = tradepostimageRepository.getThumbnailImgUrlByTradepostId(tradepostId);
 
@@ -498,8 +508,7 @@ public class TrademarketServiceImpl implements TrademarketService {
 
         }
 
-        result.add(dtoList);
-        result.add(from);
+        result.setData(dtoList);
         return result;
     }
 
@@ -644,8 +653,8 @@ public class TrademarketServiceImpl implements TrademarketService {
     /******************************* Method on MY ORDER Page ************************************************/
 
     @Override
-    public List<Object> getMyOrderData(int accountId, String status, int pageNumber, int sortType) {
-        List<Object> result = new ArrayList<Object>();
+    public MyOrderDataList getMyOrderData(int accountId, String status, int pageNumber, int sortType) {
+        MyOrderDataList result = new MyOrderDataList();
         if (status.equals("others")){
 
         }else {
@@ -663,8 +672,7 @@ public class TrademarketServiceImpl implements TrademarketService {
             totalPage = totalPage + 1;
         }
 
-        result.add(totalPage);
-        result.add(totalRecord);
+        result.setTotalPage(totalPage);
 
         List<Orderrequest> orderrequestList = new ArrayList<Orderrequest>();
 
@@ -724,7 +732,7 @@ public class TrademarketServiceImpl implements TrademarketService {
             orderDTOList.add(orderDTO);
 
         }
-        result.add(orderDTOList);
+        result.setData(orderDTOList);
         return result;
     }
 
@@ -862,6 +870,7 @@ public class TrademarketServiceImpl implements TrademarketService {
         result.setCondition(tradeConditionInt);
         result.setDescription(tradepostRequestData.getTradeDesc());
         result.setLocation(tradepostRequestData.getTraderAddress());
+        result.setLatlng(tradepostRequestData.getTraderLatlng());
         result.setModel(tradepostRequestData.getTradeModel());
         result.setPrice(tradepostRequestData.getTradePrice());
         int isNegotiable = AppConstant.TRADEPOST.NEGOTIABLE_ON_INT;

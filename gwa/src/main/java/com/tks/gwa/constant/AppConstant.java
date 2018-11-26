@@ -64,12 +64,12 @@ public class AppConstant {
         public static final String NEGOTIABLE_OFF = "off";
         public static final int NEGOTIABLE_ON_INT = 1;
         public static final int NEGOTIABLE_OFF_INT = 0;
-        public static final int MAX_POST_PER_PAGE = 5;
+        public static final int MAX_POST_PER_PAGE = 6;
         public static final int SORT_DATE_DESC = 1;
         public static final int SORT_DATE_ASC = 2;
         public static final int SORT_PRICE_DESC = 4;
         public static final int SORT_PRICE_ASC = 3;
-        public static final int MAX_REQUEST_PER_PAGE =5;
+        public static final int MAX_REQUEST_PER_PAGE =6;
         public static final int FEEDBACK_TYPE_OWNER_TO_TRADER = 1;
         public static final int FEEDBACK_TYPE_TRADER_TO_OWNER = 2;
 
