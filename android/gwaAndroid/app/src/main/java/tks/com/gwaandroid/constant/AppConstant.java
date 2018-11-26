@@ -12,8 +12,8 @@ public class AppConstant {
     public static final String checkString = "[A-Za-z\\s]+";
 
     public static final String checkUsername = "[A-Za-z]+";
-    public static final String BASE_URL = "http://192.168.12.100:8080/gwa/";
-    public static final String HOST_NAME = "192.168.12.100";
+    public static final String BASE_URL = "http://192.168.1.9:8080/gwa/";
+    public static final String HOST_NAME = "192.168.1.9";
 
     //SortType
     public static final int SORT_DATE_DESC = 1;
