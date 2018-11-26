@@ -35,40 +35,41 @@ public interface TradeMarketControllerWs {
 
     @RequestMapping(value = "/get-my-trade", method = RequestMethod.GET)
     ResponseEntity<MyTradeDataList> getMyTradeList(@RequestParam("accountId") int accountId,
-                                                    @RequestParam("status") String status,
-                                                    @RequestParam("pageNumber") int pageNumber,
-                                                    @RequestParam("sortType") int sortType);
+                                                   @RequestParam("status") String status,
+                                                   @RequestParam("pageNumber") int pageNumber,
+                                                   @RequestParam("sortType") int sortType);
 
     @RequestMapping(value = "/search-my-trade", method = RequestMethod.GET)
     ResponseEntity<MyTradeDataList> searchMyTradeList(@RequestParam("accountId") int accountId,
-                                                       @RequestParam("status") String status,
-                                                       @RequestParam("pageNumber") int pageNumber,
-                                                       @RequestParam("sortType") int sortType,
-                                                       @RequestParam("keyword") String keyword);
+                                                      @RequestParam("status") String status,
+                                                      @RequestParam("pageNumber") int pageNumber,
+                                                      @RequestParam("sortType") int sortType,
+                                                      @RequestParam("keyword") String keyword);
 
 
     @RequestMapping(value = "/get-trade-listing", method = RequestMethod.GET)
     ResponseEntity<TradingDataList> getTradeListing(@RequestParam("tradeType") String tradeType,
-                                                          @RequestParam("pageNumber") int pageNumber,
-                                                          @RequestParam("sortType") int sortType);
+                                                    @RequestParam("pageNumber") int pageNumber,
+                                                    @RequestParam("sortType") int sortType);
 
     @RequestMapping(value = "/search-trade-listing", method = RequestMethod.GET)
     ResponseEntity<TradingDataList> getSearchTradeListing(@RequestParam("tradeType") String tradeType,
-                                                                @RequestParam("pageNumber") int pageNumber,
-                                                                @RequestParam("sortType") int sortType,
-                                                                @RequestParam("keyword") String keyword);
+                                                          @RequestParam("pageNumber") int pageNumber,
+                                                          @RequestParam("sortType") int sortType,
+                                                          @RequestParam("keyword") String keyword);
+
     @RequestMapping(value = "/search-location-trade-listing", method = RequestMethod.GET)
     ResponseEntity<TradingDataList> getSearchTradeListingWithLocation(@RequestParam("tradeType") String tradeType,
-                                                                   @RequestParam("sortType") int sortType,
-                                                                   @RequestParam("keyword") String keyword,
-                                                                   @RequestParam("location") String location,
-                                                                   @RequestParam("range") long range);
+                                                                      @RequestParam("sortType") int sortType,
+                                                                      @RequestParam("keyword") String keyword,
+                                                                      @RequestParam("location") String location,
+                                                                      @RequestParam("range") long range);
 
     @RequestMapping(value = "/get-order-by-trade-post", method = RequestMethod.GET)
     ResponseEntity<OrderRequestDataList> getOrderByTradepost(@RequestParam("tradepostId") int tradepostId,
-                                                     @RequestParam("status") String status,
-                                                     @RequestParam("pageNumber") int pageNumber,
-                                                     @RequestParam("sortType") int sortType);
+                                                             @RequestParam("status") String status,
+                                                             @RequestParam("pageNumber") int pageNumber,
+                                                             @RequestParam("sortType") int sortType);
 
     @RequestMapping(value = "/accept-order", method = RequestMethod.POST)
     ResponseEntity<String> acceptOrder(@RequestParam("orderId") int orderId);
@@ -93,9 +94,9 @@ public interface TradeMarketControllerWs {
 
     @RequestMapping(value = "/get-my-order", method = RequestMethod.GET)
     ResponseEntity<MyOrderDataList> getMyOrder(@RequestParam("accountId") int accountId,
-                                            @RequestParam("status") String status,
-                                            @RequestParam("pageNumber") int pageNumber,
-                                            @RequestParam("sortType") int sortType);
+                                               @RequestParam("status") String status,
+                                               @RequestParam("pageNumber") int pageNumber,
+                                               @RequestParam("sortType") int sortType);
 
 
     @RequestMapping(value = "/rating-trade", method = RequestMethod.POST)

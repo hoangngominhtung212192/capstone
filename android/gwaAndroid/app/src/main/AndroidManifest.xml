@@ -43,7 +43,7 @@
         <activity android:name=".EventActivity" />
         <activity android:name=".ArticleActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".TradingActivity" />
+        <activity android:name=".TradingActivity"/>
         <activity android:name=".TrademarketActivity" />
         <activity android:name=".TradeDetailsActivity" />
         <activity android:name=".GetDirectionActivity" />

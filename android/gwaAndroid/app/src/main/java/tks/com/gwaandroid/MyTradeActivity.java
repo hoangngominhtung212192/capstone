@@ -122,7 +122,6 @@ public class MyTradeActivity extends AppCompatActivity {
         abdt.syncState();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
 
         final NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
 
@@ -172,14 +171,6 @@ public class MyTradeActivity extends AppCompatActivity {
         return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search, menu);
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        return true;
-    }
 
     private void loadMyTradeData() {
         TrademarketAPI trademarketAPI = RetrofitClientInstance.getRetrofitInstance()

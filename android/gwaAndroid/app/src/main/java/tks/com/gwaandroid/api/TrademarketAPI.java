@@ -18,6 +18,21 @@ public interface TrademarketAPI {
     Call<TradingDataResponse> getTradingData(@Query("tradeType") String tradeType,
                                              @Query("pageNumber") int pageNumber,
                                              @Query("sortType") int sortType);
+
+    @GET("api/tradepost/search-trade-listing")
+    Call<TradingDataResponse> getSearchTradingData(@Query("tradeType") String tradeType,
+                                                   @Query("pageNumber") int pageNumber,
+                                                   @Query("sortType") int sortType,
+                                                   @Query("keyword") String keyword);
+
+    @GET("api/tradepost/search-location-trade-listing")
+    Call<TradingDataResponse> getSearchTradingWithLocationData(@Query("tradeType") String tradeType,
+                                                               @Query("sortType") int sortType,
+                                                               @Query("keyword") String keyword,
+                                                               @Query("location") String location,
+                                                               @Query("range") long range);
+
+
     @GET("api/tradepost/view-trade-post")
     Call<TradeDetailsResponse> getTradeDetails(@Query("tradepostId") int tradepostId);
 

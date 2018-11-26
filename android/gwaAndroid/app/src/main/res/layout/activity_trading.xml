@@ -19,7 +19,29 @@
             android:layout_alignParentBottom="true"
             app:menu="@menu/trading_bottom_navigation" />
 
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/trading_search_noti"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
+            <TextView
+                android:id="@+id/trading_search_keyword"
+                android:text="Search with keyword: abc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/trading_search_range"
+                android:text="Range: 12 Km"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
         <FrameLayout
+            android:layout_below="@+id/trading_search_noti"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/trading_nav">
@@ -51,4 +73,5 @@
         app:headerLayout="@layout/navigation_header"
         app:menu="@menu/navigation_menu">
     </android.support.design.widget.NavigationView>
+
 </android.support.v4.widget.DrawerLayout>
