@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_mytrade_ontrading"
+        android:icon="@drawable/ic_mytrade_ontrading"
+        android:title="On Trading"/>
+    <item
+        android:id="@+id/nav_mytrade_pending"
+        android:icon="@drawable/ic_pending"
+        android:title="Pending"/>
+    <item
+        android:id="@+id/nav_mytrade_rejected"
+        android:icon="@drawable/ic_rejected"
+        android:title="Rejected"/>
+</menu>

@@ -15,6 +15,13 @@ public class AppConstant {
     public static final String BASE_URL = "http://192.168.12.100:8080/gwa/";
     public static final String HOST_NAME = "192.168.12.100";
 
+    //APPROVE STATUS
+    public static final String APPROVED_STATUS = "approved";
+    public static final String DECLINED_STATUS = "declined";
+    public static final String PENDING_STATUS = "pending";
+    public static final String CANCELLED_STATUS = "cancelled";
+    public static final String SUCCEED_STATUS = "succeed";
+
     //SortType
     public static final int SORT_DATE_DESC = 1;
     public static final int SORT_DATE_ASC = 2;

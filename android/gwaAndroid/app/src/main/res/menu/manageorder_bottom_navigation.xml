@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/nav_manageorder_pending"
+        android:icon="@drawable/ic_pending"
+        android:title="Pending"
+        app:showAsAction="always|withText"/>
+    <item
+        android:id="@+id/nav_manageorder_payment"
+        android:icon="@drawable/ic_money"
+        android:title="On Payment"
+        app:showAsAction="always|withText"/>
+
+    <item
+        android:id="@+id/nav_manageorder_succeed"
+        android:icon="@drawable/ic_succeed"
+        android:title="Succeed"
+        app:showAsAction="always|withText"/>
+    <item
+        android:id="@+id/nav_manageorder_cancelled"
+        android:icon="@drawable/ic_rejected"
+        android:title="Cancelled"
+        app:showAsAction="always|withText"/>
+</menu>

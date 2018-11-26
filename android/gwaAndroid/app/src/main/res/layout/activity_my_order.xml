@@ -6,27 +6,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".TradingActivity">
+    tools:context=".MyOrderActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.design.widget.BottomNavigationView
-            android:id="@+id/trading_nav"
+            android:id="@+id/myorder_nav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            app:menu="@menu/trading_bottom_navigation" />
+            app:menu="@menu/myorder_bottom_navigation" />
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/trading_nav">
+            android:layout_above="@id/myorder_nav">
 
             <TextView
                 android:visibility="gone"
-                android:id="@+id/txt_empty_trading"
+                android:id="@+id/txt_empty_myorder"
                 android:text="EMPTY LIST"
                 android:textSize="20sp"
                 android:gravity="center"
@@ -34,7 +34,7 @@
                 android:layout_height="match_parent" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/list_trading"
+                android:id="@+id/list_myorder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             </android.support.v7.widget.RecyclerView>
