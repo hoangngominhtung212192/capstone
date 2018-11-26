@@ -33,7 +33,7 @@ $(document).ready(function () {
                     $("#confi-modal").modal('show');
                 } else {
                     // $.growl.notice({message: "Redirecting ro"});
-                    alert("You will be redirected to the login page!")
+                    // alert("You will be redirected to the login page!")
                     console.log("Guest is accessing !");
                     window.location.href = "/gwa/login";
                 }
@@ -112,6 +112,7 @@ $(document).ready(function () {
             },
             success: function (result, status) {
                 $("#myModal").modal({backdrop: 'static', keyboard: false});
+                $("#lblModalMessage").html("Feedback sent! Thank you for your time!");
                 $("#success-btn").on("click", function() {
                     window.location.href = "/gwa/event/detail?id="+result.id;
                 });
@@ -124,7 +125,7 @@ $(document).ready(function () {
         });
     });
     $("#btnRegister").on("click", function () {
-        checkAuth()
+        checkAuth();
     });
     getRatedAttendeeEvent(id);
     function getRatedAttendeeEvent(id) {
@@ -139,7 +140,7 @@ $(document).ready(function () {
             },
             success : function(result, status) {
                 console.log("found evn raters:" +result.length);
-                if (result){
+                if (result.length > 0){
                     document.getElementById('raterArea').style.display = 'block';
                     for (var i = 0; i < 5 ; i++) {
                         var arater = $('<div class="panel">\n' +
@@ -229,8 +230,11 @@ $(document).ready(function () {
                     $('#hidID').val(result.id);
                     curEvnId = result.id;
                     console.log("ev id is "+curEvnId);
-                    console.log("logged name "+loggedName);
-                    $('#lblUsername').append(loggedName);
+                    // console.log("logged name "+loggedName);
+                    if (account_session_id != null){
+                        $('#lblUsername').append(loggedName);
+                    }
+
                     $('#txtPrice').append(result.ticketPrice);
                     $('#lblTimeRated').append(result.numberOfRating);
                     $('#lblTodayDate').append(today.toString());
@@ -308,7 +312,7 @@ $(document).ready(function () {
                 },
                 success : function(result, status) {
                     $("#confi-modal").modal('hide');
-                    $("#lblModalMessage").html("Registered sucessfully!");
+                    $("#lblModalMessage").html("Registered successfully!");
                     $("#myModal").modal({backdrop: 'static', keyboard: false});
                     $("#success-btn").on("click", function() {
                         location.reload(true);
