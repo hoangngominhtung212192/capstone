@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -26,16 +27,18 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import tks.com.gwaandroid.adapter.CustomEventAdapter;
 import tks.com.gwaandroid.api.EventAPI;
+import tks.com.gwaandroid.constant.AppConstant;
 import tks.com.gwaandroid.model.Article;
 import tks.com.gwaandroid.model.Event;
 import tks.com.gwaandroid.model.EventSDTO;
+import tks.com.gwaandroid.model.TradingModel;
 import tks.com.gwaandroid.network.RetrofitClientInstance;
 
 public class EventActivity extends AppCompatActivity {
 
     private DrawerLayout dl;
     private ActionBarDrawerToggle abdt;
-
+    BottomNavigationView bottomNavigationView;
     private RecyclerView mRecycleView;
     private CustomEventAdapter adapter;
     private RelativeLayout linearProgressBar;
@@ -49,6 +52,7 @@ public class EventActivity extends AppCompatActivity {
     private int currentVisiblePosition = 0;
 
     private SharedPreferences sharedPreferences;
+    private int currentTab = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +73,32 @@ public class EventActivity extends AppCompatActivity {
         // display progress bar
         linearProgressBar = (RelativeLayout) findViewById(R.id.linearProgressBar);
         linearProgressBar.setVisibility(View.VISIBLE);
+
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.event_nav);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                currentPage = 1;
+                currentVisiblePosition = 0;
+                switch (menuItem.getItemId()) {
+                    case R.id.nav_event_all:
+                        lastSearch = new EventSDTO();
+                        currentTab = 1;
+                        apiRequest(currentPage);
+                        break;
+                    case R.id.nav_my_event:
+                        lastSearch = new EventSDTO();
+                        apiGetMyEvent(currentPage);
+                        currentTab = 2;
+                        break;
+                }
+
+
+
+                return true;
+            }
+        });
+
 
         // left menu
         dl = (DrawerLayout) findViewById(R.id.dl);
@@ -159,6 +189,41 @@ public class EventActivity extends AppCompatActivity {
         return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
+    private void apiGetMyEvent(int pageNumber){
+        EventAPI eventAPI = RetrofitClientInstance.getRetrofitInstance().create(EventAPI.class);
+
+        int accountId = sharedPreferences.getInt("ACCOUNTID", 0);
+
+        Call<EventSDTO> call = eventAPI.getMyListEventAlt(accountId, paramSorttype, pageNumber);
+        //execute request
+        call.enqueue(new Callback<EventSDTO>() {
+            // get json response
+            @Override
+            public void onResponse(Call<EventSDTO> call, Response<EventSDTO> response) {
+                // append data
+                if (response.isSuccessful()) {
+                    System.out.println("Called my event api");
+                    System.out.println("ONRESPONSE total page " + response.body().getTotalPage());
+                    System.out.println("ONRESPONSE list size " + response.body().getEventList().size());
+
+                    appendData(response.body());
+
+
+                    Log.d("Response Event Search", response.body().toString());
+                } else {
+                    System.out.println("response failed");
+                }
+            }
+
+            // error
+            @Override
+            public void onFailure(Call<EventSDTO> call, Throwable t) {
+                linearProgressBar.setVisibility(View.GONE);
+                Log.d("Error response", t.getMessage());
+            }
+        });
+    }
+
     // api request method
     private void apiRequest(int pageNumber) {
 
@@ -198,15 +263,10 @@ public class EventActivity extends AppCompatActivity {
 
     private void appendData(EventSDTO resultList) {
 
-        // tat ca parameter/field trong lastSearch khi chay lan dau deu dang la null
-
         lastSearch.setTotalPage(resultList.getTotalPage());
         System.out.println("total pages: "+resultList.getTotalPage());
 
         List<Event> eventList = lastSearch.getEventList();
-        // dong nay de xuong duoi cho check null,
-         // cho nay khi chya lan dau, eventList dang la null, lay size cua no se bao bug NullPointerException
-        // if event list get from last Search is null (the first time) then initialize new one
         if (eventList == null){
             eventList = new ArrayList<>();
         }

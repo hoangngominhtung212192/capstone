@@ -33,6 +33,7 @@ import tks.com.gwaandroid.api.EventAPI;
 import tks.com.gwaandroid.api.ModelAPI;
 import tks.com.gwaandroid.constant.AppConstant;
 import tks.com.gwaandroid.model.Event;
+import tks.com.gwaandroid.model.Eventattendee;
 import tks.com.gwaandroid.model.Model;
 import tks.com.gwaandroid.model.ModelDTO;
 import tks.com.gwaandroid.model.Modelimage;
@@ -147,12 +148,12 @@ public class EventDetailActivity extends AppCompatActivity {
         int eventid = id;
         EventAPI eventAPI = RetrofitClientInstance.getRetrofitInstance().create(EventAPI.class);
 
-        Call<Boolean> call = eventAPI.getAttendeeInEventAlt(userid, eventid);
+        Call<Eventattendee> call = eventAPI.getAttendeeInEventAlt(userid, eventid);
 
-        call.enqueue(new Callback<Boolean>() {
+        call.enqueue(new Callback<Eventattendee>() {
             // get json response
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+            public void onResponse(Call<Eventattendee> call, Response<Eventattendee> response) {
 
                 if (response.isSuccessful()) {
 //                    Toast.makeText(EventDetailActivity.this, "Is an attendee", Toast.LENGTH_SHORT).show();
@@ -166,7 +167,7 @@ public class EventDetailActivity extends AppCompatActivity {
 
             // error
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<Eventattendee> call, Throwable t) {
 //                linearProgressBar.setVisibility(View.GONE);
                 Log.d("Error response", t.getMessage());
             }
@@ -222,7 +223,7 @@ public class EventDetailActivity extends AppCompatActivity {
         String priceS = "Price: "+result.getTicketPrice();
         price.setText(priceS);
 
-        String curAttS = "There are " + result.getNumberOfAttendee() + "people attending this event";
+        String curAttS = "There are " + result.getNumberOfAttendee() + " people attending this event";
         curAtt.setText(curAttS);
 
         String minAttS = "Minimum amount of attendee required: " + result.getMinAttendee();
@@ -234,17 +235,8 @@ public class EventDetailActivity extends AppCompatActivity {
             System.out.println("there is localhost in content");
             contentHtml = contentHtml.replace("localhost",AppConstant.HOST_NAME);
         }
-        //check inline style
-        if (contentHtml.contains("style=\"")){
-            String regex = "(style=\".+\")";
-            System.out.println("regex is "+regex);
-            String replacement = "style=\"height: auto; max-width: 100%;\"";
-            System.out.println("replace with "+replacement);
-
-            contentHtml = contentHtml.replaceAll(regex, replacement);
-        }
         //append data with global style
-        content.loadData("<style>img{display: inline;height: auto;max-width: 100%;}</style>"+contentHtml, "text/html", "UTF-8");
+        content.loadData("<style>img{display: inline;height: auto !important;max-width: 100% !important;}</style>"+contentHtml, "text/html", "UTF-8");
 
         linearProgressBar.setVisibility(View.GONE);
     }

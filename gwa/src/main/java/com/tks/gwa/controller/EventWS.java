@@ -67,7 +67,7 @@ public interface EventWS {
     ResponseEntity<Eventattendee> getAttendeeInEvent(@RequestParam int userid, @RequestParam int eventid);
 
     @RequestMapping(value = "/getAttendeeInEventAlt", method = RequestMethod.GET)
-    ResponseEntity<Boolean> getAttendeeInEventAlt(@RequestParam("userid") int userid,
+    ResponseEntity<Eventattendee> getAttendeeInEventAlt(@RequestParam("userid") int userid,
                                                   @RequestParam("eventid") int eventid);
 
 
@@ -99,6 +99,11 @@ public interface EventWS {
     ResponseEntity<List<Object>> getMyListEvent(@RequestParam("accountID") Integer accountID,
                                                @RequestParam("sorttype") String sorttype,
                                                @RequestParam("pageNum") int pageNum);
+
+    @RequestMapping(value = "/getMyListEventAlt", method = RequestMethod.POST)
+    ResponseEntity<EventSDTO> getMyListEventAlt(@RequestParam("accountID") Integer accountID,
+                                                @RequestParam("sorttype") String sorttype,
+                                                @RequestParam("pageNum") int pageNum);
 
     @RequestMapping(value = "/getNearbyEvent", method = RequestMethod.POST)
     ResponseEntity<List<Object>> getNearbyEvent(@RequestParam("location") String location,

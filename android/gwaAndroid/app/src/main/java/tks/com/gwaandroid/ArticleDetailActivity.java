@@ -183,17 +183,9 @@ public class ArticleDetailActivity extends AppCompatActivity {
             System.out.println("there is localhost in content");
             contentHtml = contentHtml.replace("localhost",AppConstant.HOST_NAME);
         }
-        //check inline style
-        if (contentHtml.contains("style=\"")){
-            String regex = "(style=\".+\")";
-            System.out.println("regex is "+regex);
-            String replacement = "style=\"height: auto; max-width: 100%;\"";
-            System.out.println("replace with "+replacement);
 
-            contentHtml = contentHtml.replaceAll(regex, replacement);
-        }
         //append data with global style
-        content.loadData("<style>img{display: inline;height: auto;max-width: 100%;}</style>"+contentHtml, "text/html", "UTF-8");
+        content.loadData("<style>img{display: inline;height: auto !important;max-width: 100% !important;}</style>"+contentHtml, "text/html", "UTF-8");
         linearProgressBar.setVisibility(View.GONE);
     }
 
