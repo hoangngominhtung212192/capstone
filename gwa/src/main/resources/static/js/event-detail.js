@@ -192,6 +192,8 @@ $(document).ready(function () {
                     console.log('tikets: ' + remaininT + typeof remaininT);
                     $('#regStDate').append(result.regDateStart);
                     $('#regEnDate').append(result.regDateEnd);
+                    $('#txtMin').append(result.minAttendee);
+                    // alert(result.minAttendee)
                     var resRegStart = Date.parse(result.regDateStart);
                     var resRegEnd = Date.parse(result.regDateEnd);
                     var tttoday = Date.parse(today);

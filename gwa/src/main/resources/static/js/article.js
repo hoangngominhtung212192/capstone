@@ -8,6 +8,7 @@ $(document).ready(function () {
     var totalPage = 1;
     var $pagination = $("#pagination-event");
     var isSearch = false;
+    var currentSearchTab = 1;
     var defaultPaginationOpts = {
         totalPages: totalPage,
 // the current page that show on start
@@ -37,7 +38,16 @@ $(document).ready(function () {
         onPageClick: function (event, page) {
             currentPage = page;
             $('#search-result').html("");
-            searchArticle();
+            $.growl.error({message: currentSearchTab});
+            if (currentSearchTab == 1){
+                // alert("current search tab 1");
+                searchArticle();
+            }
+            if (currentSearchTab == 2){
+                // alert("current search tab 2");
+                getMyArticle();
+            }
+
         },
 
 // pagination Classes
@@ -123,6 +133,7 @@ $(document).ready(function () {
     }
     $("#btnSearch").click(function (event) {
         event.preventDefault();
+        currentSearchTab = 1;
         var searchDiv = document.getElementById("search-result");
         while (searchDiv.firstChild) {
             searchDiv.removeChild(searchDiv.firstChild);
@@ -153,21 +164,24 @@ $(document).ready(function () {
                 console.log(result);
                 console.log(status);
                 console.log("seach numb of pages: "+result[0]);
+
+                if (totalPage == 0){
+                    totalPage = 1;
+                }
                 $pagination.twbsPagination('destroy');
-                // if (totalPage > 1){
-                    $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
-                        totalPages: totalPage
-                    }));
-                // }
+                $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+                    totalPages: totalPage
+                }));
                 appendResult(data);
             },
             error : function(e) {
-                alert("No article with matching title found!");
+                // alert("No article with matching title found!");
                 console.log("ERROR: ", e);
             }
         });
     }
     $("#btnListArticle").click(function (event) {
+        currentSearchTab = 1;
         event.preventDefault();
         $('#searchDiv').css("display", "block");
         $('#cbCateType').css("display", "inline-block");
@@ -179,6 +193,7 @@ $(document).ready(function () {
         searchArticle();
     });
     $("#btnGetMyArticles").click(function (event) {
+        currentSearchTab = 2;
         event.preventDefault();
         $('#searchDiv').css("display", "none");
         $('#cbCateType').css("display", "none");
@@ -210,6 +225,9 @@ $(document).ready(function () {
                 console.log(result);
                 console.log(status);
                 console.log("seach numb of pages: "+result[0]);
+                if (totalPage == 0){
+                    totalPage = 1;
+                }
                 $pagination.twbsPagination('destroy');
                 $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
                     totalPages: totalPage
@@ -217,12 +235,28 @@ $(document).ready(function () {
                 appendMyResult(data);
             },
             error : function(e) {
-                alert("No event with matching title found!");
                 console.log("ERROR: ", e);
             }
         });
     }
 
+    $("#cbSortType").on('change', function () {
+        console.log("asd")
+        searchCurrentType(currentSearchTab);
+    });
+    $("#cbCateType").on('change', function () {
+        searchCurrentType(currentSearchTab);
+    });
+    function searchCurrentType(type){
+        if (type == 1){
+            console.log("SEARCHING type1");
+            searchArticle();
+        }
+        if (type == 2){
+            console.log("NEAR EVEtype2");
+            getMyArticle();
+        }
+    }
     /*   Begin authentication and notification  */
     // process UI
     $(document).click(function (event) {
