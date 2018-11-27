@@ -168,17 +168,32 @@ public class ArticleDetailActivity extends AppCompatActivity {
         String authorS = "Author: "+result.getAccount().getUsername();
         author.setText(authorS);
 
+//        content.getSettings().setLoadWithOverviewMode(true);
+//        content.getSettings().setUseWideViewPort(true);
+//        content.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+//        content.setScrollbarFadingEnabled(false);
+////
+//        content.getSettings().setBuiltInZoomControls(true);
+//        content.getSettings().setSupportZoom(true);
+
+
         String contentHtml = result.getContent();
+
         if (contentHtml.contains("localhost:8080")){
             System.out.println("there is localhost in content");
-            String newcont = contentHtml.replace("localhost",AppConstant.HOST_NAME);
-            System.out.println("CHANGED CONTETNT: "+newcont);
-            content.loadData(newcont, "text/html", "UTF-8");
-        } else{
-            System.out.println("no localhost in content");
-            content.loadData(contentHtml, "text/html", "UTF-8");
+            contentHtml = contentHtml.replace("localhost",AppConstant.HOST_NAME);
         }
+        //check inline style
+        if (contentHtml.contains("style=\"")){
+            String regex = "(style=\".+\")";
+            System.out.println("regex is "+regex);
+            String replacement = "style=\"height: auto; max-width: 100%;\"";
+            System.out.println("replace with "+replacement);
 
+            contentHtml = contentHtml.replaceAll(regex, replacement);
+        }
+        //append data with global style
+        content.loadData("<style>img{display: inline;height: auto;max-width: 100%;}</style>"+contentHtml, "text/html", "UTF-8");
         linearProgressBar.setVisibility(View.GONE);
     }
 

@@ -80,6 +80,18 @@
                         android:layout_height="wrap_content"
                         android:text="Price" />
 
+                    <TextView
+                        android:id="@+id/currentAttendeeNum"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="current attendee" />
+
+                    <TextView
+                        android:id="@+id/minAttendee"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="min attendee" />
+
                     <WebView
                         android:id="@+id/eContent"
                         android:layout_width="wrap_content"

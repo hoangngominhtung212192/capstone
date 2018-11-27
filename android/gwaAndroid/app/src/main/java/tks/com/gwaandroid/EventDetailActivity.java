@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -43,7 +44,7 @@ public class EventDetailActivity extends AppCompatActivity {
     private ActionBarDrawerToggle abdt;
     private RelativeLayout linearProgressBar;
 
-    private TextView title, date, location, price, message1;
+    private TextView title, date, location, price, message1, curAtt, minAtt;
     private WebView content;
     private Button btn;
 //    private RelativeLayout layout_star_rating;
@@ -132,6 +133,8 @@ public class EventDetailActivity extends AppCompatActivity {
         location = (TextView) findViewById(R.id.location);
         price = (TextView) findViewById(R.id.price);
         message1 = (TextView) findViewById(R.id.lbl6);
+        curAtt = (TextView) findViewById(R.id.currentAttendeeNum);
+        minAtt = (TextView) findViewById(R.id.minAttendee);
 
         content = (WebView) findViewById(R.id.eContent);
 
@@ -219,16 +222,29 @@ public class EventDetailActivity extends AppCompatActivity {
         String priceS = "Price: "+result.getTicketPrice();
         price.setText(priceS);
 
+        String curAttS = "There are " + result.getNumberOfAttendee() + "people attending this event";
+        curAtt.setText(curAttS);
+
+        String minAttS = "Minimum amount of attendee required: " + result.getMinAttendee();
+        minAtt.setText(minAttS);
+
+
         String contentHtml = result.getContent();
         if (contentHtml.contains("localhost:8080")){
             System.out.println("there is localhost in content");
-            String newcont = contentHtml.replace("localhost",AppConstant.HOST_NAME);
-            System.out.println("CHANGED CONTETNT: "+newcont);
-            content.loadData(newcont, "text/html", "UTF-8");
-        } else{
-            System.out.println("no localhost in content");
-            content.loadData(contentHtml, "text/html", "UTF-8");
+            contentHtml = contentHtml.replace("localhost",AppConstant.HOST_NAME);
         }
+        //check inline style
+        if (contentHtml.contains("style=\"")){
+            String regex = "(style=\".+\")";
+            System.out.println("regex is "+regex);
+            String replacement = "style=\"height: auto; max-width: 100%;\"";
+            System.out.println("replace with "+replacement);
+
+            contentHtml = contentHtml.replaceAll(regex, replacement);
+        }
+        //append data with global style
+        content.loadData("<style>img{display: inline;height: auto;max-width: 100%;}</style>"+contentHtml, "text/html", "UTF-8");
 
         linearProgressBar.setVisibility(View.GONE);
     }
