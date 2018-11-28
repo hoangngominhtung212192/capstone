@@ -132,13 +132,14 @@ public class EventRegisterActivity extends AppCompatActivity {
         int mytic = 0;
         if (mytickets.getText().toString().length() == 0){
             check = false;
-            mytickets.setError("Please enter the number of tickets");
+            mytickets.setError("Please enter number of tickets!");
         } else {
             mytic = Integer.parseInt(mytickets.getText().toString());
         }
 
         if (mytic>rem){
             check = false;
+            mytickets.setError("Number of tickets can not be higher than the remaining tickets!");
         }
         return check;
     }

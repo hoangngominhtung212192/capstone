@@ -81,6 +81,12 @@
                         android:text="Price" />
 
                     <TextView
+                        android:id="@+id/remainingT"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="remaining" />
+
+                    <TextView
                         android:id="@+id/currentAttendeeNum"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -98,17 +104,66 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/eventTitle"/>
 
+                    <TextView
+                        android:id="@+id/lbl6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Reg date " />
+
+                    <TextView
+                        android:id="@+id/lbl7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        android:textColor="@color/red"
+                        android:text="We're out of tickets!" />
+
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/btnRegEvt"
                         android:text="Register"
                         android:onClick="redirectReg"/>
-                    <TextView
-                        android:id="@+id/lbl6"
+                    <LinearLayout
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/lRegInfo"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="You've registered to this event!" />
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_margin="10px"
+                        android:visibility="gone">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:text="Registered info"
+                            android:textSize="17dp"/>
+                        <TextView
+                            android:id="@+id/txtRegUsername"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textStyle="bold"
+                            android:text="Username"
+                            android:textSize="17dp"/>
+                        <TextView
+                            android:id="@+id/txtRegDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textStyle="bold"
+                            android:text="Register date"
+                            android:textSize="17dp"/>
+                        <TextView
+                            android:id="@+id/txtRegAmount"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textStyle="bold"
+                            android:text="Ticket amount"
+                            android:textSize="17dp"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

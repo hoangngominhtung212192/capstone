@@ -188,6 +188,10 @@ $(document).ready(function () {
                     console.log(result.maxAttendee);
                     console.log(result.numberOfAttendee);
                     var remaininT = parseInt(result.maxAttendee) - parseInt(result.numberOfAttendee);
+                    if(remaininT == 0){
+                        document.getElementById('btnRegister').style.display = 'none';
+                    }
+                    $('#txtMax').append(result.maxAttendee);
 
                     console.log('tikets: ' + remaininT + typeof remaininT);
                     $('#regStDate').append(result.regDateStart);
@@ -199,7 +203,6 @@ $(document).ready(function () {
                     var tttoday = Date.parse(today);
                     if (tttoday <= resRegEnd && tttoday >= resRegStart) {
                         console.log("today is within reg date");
-                        document.getElementById('btnRegister').style.display = 'block';
                     } else{
                         console.log("today is not within reg date");
                         document.getElementById('btnRegister').style.display = 'none';

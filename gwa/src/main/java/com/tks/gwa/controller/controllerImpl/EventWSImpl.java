@@ -202,7 +202,7 @@ public class EventWSImpl implements EventWS {
         boolean check = false;
         Eventattendee aa = attendeeService.getAttendeeInEvent(userid, eventid);
         if (aa!=null){
-            System.out.println(userid +" is attendee");
+            System.out.println(aa.getAccount().getId() +" is attendee");
             check = true;
             return new ResponseEntity<>(aa, HttpStatus.OK);
         } else {
