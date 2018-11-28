@@ -19,9 +19,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 public class EventWSImpl implements EventWS {
@@ -128,13 +130,14 @@ public class EventWSImpl implements EventWS {
     @Override
     public ResponseEntity<Event> feedbackEvent(@RequestParam int eventid,@RequestParam int attendeeid, @RequestParam int rating, @RequestParam String feedback) {
         //update attendee
-        System.out.println("attendee id+ "+attendeeid);
         Eventattendee evatt = attendeeService.getAttendeeByID(attendeeid);
-        System.out.println("current attendee rating: " + evatt.getRating());
-        System.out.println("rating: "+rating);
-        System.out.println("feedback: "+feedback);
         evatt.setFeedback(feedback);
         evatt.setRating(rating);
+        Date today = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyy-MM-dd", Locale.ENGLISH);
+        String todayS = formatter.format(today);
+        evatt.setRatingDate(todayS);
+
 
         attendeeService.updateAttendee(evatt);
         //update rating in event
@@ -237,11 +240,10 @@ public class EventWSImpl implements EventWS {
 
 
     @Override
-    public ResponseEntity<List<Eventattendee>> getRatedAttendeeInEvent(@RequestParam Integer eventid) {
-        System.out.println("earching by id "+eventid);
-        List<Eventattendee> alist = attendeeService.searchRatedAttendeeByEvent(eventid);
-        System.out.println("WS list size: "+alist.size());
-        System.out.println("result list size: "+alist.size());
+    public ResponseEntity<List<Object>> getRatedAttendeeInEvent(@RequestParam int eventid,
+                                                                @RequestParam int pageNum) {
+        System.out.println("searching ratedattendee by evid "+eventid);
+        List<Object> alist = attendeeService.searchRatedAttendeeByEvent(eventid, pageNum);
         return new ResponseEntity<>(alist, HttpStatus.OK);
     }
 

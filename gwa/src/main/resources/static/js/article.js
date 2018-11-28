@@ -38,7 +38,6 @@ $(document).ready(function () {
         onPageClick: function (event, page) {
             currentPage = page;
             $('#search-result').html("");
-            $.growl.error({message: currentSearchTab});
             if (currentSearchTab == 1){
                 // alert("current search tab 1");
                 searchArticle();
@@ -168,6 +167,7 @@ $(document).ready(function () {
                 if (totalPage == 0){
                     totalPage = 1;
                 }
+                console.log("totalp "+totalPage);
                 $pagination.twbsPagination('destroy');
                 $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
                     totalPages: totalPage

@@ -22,9 +22,10 @@
 
     <!-- js -->
     <script type="text/javascript" src="/gwa/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/gwa/js/html-importer.js"></script>
-    <script type="text/javascript" src="/gwa/js/event-detail.js"></script>
+    <!--<script type="text/javascript" src="/gwa/js/html-importer.js"></script>-->
+
     <script type="text/javascript" src="/gwa/rater-js-master/index.js"></script>
+
 
     <style>
         /* This is for profile & notification area */
@@ -697,8 +698,8 @@
                     Ratings: <div id="raterEv"></div> <span id="txtCurRat"></span> stars
                 </div>
                 Price: <span id="txtPrice"></span><br/>
-                There are <span id="txtNumOfAttendee"></span> people attending this event
-                <p>Maximum number of attendee: <span id="txtMax"></span></p>
+                There are <span id="txtNumOfAttendee"></span> people attending this event<br/>
+                Maximum number of attendee: <span id="txtMax"></span><br/>
                 <p>Minimum amount of attendee required: <span id="txtMin"></span></p>
                 <hr/>
             </div>
@@ -709,15 +710,20 @@
             <p>Registration starts from <span id="regStDate"></span> and ends on <span id="regEnDate"></span></p>
             <input type="submit" class="btn btn-primary" id="btnRegister" value="REGISTER NOW" />
             <hr />
+
+            <div id="bigRateArea" >
                 <div id="raterArea" style="display: none">
+
                     <!--<h5>Feedback:</h5>-->
                 </div>
-                <!--<div class="panel">-->
-                    <!--<p id="raterName"></p>-->
-                    <!--<div id="raterEv"></div>-->
-                    <!--<p id="raterFeedback"></p>-->
-                <!--</div>-->
-
+                <!-- Pagination -->
+                <div class="justify-content-center" id="paginationDiv" style="display: none">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination mt-50" id="pagination-detail">
+                        </ul>
+                    </nav>
+                </div>
+            </div>
             <div id="userAttendInfo" style="display: none; border: solid 2px lightgrey; border-radius: 10px; padding: 10px; margin-bottom: 10px">
                 <h5>Your registered information:</h5>
                 <p>Name: <span id="lblRegisUsername"></span></p>
@@ -840,8 +846,11 @@
     <!-- All Plugins js -->
     <script src="/gwa/js/plugins/plugins.js"></script>
     <!-- Active js -->
-    <script src="/gwa/js/active.js"></script>
+
+    <script src="/gwa/js/plugins/jquery.twbsPagination.js"></script>
+    <script type="text/javascript" src="/gwa/js/event-detail.js"></script>
     <script src="/gwa/js/plugins/jquery.growl.js"></script>
+<!--<script src="/gwa/js/plugins/jquery.twbsPagination.js"></script>-->
 
 </body>
 

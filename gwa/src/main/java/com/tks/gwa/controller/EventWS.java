@@ -52,7 +52,10 @@ public interface EventWS {
 
 
     @RequestMapping(value = "/feedbackEvent", method = RequestMethod.POST)
-    ResponseEntity<Event> feedbackEvent(@RequestParam int eventid, @RequestParam int attendeeid, @RequestParam int rating, @RequestParam String feedback);
+    ResponseEntity<Event> feedbackEvent(@RequestParam int eventid,
+                                        @RequestParam int attendeeid,
+                                        @RequestParam int rating,
+                                        @RequestParam String feedback);
 
     @RequestMapping(value = "/getEventRating", method = RequestMethod.POST)
     ResponseEntity<Integer> getEventRating(@RequestParam int eventid);
@@ -76,7 +79,8 @@ public interface EventWS {
                                                @RequestParam("id") int id);
 
     @RequestMapping(value = "/getListAttendeeInEvent", method = RequestMethod.POST)
-    ResponseEntity<List<Eventattendee>> getRatedAttendeeInEvent(@RequestParam("eventid") Integer eventid);
+    ResponseEntity<List<Object>> getRatedAttendeeInEvent(@RequestParam("eventid") int eventid,
+                                                                @RequestParam("pageNum") int pageNum);
 
     @RequestMapping(value = "/getEventByStatusAndPage", method = RequestMethod.POST)
     ResponseEntity<List<Object>> getEventByStatusAndPage(@RequestParam("status") String status,

@@ -1,4 +1,60 @@
 $(document).ready(function () {
+    var currentPage = 1;
+    var totalPage = 1;
+    var $pagination = $("#pagination-detail");
+    var defaultPaginationOpts = {
+        totalPages: totalPage,
+// the current page that show on start
+        startPage: 1,
+
+// maximum visible pages
+        visiblePages: 3,
+
+        initiateStartPageClick: false,
+
+// template for pagination links
+        href: false,
+
+// variable name in href template for page number
+        hrefVariable: '{{number}}',
+
+// Text labels
+        first: '&laquo;',
+        prev: '❮',
+        next: '❯',
+        last: '&raquo;',
+
+// carousel-style pagination
+        loop: false,
+
+// callback function
+        onPageClick: function (event, page) {
+            console.log("clicked on page: "+page)
+            // $('#raterArea').html("");
+            currentPage = page;
+            getRatedAttendeeEvent(id);
+        },
+
+// pagination Classes
+        paginationClass: 'pagination',
+        nextClass: 'page-item',
+        prevClass: 'page-item',
+        lastClass: 'page-item',
+        firstClass: 'page-item',
+        pageClass: 'page-item',
+        activeClass: 'active',
+        disabledClass: 'disabled'
+    };
+
+    $pagination.twbsPagination('destroy');
+    if (totalPage > 1){
+        document.getElementById('paginationDiv').style.display = 'block';
+        $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+            totalPages: totalPage
+        }));
+    }
+
+
 
     authentication();
     var username;
@@ -44,6 +100,7 @@ $(document).ready(function () {
 
     //check if user is attending this event
     var curAttendeeID
+    var eventStartDate;
     function checkCurUserIsAttendee() {
         var curEvent = id;
         var curUser = account_session_id;
@@ -57,16 +114,19 @@ $(document).ready(function () {
               userid: account_session_id,
             },
             success: function (result, status) {
-                document.getElementById('feedbackArea').style.display = 'block';
-                if (result.rating>0){
-                    myRating.setRating(result.rating);
-                    myRating.set
-                    $('#txtFeedback').append(result.feedback);
-                    $('#txtFeedback').prop('disabled', true);
-                    $('#btnSubmitFeedback').hide();
-                    $('#lblFeedback1').text("Your rating: ");
-                    $('#lblFeedback2').text("Your feedback");
+                if (Date.parse(today) >= eventStartDate){
+                    console.log("today is withing starting days");
+                    document.getElementById('feedbackArea').style.display = 'block';
+                    if (result.rating>0){
+                        myRating.setRating(result.rating);
+                        myRating.set
+                        $('#txtFeedback').append(result.feedback);
+                        $('#txtFeedback').prop('disabled', true);
+                        $('#btnSubmitFeedback').hide();
+                        $('#lblFeedback1').text("Your rating: ");
+                        $('#lblFeedback2').text("Your feedback");
 
+                    }
                 }
                 $('#btnRegister').hide();
                 document.getElementById('userAttendInfo').style.display = 'block';
@@ -108,7 +168,8 @@ $(document).ready(function () {
                 eventid: curEvent,
                 attendeeid: curAtt,
                 rating: parseInt(myRating.getRating()),
-                feedback: $('textarea#txtFeedback').val()
+                feedback: $('textarea#txtFeedback').val(),
+                ratingDate : today.toString(),
             },
             success: function (result, status) {
                 $("#myModal").modal({backdrop: 'static', keyboard: false});
@@ -133,26 +194,32 @@ $(document).ready(function () {
         console.log("searchin rater by id: "+id);
         $.ajax({
             type : "POST",
-            // contentType : "application/json",
             url : "/gwa/api/event/getListAttendeeInEvent",
             data : {
-                eventid : id
+                eventid : id,
+                pageNum : currentPage
             },
             success : function(result, status) {
-                console.log("found evn raters:" +result.length);
-                if (result.length > 0){
+                var data = result[1];
+                totalPage = result[0];
+
+                console.log("found evn raters:" +result[0]);
+                $('#raterArea').html("");
+                var feedb = $('<h4>Feedbacks from the attendees:</h4>');
+                $('#raterArea').append(feedb);
+                if (data.length > 0){
                     document.getElementById('raterArea').style.display = 'block';
-                    for (var i = 0; i < 5 ; i++) {
+                    for (var i = 0; i < data.length ; i++) {
                         var arater = $('<div class="panel">\n' +
-                            '                    <h6 id="raterName" >'+result[i].account.username+'</h6>\n' +
-                            '                    <div id="raterNo'+result[i].id+'"></div>\n' +
-                            '                    <p id="raterFeedback">'+result[i].feedback+'</p>\n' +
+                            '                    <h6 id="raterName" >'+data[i].account.username+'<span> | ' + data[i].ratingDate+'</span></h6>\n' +
+                            '                    <div id="raterNo'+data[i].id+'"></div>\n' +
+                            '                    <p id="raterFeedback">'+data[i].feedback+'</p>\n' +
                             '                </div>' +
                             '<hr/>');
 
                         $('#raterArea').append(arater);
                         var raterRating = raterJs( {
-                            element:document.querySelector("#raterNo"+result[i].id),
+                            element:document.querySelector("#raterNo"+data[i].id),
                             rateCallback:function rateCallback(rating, done) {
                                 // this.setRating(rating);
                                 done();
@@ -160,9 +227,21 @@ $(document).ready(function () {
                             showToolTip: false,
                             readOnly: true
                         });
-                        raterRating.setRating(result[i].rating);
+                        raterRating.setRating(data[i].rating);
                     }
 
+                }
+                console.log("totalo "+totalPage);
+                $pagination.twbsPagination('destroy');
+                if (totalPage > 1){
+                    document.getElementById('paginationDiv').style.display = 'block';
+                    console.log("totalp more than 1");
+                    $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+                        totalPages: totalPage,
+                        currentPage: currentPage,
+                        startPage: currentPage
+
+                    }));
                 }
             },
             error : function(e) {
@@ -195,6 +274,8 @@ $(document).ready(function () {
 
                     console.log('tikets: ' + remaininT + typeof remaininT);
                     $('#regStDate').append(result.regDateStart);
+                    eventStartDate = Date.parse(result.startDate);
+                    console.log(eventStartDate);
                     $('#regEnDate').append(result.regDateEnd);
                     $('#txtMin').append(result.minAttendee);
                     // alert(result.minAttendee)
@@ -288,11 +369,16 @@ $(document).ready(function () {
 
                 console.log('rmnslots: '+result);
                 var iamount = parseInt(amount);
-                if (result<amount){
-                    $.growl.error({message: "There aren't enough tickets! Please change the number of tickets you want!"});
-                } else{
-                    registerAtt();
+                if (amount>0){
+                    if (result<amount){
+                        $.growl.error({message: "There aren't enough tickets! Please change the number of tickets you want!"});
+                    } else{
+                        registerAtt();
+                    }
+                } else {
+                    $.growl.error({message: "Please enter a positive number"});
                 }
+
             },
             error : function(e) {
                 // alert("Error!")

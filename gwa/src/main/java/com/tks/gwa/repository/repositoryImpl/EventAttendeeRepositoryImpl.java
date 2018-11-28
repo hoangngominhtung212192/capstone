@@ -38,12 +38,32 @@ public class EventAttendeeRepositoryImpl extends GenericRepositoryImpl<Eventatte
     }
 
     @Override
-    public List<Eventattendee> searchRatedAttendeeByEvent(Integer eventid) {
+    public int countAttendeeByEvent(int eventid) {
+        String sql = "SELECT COUNT(e.id) FROM " + Eventattendee.class.getName()+" AS e WHERE e.event.id = :eventid";
+        Query query = this.entityManager.createQuery(sql);
+        String evidS = String.valueOf(eventid);
+        query.setParameter("eventid", eventid);
+        long result = 0;
+        try{
+            result = (long) query.getSingleResult();
+        } catch (NoResultException e) {
+            System.out.println("no attendee foudn");
+            return 0;
+        }
+        System.out.println("count attendee"+result);
+        return (int) result;
+    }
+
+    @Override
+    public List<Eventattendee> searchRatedAttendeeByEvent(int eventid, int pageNum) {
         System.out.println("searching rated attendee in event by id "+eventid);
         String sql = "FROM " + Eventattendee.class.getName()+ " WHERE eventid = :eventid AND rating > 0";
 
         Query query = this.entityManager.createQuery(sql);
         query.setParameter("eventid", eventid );
+        query.setFirstResult((pageNum-1) * 5);
+        query.setMaxResults(5);
+
         List<Eventattendee> listres = null;
 
         try {
