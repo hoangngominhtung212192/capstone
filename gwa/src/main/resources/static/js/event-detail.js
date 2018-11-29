@@ -295,16 +295,17 @@ $(document).ready(function () {
 
                     if (timeRated>0){
                         var stars = totalStars/timeRated;
+                        var rounded = Math.round(stars * 10)/10;
                         console.log("have rating");
                         document.getElementById('ratingDiv').style.display = 'block';
-                        $('#txtCurRat').append(stars);
-                        evRating.setRating(stars);
+                        $('#txtCurRat').append(rounded);
+                        evRating.setRating(rounded);
                     } else {
                         console.log("dont have rating");
                         document.getElementById('ratingDiv').style.display = 'none';
                         // $('#ratingDiv').hide();
                     }
-                    console.log("Stars: "+stars);
+                    console.log("Stars: "+rounded);
                     if (result.status == "Inactive") {
                         $('#lblEvStatus').html("This event was cancelled");
                         document.getElementById('btnRegister').style.display = 'none';

@@ -137,7 +137,11 @@ $(document).ready(function() {
         }
         var minn = $("#txtAttMin").val();
         var maxx = $("#txtAttMax").val();
-        if (minn > maxx){
+        if (parseInt(minn) <= 0){
+            valid = false;
+            $.growl.error({message: "Attendee number should be positive"});
+        }
+        if (parseInt(minn) > parseInt(maxx)){
             console.log("minum is higer than maxx");
             valid = false;
             $.growl.error({message: "Minimum attendee should be lower than maximum attendee"});

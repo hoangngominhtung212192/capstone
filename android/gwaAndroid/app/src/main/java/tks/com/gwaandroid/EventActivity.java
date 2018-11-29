@@ -84,7 +84,14 @@ public class EventActivity extends AppCompatActivity {
                     case R.id.nav_event_all:
                         lastSearch = new EventSDTO();
                         currentTab = 1;
+                        paramStatus = "Active";
                         apiRequest(currentPage);
+                        break;
+                    case R.id.nav_event_past:
+                        lastSearch = new EventSDTO();
+                        paramStatus = "Finished";
+                        apiRequest(currentPage);
+                        currentTab = 3;
                         break;
                     case R.id.nav_my_event:
                         lastSearch = new EventSDTO();

@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    var session_username = "";
     var checkImage = false;
     var imagetype;
     var imageFile;
@@ -81,6 +82,12 @@ $(document).ready(function () {
                 console.log(result);
                 console.log(status);
                 if (result){
+                    if(result.lastEditor != null && result.lastEditor != ""){
+                        $('#editByDiv').css("display", "block");
+                        $('#modifiedDate').append(result.modifiedDate);
+                        $('#lastEditor').append(result.lastEditor);
+                    }
+
                     articleurl = "/gwa/article/detail?id="+result.id;
                     articleAuthorID = result.account.id;
                     $('#cboStatus').val(result.approvalStatus);
@@ -149,6 +156,7 @@ $(document).ready(function () {
                 modifiedDate: today,
                 date: $('#lblDate').val(),
                 approvalStatus: $("#cboStatus :selected").val(),
+                lastEditor : session_username
             }
 
             updateArticle(formArticle);
@@ -256,6 +264,7 @@ $(document).ready(function () {
                     console.log(xhr_data);
                     var jsonResponse = JSON.parse(xhr_data);
 
+                    session_username = jsonResponse["username"];
                     var role_session = jsonResponse["role"].name;
                     account_session_id = jsonResponse["id"];
 
