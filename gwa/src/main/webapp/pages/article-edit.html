@@ -691,7 +691,7 @@
             <h3>Edit article</h3>
             <a style="color: red">Your article will be taken down and reviewed by the administrators before being posted on the website again</a>
             <h5 >Article title: </h5>
-            <input name="title" id="title" class="form-control">
+            <input name="title" id="title" class="form-control" maxlength="250">
             <input id="hiddenLoggedUser" type="hidden">
             <div id="editByDiv" style="display: none">Last edited on <span id="modifiedDate"></span> by <span id="lastEditor"></span></div>
             <p>Posted on: <span class="post-date" id="date"></span> / Author: <span id="author"></span></p>
@@ -719,7 +719,7 @@
                 <option value="Shopping Guides">Shopping Guides</option>
             </select>
             <h5>Description</h5>
-            <textarea id="txtDescription" style="height: 80px; width: 500px; margin-bottom: 10px" class="form-control"></textarea>
+            <textarea id="txtDescription" style="height: 80px; width: 500px; margin-bottom: 10px" class="form-control" maxlength="250"></textarea>
             <div style="margin-bottom: 10px">
                 <textarea name="editor1" id="content" ></textarea>
             </div>
