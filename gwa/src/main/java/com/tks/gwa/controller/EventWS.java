@@ -52,7 +52,10 @@ public interface EventWS {
 
 
     @RequestMapping(value = "/feedbackEvent", method = RequestMethod.POST)
-    ResponseEntity<Event> feedbackEvent(@RequestParam int eventid, @RequestParam int attendeeid, @RequestParam int rating, @RequestParam String feedback);
+    ResponseEntity<Event> feedbackEvent(@RequestParam int eventid,
+                                        @RequestParam int attendeeid,
+                                        @RequestParam int rating,
+                                        @RequestParam String feedback);
 
     @RequestMapping(value = "/getEventRating", method = RequestMethod.POST)
     ResponseEntity<Integer> getEventRating(@RequestParam int eventid);
@@ -67,7 +70,7 @@ public interface EventWS {
     ResponseEntity<Eventattendee> getAttendeeInEvent(@RequestParam int userid, @RequestParam int eventid);
 
     @RequestMapping(value = "/getAttendeeInEventAlt", method = RequestMethod.GET)
-    ResponseEntity<Boolean> getAttendeeInEventAlt(@RequestParam("userid") int userid,
+    ResponseEntity<Eventattendee> getAttendeeInEventAlt(@RequestParam("userid") int userid,
                                                   @RequestParam("eventid") int eventid);
 
 
@@ -76,7 +79,8 @@ public interface EventWS {
                                                @RequestParam("id") int id);
 
     @RequestMapping(value = "/getListAttendeeInEvent", method = RequestMethod.POST)
-    ResponseEntity<List<Eventattendee>> getRatedAttendeeInEvent(@RequestParam("eventid") Integer eventid);
+    ResponseEntity<List<Object>> getRatedAttendeeInEvent(@RequestParam("eventid") int eventid,
+                                                                @RequestParam("pageNum") int pageNum);
 
     @RequestMapping(value = "/getEventByStatusAndPage", method = RequestMethod.POST)
     ResponseEntity<List<Object>> getEventByStatusAndPage(@RequestParam("status") String status,
@@ -99,6 +103,11 @@ public interface EventWS {
     ResponseEntity<List<Object>> getMyListEvent(@RequestParam("accountID") Integer accountID,
                                                @RequestParam("sorttype") String sorttype,
                                                @RequestParam("pageNum") int pageNum);
+
+    @RequestMapping(value = "/getMyListEventAlt", method = RequestMethod.POST)
+    ResponseEntity<EventSDTO> getMyListEventAlt(@RequestParam("accountID") Integer accountID,
+                                                @RequestParam("sorttype") String sorttype,
+                                                @RequestParam("pageNum") int pageNum);
 
     @RequestMapping(value = "/getNearbyEvent", method = RequestMethod.POST)
     ResponseEntity<List<Object>> getNearbyEvent(@RequestParam("location") String location,

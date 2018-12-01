@@ -29,7 +29,7 @@ public class WebControllerImpl implements WebController {
      */
     @Override
     public ModelAndView indexPage() {
-        return new ModelAndView("index");
+        return new ModelAndView("model");
     }
 
     /**

@@ -1,13 +1,14 @@
 $(document).ready(function () {
-var currentStatus = $( "#cboStatus option:selected").val();
+    var currentStatus = $( "#cboStatus option:selected").val();
 
-var currentSortType = $("#cbSortType option:selected").val();
+    var currentSortType = $("#cbSortType option:selected").val();
 
-var currentPage = 1;
-var totalPage = 1;
-var $pagination = $("#pagination-event");
-var isSearch = false;
-var defaultPaginationOpts = {
+    var currentPage = 1;
+    var totalPage = 1;
+    var $pagination = $("#pagination-event");
+    var isSearch = false;
+    var currentSearchTab = 1;
+    var defaultPaginationOpts = {
     totalPages: totalPage,
 // the current page that show on start
     startPage: 1,
@@ -37,7 +38,12 @@ var defaultPaginationOpts = {
         console.log("clicked on page: "+page)
         currentPage = page;
         $('#search-result').html("");
-        searchEv();
+        if (currentSearchTab == 1) {
+            searchEv();
+        }
+        if (currentSearchTab == 2) {
+            getMyEv();
+        }
     },
 
 // pagination Classes
@@ -61,6 +67,7 @@ var defaultPaginationOpts = {
     }
 
     $("#btnSearch").click(function (event) {
+        currentSearchTab = 1;
         currentPage = 1;
         event.preventDefault();
         var searchDiv = document.getElementById("search-result");
@@ -70,20 +77,9 @@ var defaultPaginationOpts = {
         isSearch = true;
         searchEv();
         $('#lblMessage').css("display", "none");
-        // testSchedule()
 
     });
 
-    function testSchedule() {
-        $.ajax({
-            type : "POST",
-            url : "/gwa/api/event/checkcheck",
-            async: false,
-            success : function(result, status) {
-                alert("ok");
-            },
-        });
-    }
 
     function searchEv() {
 
@@ -155,8 +151,10 @@ var defaultPaginationOpts = {
         }
     }
     $("#btnGetEventList").click(function (event) {
+        currentSearchTab = 1;
         event.preventDefault();
         $('#searchDiv').css("display", "block");
+        $('#cboStatus').css("display", "inline-block");
         $('#btnGetEventList').addClass("active");
         $('#btnGetRegEvnts').removeClass("active");
 
@@ -169,8 +167,10 @@ var defaultPaginationOpts = {
         searchEv();
     })
     $("#btnGetRegEvnts").click(function (event) {
+        currentSearchTab = 3;
         event.preventDefault();
         $('#searchDiv').css("display", "none");
+        $('#cboStatus').css("display", "none");
         $('#btnGetEventList').removeClass("active");
         $('#btnGetRegEvnts').addClass("active");
 
@@ -229,6 +229,8 @@ var defaultPaginationOpts = {
 
     var addressWithLatLong;
     $("#btnNearbyEvents").click(function (event) {
+        currentSearchTab = 2;
+        $('#cboStatus').css("display", "none");
         event.preventDefault();
         // showPosition();
 
@@ -260,6 +262,7 @@ var defaultPaginationOpts = {
         );
     }
     function getNearEvents(){
+
         console.log("getting nearby events "+currentAddress);
         $.ajax({
             type : "POST",
@@ -286,6 +289,30 @@ var defaultPaginationOpts = {
                 console.log("ERROR: ", e);
             }
         });
+    }
+
+    // document.getElementById("cbSortType").addEventListener("change", );
+    $("#cbSortType").on('change', function () {
+        searchCurrentType(currentSearchTab);
+    });
+    $("#cboStatus").on('change', function () {
+        searchCurrentType(currentSearchTab);
+    });
+    // document.getElementById("cboStatus").addEventListener("change", searchCurrentType(currentSearchTab));
+
+    function searchCurrentType(type){
+        if (type == 1){
+            console.log("SEARCHING type1");
+            searchEv();
+        }
+        if (type == 2){
+            console.log("NEAR EVEtype2");
+            getNearEvents();
+        }
+        if (type == 3){
+            console.log("MY EVEtype3");
+            getMyEv();
+        }
     }
 
     authentication();

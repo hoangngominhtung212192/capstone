@@ -9,13 +9,23 @@
     android:id="@+id/dl"
     tools:context=".MainActivity">
 
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/event_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/event_bottom_navigation" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_above="@id/event_nav">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -43,21 +53,14 @@
                 </ProgressBar>
             </RelativeLayout>
 
-            <!--    FAP search button   -->
-            <android.support.design.widget.FloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:elevation="4dp"
-                app:backgroundTint="#0000AA"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/search"
-                android:layout_marginBottom="20dp"
-                android:layout_marginRight="20dp"
-                android:onClick="searchClick"/>
+
         </RelativeLayout>
 
     </LinearLayout>
+
+
+</RelativeLayout>
+
 
     <android.support.design.widget.NavigationView
         android:layout_width="wrap_content"

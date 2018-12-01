@@ -52,6 +52,7 @@ public class ArticleWSImpl implements ArticleWS {
         System.out.println("WS getarticle id:" + id);
         Article article = articleService.getArticleByID(id);
 
+//        System.out.println("CONTENT "+article.getContent());
         return new ResponseEntity<Article>(article, HttpStatus.OK);
     }
 
@@ -111,6 +112,7 @@ public class ArticleWSImpl implements ArticleWS {
 
     @Override
     public ResponseEntity<ArticleSDTO> searchArticleByAlt(String title, String cate, String status, String sorttype, int pageNum) {
+        System.out.println("PAGE NUM "+pageNum);
         List<Object> result = articleService.searchArticleWithSortAndPageByStatus(title, cate, status, sorttype, pageNum);
         ArticleSDTO sdto = new ArticleSDTO();
 

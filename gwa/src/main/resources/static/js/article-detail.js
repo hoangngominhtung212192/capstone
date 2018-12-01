@@ -43,7 +43,12 @@ $(document).ready(function () {
                     $('#author').append(result.account.username);
                     $('#title').append(title);
                     $('#date').append(date);
-                    $('#content').html(result.content);
+                    var content = result.content;
+                    // var regex = "(style=\".+\")";
+                    // var replacement = "style=\"height: auto; max-width: 100%;\"";
+                    // var finalcontent = content.toString().replace(regex, replacement);
+                    // console.log("content "+finalcontent);
+                    $('#content').html(content);
                 }
             },
             error : function(e) {

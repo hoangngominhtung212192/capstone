@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    var session_username = "";
     var checkImage = false;
     var imagetype;
     var imageFile;
@@ -82,6 +83,11 @@ $(document).ready(function () {
                     if(result.account.id != account_session_id){
                         // window.location.href = "/gwa/article";
                     }
+                    if(result.lastEditor != null && result.lastEditor != ""){
+                        $('#editByDiv').css("display", "block");
+                        $('#modifiedDate').append(result.modifiedDate);
+                        $('#lastEditor').append(result.lastEditor);
+                    }
                     var title = result.title;
                     var date = result.date;
                     var resultcontent = result.content.toString();
@@ -142,6 +148,7 @@ $(document).ready(function () {
             if (!checkImage){
                 curImage = $('#imgthumb').attr('src');
             }
+            console.log("session user "+session_username);
             var formArticle = {
                 id : id,
                 title : $("#title").val(),
@@ -151,6 +158,7 @@ $(document).ready(function () {
                 category : $("#cboCate").val(),
                 modifiedDate : today,
                 approvalStatus : 'Pending',
+                lastEditor : session_username,
             };
 
             updateArticle(formArticle);
@@ -213,53 +221,6 @@ $(document).ready(function () {
     // authentication();
 
     showArticle(id);
-    function authentication() {
-
-        $.ajax({
-            type: "GET",
-            url: "/gwa/api/user/checkLogin",
-            complete: function (xhr, status) {
-
-                if (status == "success") {
-                    // username click
-                    usernameClick();
-                    console.log("authenticating")
-                    showArticle(id);
-                    var xhr_data = xhr.responseText;
-                    var jsonResponse = JSON.parse(xhr_data);
-
-                    var username = jsonResponse["username"];
-                    var thumbAvatar = jsonResponse["avatar"];
-                    console.log(jsonResponse["role"].name + " " + username + " is on session!");
-                    $("#membersince").text("Member since " + jsonResponse["createdDate"].split(" ")[0]);
-
-                    // click profile button
-                    profileClick(jsonResponse["id"]);
-                    getSessionProfile(jsonResponse["id"]);
-                    account_session_id = jsonResponse["id"];
-                    ajaxGetAllNotification(jsonResponse["id"]);
-                    ajaxGetStatistic(jsonResponse["id"]);
-
-                    // display username, profile and logout button
-                    if (thumbAvatar) {
-                        $("#thumbAvatar-new").attr("src", thumbAvatar);
-                        $("#thumbAvatar-dropdown").attr("src", thumbAvatar);
-                    }
-
-                    if (jsonResponse["role"].name == "ADMIN") {
-                        $("#adminBtn").css("display", "block");
-                    }
-
-                } else {
-                    showArticle(id);
-                    // display login and register button
-                    console.log("Guest is accessing !");
-                    $("#profile-div").css("display", "none");
-                    $("#loginForm").css("display", "block");
-                }
-            }
-        });
-    }
 
     notificationClick();
 
@@ -553,6 +514,7 @@ $(document).ready(function () {
                     var jsonResponse = JSON.parse(xhr_data);
 
                     var username = jsonResponse["username"];
+                    session_username = username;
                     var thumbAvatar = jsonResponse["avatar"];
                     console.log(jsonResponse["role"].name + " " + username + " is on session!");
                     $("#membersince").text("Member since " + jsonResponse["createdDate"].split(" ")[0]);

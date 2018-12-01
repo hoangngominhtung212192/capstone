@@ -99,6 +99,9 @@ $(document).ready(function() {
 
         var regstaDate = $('#txtRegStartDate').val();
         var regendDate = $('#txtRegEndDate').val();
+
+        var today = new Date();
+
         var d1 = Date.parse(staDate);
         var d2 = Date.parse(endDate);
         var d3 = Date.parse(regstaDate);
@@ -134,16 +137,22 @@ $(document).ready(function() {
         }
         var minn = $("#txtAttMin").val();
         var maxx = $("#txtAttMax").val();
-        if (minn > maxx){
+        if (parseInt(minn) <= 0){
+            valid = false;
+            $.growl.error({message: "Attendee number should be positive"});
+        }
+        if (parseInt(minn) > parseInt(maxx)){
             console.log("minum is higer than maxx");
             valid = false;
             $.growl.error({message: "Minimum attendee should be lower than maximum attendee"});
         }
-        if (d3 < d4 && d4 < d1 && d1 < d2 ){
+        if (today < d3 < d4 && d4 < d1 && d1 < d2 ) {
             console.log("valid");
-            if (valid == true){
-                checkMatchingEvt(staDate,endDate);
+            if (valid == true) {
+                checkMatchingEvt(staDate, endDate);
             }
+        } else if (today>d3){
+            $.growl.error({message: "Dates must be later than today!"});
         } else {
             $.growl.error({message: "Input date is invalid!"});
         }
