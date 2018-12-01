@@ -1,7 +1,9 @@
 package com.tks.gwa.controller;
 
+import com.tks.gwa.dto.StatisticDTO;
 import com.tks.gwa.entity.Account;
 import com.tks.gwa.entity.Profile;
+import com.tks.gwa.entity.Token;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,6 +53,9 @@ public interface UserWS {
     ResponseEntity<List<Object>> getAllUserRatingByAccountID(@RequestParam("pageNumber") int pageNumber,
                                                              @RequestParam("accountID") int accountID);
 
+    @RequestMapping(value = "/getMBStatistic", method = RequestMethod.GET)
+    ResponseEntity<StatisticDTO> getStatisticMobile(@RequestParam("accountID") int accountID);
+
     @RequestMapping(value = "/ban", method = RequestMethod.POST)
     ResponseEntity<String> banAccount(@RequestParam("accountID") int accountID);
 
@@ -60,4 +65,11 @@ public interface UserWS {
     @RequestMapping(value = "/update-role", method = RequestMethod.POST)
     ResponseEntity<String> updateAccountRole(@RequestParam("accountID") int accountID,
                                              @RequestParam("roleName") String roleName);
+
+    @RequestMapping(value = "/addToken", method = RequestMethod.POST)
+    ResponseEntity<Token> addToken(@RequestParam("accountID") int accountID,
+                                   @RequestParam("token") String token);
+
+    @RequestMapping(value = "/forgot-password", method = RequestMethod.POST)
+    ResponseEntity<String> forgotPassword(@RequestParam("email") String email);
 }

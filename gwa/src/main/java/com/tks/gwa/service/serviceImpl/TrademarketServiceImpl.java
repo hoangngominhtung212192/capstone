@@ -4,11 +4,15 @@ import com.google.maps.model.LatLng;
 import com.tks.gwa.constant.AppConstant;
 import com.tks.gwa.dto.*;
 import com.tks.gwa.entity.*;
+import com.tks.gwa.firebase.PushNotification;
 import com.tks.gwa.repository.*;
 import com.tks.gwa.service.TrademarketService;
 import com.tks.gwa.utils.DatetimeHelper;
 import com.tks.gwa.utils.GoogleMapHelper;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +20,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Service
 @Transactional
@@ -42,6 +48,11 @@ public class TrademarketServiceImpl implements TrademarketService {
     @Autowired
     private NotificationRepository notificationRepository;
 
+    @Autowired
+    private PushNotification pushNotification;
+
+    @Autowired
+    private TokenRepository tokenRepository;
 
     //get Trade Post using ID
     @Override
@@ -831,8 +842,18 @@ public class TrademarketServiceImpl implements TrademarketService {
                 notification.setNotificationtype(notificationtype);
                 notification.setObjectID(orderrequest.getId());
 
-                notificationRepository.create(notification);
+                Notification result = notificationRepository.create(notification);
 
+                // firebase send notification
+                if (result != null) {
+                    List<Token> tokens = tokenRepository.findTokenByAccountID(result.getAccount().getId());
+
+                    System.out.println("User " + result.getAccount().getId() + " have " + tokens.size() + " tokens!!!");
+
+                    for (Token token : tokens) {
+                        send(token.getToken(), "OrderSent", noticationText);
+                    }
+                }
             }
         }
     }
@@ -927,4 +948,32 @@ public class TrademarketServiceImpl implements TrademarketService {
         return listResult;
     }
 
+    public void send(String token, String notificationType, String content) throws JSONException {
+
+        JSONObject body = new JSONObject();
+        body.put("to", token.trim());
+
+        JSONObject notification = new JSONObject();
+        notification.put("title", notificationType);
+        notification.put("body", content);
+        body.put("notification", notification);
+
+        // print
+        System.out.println(body.toString());
+
+        HttpEntity<String> request = new HttpEntity<>(body.toString());
+
+        CompletableFuture<String> pushNotifications = pushNotification.send(request);
+        CompletableFuture.allOf(pushNotifications).join();
+
+        try {
+            String firebaseResponse = pushNotifications.get();
+
+            System.out.println(firebaseResponse);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
 }

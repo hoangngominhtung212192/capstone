@@ -33,6 +33,8 @@ $(document).ready(function () {
                         window.location.href = "/gwa/model";
                     } else if (role == "ADMIN") {
                         window.location.href = "/gwa/admin/model/pending";
+                    } else if (role == "BUYERSELLER") {
+                        window.location.href = "/gwa/trade-market/my-trade";
                     }
                 } else {
                     console.log("Guest is accessing !");
@@ -84,21 +86,59 @@ $(document).ready(function () {
             data: JSON.stringify(data),
             success: function (result, status) {
 
-                // get goBack parameter value from previous page which required to login
-                var goBack = getUrlParameter("goBack");
-                if (goBack) {
-                    window.location.reload(history.back(goBack));
-                } else {
-                    if (result.role.name == "MEMBER") {
-                        window.location.href = "/gwa/model"
-                    } else {
-                        if (result.role.name == "ADMIN") {
-                            window.location.href = "/gwa/admin/model/pending";
-                        } else if (result.role.name == "BUYERSELLER") {
-                            window.location.href = "/gwa/trade-market/my-trade";
-                        }
-                    }
+                console.log(result);
+
+                /*  This is for firebase area */
+                var config = {
+                    apiKey: "AIzaSyCACMwhbLcmYliWyHJgfkd8IW6oPUoupIM",
+                    authDomain: "gunplaworld-51eee.firebaseapp.com",
+                    databaseURL: "https://gunplaworld-51eee.firebaseio.com",
+                    projectId: "gunplaworld-51eee",
+                    storageBucket: "gunplaworld-51eee.appspot.com",
+                    messagingSenderId: "22850579681"
+                };
+
+                firebase.initializeApp(config);
+
+                var messaging = firebase.messaging();
+
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.register("/gwa/pages/firebase-messaging-sw.js", {
+                        scope: "/gwa/pages/"
+                    }).then(function (registration) {
+                        messaging.useServiceWorker(registration);
+
+                        messaging.requestPermission()
+                            .then(function (value) {
+                                console.log("Have permission!");
+                                return messaging.getToken();
+                            }).then(function (token) {
+                            ajaxAddToken(result.id, token);
+
+                            // get goBack parameter value from previous page which required to login
+                            var goBack = getUrlParameter("goBack");
+                            if (goBack) {
+                                window.location.reload(history.back(goBack));
+                            } else {
+                                if (result.role.name == "MEMBER") {
+                                    window.location.href = "/gwa/model"
+                                } else {
+                                    if (result.role.name == "ADMIN") {
+                                        window.location.href = "/gwa/admin/model/pending";
+                                    } else if (result.role.name == "BUYERSELLER") {
+                                        window.location.href = "/gwa/trade-market/my-trade";
+                                    }
+                                }
+                            }
+                            // end redirect page
+                        }).catch(function (err) {
+                            console.log(err);
+                        })
+                    })
                 }
+
+                /* This is end of firebase  */
+
             },
             complete: function (xhr, textStatus) {
                 if (textStatus == "error") {
@@ -109,6 +149,17 @@ $(document).ready(function () {
                     $("#errorpassword").css("visibility", "visible");
                     $("#errorpassword").text(jsonResponse["message"]);
                 }
+            }
+        });
+    }
+
+    function ajaxAddToken(accountID, token) {
+
+        $.ajax({
+            type: "POST",
+            url: "/gwa/api/user/addToken?accountID=" + accountID + "&token=" + token,
+            success: function (result) {
+                console.log(result);
             }
         });
     }

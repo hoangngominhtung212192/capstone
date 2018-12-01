@@ -131,4 +131,7 @@ public interface WebController {
 
     @RequestMapping(value = "/admin/model/manage")
     public ModelAndView manageModelPage();
+
+    @RequestMapping(value = "/forgotpassword")
+    public ModelAndView forgotPasswordPage();
 }

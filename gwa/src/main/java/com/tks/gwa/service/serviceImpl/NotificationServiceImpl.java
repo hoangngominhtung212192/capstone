@@ -1,10 +1,18 @@
 package com.tks.gwa.service.serviceImpl;
 
 import com.tks.gwa.constant.AppConstant;
+import com.tks.gwa.dto.NotificationDTO;
 import com.tks.gwa.entity.Notification;
+import com.tks.gwa.entity.Token;
+import com.tks.gwa.firebase.PushNotification;
 import com.tks.gwa.repository.NotificationRepository;
+import com.tks.gwa.repository.NotificationTypeRepository;
+import com.tks.gwa.repository.TokenRepository;
 import com.tks.gwa.service.NotificationService;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +20,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Service
 @Transactional
@@ -20,10 +30,17 @@ public class NotificationServiceImpl implements NotificationService {
     @Autowired
     private NotificationRepository notificationRepository;
 
-    @Override
-    public List<Object> getNotificationByAccountID(int pageNumber, int accountID) {
+    @Autowired
+    private NotificationTypeRepository notificationTypeRepository;
 
-        List<Object> result = new ArrayList<>();
+    @Autowired
+    private PushNotification pushNotification;
+
+    @Autowired
+    private TokenRepository tokenRepository;
+
+    @Override
+    public NotificationDTO getNotificationByAccountID(int pageNumber, int accountID) {
 
         int total = notificationRepository.getCountNotificationByAccountID(accountID);
 
@@ -36,15 +53,15 @@ public class NotificationServiceImpl implements NotificationService {
                 lastPage = ((total / 10) + 1);
             }
 
-            result.add(lastPage);
-
             List<Notification> notificationList = notificationRepository.getListNotificationByAccountID(pageNumber, accountID);
-            result.add(notificationList);
+            int notSeen = notificationRepository.getCountNotSeenByAccountID(accountID);
 
-            return result;
+            NotificationDTO dto = new NotificationDTO(lastPage, notificationList, notSeen);
+
+            return dto;
         }
 
-        return null;
+        return new NotificationDTO(0, new ArrayList<Notification>(), 0);
     }
 
     @Override
@@ -55,7 +72,20 @@ public class NotificationServiceImpl implements NotificationService {
 
         notification.setSeen(AppConstant.NOTIFICATION_NOT_SEEN);
 
-        Notification newNotification = notificationRepository.create(notification);
+        Notification newNotification = notificationRepository.addNewNotification(notification);
+
+        // firebase send notification
+        if (newNotification != null) {
+            List<Token> tokens = tokenRepository.findTokenByAccountID(newNotification.getAccount().getId());
+
+            System.out.println("User " + newNotification.getAccount().getId() + " have " + tokens.size() + " tokens!!!");
+
+            String title = notificationTypeRepository.read(newNotification.getNotificationtype().getId()).getName();
+
+            for (Token token : tokens) {
+                send(token.getToken(), title, newNotification.getDescription());
+            }
+        }
 
         return newNotification;
     }
@@ -77,5 +107,34 @@ public class NotificationServiceImpl implements NotificationService {
         Date now = new Date();
         String strDate = sdf.format(now);
         return strDate;
+    }
+
+    public void send(String token, String notificationType, String content) throws JSONException {
+
+        JSONObject body = new JSONObject();
+        body.put("to", token.trim());
+
+        JSONObject notification = new JSONObject();
+        notification.put("title", notificationType);
+        notification.put("body", content);
+        body.put("notification", notification);
+
+        // print
+        System.out.println(body.toString());
+
+        HttpEntity<String> request = new HttpEntity<>(body.toString());
+
+        CompletableFuture<String> pushNotifications = pushNotification.send(request);
+        CompletableFuture.allOf(pushNotifications).join();
+
+        try {
+            String firebaseResponse = pushNotifications.get();
+
+            System.out.println(firebaseResponse);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 }

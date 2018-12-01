@@ -221,6 +221,11 @@ public class WebControllerImpl implements WebController {
     }
 
     @Override
+    public ModelAndView forgotPasswordPage() {
+        return new ModelAndView("forgot-password");
+    }
+
+    @Override
     public ModelAndView pendingTradepostPage() {
         return new ModelAndView("manipulate-tradepost");
     }

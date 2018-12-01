@@ -17,6 +17,8 @@ $(document).ready(function () {
                         window.location.href = "/gwa/model/"
                     } else if (role == "ADMIN") {
                         window.location.href = "/gwa/admin/model/create";
+                    } else if (role == "BUYERSELLER") {
+                        window.location.href = "/gwa/trade-market/my-trade";
                     }
                 } else {
                     console.log("Guest is accessing !");

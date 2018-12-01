@@ -106,8 +106,8 @@ $(document).ready(function () {
             success: function (result) {
                 console.log(result);
 
-                lastPage = result[0];
-                renderNotification(result[1]);
+                lastPage = result.lastPage;
+                renderNotification(result.notificationList, result.notSeen);
             }
         })
     }
@@ -129,9 +129,7 @@ $(document).ready(function () {
         }
     });
 
-    var countNotSeen = 0;
-
-    function renderNotification(result) {
+    function renderNotification(result, countNotSeen) {
 
         $.each(result, function (index, value) {
 
@@ -139,7 +137,6 @@ $(document).ready(function () {
 
             if (!value.seen) {
                 // not seen yet
-                countNotSeen++;
                 appendNotification += "<li>\n"
             } else {
                 // already seen
@@ -887,4 +884,45 @@ $(document).ready(function () {
             }
         });
     }
+
+    /*  This is for firebase area */
+    var config = {
+        apiKey: "AIzaSyCACMwhbLcmYliWyHJgfkd8IW6oPUoupIM",
+        authDomain: "gunplaworld-51eee.firebaseapp.com",
+        databaseURL: "https://gunplaworld-51eee.firebaseio.com",
+        projectId: "gunplaworld-51eee",
+        storageBucket: "gunplaworld-51eee.appspot.com",
+        messagingSenderId: "22850579681"
+    };
+
+    firebase.initializeApp(config);
+
+    var messaging = firebase.messaging();
+
+    navigator.serviceWorker.register("/gwa/pages/firebase-messaging-sw.js", {
+        scope: "/gwa/pages/"
+    }).then(function (registration) {
+        messaging.useServiceWorker(registration);
+
+        messaging.requestPermission()
+            .then(function (value) {
+                console.log("Have permission!");
+            }).catch(function (err) {
+            console.log("Error occur!", err);
+        })
+
+        messaging.onMessage(function (payload) {
+            console.log('onMessage: ', payload);
+
+            pageNumber = 1;
+            $("#ul-notification").empty();
+            ajaxGetAllNotification(account_session_id);
+            if (payload.notification.title == "Model" || payload.notification.title == "Event") {
+                toastr.error(payload.notification.body, payload.notification.title + " Notification", {timeOut: 5000});
+            } else {
+                toastr.info(payload.notification.body, payload.notification.title + " Notification", {timeOut: 5000});
+            }
+        })
+    })
+    /* This is end of firebase  */
 })

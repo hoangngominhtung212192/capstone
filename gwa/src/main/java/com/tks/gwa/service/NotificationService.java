@@ -1,6 +1,8 @@
 package com.tks.gwa.service;
 
+import com.tks.gwa.dto.NotificationDTO;
 import com.tks.gwa.entity.Notification;
+import org.json.JSONException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,9 +16,9 @@ public interface NotificationService {
      *
      * @param pageNumber
      * @param accountID
-     * @return
+     * @return NotificationDTO
      */
-    public List<Object> getNotificationByAccountID(int pageNumber, int accountID);
+    public NotificationDTO getNotificationByAccountID(int pageNumber, int accountID);
 
     /**
      *

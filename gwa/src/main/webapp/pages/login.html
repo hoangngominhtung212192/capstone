@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html class="cufon-active cufon-ready">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -8,6 +8,10 @@
 
     <link rel="stylesheet" type="text/css" href="/gwa/css/loginregist.css">
     <script type="text/javascript" src="/gwa/js/jquery.min.js"></script>
+    <!--    firebase    -->
+    <script src="/gwa/js/lib/firebase-app.js"></script>
+    <script src="/gwa/js/lib/firebase-messaging.js"></script>
+    <!--    end firebase -->
     <script type="text/javascript" src="/gwa/js/login.js"></script>
 
     <style>
@@ -130,7 +134,11 @@
                 <div class="bottom">
                     <input type="reset" value="Reset">
                     <input id="loginBtn" type="submit" value="Login">
-                    <a href="/gwa/register" rel="register" class="linkform">You don't have an account yet? Register here</a>
+                    <div style="width: 100%; height: auto; float: left;">
+                        <a style="float: left;" href="/gwa/forgotpassword" rel="register" class="linkform">Forgot password?</a>
+                        <a style="float: right; clear: none" href="/gwa/register" rel="register" class="linkform">
+                            Have account yet?</a>
+                    </div>
                     <div class="clear"></div>
                 </div>
             </form>
