@@ -293,14 +293,6 @@ textarea:focus {
       @media only screen and (max-width: 767px) {
         .header-area .top-header-area .top-header-content {
           height: 70px; } }
-      .header-area .top-header-area .top-header-content .logo a {
-        display: block; }
-        @media only screen and (min-width: 768px) and (max-width: 991px) {
-          .header-area .top-header-area .top-header-content .logo a {
-            display: none; } }
-        @media only screen and (max-width: 767px) {
-          .header-area .top-header-area .top-header-content .logo a {
-            display: none; } }
     .header-area .top-header-area .login-search-area {
       position: relative;
       z-index: 1; }
@@ -393,15 +385,6 @@ textarea:focus {
           height: 70px; } }
       .header-area .newspaper-main-menu .classy-navbar .logo {
         display: none; }
-        .header-area .newspaper-main-menu .classy-navbar .logo a {
-          display: block;
-          max-width: 160px; }
-        @media only screen and (min-width: 768px) and (max-width: 991px) {
-          .header-area .newspaper-main-menu .classy-navbar .logo {
-            display: block; } }
-        @media only screen and (max-width: 767px) {
-          .header-area .newspaper-main-menu .classy-navbar .logo {
-            display: block; } }
       .header-area .newspaper-main-menu .classy-navbar .classynav ul li a {
         font-weight: 500; }
         .header-area .newspaper-main-menu .classy-navbar .classynav ul li a:hover, .header-area .newspaper-main-menu .classy-navbar .classynav ul li a:focus {

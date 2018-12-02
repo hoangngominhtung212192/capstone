@@ -84,7 +84,7 @@ public class AppConstant {
 
     public static final int PAGE_SIZE = 24;
 
-    public  static  final int EVENT_MAX_RECORD_PER_PAGE = 5;
+    public  static  final int EVENT_MAX_RECORD_PER_PAGE = 10;
     // This notification is for updating member's profile
     public static final String NOTIFICATION_TYPE_PROFILE = "Profile";
 
@@ -99,4 +99,11 @@ public class AppConstant {
 
     // max display
     public static final int NOTIFICATION_MAX_DISPLAY = 10;
+
+    // send FCM url
+    public static final String FIREBASE_API_URL = "https://fcm.googleapis.com/fcm/send";
+
+    // FCM Server key - GunplaWorld
+    public static final String FIREBASE_SERVER_KEY = "AAAABVIALOE:APA91bHbFMo6WflOhNQj1" +
+            "gAvoye2g5XbVPmZY9Xdm9Hs7kG2bCsby0zkxQP567nCzUv79um331M66BZ6HcSjMRgkpcVSCx1FI3tIaBZLbZlOt7Eu4hNttMB3-RJnNWtEfhoZcr_F0MN9";
 }

@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    var session_username = "";
     var checkImage = false;
     var imagetype;
     var imageFile;
@@ -82,6 +83,11 @@ $(document).ready(function () {
                     if(result.account.id != account_session_id){
                         // window.location.href = "/gwa/article";
                     }
+                    if(result.lastEditor != null && result.lastEditor != ""){
+                        $('#editByDiv').css("display", "block");
+                        $('#modifiedDate').append(result.modifiedDate);
+                        $('#lastEditor').append(result.lastEditor);
+                    }
                     var title = result.title;
                     var date = result.date;
                     var resultcontent = result.content.toString();
@@ -142,6 +148,7 @@ $(document).ready(function () {
             if (!checkImage){
                 curImage = $('#imgthumb').attr('src');
             }
+            console.log("session user "+session_username);
             var formArticle = {
                 id : id,
                 title : $("#title").val(),
@@ -151,6 +158,7 @@ $(document).ready(function () {
                 category : $("#cboCate").val(),
                 modifiedDate : today,
                 approvalStatus : 'Pending',
+                lastEditor : session_username,
             };
 
             updateArticle(formArticle);
@@ -213,53 +221,6 @@ $(document).ready(function () {
     // authentication();
 
     showArticle(id);
-    function authentication() {
-
-        $.ajax({
-            type: "GET",
-            url: "/gwa/api/user/checkLogin",
-            complete: function (xhr, status) {
-
-                if (status == "success") {
-                    // username click
-                    usernameClick();
-                    console.log("authenticating")
-                    showArticle(id);
-                    var xhr_data = xhr.responseText;
-                    var jsonResponse = JSON.parse(xhr_data);
-
-                    var username = jsonResponse["username"];
-                    var thumbAvatar = jsonResponse["avatar"];
-                    console.log(jsonResponse["role"].name + " " + username + " is on session!");
-                    $("#membersince").text("Member since " + jsonResponse["createdDate"].split(" ")[0]);
-
-                    // click profile button
-                    profileClick(jsonResponse["id"]);
-                    getSessionProfile(jsonResponse["id"]);
-                    account_session_id = jsonResponse["id"];
-                    ajaxGetAllNotification(jsonResponse["id"]);
-                    ajaxGetStatistic(jsonResponse["id"]);
-
-                    // display username, profile and logout button
-                    if (thumbAvatar) {
-                        $("#thumbAvatar-new").attr("src", thumbAvatar);
-                        $("#thumbAvatar-dropdown").attr("src", thumbAvatar);
-                    }
-
-                    if (jsonResponse["role"].name == "ADMIN") {
-                        $("#adminBtn").css("display", "block");
-                    }
-
-                } else {
-                    showArticle(id);
-                    // display login and register button
-                    console.log("Guest is accessing !");
-                    $("#profile-div").css("display", "none");
-                    $("#loginForm").css("display", "block");
-                }
-            }
-        });
-    }
 
     notificationClick();
 
@@ -377,8 +338,8 @@ $(document).ready(function () {
             success: function (result) {
                 console.log(result);
 
-                lastPage = result[0];
-                renderNotification(result[1]);
+                lastPage = result.lastPage;
+                renderNotification(result.notificationList, result.notSeen);
             }
         })
     }
@@ -400,9 +361,7 @@ $(document).ready(function () {
         }
     });
 
-    var countNotSeen = 0;
-
-    function renderNotification(result) {
+    function renderNotification(result, countNotSeen) {
 
         $.each(result, function (index, value) {
 
@@ -410,16 +369,29 @@ $(document).ready(function () {
 
             if (!value.seen) {
                 // not seen yet
-                countNotSeen++;
                 appendNotification += "<li>\n"
             } else {
                 // already seen
                 appendNotification += "<li style='background-color: white;'>\n"
             }
 
+            var iconType = "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> ";
+
+            if (value.notificationtype.name == "Profile") {
+                iconType = "<i class=\"fa fa-user-circle-o text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "Model") {
+                iconType = "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "Tradepost") {
+                iconType = "<i class=\"fa fa-check-square-o text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "OrderSent") {
+                iconType = "<i class=\"fa fa fa-paper-plane text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "OrderReceived") {
+                iconType = "<i class=\"fa fa fa-bullhorn text-yellow\" style=\"color: darkred;\"></i> ";
+            }
+
             appendNotification += "<a id='" + value.id + "-" + value.notificationtype.name + "-" + value.objectID +
                 "' href=\"#\">\n" +
-                "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> " + value.description + "</a>\n" +
+                iconType + value.description + "</a>\n" +
                 "</li>";
 
             $("#ul-notification").append(appendNotification);
@@ -475,16 +447,16 @@ $(document).ready(function () {
     }
 
     function addNewNotification() {
-        var description = "Model " + current_model_id + " loading image 404 error!";
+        var description = $("#txtReason").val();
 
         var formNotification = {
             description: description,
-            objectID: current_model_id,
+            objectID: account_profile_on_page_id,
             account: {
-                id: 3 // to admin
+                id: account_profile_on_page_id
             },
             notificationtype: {
-                id: 2
+                id: 1
             }
         }
 
@@ -521,6 +493,8 @@ $(document).ready(function () {
         });
     }
 
+    /* End notification */
+
     // authentication();
 
     var account_session_id;
@@ -540,6 +514,7 @@ $(document).ready(function () {
                     var jsonResponse = JSON.parse(xhr_data);
 
                     var username = jsonResponse["username"];
+                    session_username = username;
                     var thumbAvatar = jsonResponse["avatar"];
                     console.log(jsonResponse["role"].name + " " + username + " is on session!");
                     $("#membersince").text("Member since " + jsonResponse["createdDate"].split(" ")[0]);
@@ -821,4 +796,44 @@ $(document).ready(function () {
         });
     }
 
+    /*  This is for firebase area */
+    var config = {
+        apiKey: "AIzaSyCACMwhbLcmYliWyHJgfkd8IW6oPUoupIM",
+        authDomain: "gunplaworld-51eee.firebaseapp.com",
+        databaseURL: "https://gunplaworld-51eee.firebaseio.com",
+        projectId: "gunplaworld-51eee",
+        storageBucket: "gunplaworld-51eee.appspot.com",
+        messagingSenderId: "22850579681"
+    };
+
+    firebase.initializeApp(config);
+
+    var messaging = firebase.messaging();
+
+    navigator.serviceWorker.register("/gwa/pages/firebase-messaging-sw.js", {
+        scope: "/gwa/pages/"
+    }).then(function (registration) {
+        messaging.useServiceWorker(registration);
+
+        messaging.requestPermission()
+            .then(function (value) {
+                console.log("Have permission!");
+            }).catch(function (err) {
+            console.log("Error occur!", err);
+        })
+
+        messaging.onMessage(function (payload) {
+            console.log('onMessage: ', payload);
+
+            pageNumber = 1;
+            $("#ul-notification").empty();
+            ajaxGetAllNotification(account_session_id);
+            if (payload.notification.title == "Model" || payload.notification.title == "Event") {
+                toastr.error(payload.notification.body, payload.notification.title + " Notification", {timeOut: 5000});
+            } else {
+                toastr.info(payload.notification.body, payload.notification.title + " Notification", {timeOut: 5000});
+            }
+        })
+    })
+    /* This is end of firebase  */
 })

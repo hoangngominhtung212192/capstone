@@ -10,6 +10,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 import tks.com.gwaandroid.model.Event;
 import tks.com.gwaandroid.model.EventSDTO;
+import tks.com.gwaandroid.model.Eventattendee;
 
 public interface EventAPI {
     @GET("api/event/searchEventAlt")
@@ -28,7 +29,12 @@ public interface EventAPI {
                                @Query("date") String date);
 
     @GET("api/event/getAttendeeInEventAlt")
-    Call<Boolean> getAttendeeInEventAlt(@Query("userid") int userid,
-                                        @Query("eventid") int eventid);
+    Call<Eventattendee> getAttendeeInEventAlt(@Query("userid") int userid,
+                                              @Query("eventid") int eventid);
+
+    @POST("api/event/getMyListEventAlt")
+    Call<EventSDTO> getMyListEventAlt(@Query("accountID") Integer accountID,
+                                      @Query("sorttype") String sorttype,
+                                      @Query("pageNum") int pageNum);
 
 }

@@ -34,6 +34,12 @@
 
     <script type="text/javascript" src="/gwa/js/ckeditor/ckeditor.js"></script>
     <script type="text/javascript" src="/gwa/js/jquery.min.js"></script>
+    <!--    toastr & firebase script  -->
+    <script src="/gwa/js/lib/firebase-app.js"></script>
+    <script src="/gwa/js/lib/firebase-messaging.js"></script>
+    <script type="text/javascript" src="/gwa/js/lib/toastr.min.js"></script>
+    <link href="/gwa/css/index/toastr.min.css" rel="stylesheet">
+    <!--    end toastr & firebase script   -->
     <script type="text/javascript" src="/gwa/js/admin-event-edit.js"></script>
     <!-- Google Font -->
     <link rel="stylesheet"
@@ -277,7 +283,7 @@
                         </div>
                         <input type="hidden" id="hiddenEvID">
                         <h3>Title</h3>
-                        <input type="text" class="form-control"style="background-color: white" placeholder="Title" id="txtTitle"/>
+                        <input type="text" class="form-control"style="background-color: white" placeholder="Title" id="txtTitle" maxlength="250"/>
                         <h3>Location</h3>
                         <div id="locationField">
                             <input id="txtLocation" placeholder="Enter your address" class="form-control"
@@ -359,7 +365,7 @@
                             }
                         </script>
                         <h3>Description</h3>
-                        <textarea id="txtDescription" class="form-control"></textarea>
+                        <textarea id="txtDescription" class="form-control" maxlength="250"></textarea>
                         <h3>Thumbnail image</h3>
                         <img id="imgthumb" src="#" style="width: 250px">
 
@@ -384,12 +390,12 @@
                         <h3>Minimum number of attendee</h3>
                         <input type="number" class="form-control"style="background-color: white" placeholder="Max number of attendee" id="txtAttMin"/>
                         <h3>Ticket price</h3>
-                        <input type="text" class="form-control"style="background-color: white" placeholder="Price" id="txtPrice"/>
+                        <input type="text" class="form-control"style="background-color: white" placeholder="Price" id="txtPrice" maxlength="50"/>
                         <h3>Status</h3>
                         <select id="cboStatus" class="editable-select" >
                             <option value="Active">Active</option>
                             <option value="Inactive">Inactive</option>
-                            <option value="Cancelled">Cancelled</option>
+                            <option value="Finished">Finished</option>
                         </select>&nbsp;
                         <h3>Content</h3>
                         <div style="margin-bottom: 10px">
@@ -403,7 +409,7 @@
                                 filebrowserImageUploadUrl: 'http://localhost:8080/gwa/images/upload',
                             });
                         </script>
-                        <button id="btnSubmit">Submit</button>
+                        <button id="btnSubmit" class="btn btn-primary">Submit</button>
                         <!--    End ASC/DESC    -->
                         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="confi-modal">
                             <div class="modal-dialog modal-sm">

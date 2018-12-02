@@ -116,6 +116,9 @@ public class ArticleStAXParser {
                     if (h1_class != null) {
                         if (h1_class.equalsIgnoreCase("w-blogpost-title entry-title")) {
                             String title = StAXParserHelper.getTextStAXContext(reader, tagName);
+
+                            title = title.replaceAll("%amp;", "&");
+
                             System.out.println("Title: " + title);
                             article.setTitle(title);
                         }
@@ -152,6 +155,8 @@ public class ArticleStAXParser {
             }
         }
 
+        content = content.replaceAll("%amp;", "&");
+        content = content.replaceAll("script", "div");
         System.out.println("Content: " + content);
         article.setContent(content);
 

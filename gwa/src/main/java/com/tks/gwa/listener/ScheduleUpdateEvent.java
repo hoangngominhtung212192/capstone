@@ -34,7 +34,7 @@ public class ScheduleUpdateEvent implements Runnable {
                 // log file
                 date = getCurrentTimeStamp();
                 FileUtil.logSchedule("[Schedule Update Event] System is beginning to update all events after cycle sleep",
-                        interval/1000/60/60, date);
+                        (float) interval/1000/60/60, date);
 
                 // Begin process update
                 eventService.checkNUpdateEventStatus();

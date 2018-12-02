@@ -1,9 +1,11 @@
 package com.tks.gwa.controller.controllerImpl;
 
 import com.tks.gwa.controller.UserWS;
+import com.tks.gwa.dto.StatisticDTO;
 import com.tks.gwa.entity.Account;
 import com.tks.gwa.entity.Profile;
 import com.tks.gwa.entity.Role;
+import com.tks.gwa.entity.Token;
 import com.tks.gwa.service.FileUploadService;
 import com.tks.gwa.service.UserService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -241,6 +245,16 @@ public class UserWsImpl implements UserWS {
     }
 
     @Override
+    public ResponseEntity<StatisticDTO> getStatisticMobile(int accountID) {
+
+        System.out.println("[UserWS] Begin getMBStatistic with accountID: " + accountID);
+
+        StatisticDTO result = userService.getMBStatisticByAccountID(accountID);
+
+        return new ResponseEntity<StatisticDTO>(result, HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<String> banAccount(int accountID) {
 
         System.out.println("[UserWS] Begin banAccount with accountID: " + accountID);
@@ -262,11 +276,54 @@ public class UserWsImpl implements UserWS {
     @Override
     public ResponseEntity<String> updateAccountRole(int accountID, String roleName) {
 
-        System.out.println("[UserWS] Begin uupdateAccountRole with accountID: " + accountID + " and Role: " + roleName);
+        System.out.println("[UserWS] Begin updateAccountRole with accountID: " + accountID + " and Role: " + roleName);
 
         userService.updateAccountRole(accountID, roleName);
 
         return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Token> addToken(int accountID, String token) {
+
+        System.out.println("[UserWS] Begin addToken with accountID: " + accountID + " and token: " + token);
+
+        Token result = userService.addToken(token, accountID);
+
+        if (result != null) {
+            System.out.println("Save token successfully with accountID: " + accountID);
+
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+
+        System.out.println("User " + accountID + " with Token existed!!");
+        return new ResponseEntity<>(new Token(), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> forgotPassword(String email) {
+
+        System.out.println("[UserWS] Begin forgotPassword with email: " + email);
+
+        if (email != null) {
+            try {
+                String result = userService.sendEmail(email);
+
+                if (!result.equalsIgnoreCase("This email does not exist!")) {
+                    return new ResponseEntity<>(result, HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(result, HttpStatus.valueOf(400));
+                }
+
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return new ResponseEntity<>("Error occured", HttpStatus.valueOf(400));
     }
 
 }

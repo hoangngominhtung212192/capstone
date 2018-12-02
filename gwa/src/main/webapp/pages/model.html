@@ -17,6 +17,12 @@
     <link rel="stylesheet" href="/gwa/css/pagination.css">
 
     <script type="text/javascript" src="/gwa/js/jquery.min.js"></script>
+    <!--    toastr & firebase script  -->
+    <script src="/gwa/js/lib/firebase-app.js"></script>
+    <script src="/gwa/js/lib/firebase-messaging.js"></script>
+    <script type="text/javascript" src="/gwa/js/lib/toastr.min.js"></script>
+    <link href="/gwa/css/index/toastr.min.css" rel="stylesheet">
+    <!--    end toastr & firebase script   -->
     <script>
         function executeDisplayForm() {
             if (document.getElementById('close_form').classList.contains('open')) {
@@ -202,7 +208,6 @@
                         <!-- Nav Start -->
                         <div class="classynav">
                             <ul>
-                                <li class="active"><a href="/gwa/">Home</a></li>
                                 <li><a href="/gwa/model">GUNDAM</a></li>
                                 <li><a href="/gwa/article">Articles</a></li>
                                 <li><a href="/gwa/event">Events</a></li>
@@ -439,7 +444,6 @@
                         <h4 class="widget-title">Quick Links</h4>
                         <!-- List -->
                         <ul class="list">
-                            <li class="active"><a href="/gwa/">Home</a></li>
                             <li><a href="/gwa/model">GUNDAM</a></li>
                             <li><a href="/gwa/article">Articles</a></li>
                             <li><a href="/gwa/event">Events</a></li>

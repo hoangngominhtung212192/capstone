@@ -4,10 +4,10 @@ public class LogSchedule {
 
     int id;
     String description;
-    int cycle;
+    float cycle;
     String date;
 
-    public LogSchedule(int id, String description, int cycle, String date) {
+    public LogSchedule(int id, String description, float cycle, String date) {
         this.id = id;
         this.description = description;
         this.cycle = cycle;
@@ -32,11 +32,11 @@ public class LogSchedule {
         this.description = description;
     }
 
-    public int getCycle() {
+    public float getCycle() {
         return cycle;
     }
 
-    public void setCycle(int cycle) {
+    public void setCycle(float cycle) {
         this.cycle = cycle;
     }
 

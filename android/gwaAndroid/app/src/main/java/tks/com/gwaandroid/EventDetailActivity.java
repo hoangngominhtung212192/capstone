@@ -13,9 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +25,11 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +38,7 @@ import tks.com.gwaandroid.api.EventAPI;
 import tks.com.gwaandroid.api.ModelAPI;
 import tks.com.gwaandroid.constant.AppConstant;
 import tks.com.gwaandroid.model.Event;
+import tks.com.gwaandroid.model.Eventattendee;
 import tks.com.gwaandroid.model.Model;
 import tks.com.gwaandroid.model.ModelDTO;
 import tks.com.gwaandroid.model.Modelimage;
@@ -43,7 +50,11 @@ public class EventDetailActivity extends AppCompatActivity {
     private ActionBarDrawerToggle abdt;
     private RelativeLayout linearProgressBar;
 
-    private TextView title, date, location, price, message1;
+    private TextView title, date, location, price, message1, curAtt, minAtt, remainingTickets;
+    private TextView regUsername, regDate, regAmount, message2;
+
+    private LinearLayout llRegInfo;
+
     private WebView content;
     private Button btn;
 //    private RelativeLayout layout_star_rating;
@@ -132,10 +143,18 @@ public class EventDetailActivity extends AppCompatActivity {
         location = (TextView) findViewById(R.id.location);
         price = (TextView) findViewById(R.id.price);
         message1 = (TextView) findViewById(R.id.lbl6);
-
+        curAtt = (TextView) findViewById(R.id.currentAttendeeNum);
+        minAtt = (TextView) findViewById(R.id.minAttendee);
         content = (WebView) findViewById(R.id.eContent);
-
         btn = (Button) findViewById(R.id.btnRegEvt);
+        message2 = (TextView) findViewById(R.id.lbl7);
+        remainingTickets = (TextView) findViewById(R.id.remainingT);
+
+        llRegInfo = (LinearLayout) findViewById(R.id.lRegInfo);
+        regUsername = (TextView) findViewById(R.id.txtRegUsername);
+        regDate = (TextView) findViewById(R.id.txtRegDate);
+        regAmount = (TextView) findViewById(R.id.txtRegAmount);
+
 
     }
 
@@ -144,26 +163,26 @@ public class EventDetailActivity extends AppCompatActivity {
         int eventid = id;
         EventAPI eventAPI = RetrofitClientInstance.getRetrofitInstance().create(EventAPI.class);
 
-        Call<Boolean> call = eventAPI.getAttendeeInEventAlt(userid, eventid);
+        Call<Eventattendee> call = eventAPI.getAttendeeInEventAlt(userid, eventid);
 
-        call.enqueue(new Callback<Boolean>() {
+        call.enqueue(new Callback<Eventattendee>() {
             // get json response
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+            public void onResponse(Call<Eventattendee> call, Response<Eventattendee> response) {
 
                 if (response.isSuccessful()) {
 //                    Toast.makeText(EventDetailActivity.this, "Is an attendee", Toast.LENGTH_SHORT).show();
                     btn.setVisibility(View.GONE);
-                    message1.setVisibility(View.VISIBLE);
+                    bindingRegisteredData(response.body());
+
                 } else {
-                    message1.setVisibility(View.GONE);
 //                    Toast.makeText(EventDetailActivity.this, "Not an attendee", Toast.LENGTH_SHORT).show();
                 }
             }
 
             // error
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<Eventattendee> call, Throwable t) {
 //                linearProgressBar.setVisibility(View.GONE);
                 Log.d("Error response", t.getMessage());
             }
@@ -208,6 +227,27 @@ public class EventDetailActivity extends AppCompatActivity {
 
     private void bindingData(Event result) {
 
+        Date today = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyy-MM-dd", Locale.ENGLISH);
+        String evDateS = result.getRegDateStart();
+        Date evDate = null;
+        try {
+            evDate = formatter.parse(evDateS);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+//        Date regdate = Date.parse(result.getRegDateStart());
+        if (today.before(evDate)){
+            System.out.println("today isnt within event reg");
+            btn.setVisibility(View.GONE);
+        }
+
+        if (result.getNumberOfAttendee() == result.getMaxAttendee()){
+            message2.setVisibility(View.VISIBLE);
+            btn.setVisibility(View.GONE);
+        }
+
         title.setText(result.getTitle());
 
         String dateS = "Starts on " + result.getStartDate() + " to " + result.getEndDate();
@@ -219,20 +259,44 @@ public class EventDetailActivity extends AppCompatActivity {
         String priceS = "Price: "+result.getTicketPrice();
         price.setText(priceS);
 
+        int rem = result.getMaxAttendee() - result.getNumberOfAttendee();
+        String remS = "Remaining tickets: "+rem;
+        remainingTickets.setText(remS);
+
+        String curAttS = "There are " + result.getNumberOfAttendee() + " people attending this event";
+        curAtt.setText(curAttS);
+
+        String minAttS = "Minimum amount of attendee required: " + result.getMinAttendee();
+        minAtt.setText(minAttS);
+
+        String message = "Registration starts from "+result.getRegDateStart()+" to "+result.getRegDateEnd();
+        message1.setText(message);
+
         String contentHtml = result.getContent();
         if (contentHtml.contains("localhost:8080")){
             System.out.println("there is localhost in content");
-            String newcont = contentHtml.replace("localhost",AppConstant.HOST_NAME);
-            System.out.println("CHANGED CONTETNT: "+newcont);
-            content.loadData(newcont, "text/html", "UTF-8");
-        } else{
-            System.out.println("no localhost in content");
-            content.loadData(contentHtml, "text/html", "UTF-8");
+            contentHtml = contentHtml.replace("localhost",AppConstant.HOST_NAME);
         }
+        //append data with global style
+        content.loadData("<style>img{display: inline;height: auto !important;max-width: 100% !important;}</style>"+contentHtml, "text/html", "UTF-8");
 
         linearProgressBar.setVisibility(View.GONE);
     }
-    private Context context;
+
+    private void bindingRegisteredData(Eventattendee eventattendee){
+//        llRegInfo = (LinearLayout) findViewById(R.id.lRegInfo);
+//        regUsername = (TextView) findViewById(R.id.txtRegUsername);
+//        regDate = (TextView) findViewById(R.id.txtRegDate);
+//        regAmount = (TextView) findViewById(R.id.txtRegAmount);
+        llRegInfo.setVisibility(View.VISIBLE);
+        String usernameS = "Username: "+eventattendee.getAccount().getUsername();
+        String dateS = "Registered on "+eventattendee.getDate();
+        String amountS = "Ticket amount: "+eventattendee.getAmount();
+
+        regUsername.setText(usernameS);
+        regDate.setText(dateS);
+        regAmount.setText(amountS);
+    }
 
     public void redirectReg(View view){
 

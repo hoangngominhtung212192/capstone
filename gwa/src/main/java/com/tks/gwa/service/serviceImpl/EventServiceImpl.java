@@ -3,15 +3,20 @@ package com.tks.gwa.service.serviceImpl;
 import com.google.maps.model.LatLng;
 import com.tks.gwa.constant.AppConstant;
 import com.tks.gwa.entity.*;
+import com.tks.gwa.firebase.PushNotification;
 import com.tks.gwa.repository.EventAttendeeRepository;
 import com.tks.gwa.repository.EventRepository;
 import com.tks.gwa.repository.NotificationRepository;
+import com.tks.gwa.repository.TokenRepository;
 import com.tks.gwa.service.EventService;
 import com.tks.gwa.service.NotificationService;
 import com.tks.gwa.utils.DatetimeHelper;
 import com.tks.gwa.utils.GoogleMapHelper;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +26,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Transactional
 @Service
@@ -37,6 +44,12 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     private EventAttendeeRepository eventAttendeeRepository;
+
+    @Autowired
+    private TokenRepository tokenRepository;
+
+    @Autowired
+    private PushNotification pushNotification;
 
     @Override
     public List<Event> getAllEvent() {
@@ -264,14 +277,54 @@ public class EventServiceImpl implements EventService {
                             notification.setNotificationtype(notificationtype);
                             notification.setObjectID(curE.getId());
 
-                            notificationRepository.create(notification);
+                            Notification result = notificationRepository.create(notification);
 //                            notificationService.addNewNotification(notification);
+
+                            // firebase send notification
+                            if (result != null) {
+                                List<Token> tokens = tokenRepository.findTokenByAccountID(result.getAccount().getId());
+
+                                System.out.println("User " + result.getAccount().getId() + " have " + tokens.size() + " tokens!!!");
+
+                                for (Token token : tokens) {
+                                    send(token.getToken(), "Event", "An event you signed up for was cancelled.");
+                                }
+                            }
                         }
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
                 continue;
             }
+        }
+    }
+
+    public void send(String token, String notificationType, String content) throws JSONException {
+
+        JSONObject body = new JSONObject();
+        body.put("to", token.trim());
+
+        JSONObject notification = new JSONObject();
+        notification.put("title", notificationType);
+        notification.put("body", content);
+        body.put("notification", notification);
+
+        // print
+        System.out.println(body.toString());
+
+        HttpEntity<String> request = new HttpEntity<>(body.toString());
+
+        CompletableFuture<String> pushNotifications = pushNotification.send(request);
+        CompletableFuture.allOf(pushNotifications).join();
+
+        try {
+            String firebaseResponse = pushNotifications.get();
+
+            System.out.println(firebaseResponse);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
     }
 }

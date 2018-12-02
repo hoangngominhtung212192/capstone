@@ -34,7 +34,7 @@ public class ScheduleUpdateTrade implements Runnable {
                 // log file
                 date = getCurrentTimeStamp();
                 FileUtil.logSchedule("[Schedule Update Trade] System is beginning to update trade markets after cycle sleep",
-                        interval/1000/60/60, date);
+                        (float) interval/1000/60/60, date);
 
                 // Begin process update
                 trademarketService.autoRejectAllOrderByScheduler();

@@ -22,4 +22,25 @@ public interface NotificationRepository extends GenericRepository<Notification, 
      * @return
      */
     public int getCountNotificationByAccountID(int accountID);
+
+    /**
+     *
+     * @param accountID
+     * @return
+     */
+    public int getCountNotSeenByAccountID(int accountID);
+
+    /**
+     *
+     * @param notification
+     * @return
+     */
+    public Notification addNewNotification(Notification notification);
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public Notification findByID(int id);
 }

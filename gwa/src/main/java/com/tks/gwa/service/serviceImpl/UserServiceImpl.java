@@ -2,20 +2,23 @@ package com.tks.gwa.service.serviceImpl;
 
 import com.tks.gwa.constant.AppConstant;
 import com.tks.gwa.dto.Pagination;
-import com.tks.gwa.entity.Account;
-import com.tks.gwa.entity.Profile;
-import com.tks.gwa.entity.Role;
-import com.tks.gwa.entity.Traderating;
+import com.tks.gwa.dto.StatisticDTO;
+import com.tks.gwa.entity.*;
 import com.tks.gwa.repository.*;
 import com.tks.gwa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.mail.*;
+import javax.mail.internet.*;
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 @Service
 @Transactional
@@ -38,6 +41,15 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private TokenRepository tokenRepository;
+
+    @Value("${gmail.username}")
+    private String username;
+
+    @Value("${gmail.password}")
+    private String password;
 
     @Override
     public Account checkLogin(Account account) {
@@ -290,6 +302,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public StatisticDTO getMBStatisticByAccountID(int accountID) {
+
+        // get sell records
+        int sell = tradepostRepository.getCountTradepostByAccountIDAndTradetype(accountID, 1);
+
+        // get buy records
+        int buy = tradepostRepository.getCountTradepostByAccountIDAndTradetype(accountID, 2);
+
+        // get count proposal
+        int proposal = proposalRepository.getCountByAccountID(accountID);
+
+        StatisticDTO dto = new StatisticDTO(sell, buy, proposal);
+
+        return dto;
+    }
+
+    @Override
     public void banAccount(int accountID) {
         Account account = accountRepository.read(accountID);
 
@@ -321,6 +350,56 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public Token addToken(String token, int accountID) {
+
+        Token result = null;
+
+        Token exist_token = tokenRepository.checkExistToken(token, accountID);
+
+        if (exist_token == null) {
+            result = new Token();
+
+            Account account = new Account();
+            account.setId(accountID);
+            result.setAccount(account);
+
+            result.setToken(token);
+
+            result = tokenRepository.create(result);
+        }
+
+        return result;
+    }
+
+    @Override
+    public String sendEmail(String email) throws MessagingException, AddressException, IOException {
+
+        Profile profile = profileRepository.findProfileByEmail(email);
+
+        if (profile != null) {
+            String fullName = "";
+
+            if (profile.getMiddleName() != null) {
+                fullName += profile.getLastName() + " " + profile.getMiddleName() + " " + profile.getFirstName();
+            } else {
+                fullName += profile.getLastName() + " " + profile.getMiddleName();
+            }
+
+            String content = "Hello <font color=\"darkblue\"><b>" + fullName + "</b></font>,<br/><br/>";
+
+            content += "Thanks for join <font color=\"darkred\"><b>Gunpla World</b></font> !!<br/>";
+
+            content += "Your password is: <b>" + profile.getAccount().getPassword() + "</b><br/><br/>";
+
+            content += "Best regards,<br/>Gunpla World";
+
+            return executeSendEmail(email, content);
+        }
+
+        return "This email does not exist!";
+    }
+
     public String getCurrentTimeStamp() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
@@ -344,5 +423,48 @@ public class UserServiceImpl implements UserService {
         listResult[1] = lastPage;
 
         return listResult;
+    }
+
+    public String executeSendEmail(String email, String content) throws MessagingException, AddressException, IOException {
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth","true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        Message msg = new MimeMessage(session);
+        msg.setFrom(new InternetAddress(username, false));
+
+        msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+        msg.setSubject("Gunpla World - Forgot password");
+        msg.setSentDate(new Date());
+
+        Multipart multipart = new MimeMultipart();
+
+        MimeBodyPart messageBodyPart = new MimeBodyPart();
+        messageBodyPart.setContent(content, "text/html");
+
+        multipart.addBodyPart(messageBodyPart);
+
+        MimeBodyPart attachPart = new MimeBodyPart();
+        attachPart.attachFile("./image/gunpla_world.jpg");
+
+        multipart.addBodyPart(attachPart);
+        msg.setContent(multipart);
+
+        // send email
+        Transport.send(msg);
+
+        System.out.println("[UserService] Mail forgot-password has been sent successfully !!");
+
+        return "We have sent your password to your email! Please check it!";
     }
 }

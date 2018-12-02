@@ -8,6 +8,7 @@ $(document).ready(function () {
     var totalPage = 1;
     var $pagination = $("#pagination-event");
     var isSearch = false;
+    var currentSearchTab = 1;
     var defaultPaginationOpts = {
         totalPages: totalPage,
 // the current page that show on start
@@ -37,7 +38,15 @@ $(document).ready(function () {
         onPageClick: function (event, page) {
             currentPage = page;
             $('#search-result').html("");
-            searchArticle();
+            if (currentSearchTab == 1){
+                // alert("current search tab 1");
+                searchArticle();
+            }
+            if (currentSearchTab == 2){
+                // alert("current search tab 2");
+                getMyArticle();
+            }
+
         },
 
 // pagination Classes
@@ -123,6 +132,7 @@ $(document).ready(function () {
     }
     $("#btnSearch").click(function (event) {
         event.preventDefault();
+        currentSearchTab = 1;
         var searchDiv = document.getElementById("search-result");
         while (searchDiv.firstChild) {
             searchDiv.removeChild(searchDiv.firstChild);
@@ -153,21 +163,25 @@ $(document).ready(function () {
                 console.log(result);
                 console.log(status);
                 console.log("seach numb of pages: "+result[0]);
+
+                if (totalPage == 0){
+                    totalPage = 1;
+                }
+                console.log("totalp "+totalPage);
                 $pagination.twbsPagination('destroy');
-                // if (totalPage > 1){
-                    $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
-                        totalPages: totalPage
-                    }));
-                // }
+                $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+                    totalPages: totalPage
+                }));
                 appendResult(data);
             },
             error : function(e) {
-                alert("No article with matching title found!");
+                // alert("No article with matching title found!");
                 console.log("ERROR: ", e);
             }
         });
     }
     $("#btnListArticle").click(function (event) {
+        currentSearchTab = 1;
         event.preventDefault();
         $('#searchDiv').css("display", "block");
         $('#cbCateType').css("display", "inline-block");
@@ -179,6 +193,7 @@ $(document).ready(function () {
         searchArticle();
     });
     $("#btnGetMyArticles").click(function (event) {
+        currentSearchTab = 2;
         event.preventDefault();
         $('#searchDiv').css("display", "none");
         $('#cbCateType').css("display", "none");
@@ -210,6 +225,9 @@ $(document).ready(function () {
                 console.log(result);
                 console.log(status);
                 console.log("seach numb of pages: "+result[0]);
+                if (totalPage == 0){
+                    totalPage = 1;
+                }
                 $pagination.twbsPagination('destroy');
                 $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
                     totalPages: totalPage
@@ -217,12 +235,28 @@ $(document).ready(function () {
                 appendMyResult(data);
             },
             error : function(e) {
-                alert("No event with matching title found!");
                 console.log("ERROR: ", e);
             }
         });
     }
 
+    $("#cbSortType").on('change', function () {
+        console.log("asd")
+        searchCurrentType(currentSearchTab);
+    });
+    $("#cbCateType").on('change', function () {
+        searchCurrentType(currentSearchTab);
+    });
+    function searchCurrentType(type){
+        if (type == 1){
+            console.log("SEARCHING type1");
+            searchArticle();
+        }
+        if (type == 2){
+            console.log("NEAR EVEtype2");
+            getMyArticle();
+        }
+    }
     /*   Begin authentication and notification  */
     // process UI
     $(document).click(function (event) {
@@ -398,11 +432,8 @@ $(document).ready(function () {
             success: function (result) {
                 console.log(result);
 
-                lastPage = result[0];
-                renderNotification(result[1]);
-            },
-            error: function (e) {
-                console.log("ERROR: ", e);
+                lastPage = result.lastPage;
+                renderNotification(result.notificationList, result.notSeen);
             }
         })
     }
@@ -424,26 +455,37 @@ $(document).ready(function () {
         }
     });
 
-    var countNotSeen = 0;
+    function renderNotification(result, countNotSeen) {
 
-    function renderNotification(result) {
-console.log("rendering notification");
         $.each(result, function (index, value) {
 
             var appendNotification = "";
 
             if (!value.seen) {
                 // not seen yet
-                countNotSeen++;
                 appendNotification += "<li>\n"
             } else {
                 // already seen
                 appendNotification += "<li style='background-color: white;'>\n"
             }
 
+            var iconType = "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> ";
+
+            if (value.notificationtype.name == "Profile") {
+                iconType = "<i class=\"fa fa-user-circle-o text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "Model") {
+                iconType = "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "Tradepost") {
+                iconType = "<i class=\"fa fa-check-square-o text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "OrderSent") {
+                iconType = "<i class=\"fa fa fa-paper-plane text-yellow\" style=\"color: darkred;\"></i> ";
+            } else if (value.notificationtype.name == "OrderReceived") {
+                iconType = "<i class=\"fa fa fa-bullhorn text-yellow\" style=\"color: darkred;\"></i> ";
+            }
+
             appendNotification += "<a id='" + value.id + "-" + value.notificationtype.name + "-" + value.objectID +
                 "' href=\"#\">\n" +
-                "<i class=\"fa fa-warning text-yellow\" style=\"color: darkred;\"></i> " + value.description + "</a>\n" +
+                iconType + value.description + "</a>\n" +
                 "</li>";
 
             $("#ul-notification").append(appendNotification);
@@ -499,16 +541,16 @@ console.log("rendering notification");
     }
 
     function addNewNotification() {
-        var description = "Model " + current_model_id + " loading image 404 error!";
+        var description = $("#txtReason").val();
 
         var formNotification = {
             description: description,
-            objectID: current_model_id,
+            objectID: account_profile_on_page_id,
             account: {
-                id: 3 // to admin
+                id: account_profile_on_page_id
             },
             notificationtype: {
-                id: 2
+                id: 1
             }
         }
 
@@ -545,9 +587,47 @@ console.log("rendering notification");
         });
     }
 
-
-
     /* End notification */
     /*   End authentication and notification  */
 
+    /*  This is for firebase area */
+    var config = {
+        apiKey: "AIzaSyCACMwhbLcmYliWyHJgfkd8IW6oPUoupIM",
+        authDomain: "gunplaworld-51eee.firebaseapp.com",
+        databaseURL: "https://gunplaworld-51eee.firebaseio.com",
+        projectId: "gunplaworld-51eee",
+        storageBucket: "gunplaworld-51eee.appspot.com",
+        messagingSenderId: "22850579681"
+    };
+
+    firebase.initializeApp(config);
+
+    var messaging = firebase.messaging();
+
+    navigator.serviceWorker.register("/gwa/pages/firebase-messaging-sw.js", {
+        scope: "/gwa/pages/"
+    }).then(function (registration) {
+        messaging.useServiceWorker(registration);
+
+        messaging.requestPermission()
+            .then(function (value) {
+                console.log("Have permission!");
+            }).catch(function (err) {
+            console.log("Error occur!", err);
+        })
+
+        messaging.onMessage(function (payload) {
+            console.log('onMessage: ', payload);
+
+            pageNumber = 1;
+            $("#ul-notification").empty();
+            ajaxGetAllNotification(account_session_id);
+            if (payload.notification.title == "Model" || payload.notification.title == "Event") {
+                toastr.error(payload.notification.body, payload.notification.title + " Notification", {timeOut: 5000});
+            } else {
+                toastr.info(payload.notification.body, payload.notification.title + " Notification", {timeOut: 5000});
+            }
+        })
+    })
+    /* This is end of firebase  */
 })

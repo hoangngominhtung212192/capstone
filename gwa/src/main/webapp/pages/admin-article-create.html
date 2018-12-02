@@ -22,6 +22,12 @@
   <link rel="stylesheet" href="/gwa/css/jquery.growl.css">
 
   <script type="text/javascript" src="/gwa/js/jquery.min.js"></script>
+  <!--    toastr & firebase script  -->
+  <script src="/gwa/js/lib/firebase-app.js"></script>
+  <script src="/gwa/js/lib/firebase-messaging.js"></script>
+  <script type="text/javascript" src="/gwa/js/lib/toastr.min.js"></script>
+  <link href="/gwa/css/index/toastr.min.css" rel="stylesheet">
+  <!--    end toastr & firebase script   -->
 
   <script type="text/javascript" src="/gwa/js/html-importer.js"></script>
   <script type="text/javascript" src="/gwa/js/admin-article-create.js"></script>
@@ -270,9 +276,9 @@
               <h1 class="box-title">Create a new article</h1>
             </div>
             <h3>Title</h3>
-            <input type="text" class="form-control"style="background-color: white" placeholder="Title" id="txtTitle"/>
+            <input type="text" class="form-control"style="background-color: white" placeholder="Title" id="txtTitle" maxlength="250"/>
             <h3>Description</h3>
-            <textarea id="txtDescription" class="form-control"></textarea>
+            <textarea id="txtDescription" class="form-control" maxlength="250"></textarea>
             <h3>Thumbnail image</h3>
             <img id="imgthumb" src="#" style="width: 250px">
 
@@ -312,7 +318,7 @@
                     // filebrowserImageUploadUrl: '/gwa/images/upload',
                 });
             </script>
-            <button id="btnSubmit">Submit</button>
+            <button id="btnSubmit" class="btn btn-primary">Submit</button>
           </div>
           <!-- /.col -->
         </div>

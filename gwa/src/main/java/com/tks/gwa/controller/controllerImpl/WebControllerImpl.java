@@ -29,7 +29,7 @@ public class WebControllerImpl implements WebController {
      */
     @Override
     public ModelAndView indexPage() {
-        return new ModelAndView("index");
+        return new ModelAndView("model");
     }
 
     /**
@@ -218,6 +218,11 @@ public class WebControllerImpl implements WebController {
     @Override
     public ModelAndView manageModelPage() {
         return new ModelAndView("admin-manage-model");
+    }
+
+    @Override
+    public ModelAndView forgotPasswordPage() {
+        return new ModelAndView("forgot-password");
     }
 
     @Override
