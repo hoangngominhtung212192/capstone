@@ -151,6 +151,7 @@ public class EventActivity extends AppCompatActivity {
                     Toast.makeText(EventActivity.this, "Logout successfully!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(EventActivity.this, LoginActivity.class);
                     startActivity(intent);
+                    finish();
                 }
 
                 return true;

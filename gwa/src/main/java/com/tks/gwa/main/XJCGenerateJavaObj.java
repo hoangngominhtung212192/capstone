@@ -162,5 +162,21 @@ public class XJCGenerateJavaObj {
 //            e.printStackTrace();
 //        }
 
+        String s = "<p><script type=\"text/javascript\">\n" +
+                "amzn_assoc_placement = \"adunit0\";\n" +
+                "amzn_assoc_search_bar = \"false\";\n" +
+                "amzn_assoc_tracking_id = \"gunplacontrib-20\";\n" +
+                "amzn_assoc_ad_mode = \"manual\";\n" +
+                "amzn_assoc_ad_type = \"smart\";\n" +
+                "amzn_assoc_marketplace = \"amazon\";\n" +
+                "amzn_assoc_region = \"US\";\n" +
+                "amzn_assoc_title = \"Shop this tutorial:\";\n" +
+                "amzn_assoc_linkid = \"e2576ae4e2206245367b0ecfbcc71015\";\n" +
+                "amzn_assoc_asins = \"B0778YPL6R,B002MB61RQ,B001003W8Q,B000FODYHW\";\n" +
+                "</script></p>";
+
+        // DOTALL option, replace from string to string include new line character (\n)
+        s = s.replaceAll("(?s)<script.*</script>", "");
+        System.out.println(s);
     }
 }

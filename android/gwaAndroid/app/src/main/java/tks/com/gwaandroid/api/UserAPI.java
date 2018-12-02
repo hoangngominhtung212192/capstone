@@ -8,6 +8,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 import tks.com.gwaandroid.model.Account;
 import tks.com.gwaandroid.model.Profile;
+import tks.com.gwaandroid.model.StatisticDTO;
+import tks.com.gwaandroid.model.UserRatingDTO;
 
 /**
  * Created by Tung Hoang Ngo Minh on 11/14/2018.
@@ -23,4 +25,11 @@ public interface UserAPI {
 
     @POST("api/user/profile")
     Call<Profile> getUserProfile(@Query("accountID") int accountID);
+
+    @GET("api/user/getMBStatistic")
+    Call<StatisticDTO> getStatistic(@Query("accountID") int accountID);
+
+    @GET("api/user/rating/mobile/getAll")
+    Call<UserRatingDTO> getUserRating(@Query("pageNumber") int pageNumber,
+                                      @Query("accountID") int accountID);
 }

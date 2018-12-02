@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-public class TrademarketActivity extends AppCompatActivity {
+class TrademarketActivity extends AppCompatActivity {
 
     private DrawerLayout dl;
     private ActionBarDrawerToggle abdt;
@@ -67,6 +67,7 @@ public class TrademarketActivity extends AppCompatActivity {
                     Toast.makeText(TrademarketActivity.this, "Logout successfully!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(TrademarketActivity.this, LoginActivity.class);
                     startActivity(intent);
+                    finish();
                 }
 
                 return true;

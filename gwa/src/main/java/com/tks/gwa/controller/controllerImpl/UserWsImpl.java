@@ -2,10 +2,8 @@ package com.tks.gwa.controller.controllerImpl;
 
 import com.tks.gwa.controller.UserWS;
 import com.tks.gwa.dto.StatisticDTO;
-import com.tks.gwa.entity.Account;
-import com.tks.gwa.entity.Profile;
-import com.tks.gwa.entity.Role;
-import com.tks.gwa.entity.Token;
+import com.tks.gwa.dto.UserRatingDTO;
+import com.tks.gwa.entity.*;
 import com.tks.gwa.service.FileUploadService;
 import com.tks.gwa.service.UserService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
@@ -21,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -252,6 +251,24 @@ public class UserWsImpl implements UserWS {
         StatisticDTO result = userService.getMBStatisticByAccountID(accountID);
 
         return new ResponseEntity<StatisticDTO>(result, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<UserRatingDTO> getAllUserRatingByAccountIDMobile(int pageNumber, int accountID) {
+
+        System.out.println("[UserWS] Begin getAllUserRatingByAccountIDMobile with data:");
+        System.out.println("Page number: " + pageNumber);
+        System.out.println("AccountID: " + accountID);
+
+        UserRatingDTO result = userService.getAllUserRatingByAccountIDMobile(pageNumber, accountID);
+
+        if (result != null) {
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+
+        result = new UserRatingDTO(0, new ArrayList<Traderating>());
+
+        return new ResponseEntity<>(result, HttpStatus.valueOf(400));
     }
 
     @Override

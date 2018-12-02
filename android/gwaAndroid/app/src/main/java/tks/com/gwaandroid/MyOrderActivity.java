@@ -170,6 +170,7 @@ public class MyOrderActivity extends AppCompatActivity {
                     Toast.makeText(MyOrderActivity.this, "Logout successfully!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(MyOrderActivity.this, LoginActivity.class);
                     startActivity(intent);
+                    finish();
                 }
 
                 return true;

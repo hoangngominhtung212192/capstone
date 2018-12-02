@@ -157,6 +157,7 @@ public class MyTradeActivity extends AppCompatActivity {
                     Toast.makeText(MyTradeActivity.this, "Logout successfully!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(MyTradeActivity.this, LoginActivity.class);
                     startActivity(intent);
+                    finish();
                 }
 
                 return true;

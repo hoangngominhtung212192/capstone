@@ -115,6 +115,7 @@ public class ModelDetailActivity extends AppCompatActivity {
                     Toast.makeText(ModelDetailActivity.this, "Logout successfully!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ModelDetailActivity.this, LoginActivity.class);
                     ModelDetailActivity.this.startActivity(intent);
+                    finish();
                 }
 
                 return true;

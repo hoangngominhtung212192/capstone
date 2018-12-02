@@ -1,6 +1,7 @@
 package com.tks.gwa.controller;
 
 import com.tks.gwa.dto.StatisticDTO;
+import com.tks.gwa.dto.UserRatingDTO;
 import com.tks.gwa.entity.Account;
 import com.tks.gwa.entity.Profile;
 import com.tks.gwa.entity.Token;
@@ -55,6 +56,10 @@ public interface UserWS {
 
     @RequestMapping(value = "/getMBStatistic", method = RequestMethod.GET)
     ResponseEntity<StatisticDTO> getStatisticMobile(@RequestParam("accountID") int accountID);
+
+    @RequestMapping(value = "/rating/mobile/getAll", method = RequestMethod.GET)
+    ResponseEntity<UserRatingDTO> getAllUserRatingByAccountIDMobile(@RequestParam("pageNumber") int pageNumber,
+                                                                    @RequestParam("accountID") int accountID);
 
     @RequestMapping(value = "/ban", method = RequestMethod.POST)
     ResponseEntity<String> banAccount(@RequestParam("accountID") int accountID);
