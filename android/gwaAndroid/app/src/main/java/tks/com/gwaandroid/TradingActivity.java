@@ -241,6 +241,9 @@ public class TradingActivity extends AppCompatActivity {
             case R.id.action_search:
                 openSearchDialog();
                 return true;
+            case R.id.action_post:
+
+                return true;
 
             default:
                 return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);

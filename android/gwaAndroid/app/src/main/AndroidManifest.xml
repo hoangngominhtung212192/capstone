@@ -51,7 +51,8 @@
         <activity android:name=".MyOrderActivity" />
         <activity android:name=".ManageOrderActivity" />
         <activity android:name=".UserRatingActivity" />
-        <activity android:name=".NotificationActivity"></activity>
+        <activity android:name=".NotificationActivity"/>
+        <activity android:name=".PostTradeActivity"/>
     </application>
 
 </manifest>
