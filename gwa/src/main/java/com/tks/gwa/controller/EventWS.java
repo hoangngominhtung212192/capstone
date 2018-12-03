@@ -117,4 +117,7 @@ public interface EventWS {
     @RequestMapping(value = "/checkcheck", method = RequestMethod.POST)
     ResponseEntity<String> checkcheck();
 
+    @RequestMapping(value = "/checkCard", method = RequestMethod.GET)
+    ResponseEntity<Boolean> checkCard(@RequestParam("number") String number);
+
 }

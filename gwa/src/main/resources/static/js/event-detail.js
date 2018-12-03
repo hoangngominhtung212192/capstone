@@ -340,20 +340,46 @@ $(document).ready(function () {
             }
         });
     }
-    var modalConfirm = function(callback) {
-        $("#btnSubmitRegister").on("click", function(){
-            callback(true);
-            $("#confi-modal").modal('hide');
-        });
 
-    };
+    function checkValidCard(){
+        var cardNumberString = $('#txtCard').val();
+        if (cardNumberString.length >0){
+            $.ajax({
+                type : "GET",
+                url : "/gwa/api/event/checkCard",
+                data: {
+                    number : cardNumberString,
+                },
+                success : function(result, status) {
+                    if (result== true){
+                        // $.growl.error({message: "Credit card number is valid"});
+                        return true;
+                    } else {
+                        $.growl.error({message: "Credit card number does not exist"});
+                        return false;
+                    }
 
+                },
+                error : function(e) {
+                    // alert("Error!")
+                    console.log("ERROR: ", e);
+                }
+            });
+        } else {
+            $.growl.error({message: "Please enter your credit card number"});
+        }
+    }
 
     $("#btnSubmitRegister").click(function (event) {
         event.preventDefault();
+        var check = true;
 
         var eventid = $("#hidID").val();
-        var amount = $('#txtNum').val()
+        var amount = $('#txtNum').val();
+        if  (checkValidCard() == false){
+            // alert("card false");
+            check = false;
+        }
 
         var formArticle = {
             eventit : parseInt(eventid),
@@ -374,10 +400,12 @@ $(document).ready(function () {
                     if (result<amount){
                         $.growl.error({message: "There aren't enough tickets! Please change the number of tickets you want!"});
                     } else{
-                        registerAtt();
+                        if (check == true) {
+                            registerAtt();
+                        }
                     }
                 } else {
-                    $.growl.error({message: "Please enter a positive number"});
+                    $.growl.error({message: "Please enter a positive number of tickets"});
                 }
 
             },

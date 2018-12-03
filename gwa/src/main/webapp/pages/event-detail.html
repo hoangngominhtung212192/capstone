@@ -12,7 +12,7 @@
     <title>Gunpla World</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="/gwa/img/favicon.ico">
+    <!--<link rel="icon" href="/gwa/img/favicon.ico">-->
 
     <link rel="stylesheet" href="/gwa/css/jquery.growl.css">
     <!-- Core Stylesheet -->
@@ -29,10 +29,6 @@
     <script type="text/javascript" src="/gwa/js/lib/toastr.min.js"></script>
     <link href="/gwa/css/index/toastr.min.css" rel="stylesheet">
     <!--    end toastr & firebase script   -->
-    <script type="text/javascript" src="/gwa/js/html-importer.js"></script>
-    <script type="text/javascript" src="/gwa/js/event-detail.js"></script>
-
-    <!--<script type="text/javascript" src="/gwa/js/html-importer.js"></script>-->
     
     <script type="text/javascript" src="/gwa/rater-js-master/index.js"></script>
 
@@ -536,7 +532,7 @@
                         <div class="top-header-content d-flex align-items-center justify-content-between">
                             <!-- Logo -->
                             <div class="logo">
-                                <a href="index.html" style="color: white; font: 3em sans-serif;">Gunpla World</a>
+                                <a href="/gwa/" style="color: white; font: 3em sans-serif;">Gunpla World</a>
                             </div>
 
                             <div id="profile-div" class="navbar-custom-menu">
@@ -658,9 +654,6 @@
                     <nav class="classy-navbar justify-content-between" id="newspaperNav">
 
                         <!-- Logo -->
-                        <div class="logo">
-                            <a href="/gwa/"><img src="/gwa/img/logo.png" alt=""></a>
-                        </div>
 
                         <!-- Navbar Toggler -->
                         <div class="classy-navbar-toggler">
@@ -680,7 +673,7 @@
                                 <ul>
                                     <li><a href="/gwa/model">GUNDAM</a></li>
                                     <li><a href="/gwa/article">Articles</a></li>
-                                    <li><a href="/gwa/event">Events</a></li>
+                                    <li class="active" ><a href="/gwa/event">Events</a></li>
                                     <li><a href="/gwa/trade-market">Trade market</a></li>
                                 </ul>
                             </div>
@@ -750,7 +743,7 @@
 
 
             <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="confi-modal" >
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog modal-lg" style="width: -moz-fit-content">
                     <div class="modal-content">
 
                         <div class="modal-header" >
@@ -758,18 +751,31 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
-                            <h5>Your name: <span id="lblUsername"></span></h5>
-                            <h5>Today is <span id="lblTodayDate"></span></h5>
-                            <h5>Remaining tickets: <span id="lblRemaining"></span></h5>
-                            <h5 >Number of tickets:</h5>
-                            <input type="number" id="txtNum" class="form-control" placeholder="Ticket amount" style="width: 50%; display: inline"/><br/>
-                            <input id="hidID" type="hidden"/>
-                            <input type="submit" style="margin-top: 5px"class="btn" id="btnSubmitRegister"value="REGISTER" />
+                            <table >
+                                <tr style="padding: 3px">
+                                    <td><h5>Name: </h5></td>
+                                    <td style="padding-left: 5px"><span id="lblUsername"></span></td>
+                                </tr>
+                                <tr style="padding: 3px">
+                                    <td><h5>Date: </h5></td>
+                                    <td style="padding-left: 5px"><span id="lblTodayDate"></span></td>
+                                </tr>
+                                <tr style="padding: 3px">
+                                    <td><h5>Remaining tickets: </h5></td>
+                                    <td style="padding-left: 5px"><span id="lblRemaining"></span></td>
+                                </tr>
+                                <tr style="padding: 3px">
+                                    <td><h5>Your tickets: </h5></td>
+                                    <td style="padding-left: 5px"><input type="number" id="txtNum" class="form-control" placeholder="Ticket amount" /></td>
+                                <tr style="padding: 3px">
+                                    <td><h5>Credit card number: </h5></td>
+                                    <td style="padding-left: 5px"> <input type="text" id="txtCard" class="form-control" placeholder="Card number" maxlength="30"/></td>
+                                </tr>
+                                </tr>
+                            </table><input id="hidID" type="hidden"/>
+                            <input type="submit" style="margin-top: 5px;float: right"class="btn btn-primary" id="btnSubmitRegister"value="REGISTER" />
                         </div>
 
-                        <div class="modal-footer">
-
-                        </div>
                     </div>
                 </div>
             </div>
