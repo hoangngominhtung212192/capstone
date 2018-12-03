@@ -1138,7 +1138,6 @@ $(document).ready(function () {
             type: "POST",
             url: "/gwa/api/model/delete?modelID=" + modelID,
             success: function (result) {
-                alert("Delete successfully !");
                 window.location.href = "/gwa/admin/model/manage";
             },
             error: function (e) {
@@ -1178,12 +1177,14 @@ $(document).ready(function () {
 
             pageNumber = 1;
             $("#ul-notification").empty();
-            ajaxGetAllNotification(account_session_id);
-            if (payload.notification.title == "Model" || payload.notification.title == "Event") {
-                toastr.error(payload.notification.body, payload.notification.title + " Notification", {timeOut: 5000});
+            if (payload.data.title == "Model" || payload.data.title == "Event") {
+                toastr.error(payload.data.body, payload.data.title + " Notification", {timeOut: 5000});
             } else {
-                toastr.info(payload.notification.body, payload.notification.title + " Notification", {timeOut: 5000});
+                toastr.info(payload.data.body, payload.data.title + " Notification", {timeOut: 5000});
             }
+            setTimeout(function () {
+                ajaxGetAllNotification(account_session_id);
+            }, 1000);
         })
     })
     /* This is end of firebase  */

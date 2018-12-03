@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-class TrademarketActivity extends AppCompatActivity {
+public class TrademarketActivity extends AppCompatActivity {
 
     private DrawerLayout dl;
     private ActionBarDrawerToggle abdt;
@@ -52,9 +52,16 @@ class TrademarketActivity extends AppCompatActivity {
                     Intent intent = new Intent(TrademarketActivity.this, ProfileActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.notification) {
-                    Toast.makeText(TrademarketActivity.this, "Notification", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(TrademarketActivity.this, NotificationActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.gundam) {
                     Intent intent = new Intent(TrademarketActivity.this, MainActivity.class);
+                    startActivity(intent);
+                } else if (id == R.id.article) {
+                    Intent intent = new Intent(TrademarketActivity.this, ArticleActivity.class);
+                    startActivity(intent);
+                } else if (id == R.id.event) {
+                    Intent intent = new Intent(TrademarketActivity.this, EventActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.exchange) {
                     Intent intent = new Intent(TrademarketActivity.this, TrademarketActivity.class);

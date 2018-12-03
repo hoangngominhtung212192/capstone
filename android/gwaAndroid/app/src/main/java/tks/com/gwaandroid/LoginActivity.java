@@ -31,7 +31,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import tks.com.gwaandroid.api.UserAPI;
 import tks.com.gwaandroid.model.Account;
+import tks.com.gwaandroid.model.Token;
 import tks.com.gwaandroid.network.RetrofitClientInstance;
+import tks.com.gwaandroid.service.SharedPrefManager;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -145,6 +147,9 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putInt("ACCOUNTID", response.body().getId());
                     editor.commit();
 
+                    // send current token to server
+                    sendTokenToServer(response.body().getId());
+
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     LoginActivity.this.startActivity(intent);
                     progressDialog.dismiss();
@@ -173,5 +178,33 @@ public class LoginActivity extends AppCompatActivity {
     public void redirectToSignUpActivity(View view) {
         Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
+    }
+
+    private void sendTokenToServer(int accountID) {
+        String token = SharedPrefManager.getInstance(this).getToken();
+
+        if (token != null) {
+            UserAPI userAPI = RetrofitClientInstance.getRetrofitInstance().create(UserAPI.class);
+
+            Call<Token> call = userAPI.addToken(accountID, token);
+
+            // execute request
+            call.enqueue(new Callback<Token>() {
+                // get json response
+                @Override
+                public void onResponse(Call<Token> call, Response<Token> response) {
+                    if (response.isSuccessful()) {
+                        System.out.println("Response token: " + response.body().getToken());
+                    } else {
+                        System.out.println();
+                    }
+                }
+                // error
+                @Override
+                public void onFailure(Call<Token> call, Throwable t) {
+                    Log.d("Error response", t.getMessage());
+                }
+            });
+        }
     }
 }

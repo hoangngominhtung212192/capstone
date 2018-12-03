@@ -95,7 +95,8 @@ public class ModelDetailActivity extends AppCompatActivity {
                     Intent intent = new Intent(ModelDetailActivity.this, ProfileActivity.class);
                     ModelDetailActivity.this.startActivity(intent);
                 } else if (id == R.id.notification) {
-                    Toast.makeText(ModelDetailActivity.this, "Notification", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ModelDetailActivity.this, NotificationActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.gundam) {
                     Intent intent = new Intent(ModelDetailActivity.this, MainActivity.class);
                     ModelDetailActivity.this.startActivity(intent);

@@ -72,7 +72,7 @@ public class NotificationWSImpl implements NotificationWS {
     @Override
     public ResponseEntity<String> send() throws JSONException {
 
-        String deviceToken = "cF4-zu3nKUo:APA91bHeYkQ070ir1lTgaOO1an4TeFe3MKfN2THUElho-AH_67d3A6wysiA-ApsZ9YI26-3LTjRSHAB_9yOBqosIwLW-RHi50xsuUWRIVz_ox5emnfZDTGfVd69IlpG9wQ76unVZkH4C";
+        String deviceToken = "eKLkzOU8AkE:APA91bFx6VoEWCxdc3xT3e5z3U9Csb9hIt-GM-jO6-313BOONh0NDta1_92rE0lm60HFhUZqku5MwmFFu3TbKecmdBD-watp2vsWDF0qoumOB6K-GkflueuSYrZ9hIwvhS_exRblBwsT";
 
         JSONObject body = new JSONObject();
         body.put("to", deviceToken.trim());
@@ -80,7 +80,9 @@ public class NotificationWSImpl implements NotificationWS {
         JSONObject notification = new JSONObject();
         notification.put("title", "Notification Type");
         notification.put("body", "Here is body");
-        body.put("notification", notification);
+        body.put("data", notification);
+
+        System.out.println(body.toString());
 
         HttpEntity<String> request = new HttpEntity<>(body.toString());
 

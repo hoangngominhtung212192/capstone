@@ -136,7 +136,8 @@ public class MyTradeActivity extends AppCompatActivity {
                     Intent intent = new Intent(MyTradeActivity.this, ProfileActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.notification) {
-                    Toast.makeText(MyTradeActivity.this, "Notification", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MyTradeActivity.this, NotificationActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.gundam) {
                     Intent intent = new Intent(MyTradeActivity.this, MainActivity.class);
                     startActivity(intent);
