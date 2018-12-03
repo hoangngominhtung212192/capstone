@@ -1,5 +1,56 @@
 $(document).ready(function () {
+    var currentPage = 1;
+    var totalPage = 1;
+    var $pagination = $("#pagination-event");
+    var isSearch = false;
+    var defaultPaginationOpts = {
+        totalPages: totalPage,
+// the current page that show on start
+        startPage: 1,
 
+// maximum visible pages
+        visiblePages: 3,
+
+        initiateStartPageClick: false,
+
+// template for pagination links
+        href: false,
+
+// variable name in href template for page number
+        hrefVariable: '{{number}}',
+
+// Text labels
+        first: '&laquo;',
+        prev: '❮',
+        next: '❯',
+        last: '&raquo;',
+
+// carousel-style pagination
+        loop: false,
+
+// callback function
+        onPageClick: function (event, page) {
+            currentPage = page;
+            $('#tblBody').html("");
+            getAllProposal();
+        },
+
+// pagination Classes
+        paginationClass: 'pagination',
+        nextClass: 'page-item',
+        prevClass: 'page-item',
+        lastClass: 'page-item',
+        firstClass: 'page-item',
+        pageClass: 'page-item',
+        activeClass: 'active',
+        disabledClass: 'disabled'
+    };
+    $pagination.twbsPagination('destroy');
+    if (totalPage > 1){
+        $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+            totalPages: totalPage
+        }));
+    }
 
     getAllProposal();
 
@@ -9,20 +60,34 @@ $(document).ready(function () {
         console.log("getting all proposal");
         $.ajax({
             type : "POST",
-            contentType : "application/json",
+            // contentType : "application/json",
             url : "/gwa/api/proposal/getProposalList",
+            data : {
+                pageNum : currentPage
+            },
             success : function(result, status) {
                 console.log(result);
                 console.log(status);
-                for (var i in result){
-
+                $pagination.twbsPagination('destroy');
+                $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+                    totalPages: totalPage
+                }));
+                for (var i in result[1]){
                     var row = $('<tr>\n' +
-                        '                    <td>' + result[i].eventTitle + '</td>\n' +
-                        '                    <td>' + result[i].account.username + '</td>\n' +
-                        '                    <td><a href="/gwa/admin/proposal/detail?id=' + result[i].id + '">Detail</a></td>\n' +
+                        '                    <td>' + result[1][i].eventTitle + '</td>\n' +
+                        '                    <td>' + result[1][i].account.username + '</td>\n' +
+                        '                    <td><a href="/gwa/admin/proposal/detail?id=' + result[1][i].id + '">Detail</a></td>\n' +
                         '                  </tr>')
                     $('#tblBody').append(row);
-                    // document.getElementById("idx" + result[i].id ).options[tus].selected = 'selected';
+                }
+                $pagination.twbsPagination('destroy');
+                if (totalPage > 1){
+                    $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+                        totalPages: totalPage,
+                        currentPage: currentPage,
+                        startPage: currentPage,
+
+                    }));
                 }
             },
             error : function(e) {

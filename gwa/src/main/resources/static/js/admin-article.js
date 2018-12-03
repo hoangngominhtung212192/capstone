@@ -111,7 +111,6 @@ $(document).ready(function () {
                 console.log(status);
                 console.log("seach numb of pages: "+result[0]);
                 $pagination.twbsPagination('destroy');
-                // if (totalPage > 1){
                 $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
                     totalPages: totalPage
                 }));

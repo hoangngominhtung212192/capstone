@@ -205,7 +205,7 @@ $(document).ready(function () {
 
                 console.log("found evn raters:" +result[0]);
                 $('#raterArea').html("");
-                var feedb = $('<h4>Feedbacks from the attendees:</h4>');
+                var feedb = $('<h4 style="text-decoration: underline">Feedbacks from the attendees:</h4>');
                 $('#raterArea').append(feedb);
                 if (data.length > 0){
                     document.getElementById('raterArea').style.display = 'block';
@@ -234,7 +234,7 @@ $(document).ready(function () {
                 console.log("totalo "+totalPage);
                 $pagination.twbsPagination('destroy');
                 if (totalPage > 1){
-                    document.getElementById('paginationDiv').style.display = 'block';
+                    document.getElementById('paginationDiv').style.display = 'flex';
                     console.log("totalp more than 1");
                     $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
                         totalPages: totalPage,
