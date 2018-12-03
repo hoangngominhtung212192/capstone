@@ -37,4 +37,7 @@ public interface EventAPI {
                                       @Query("sorttype") String sorttype,
                                       @Query("pageNum") int pageNum);
 
+    @GET("api/event/checkCard")
+    Call<Boolean> checkCard(@Query("number") String number);
+
 }

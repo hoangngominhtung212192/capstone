@@ -9,6 +9,7 @@ import com.tks.gwa.entity.Eventattendee;
 import com.tks.gwa.service.EventAttendeeService;
 import com.tks.gwa.service.EventService;
 import com.tks.gwa.service.FileUploadService;
+import com.tks.gwa.utils.LuhnAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -333,6 +334,19 @@ public class EventWSImpl implements EventWS {
     public ResponseEntity<String> checkcheck() {
         eventService.checkNUpdateEventStatus();
         return new ResponseEntity<>("ok", HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Boolean> checkCard(String number) {
+        System.out.println("checkin card "+number);
+        boolean check = false;
+        check = LuhnAlgorithm.validateCreditCardNumber(number);
+        if (check){
+            System.out.println("ws check card real");
+        } else{
+            System.out.println("ws check card not real");
+        }
+        return new ResponseEntity<>(check, HttpStatus.OK);
     }
 
 
