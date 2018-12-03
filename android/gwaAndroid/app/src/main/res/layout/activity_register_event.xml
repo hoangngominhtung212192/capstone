@@ -94,6 +94,19 @@
                         android:inputType="number"
                         android:hint="Tickets"/>
 
+                    <TextView
+                        android:id="@+id/lbl7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Your credit card: " />
+
+                    <EditText
+                        android:id="@+id/mycard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:hint="Card number"/>
+
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
