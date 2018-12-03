@@ -3,6 +3,7 @@ package com.tks.gwa.service.serviceImpl;
 import com.tks.gwa.constant.AppConstant;
 import com.tks.gwa.dto.Pagination;
 import com.tks.gwa.dto.StatisticDTO;
+import com.tks.gwa.dto.UserRatingDTO;
 import com.tks.gwa.entity.*;
 import com.tks.gwa.repository.*;
 import com.tks.gwa.service.UserService;
@@ -316,6 +317,36 @@ public class UserServiceImpl implements UserService {
         StatisticDTO dto = new StatisticDTO(sell, buy, proposal);
 
         return dto;
+    }
+
+    @Override
+    public UserRatingDTO getAllUserRatingByAccountIDMobile(int pageNumber, int accountID) {
+
+        int total = traderatingRepository.getCountByToUserID(accountID);
+
+        if (total > 0) {
+            int lastPage = 0;
+
+            if (total % 10 == 0) {
+                lastPage = total / 10;
+            } else {
+                lastPage = ((total / 10) + 1);
+            }
+
+            List<Traderating> traderatingList = traderatingRepository.getListTradeRatingByToUserID(pageNumber, accountID);
+            if (traderatingList != null) {
+                for (int i = 0; i < traderatingList.size(); i++) {
+                    Profile profile = profileRepository.findProfileByAccountID(traderatingList.get(i).getFromUser().getId());
+                    traderatingList.get(i).getFromUser().setAvatar(profile.getAvatar());
+                }
+
+                UserRatingDTO dto = new UserRatingDTO(lastPage, traderatingList);
+
+                return dto;
+            }
+        }
+
+        return null;
     }
 
     @Override

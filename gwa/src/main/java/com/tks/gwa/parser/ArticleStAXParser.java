@@ -156,7 +156,7 @@ public class ArticleStAXParser {
         }
 
         content = content.replaceAll("%amp;", "&");
-        content = content.replaceAll("script", "div");
+        content = content.replaceAll("(?s)<script.*</script>", "");
         System.out.println("Content: " + content);
         article.setContent(content);
 

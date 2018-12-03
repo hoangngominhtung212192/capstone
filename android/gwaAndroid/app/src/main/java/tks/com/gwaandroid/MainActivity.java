@@ -92,7 +92,8 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.notification) {
-                    Toast.makeText(MainActivity.this, "Notification", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, NotificationActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.gundam) {
                     Intent intent = new Intent(MainActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -113,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Logout successfully!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
+                    finish();
                 }
 
                 return true;
