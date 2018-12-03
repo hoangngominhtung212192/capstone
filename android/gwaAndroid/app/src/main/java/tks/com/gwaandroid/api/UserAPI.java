@@ -9,6 +9,7 @@ import retrofit2.http.Query;
 import tks.com.gwaandroid.model.Account;
 import tks.com.gwaandroid.model.Profile;
 import tks.com.gwaandroid.model.StatisticDTO;
+import tks.com.gwaandroid.model.Token;
 import tks.com.gwaandroid.model.UserRatingDTO;
 
 /**
@@ -32,4 +33,8 @@ public interface UserAPI {
     @GET("api/user/rating/mobile/getAll")
     Call<UserRatingDTO> getUserRating(@Query("pageNumber") int pageNumber,
                                       @Query("accountID") int accountID);
+
+    @POST("api/user/addToken")
+    Call<Token> addToken(@Query("accountID") int accountID,
+                         @Query("token") String token);
 }

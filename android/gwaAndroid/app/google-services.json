@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "22850579681",
+    "firebase_url": "https://gunplaworld-51eee.firebaseio.com",
+    "project_id": "gunplaworld-51eee",
+    "storage_bucket": "gunplaworld-51eee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22850579681:android:46b3234ade090003",
+        "android_client_info": {
+          "package_name": "tks.com.gwaandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22850579681-cl6scm8n27ldp9ee0hgrqukv3r0otvgp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "tks.com.gwaandroid",
+            "certificate_hash": "43287e8f8dd9badbc479af08d0008f4275121de3"
+          }
+        },
+        {
+          "client_id": "22850579681-t8o6cvskifnqeur0b89bo3d3ups0djlu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6vs3wBSHvGVdh_tTWU71_RPXw3HqgF4Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22850579681-t8o6cvskifnqeur0b89bo3d3ups0djlu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

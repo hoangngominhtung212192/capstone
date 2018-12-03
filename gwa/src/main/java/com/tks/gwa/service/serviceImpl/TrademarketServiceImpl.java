@@ -956,7 +956,7 @@ public class TrademarketServiceImpl implements TrademarketService {
         JSONObject notification = new JSONObject();
         notification.put("title", notificationType);
         notification.put("body", content);
-        body.put("notification", notification);
+        body.put("data", notification);
 
         // print
         System.out.println(body.toString());

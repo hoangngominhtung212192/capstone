@@ -1,9 +1,13 @@
 package tks.com.gwaandroid;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -31,6 +35,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import tks.com.gwaandroid.adapter.CustomModelAdapter;
 import tks.com.gwaandroid.api.ModelAPI;
+import tks.com.gwaandroid.constant.AppConstant;
 import tks.com.gwaandroid.model.ModelDTO;
 import tks.com.gwaandroid.model.ModelSDTO;
 import tks.com.gwaandroid.network.RetrofitClientInstance;
@@ -56,6 +61,21 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            NotificationChannel channel = new NotificationChannel(AppConstant.CHANNEL_ID, AppConstant.CHANNEL_NAME,
+                    NotificationManager.IMPORTANCE_HIGH);
+
+            channel.setDescription(AppConstant.CHANNEL_DESCRIPTION);
+            channel.enableLights(true);
+            channel.setLightColor(Color.RED);
+            channel.enableVibration(true);
+
+            channel.setVibrationPattern(new long[]{100,200,300,400, 500, 400, 300, 200, 400});
+
+            notificationManager.createNotificationChannel(channel);
+        }
 
         // initialize
         currentPage = 1;
