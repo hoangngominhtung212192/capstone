@@ -1138,7 +1138,6 @@ $(document).ready(function () {
             type: "POST",
             url: "/gwa/api/model/delete?modelID=" + modelID,
             success: function (result) {
-                alert("Delete successfully !");
                 window.location.href = "/gwa/admin/model/manage";
             },
             error: function (e) {

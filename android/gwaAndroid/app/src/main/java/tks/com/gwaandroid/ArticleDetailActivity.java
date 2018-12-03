@@ -89,7 +89,8 @@ public class ArticleDetailActivity extends AppCompatActivity {
                     Intent intent = new Intent(ArticleDetailActivity.this, ProfileActivity.class);
                     ArticleDetailActivity.this.startActivity(intent);
                 } else if (id == R.id.notification) {
-                    Toast.makeText(ArticleDetailActivity.this, "Notification", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ArticleDetailActivity.this, NotificationActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.gundam) {
                     Intent intent = new Intent(ArticleDetailActivity.this, MainActivity.class);
                     ArticleDetailActivity.this.startActivity(intent);

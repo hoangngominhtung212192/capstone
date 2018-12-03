@@ -100,7 +100,8 @@ public class EventRegisterActivity extends AppCompatActivity {
                     Intent intent = new Intent(EventRegisterActivity.this, ProfileActivity.class);
                     EventRegisterActivity.this.startActivity(intent);
                 } else if (id == R.id.notification) {
-                    Toast.makeText(EventRegisterActivity.this, "Notification", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(EventRegisterActivity.this, NotificationActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.gundam) {
                     Intent intent = new Intent(EventRegisterActivity.this, MainActivity.class);
                     EventRegisterActivity.this.startActivity(intent);

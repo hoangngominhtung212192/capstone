@@ -130,7 +130,8 @@ public class EventActivity extends AppCompatActivity {
                     Intent intent = new Intent(EventActivity.this, ProfileActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.notification) {
-                    Toast.makeText(EventActivity.this, "Notification", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(EventActivity.this, NotificationActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.gundam) {
                     Intent intent = new Intent(EventActivity.this, MainActivity.class);
                     startActivity(intent);
