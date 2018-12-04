@@ -341,6 +341,8 @@ $(document).ready(function () {
         });
     }
 
+    var cardReal = false;
+
     function checkValidCard(){
         var cardNumberString = $('#txtCard').val();
         if (cardNumberString.length >0){
@@ -353,10 +355,10 @@ $(document).ready(function () {
                 success : function(result, status) {
                     if (result== true){
                         // $.growl.error({message: "Credit card number is valid"});
-                        return true;
+                        cardReal = true;
                     } else {
                         $.growl.error({message: "Credit card number does not exist"});
-                        return false;
+                        cardReal = false
                     }
 
                 },
@@ -367,25 +369,16 @@ $(document).ready(function () {
             });
         } else {
             $.growl.error({message: "Please enter your credit card number"});
+            return false;
         }
     }
 
     $("#btnSubmitRegister").click(function (event) {
         event.preventDefault();
         var check = true;
-
+        checkValidCard();
         var eventid = $("#hidID").val();
         var amount = $('#txtNum').val();
-        if  (checkValidCard() == false){
-            // alert("card false");
-            check = false;
-        }
-
-        var formArticle = {
-            eventit : parseInt(eventid),
-            userid : account_session_id,
-            amount : amount,
-        }
         $.ajax({
             type : "POST",
             url : "/gwa/api/event/getRemainingSlots",
@@ -393,19 +386,22 @@ $(document).ready(function () {
                 eventid : eventid
             },
             success : function(result, status) {
-
                 console.log('rmnslots: '+result);
-                var iamount = parseInt(amount);
                 if (amount>0){
                     if (result<amount){
+                        check = false;
                         $.growl.error({message: "There aren't enough tickets! Please change the number of tickets you want!"});
-                    } else{
-                        if (check == true) {
-                            registerAtt();
-                        }
                     }
                 } else {
+                    check = false;
                     $.growl.error({message: "Please enter a positive number of tickets"});
+                }
+
+                if (cardReal == false){
+                    check = false;
+                }
+                if (check == true) {
+                    registerAtt();
                 }
 
             },
@@ -414,7 +410,6 @@ $(document).ready(function () {
                 console.log("ERROR: ", e);
             }
         });
-
         // registerAtt(formArticle);
     })
 
