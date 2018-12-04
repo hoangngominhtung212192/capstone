@@ -25,10 +25,10 @@ $(document).ready(function () {
     hrefVariable: '{{number}}',
 
 // Text labels
-    first: '&laquo;',
-    prev: '❮',
-    next: '❯',
-    last: '&raquo;',
+        first: '<<',
+        prev: '❮',
+        next: '❯',
+        last: '>>',
 
 // carousel-style pagination
     loop: false,
