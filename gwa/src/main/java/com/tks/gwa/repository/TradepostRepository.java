@@ -16,6 +16,7 @@ public interface TradepostRepository extends GenericRepository<Tradepost, Intege
     boolean removeTradepost(Tradepost tradepost);
     Tradepost findTradepostById(int tradepostID);
     boolean updateQuantityById(int tradepostId, int quantity);
+
     List<Tradepost> getTradepostByTradeTypeAndSortTypeInPageNumber(String tradeType, int pageNumber, int sortType);
     int countTotalPageByTradeType(String tradeType);
     int countTotalPageByStatusAndAccount(String status, int accountId);

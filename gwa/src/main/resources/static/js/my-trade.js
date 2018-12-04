@@ -846,7 +846,7 @@ $('#viewReasonModal').on('show.bs.modal', function (event) {
 });
 
 /* Handle update quantity input on keyup event */
-$("#updateQuantityValue").keyup(function () {
+$("#updateQuantityValue").change(function () {
    if ($(this).val() !== $("#oldQuantityValue").val() && $(this).val() >= 0 && $(this).val() <= 1000){
         $("#updateQuantityBtn").removeAttr("disabled");
    }else {
