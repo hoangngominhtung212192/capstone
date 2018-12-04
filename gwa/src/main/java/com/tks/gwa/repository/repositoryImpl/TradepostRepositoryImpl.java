@@ -118,7 +118,7 @@ public class TradepostRepositoryImpl extends GenericRepositoryImpl<Tradepost, In
             typeSql = " AND t.tradeType =" + AppConstant.TRADEPOST.TYPE_BUY_INT;
         }
 
-        String sql = "SELECT t FROM " + Tradepost.class.getName() + " AS t WHERE t.approvalStatus =:status" + typeSql + sortSql;
+        String sql = "SELECT t FROM " + Tradepost.class.getName() + " AS t WHERE t.approvalStatus =:status AND t.quantity > 0" + typeSql + sortSql;
         Query query = this.entityManager.createQuery(sql);
         query.setParameter("status", AppConstant.APPROVED_STATUS);
 
@@ -147,12 +147,12 @@ public class TradepostRepositoryImpl extends GenericRepositoryImpl<Tradepost, In
         Query query = null;
         if (tradeTypeInt != 0) {
             sql = "SELECT COUNT(t) FROM " + Tradepost.class.getName()
-                    + " AS t WHERE t.tradeType =:tradeType  AND t.approvalStatus =:status";
+                    + " AS t WHERE t.tradeType =:tradeType  AND t.approvalStatus =:status AND t.quantity > 0";
             query = this.entityManager.createQuery(sql);
             query.setParameter("tradeType", tradeTypeInt);
             query.setParameter("status", AppConstant.APPROVED_STATUS);
         } else {
-            sql = "SELECT COUNT(t) FROM " + Tradepost.class.getName() + " AS t WHERE t.approvalStatus =:status";
+            sql = "SELECT COUNT(t) FROM " + Tradepost.class.getName() + " AS t WHERE t.approvalStatus =:status AND t.quantity > 0";
             query = this.entityManager.createQuery(sql);
             query.setParameter("status", AppConstant.APPROVED_STATUS);
         }
@@ -182,7 +182,7 @@ public class TradepostRepositoryImpl extends GenericRepositoryImpl<Tradepost, In
 
         String sql = "SELECT t FROM " + Tradepost.class.getName()
                 + " AS t WHERE (upper(t.title) LIKE upper(:keyword) OR upper(t.brand) LIKE upper(:keyword) OR upper(t.model) LIKE upper(:keyword))" +
-                " AND t.approvalStatus =:status" + tradeTypeSql + sortSql;
+                " AND t.approvalStatus =:status AND t.quantity > 0" + tradeTypeSql + sortSql;
         Query query = this.entityManager.createQuery(sql);
         query.setParameter("status", AppConstant.APPROVED_STATUS);
         query.setParameter("keyword", "%" + keyword + "%");
@@ -210,7 +210,7 @@ public class TradepostRepositoryImpl extends GenericRepositoryImpl<Tradepost, In
 
         String sql = "SELECT COUNT(t) FROM " + Tradepost.class.getName()
                 + " AS t WHERE (upper(t.title) LIKE upper(:keyword) OR upper(t.brand) LIKE upper(:keyword) OR upper(t.model) LIKE upper(:keyword))" +
-                " AND t.approvalStatus =:status" + tradeTypeSql;
+                " AND t.approvalStatus =:status AND t.quantity > 0" + tradeTypeSql;
         Query query = this.entityManager.createQuery(sql);
         query.setParameter("status", AppConstant.APPROVED_STATUS);
         query.setParameter("keyword","%" + keyword + "%");

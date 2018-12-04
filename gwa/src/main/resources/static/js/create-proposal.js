@@ -1,14 +1,25 @@
 $(document).ready(function() {
-    authentication()
+    authentication();
     var loggedUsername;
 
     $("#btnSubmit").click(function (event) {
         event.preventDefault();
-        var formData = {
-
+        var check = true;
+        if ($('#txtTitle').val().length == 0){
+            check = false;
+            $.growl.error({message: "Please enter title"});
         }
-
-        createProposal();
+        if ($('#txtDescription').val().length == 0){
+            check = false;
+            $.growl.error({message: "Please enter description"});
+        }
+        if ($('#txtLocation').val().length ==0){
+            check = false;
+            $.growl.error({message: "Please enter location"});
+        }
+        if (check){
+            createProposal();
+        }
 
     })
     function createProposal() {

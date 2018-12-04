@@ -243,7 +243,8 @@ public class TradingActivity extends AppCompatActivity {
                 openSearchDialog();
                 return true;
             case R.id.action_post:
-
+                Intent intent = new Intent(this, PostTradeActivity.class);
+                startActivity(intent);
                 return true;
 
             default:

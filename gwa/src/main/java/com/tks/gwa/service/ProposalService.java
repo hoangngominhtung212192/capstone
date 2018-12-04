@@ -8,7 +8,7 @@ import java.util.List;
 @Service
 public interface ProposalService {
     Proposal createProposal(Proposal proposal);
-    List<Proposal> getAllProposal();
+    List<Object> getAllProposal(Integer pageNum);
     List<Proposal> getProposalByUser(int id);
     Proposal getProposalById(int id);
 }

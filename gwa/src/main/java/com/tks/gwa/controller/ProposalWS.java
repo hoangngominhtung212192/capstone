@@ -17,7 +17,7 @@ public interface ProposalWS {
                                             @RequestParam("username") String username);
 
     @RequestMapping(value = "/getProposalList", method = RequestMethod.POST)
-    ResponseEntity<List<Proposal>> getProposalList();
+    ResponseEntity<List<Object>> getProposalList(@RequestParam("pageNum") Integer pageNum);
 
     @RequestMapping(value = "/getProposalByID", method = RequestMethod.POST)
     ResponseEntity<Proposal> getProposalByID(@RequestBody int propid);

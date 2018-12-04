@@ -21,6 +21,7 @@ $(document).ready(function () {
                 if (result){
                     $('#linkCreate').attr("href", "/gwa/admin/event/create?id="+result.id+"");
                     console.log("title: "+result.eventTitle);
+                    $('#txtAuthor').append(result.account.username);
                     $('#txtTitle').append(result.eventTitle);
                     $('#txtLocation').append(result.location);
                     $('#txtDescription').append(result.description);
