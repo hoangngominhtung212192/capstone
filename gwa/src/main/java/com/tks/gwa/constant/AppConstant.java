@@ -69,7 +69,7 @@ public class AppConstant {
         public static final int SORT_DATE_ASC = 2;
         public static final int SORT_PRICE_DESC = 4;
         public static final int SORT_PRICE_ASC = 3;
-        public static final int MAX_REQUEST_PER_PAGE =6;
+        public static final int MAX_REQUEST_PER_PAGE =10;
         public static final int FEEDBACK_TYPE_OWNER_TO_TRADER = 1;
         public static final int FEEDBACK_TYPE_TRADER_TO_OWNER = 2;
 
