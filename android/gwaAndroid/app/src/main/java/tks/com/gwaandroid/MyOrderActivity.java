@@ -149,7 +149,8 @@ public class MyOrderActivity extends AppCompatActivity {
                     Intent intent = new Intent(MyOrderActivity.this, ProfileActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.notification) {
-                    Toast.makeText(MyOrderActivity.this, "Notification", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MyOrderActivity.this, NotificationActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.gundam) {
                     Intent intent = new Intent(MyOrderActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -170,6 +171,7 @@ public class MyOrderActivity extends AppCompatActivity {
                     Toast.makeText(MyOrderActivity.this, "Logout successfully!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(MyOrderActivity.this, LoginActivity.class);
                     startActivity(intent);
+                    finish();
                 }
 
                 return true;

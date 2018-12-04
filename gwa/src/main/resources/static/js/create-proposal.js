@@ -1,14 +1,25 @@
 $(document).ready(function() {
-    authentication()
+    authentication();
     var loggedUsername;
 
     $("#btnSubmit").click(function (event) {
         event.preventDefault();
-        var formData = {
-
+        var check = true;
+        if ($('#txtTitle').val().length == 0){
+            check = false;
+            $.growl.error({message: "Please enter title"});
         }
-
-        createProposal();
+        if ($('#txtDescription').val().length == 0){
+            check = false;
+            $.growl.error({message: "Please enter description"});
+        }
+        if ($('#txtLocation').val().length ==0){
+            check = false;
+            $.growl.error({message: "Please enter location"});
+        }
+        if (check){
+            createProposal();
+        }
 
     })
     function createProposal() {
@@ -399,12 +410,14 @@ $(document).ready(function() {
 
             pageNumber = 1;
             $("#ul-notification").empty();
-            ajaxGetAllNotification(account_session_id);
-            if (payload.notification.title == "Model" || payload.notification.title == "Event") {
-                toastr.error(payload.notification.body, payload.notification.title + " Notification", {timeOut: 5000});
+            if (payload.data.title == "Model" || payload.data.title == "Event") {
+                toastr.error(payload.data.body, payload.data.title + " Notification", {timeOut: 5000});
             } else {
-                toastr.info(payload.notification.body, payload.notification.title + " Notification", {timeOut: 5000});
+                toastr.info(payload.data.body, payload.data.title + " Notification", {timeOut: 5000});
             }
+            setTimeout(function () {
+                ajaxGetAllNotification(account_session_id);
+            }, 1000);
         })
     })
     /* This is end of firebase  */

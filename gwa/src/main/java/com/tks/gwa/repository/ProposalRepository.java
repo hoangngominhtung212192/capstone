@@ -8,7 +8,8 @@ import java.util.List;
 @Repository
 public interface ProposalRepository extends GenericRepository<Proposal, Integer>{
     Proposal createProposal(Proposal proposal);
-    List<Proposal> getAllProposal();
+    int getCountAllProposal();
+    List<Proposal> getAllProposal(int pageNum);
     List<Proposal> getProposalByUser(int id);
     Proposal getProposalById(int id);
 

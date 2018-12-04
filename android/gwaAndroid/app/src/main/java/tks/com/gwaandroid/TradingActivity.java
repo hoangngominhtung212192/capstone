@@ -204,7 +204,8 @@ public class TradingActivity extends AppCompatActivity {
                     Intent intent = new Intent(TradingActivity.this, ProfileActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.notification) {
-                    Toast.makeText(TradingActivity.this, "Notification", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(TradingActivity.this, NotificationActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.gundam) {
                     Intent intent = new Intent(TradingActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -225,6 +226,7 @@ public class TradingActivity extends AppCompatActivity {
                     Toast.makeText(TradingActivity.this, "Logout successfully!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(TradingActivity.this, LoginActivity.class);
                     startActivity(intent);
+                    finish();
                 }
 
                 return true;

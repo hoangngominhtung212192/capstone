@@ -1,6 +1,7 @@
 package com.tks.gwa.service;
 
 import com.tks.gwa.dto.StatisticDTO;
+import com.tks.gwa.dto.UserRatingDTO;
 import com.tks.gwa.entity.Account;
 import com.tks.gwa.entity.Profile;
 import com.tks.gwa.entity.Token;
@@ -33,6 +34,8 @@ public interface UserService {
     public List<Object> getAllUserRatingByAccountID(int pageNumber, int accountID);
 
     public StatisticDTO getMBStatisticByAccountID(int accountID);
+
+    public UserRatingDTO getAllUserRatingByAccountIDMobile(int pageNumber, int accountID);
 
     public void banAccount(int accountID);
 

@@ -205,7 +205,7 @@ $(document).ready(function () {
 
                 console.log("found evn raters:" +result[0]);
                 $('#raterArea').html("");
-                var feedb = $('<h4>Feedbacks from the attendees:</h4>');
+                var feedb = $('<h4 style="text-decoration: underline">Feedbacks from the attendees:</h4>');
                 $('#raterArea').append(feedb);
                 if (data.length > 0){
                     document.getElementById('raterArea').style.display = 'block';
@@ -234,7 +234,7 @@ $(document).ready(function () {
                 console.log("totalo "+totalPage);
                 $pagination.twbsPagination('destroy');
                 if (totalPage > 1){
-                    document.getElementById('paginationDiv').style.display = 'block';
+                    document.getElementById('paginationDiv').style.display = 'flex';
                     console.log("totalp more than 1");
                     $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
                         totalPages: totalPage,
@@ -340,20 +340,46 @@ $(document).ready(function () {
             }
         });
     }
-    var modalConfirm = function(callback) {
-        $("#btnSubmitRegister").on("click", function(){
-            callback(true);
-            $("#confi-modal").modal('hide');
-        });
 
-    };
+    function checkValidCard(){
+        var cardNumberString = $('#txtCard').val();
+        if (cardNumberString.length >0){
+            $.ajax({
+                type : "GET",
+                url : "/gwa/api/event/checkCard",
+                data: {
+                    number : cardNumberString,
+                },
+                success : function(result, status) {
+                    if (result== true){
+                        // $.growl.error({message: "Credit card number is valid"});
+                        return true;
+                    } else {
+                        $.growl.error({message: "Credit card number does not exist"});
+                        return false;
+                    }
 
+                },
+                error : function(e) {
+                    // alert("Error!")
+                    console.log("ERROR: ", e);
+                }
+            });
+        } else {
+            $.growl.error({message: "Please enter your credit card number"});
+        }
+    }
 
     $("#btnSubmitRegister").click(function (event) {
         event.preventDefault();
+        var check = true;
 
         var eventid = $("#hidID").val();
-        var amount = $('#txtNum').val()
+        var amount = $('#txtNum').val();
+        if  (checkValidCard() == false){
+            // alert("card false");
+            check = false;
+        }
 
         var formArticle = {
             eventit : parseInt(eventid),
@@ -374,10 +400,12 @@ $(document).ready(function () {
                     if (result<amount){
                         $.growl.error({message: "There aren't enough tickets! Please change the number of tickets you want!"});
                     } else{
-                        registerAtt();
+                        if (check == true) {
+                            registerAtt();
+                        }
                     }
                 } else {
-                    $.growl.error({message: "Please enter a positive number"});
+                    $.growl.error({message: "Please enter a positive number of tickets"});
                 }
 
             },
@@ -798,12 +826,14 @@ $(document).ready(function () {
 
             pageNumber = 1;
             $("#ul-notification").empty();
-            ajaxGetAllNotification(account_session_id);
-            if (payload.notification.title == "Model" || payload.notification.title == "Event") {
-                toastr.error(payload.notification.body, payload.notification.title + " Notification", {timeOut: 5000});
+            if (payload.data.title == "Model" || payload.data.title == "Event") {
+                toastr.error(payload.data.body, payload.data.title + " Notification", {timeOut: 5000});
             } else {
-                toastr.info(payload.notification.body, payload.notification.title + " Notification", {timeOut: 5000});
+                toastr.info(payload.data.body, payload.data.title + " Notification", {timeOut: 5000});
             }
+            setTimeout(function () {
+                ajaxGetAllNotification(account_session_id);
+            }, 1000);
         })
     })
     /* This is end of firebase  */

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,13 +24,16 @@ import retrofit2.Response;
 import tks.com.gwaandroid.api.UserAPI;
 import tks.com.gwaandroid.constant.AppConstant;
 import tks.com.gwaandroid.model.Profile;
+import tks.com.gwaandroid.model.StatisticDTO;
 import tks.com.gwaandroid.network.RetrofitClientInstance;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
     private ImageView avatar, star_one, star_two, star_three, star_four, star_five;
-    private TextView fullname, username, birthday, email, numberOfbuy, numberOfSell, role, rating;
+    private TextView fullname, username, birthday, email, numberOfBuy, numberOfSell, role, rating;
+    private int accountID;
+    private Button viewExchangeEvaluation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
         actionBar.hide();
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        int accountID = sharedPreferences.getInt("ACCOUNTID", 0);
+        accountID = sharedPreferences.getInt("ACCOUNTID", 0);
 
         //Get accountID from another activity want to view someone profile
         int viewProfileID = getIntent().getIntExtra("PROFILEID", 0);
@@ -66,10 +70,11 @@ public class ProfileActivity extends AppCompatActivity {
         username = (TextView) findViewById(R.id.profile_username);
         birthday = (TextView) findViewById(R.id.profile_birthday);
         email = (TextView) findViewById(R.id.profile_email);
-        numberOfbuy = (TextView) findViewById(R.id.profile_numberOfBuy);
+        numberOfBuy = (TextView) findViewById(R.id.profile_numberOfBuy);
         numberOfSell = (TextView) findViewById(R.id.profile_numberOfSell);
         role = (TextView) findViewById(R.id.profile_role);
         rating = (TextView) findViewById(R.id.profile_rating);
+        viewExchangeEvaluation = (Button) findViewById(R.id.viewExchangeEvaluationBtn);
     }
 
     private void requestApi(int accountID) {
@@ -94,6 +99,8 @@ public class ProfileActivity extends AppCompatActivity {
                 Log.d("Error response", t.getMessage());
             }
         });
+
+        requestToGetStatistic(accountID);
     }
 
     private void bindingData(Profile result) {
@@ -143,8 +150,10 @@ public class ProfileActivity extends AppCompatActivity {
             star_three.setVisibility(View.GONE);
             star_four.setVisibility(View.GONE);
             star_five.setVisibility(View.GONE);
+            viewExchangeEvaluation.setVisibility(View.GONE);
         } else {
             rating.setVisibility(View.GONE);
+            viewExchangeEvaluation.setVisibility(View.VISIBLE);
 
             int avgRating = Math.round((float) result.getNumberOfStars() / (float) result.getNumberOfRaters());
 
@@ -177,5 +186,41 @@ public class ProfileActivity extends AppCompatActivity {
                 role.setTextColor(Color.parseColor("#660000"));
             }
         }
+    }
+
+    private void requestToGetStatistic(int accountID) {
+        UserAPI userAPI = RetrofitClientInstance.getRetrofitInstance().create(UserAPI.class);
+
+        Call<StatisticDTO> call = userAPI.getStatistic(accountID);
+
+        // execute request
+        call.enqueue(new Callback<StatisticDTO>() {
+            // get json response
+            @Override
+            public void onResponse(Call<StatisticDTO> call, Response<StatisticDTO> response) {
+                if (response.isSuccessful()) {
+                    renderStatistic(response.body());
+                } else {
+                    Toast.makeText(ProfileActivity.this, "Response error", Toast.LENGTH_SHORT).show();
+                }
+            }
+            // error
+            @Override
+            public void onFailure(Call<StatisticDTO> call, Throwable t) {
+                Log.d("Error response", t.getMessage());
+            }
+        });
+    }
+
+    private void renderStatistic(StatisticDTO dto) {
+        numberOfSell.setText(dto.getSell() + "");
+        numberOfBuy.setText(dto.getBuy() + "");
+    }
+
+
+    public void viewExchangeEvaluation(View view) {
+        Intent intent = new Intent(this, UserRatingActivity.class);
+        intent.putExtra("ACCOUNTID", accountID + "");
+        startActivity(intent);
     }
 }

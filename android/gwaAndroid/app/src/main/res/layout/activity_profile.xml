@@ -296,7 +296,8 @@
                 android:layout_marginBottom="30dp"
                 android:textColor="#fff"
                 android:drawablePadding="3px"
-                android:text="Exchange evaluation"/>
+                android:text="Exchange evaluation"
+                android:onClick="viewExchangeEvaluation"/>
 
         </LinearLayout>
 

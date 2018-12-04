@@ -34,7 +34,7 @@ public class EventRegisterActivity extends AppCompatActivity {
     private RelativeLayout linearProgressBar;
 
     private TextView name, date, remaining;
-    private EditText mytickets;
+    private EditText mytickets, mycard;
 //    private RelativeLayout layout_star_rating;
 
     private SharedPreferences sharedPreferences;
@@ -42,6 +42,7 @@ public class EventRegisterActivity extends AppCompatActivity {
     private int userid;
     private int rem;
 
+    private boolean checkmycard = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +57,7 @@ public class EventRegisterActivity extends AppCompatActivity {
         date.setText("Today is " + dateS);
         remaining = (TextView) findViewById(R.id.lbl4);
         mytickets = (EditText) findViewById(R.id.myticket);
+        mycard = (EditText) findViewById(R.id.mycard);
         userid = sharedPreferences.getInt("ACCOUNTID", 0);
         // get eventid from intent params
         Intent intent = getIntent();
@@ -98,7 +100,8 @@ public class EventRegisterActivity extends AppCompatActivity {
                     Intent intent = new Intent(EventRegisterActivity.this, ProfileActivity.class);
                     EventRegisterActivity.this.startActivity(intent);
                 } else if (id == R.id.notification) {
-                    Toast.makeText(EventRegisterActivity.this, "Notification", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(EventRegisterActivity.this, NotificationActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.gundam) {
                     Intent intent = new Intent(EventRegisterActivity.this, MainActivity.class);
                     EventRegisterActivity.this.startActivity(intent);
@@ -118,6 +121,7 @@ public class EventRegisterActivity extends AppCompatActivity {
                     Toast.makeText(EventRegisterActivity.this, "Logout successfully!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(EventRegisterActivity.this, LoginActivity.class);
                     EventRegisterActivity.this.startActivity(intent);
+                    finish();
                 }
 
                 return true;
@@ -127,13 +131,47 @@ public class EventRegisterActivity extends AppCompatActivity {
 
     }
 
+    private void checkCard(){
+//        boolean check = false;
+        EventAPI eventAPI = RetrofitClientInstance.getRetrofitInstance().create(EventAPI.class);
+
+        String cardString = mycard.getText().toString();
+        Call<Boolean> call = eventAPI.checkCard(cardString);
+
+        // execute request
+        call.enqueue(new Callback<Boolean>() {
+            // get json response
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body() == true){
+                        checkmycard = true;
+                    } else {
+                        checkmycard = false;
+                    }
+
+                } else {
+                    Toast.makeText(EventRegisterActivity.this, "Cannot check card", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            // error
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+//                linearProgressBar.setVisibility(View.GONE);
+                Log.d("Error response", t.getMessage());
+            }
+        });
+    }
+
     private boolean validate(){
         boolean check = true;
         int mytic = 0;
         if (mytickets.getText().toString().length() == 0){
             check = false;
             mytickets.setError("Please enter number of tickets!");
-        } else if(Integer.parseInt(mytickets.toString()) <= 0) {
+        } else if(Integer.parseInt(mytickets.getText().toString()) <= 0) {
             check = false;
             mytickets.setError("Number of ticket must be a positive number");
             } else {
@@ -143,6 +181,11 @@ public class EventRegisterActivity extends AppCompatActivity {
         if (mytic>rem){
             check = false;
             mytickets.setError("Number of tickets can not be higher than the remaining tickets!");
+        }
+        checkCard();
+        if (checkmycard == false){
+            check = false;
+            mycard.setError("Card does not exist!");
         }
         return check;
     }

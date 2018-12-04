@@ -12,8 +12,8 @@ public class AppConstant {
     public static final String checkString = "[A-Za-z\\s]+";
 
     public static final String checkUsername = "[A-Za-z]+";
-    public static final String BASE_URL = "http://192.168.1.9:8080/gwa/";
-    public static final String HOST_NAME = "192.168.1.9";
+    public static final String BASE_URL = "http://192.168.1.7:8080/gwa/";
+    public static final String HOST_NAME = "192.168.1.7";
 
     //APPROVE STATUS
     public static final String APPROVED_STATUS = "approved";
@@ -41,4 +41,9 @@ public class AppConstant {
     //Feedback Type
     public static final int FEEDBACK_TYPE_OWNER_TO_TRADER = 1;
     public static final int FEEDBACK_TYPE_TRADER_TO_OWNER = 2;
+
+    // channel notification
+    public static final String CHANNEL_ID = "mychannelid";
+    public static final String CHANNEL_NAME = "mychannelname";
+    public static final String CHANNEL_DESCRIPTION = "my description";
 }

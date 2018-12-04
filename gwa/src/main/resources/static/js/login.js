@@ -47,6 +47,8 @@ $(document).ready(function () {
     $("#loginBtn").click(function (event) {
         event.preventDefault();
 
+        $("#loading").css("display", "block");
+
         var check = true;
 
         if (!$("#username").val().trim()) {
@@ -114,6 +116,8 @@ $(document).ready(function () {
                                 return messaging.getToken();
                             }).then(function (token) {
                             ajaxAddToken(result.id, token);
+
+                            $("#loading").css("display", "none");
 
                             // get goBack parameter value from previous page which required to login
                             var goBack = getUrlParameter("goBack");

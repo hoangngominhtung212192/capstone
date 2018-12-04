@@ -13,12 +13,21 @@
 
     <!-- Favicon -->
     <link rel="icon" href="/gwa/img/favicon.ico">
+    <!-- js -->
+    <script type="text/javascript" src="/gwa/js/jquery.min.js"></script>
+    <!--    toastr & firebase script  -->
+    <script src="/gwa/js/lib/firebase-app.js"></script>
+    <script src="/gwa/js/lib/firebase-messaging.js"></script>
+    <script type="text/javascript" src="/gwa/js/lib/toastr.min.js"></script>
+    <link href="/gwa/css/index/toastr.min.css" rel="stylesheet">
+    <!--    end toastr & firebase script   -->
 
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="/gwa/css/style.css">
-    <link rel="stylesheet" href="/gwa/css/star-rating.css">
-    <script type="text/javascript" src="/gwa/js/html-importer.js"></script>
     <script type="text/javascript" src="/gwa/js/ckeditor/ckeditor.js"></script>
+
+    <link rel="stylesheet" href="/gwa/css/jquery.growl.css">
+
 
     <style>
         /* This is for profile & notification area */
@@ -519,7 +528,7 @@
                     <div class="top-header-content d-flex align-items-center justify-content-between">
                         <!-- Logo -->
                         <div class="logo">
-                            <a href="index.html" style="color: white; font: 3em sans-serif;">Gunpla World</a>
+                            <a href="/gwa" style="color: white; font: 3em sans-serif;">Gunpla World</a>
                         </div>
 
                         <div id="profile-div" class="navbar-custom-menu">
@@ -642,7 +651,7 @@
 
                     <!-- Logo -->
                     <div class="logo">
-                        <a href="/gwa/"><img src="/gwa/img/logo.png" alt=""></a>
+                        <a href="/gwa/">Gunpla World</a>
                     </div>
 
                     <!-- Navbar Toggler -->
@@ -682,9 +691,9 @@
             <h3>Write a proposal for an event.</h3>
             <b>Tell us what kind of event would you want to happen! We might make it happen!</b>
             <h3>The event's title <span style="color: red">*</span></h3>
-            <input type="text" class="form form-control" placeholder="What should the event be called?" required id="txtTitle">
+            <input type="text" class="form form-control" placeholder="What should the event be called?" required maxlength="250" id="txtTitle">
             <h3>Description <span style="color: red">*</span></h3>
-            <textarea class="form-control" placeholder="A short description of the event" required id="txtDescription"></textarea>
+            <textarea class="form-control" placeholder="A short description of the event" maxlength="250" required id="txtDescription"></textarea>
             <h3>Location <span style="color: red">*</span></h3>
             <input type="text" class="form form-control" placeholder="Where do you want the event to happen?" required id="txtLocation">
             <h3>Content</h3>
@@ -738,7 +747,7 @@
                         <ul class="list">
                             <li><a href="/gwa/model">GUNDAM</a></li>
                             <li><a href="/gwa/article">Articles</a></li>
-                            <li><a href="/gwa/event">Events</a></li>
+                            <li class="active"><a href="/gwa/event">Events</a></li>
                             <li><a href="/gwa/trade-market">Trade market</a></li>
                         </ul>
                     </div>
@@ -783,20 +792,18 @@
 <script src="/gwa/js/bootstrap/bootstrap.min.js"></script>
 <!-- All Plugins js -->
 <script src="/gwa/js/plugins/plugins.js"></script>
-<!-- Active js -->
-<script src="/gwa/js/active.js"></script>
-
-
 
 <!-- js -->
-<script type="text/javascript" src="/gwa/js/jquery.min.js"></script>
 <!--    toastr & firebase script  -->
 <script src="/gwa/js/lib/firebase-app.js"></script>
 <script src="/gwa/js/lib/firebase-messaging.js"></script>
 <script type="text/javascript" src="/gwa/js/lib/toastr.min.js"></script>
 <link href="/gwa/css/index/toastr.min.css" rel="stylesheet">
 <!--    end toastr & firebase script   -->
+
 <script type="text/javascript" src="/gwa/js/create-proposal.js"></script>
+
+<script src="/gwa/js/plugins/jquery.growl.js"></script>
 
 </body>
 

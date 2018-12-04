@@ -42,8 +42,9 @@ public class ProposalWSImpl implements ProposalWS {
     }
 
     @Override
-    public ResponseEntity<List<Proposal>> getProposalList() {
-        List<Proposal> resultList = proposalService.getAllProposal();
+    public ResponseEntity<List<Object>> getProposalList(Integer pageNum) {
+//        System.out.println("pagenum "+pageNum);
+        List<Object> resultList = proposalService.getAllProposal(pageNum);
         return new ResponseEntity<>(resultList, HttpStatus.OK);
     }
 
