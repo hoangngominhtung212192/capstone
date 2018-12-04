@@ -395,11 +395,11 @@ $(document).ready(function () {
         var render_pagination = "";
 
         if (value.currentPage == 1) {
-            render_pagination += "<span class=\"my-page my-active\">«</span>\n" +
-                "<span class=\"my-page my-active\">❮</span>\n";
+            render_pagination += "<span class=\"my-page my-active\">&laquo;</span>\n" +
+                "<span class=\"my-page my-active\">&#8249;</span>\n";
         } else {
-            render_pagination += "<span id=\"first\" class=\"my-page\">«</span>\n" +
-                "<span id=\"prev\" class=\"my-page\">❮</span>\n"
+            render_pagination += "<span id=\"first\" class=\"my-page\">&laquo;</span>\n" +
+                "<span id=\"prev\" class=\"my-page\">&#8249;</span>\n"
         }
         if (value.currentPage > 5) {
             render_pagination += "<span class=\"my-page\">...</span>\n";
@@ -417,11 +417,11 @@ $(document).ready(function () {
             render_pagination += "<span class=\"my-page\">...</span>\n";
         }
         if (value.currentPage == value.lastPage) {
-            render_pagination += "<span class=\"my-page my-active\">❯</span>\n" +
-                "<span class=\"my-page my-active\">»</span>\n";
+            render_pagination += "<span class=\"my-page my-active\">&#8250;</span>\n" +
+                "<span class=\"my-page my-active\">&raquo;</span>\n";
         } else {
-            render_pagination += "<span id=\"next\" class=\"my-page\">❯</span>\n" +
-                "<span id=\"last\" class=\"my-page\">»</span>\n"
+            render_pagination += "<span id=\"next\" class=\"my-page\">&#8250;</span>\n" +
+                "<span id=\"last\" class=\"my-page\">&raquo;</span>\n"
         }
 
         $("#pagination-content").append(render_pagination);

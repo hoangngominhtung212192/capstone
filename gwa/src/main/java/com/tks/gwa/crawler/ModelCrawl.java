@@ -141,14 +141,16 @@ public class ModelCrawl {
 
         // get html string
         String htmlContent = crawler.getHtmlContent().replaceAll("&", "%amp;");
-        htmlContent = CrawlHelper.fixString(htmlContent);
-
-        is = new ByteArrayInputStream(htmlContent.getBytes());
-        ss = new StreamSource(is);
-
         try {
+            htmlContent = new String(CrawlHelper.fixString(htmlContent).getBytes(), "UTF-8");
+
+            is = new ByteArrayInputStream(htmlContent.getBytes());
+            ss = new StreamSource(is);
+
             parser.parseModelDetail(ss);
         } catch (XMLStreamException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
@@ -313,8 +315,7 @@ public class ModelCrawl {
         } catch (NoSuchElementException e) {
             System.out.println("There is no data in log file");
             return 0;
-        }
-        finally {
+        } finally {
             try {
                 if (br != null) {
                     br.close();
