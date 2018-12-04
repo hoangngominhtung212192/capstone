@@ -24,10 +24,10 @@ var defaultPaginationOpts = {
     hrefVariable: '{{number}}',
 
 // Text labels
-    first: '<<',
-    prev: '❮',
-    next: '❯',
-    last: '>>',
+    first: '&laquo;',
+    prev: '&lsaquo;',
+    next: '&rsaquo;',
+    last: '&raquo;',
 
 // carousel-style pagination
     loop: false,
