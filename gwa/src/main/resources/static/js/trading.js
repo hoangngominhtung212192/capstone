@@ -521,7 +521,7 @@ $("#searchWithLocation").click(function () {
 function loadSearchData() {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/gwa/api/tradepost/search-trade-listing",
+        url: "/gwa/api/tradepost/search-trade-listing",
         async: false,
         data: {
             tradeType: currentTabSelected,
@@ -554,7 +554,7 @@ function loadLocationSearchData() {
     // console.log(latlngSearch);
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/gwa/api/tradepost/search-location-trade-listing",
+        url: "/gwa/api/tradepost/search-location-trade-listing",
         async: false,
         data: {
             tradeType: currentTabSelected,
@@ -589,7 +589,7 @@ function loadLocationSearchData() {
 function loadTradingData() {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/gwa/api/tradepost/get-trade-listing",
+        url: "/gwa/api/tradepost/get-trade-listing",
         async: false,
         data: {
             tradeType: currentTabSelected,

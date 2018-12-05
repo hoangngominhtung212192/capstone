@@ -75,7 +75,7 @@ $(document).ready(function () {
     function authentication() {
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/gwa/api/user/checkLogin",
+            url: "/gwa/api/user/checkLogin",
             // async: false,
             complete: function (xhr, status) {
                 if (status == "success") {
@@ -576,7 +576,7 @@ function loadMyTradeData(accountId, status, pageNumber, sortType) {
     var result;
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/gwa/api/tradepost/get-my-trade",
+        url: "/gwa/api/tradepost/get-my-trade",
         data: {
             accountId : accountId,
             status : status,
@@ -610,7 +610,7 @@ function searchMyTradeData(accountId, status, pageNumber, sortType, keyword) {
     var result;
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/gwa/api/tradepost/search-my-trade",
+        url: "/gwa/api/tradepost/search-my-trade",
         data: {
             accountId : accountId,
             status : status,
@@ -768,7 +768,7 @@ function updateQuantity(tradepostId) {
     var updateQuantityVal = $("#updateQuantityValue").val();
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/gwa/api/tradepost/update-quantity",
+        url: "/gwa/api/tradepost/update-quantity",
         data: {
             tradepostId : tradepostId,
             newQuantity : updateQuantityVal
@@ -791,7 +791,7 @@ function updateQuantity(tradepostId) {
 function deleteTradePost(tradepostId) {
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/gwa/api/tradepost/delete-trade-post",
+        url: "/gwa/api/tradepost/delete-trade-post",
         data: {
             tradepostId : tradepostId
         },

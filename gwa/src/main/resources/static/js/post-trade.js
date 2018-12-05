@@ -32,7 +32,7 @@ $(document).ready(function () {
             var noticeContent = "";
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/gwa/api/user/checkLogin",
+                url: "/gwa/api/user/checkLogin",
                 complete: function (xhr, status) {
 
                     if (status == "success") {
@@ -628,7 +628,7 @@ function ajaxUploadImageList() {
 function ajaxUpdateImagesToDatabase(tradepostId, images) {
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/gwa/api/tradepost/update-images-to-database",
+        url: "/gwa/api/tradepost/update-images-to-database",
         data: {
             tradepostId: tradepostId,
             images: images
@@ -649,7 +649,7 @@ function checkAuthorization(userId) {
     var tradepostID = getUrlParameter("tradepostID");
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/gwa/api/tradepost/get-trade-post-edit-form-data?tradepostID=" + tradepostID,
+        url: "/gwa/api/tradepost/get-trade-post-edit-form-data?tradepostID=" + tradepostID,
         async: false,
         complete: function (xhr, status) {
             if (status == "success") {
