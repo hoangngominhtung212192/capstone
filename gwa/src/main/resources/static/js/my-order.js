@@ -673,7 +673,7 @@ function cancelOrder(orderID, reason, ownerId, tradepostId) {
         },
         async: false,
         success: function (result, txtStatus, xhr) {
-            var desc = loginAccountName + " has been cancelled order from trade post id=" + tradepostId;
+            var desc = loginAccountName + " has cancelled order from trade post id=" + tradepostId;
             var notiType = 5;
             addNewNotification(desc,tradepostId, ownerId, notiType);
             loadMyOrderData();
@@ -698,7 +698,7 @@ function ratingTrader(orderId, feedbackType, rating, comment, ownerId, tradepost
         },
         async: false,
         success: function (result, txtStatus, xhr) {
-            var desc = loginAccountName + " has been rated order from trade post id=" + tradepostId;
+            var desc = loginAccountName + " has rated order from trade post id=" + tradepostId;
             var notiType = 5;
             addNewNotification(desc,tradepostId, ownerId, notiType);
             loadMyOrderData();
