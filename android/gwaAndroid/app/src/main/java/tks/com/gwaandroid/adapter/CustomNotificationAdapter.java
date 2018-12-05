@@ -21,7 +21,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import tks.com.gwaandroid.ArticleDetailActivity;
 import tks.com.gwaandroid.EventDetailActivity;
+import tks.com.gwaandroid.ManageOrderActivity;
 import tks.com.gwaandroid.ModelDetailActivity;
+import tks.com.gwaandroid.MyOrderActivity;
 import tks.com.gwaandroid.ProfileActivity;
 import tks.com.gwaandroid.R;
 import tks.com.gwaandroid.TradeDetailsActivity;
@@ -115,11 +117,17 @@ public class CustomNotificationAdapter extends RecyclerView.Adapter<CustomNotifi
                     context.startActivity(intent);
                 } else if (type.equalsIgnoreCase("Tradepost")) {
                     Intent intent = new Intent(context, TradeDetailsActivity.class);
-                    intent.putExtra("TRADEPOSTID", notification.getObjectID() + "");
+                    intent.putExtra("TRADEPOSTID", notification.getObjectID());
+                    intent.putExtra("CALLINGACTIVITY", "NOTIFICATION");
                     context.startActivity(intent);
                 } else if (type.equalsIgnoreCase("OrderSent")) {
+                    Intent intent = new Intent(context, MyOrderActivity.class);
+                    context.startActivity(intent);
 
                 } else if (type.equalsIgnoreCase("OrderReceived")) {
+                    Intent intent = new Intent(context, ManageOrderActivity.class);
+                    intent.putExtra("TRADEPOSTID", notification.getObjectID());
+                    context.startActivity(intent);
 
                 } else if (type.equalsIgnoreCase("Article")) {
                     Intent intent = new Intent(context, ArticleDetailActivity.class);

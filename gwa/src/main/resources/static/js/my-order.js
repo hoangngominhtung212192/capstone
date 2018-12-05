@@ -67,7 +67,7 @@ $(document).ready(function () {
     function authentication() {
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/gwa/api/user/checkLogin",
+            url: "/gwa/api/user/checkLogin",
             // async: false,
             complete: function (xhr, status) {
                 if (status == "success") {
@@ -516,7 +516,7 @@ $("#sortTypeSelect").change(function () {
 function loadMyOrderData() {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/gwa/api/tradepost/get-my-order",
+        url: "/gwa/api/tradepost/get-my-order",
         data: {
             accountId: loginAccount,
             status: currentTabSelected,
@@ -668,14 +668,14 @@ function renderData(data) {
 function cancelOrder(orderID, reason, ownerId, tradepostId) {
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/gwa/api/tradepost/cancel-order",
+        url: "/gwa/api/tradepost/cancel-order",
         data: {
             orderId: orderID,
             reason: reason
         },
         async: false,
         success: function (result, txtStatus, xhr) {
-            var desc = loginAccountName + " has been cancelled order from trade post id=" + tradepostId;
+            var desc = loginAccountName + " has cancelled order from trade post id=" + tradepostId;
             var notiType = 5;
             addNewNotification(desc,tradepostId, ownerId, notiType);
             loadMyOrderData();
@@ -691,7 +691,7 @@ function cancelOrder(orderID, reason, ownerId, tradepostId) {
 function ratingTrader(orderId, feedbackType, rating, comment, ownerId, tradepostId) {
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/gwa/api/tradepost/rating-trade",
+        url: "/gwa/api/tradepost/rating-trade",
         data: {
             orderId: orderId,
             feedbackType: feedbackType,
@@ -700,7 +700,7 @@ function ratingTrader(orderId, feedbackType, rating, comment, ownerId, tradepost
         },
         async: false,
         success: function (result, txtStatus, xhr) {
-            var desc = loginAccountName + " has been rated order from trade post id=" + tradepostId;
+            var desc = loginAccountName + " has rated order from trade post id=" + tradepostId;
             var notiType = 5;
             addNewNotification(desc,tradepostId, ownerId, notiType);
             loadMyOrderData();

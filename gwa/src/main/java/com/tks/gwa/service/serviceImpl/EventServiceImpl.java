@@ -63,7 +63,23 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Event updateEvent(Event event) {
-        return eventRepository.updateEvent(event);
+        Event findEvent = eventRepository.getEventByID(event.getId());
+
+        findEvent.setTitle(event.getTitle());
+        findEvent.setLocation(event.getLocation());
+        findEvent.setDescription(event.getDescription());
+        findEvent.setContent(event.getContent());
+        findEvent.setThumbImage(event.getThumbImage());
+        findEvent.setStartDate(event.getStartDate());
+        findEvent.setEndDate(event.getEndDate());
+        findEvent.setRegDateStart(event.getRegDateStart());
+        findEvent.setRegDateEnd(event.getRegDateEnd());
+        findEvent.setMaxAttendee(event.getMaxAttendee());
+        findEvent.setMinAttendee(event.getMinAttendee());
+        findEvent.setTicketPrice(event.getTicketPrice());
+        findEvent.setStatus(event.getStatus());
+
+        return eventRepository.updateEvent(findEvent);
     }
 
     @Override

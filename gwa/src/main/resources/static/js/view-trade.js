@@ -70,7 +70,7 @@ $(document).ready(function () {
         function authentication() {
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/gwa/api/user/checkLogin",
+                url: "/gwa/api/user/checkLogin",
                 // async: false,
                 complete: function (xhr, status) {
                     if (status == "success") {
@@ -527,7 +527,7 @@ $("#sortTypeSelect").change(function () {
 function loadOrderData() {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/gwa/api/tradepost/get-order-by-trade-post",
+        url: "/gwa/api/tradepost/get-order-by-trade-post",
         data: {
             tradepostId: postId,
             status: currentTabSelected,
@@ -634,7 +634,7 @@ function renderOrderData(data) {
 function loadTradePostData() {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/gwa/api/tradepost/view-trade-post",
+        url: "/gwa/api/tradepost/view-trade-post",
         data: {
             tradepostId: postId
         },
@@ -784,7 +784,7 @@ function sendOrder(traderId, traderEmail, traderPhone, address, tradepostId, qua
     // console.log(JSON.stringify(data));
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/gwa/api/tradepost/send-order",
+        url: "/gwa/api/tradepost/send-order",
         data: JSON.stringify(data),
         contentType: "application/json",
         async: false,
@@ -856,7 +856,7 @@ function loadProfileData(accountID, type) {
 function acceptOrder(orderID, traderId) {
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/gwa/api/tradepost/accept-order",
+        url: "/gwa/api/tradepost/accept-order",
         data: {
             orderId: orderID
         },
@@ -878,7 +878,7 @@ function acceptOrder(orderID, traderId) {
 function declineOrder(orderID, reason, traderId) {
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/gwa/api/tradepost/decline-order",
+        url: "/gwa/api/tradepost/decline-order",
         data: {
             orderId: orderID,
             reason: reason
@@ -902,7 +902,7 @@ function declineOrder(orderID, reason, traderId) {
 function doneOrder(orderID, traderId) {
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/gwa/api/tradepost/confirm-succeed-order",
+        url: "/gwa/api/tradepost/confirm-succeed-order",
         data: {
             orderId: orderID
         },
@@ -924,7 +924,7 @@ function doneOrder(orderID, traderId) {
 function cancelOrder(orderID, reason, traderId) {
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/gwa/api/tradepost/cancel-order",
+        url: "/gwa/api/tradepost/cancel-order",
         data: {
             orderId: orderID,
             reason: reason
@@ -948,7 +948,7 @@ function cancelOrder(orderID, reason, traderId) {
 function reportTrade(tradepostId, reason, phone, email) {
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/gwa/api/tradepost/report-trade",
+        url: "/gwa/api/tradepost/report-trade",
         data: {
             tradepostId: tradepostId,
             reason: reason,
@@ -974,7 +974,7 @@ function reportTrade(tradepostId, reason, phone, email) {
 function ratingTrader(orderId, feedbackType, rating, comment, traderId) {
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/gwa/api/tradepost/rating-trade",
+        url: "/gwa/api/tradepost/rating-trade",
         data: {
             orderId: orderId,
             feedbackType: feedbackType,
