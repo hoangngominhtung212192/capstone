@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
         linearProgressBar.setVisibility(View.GONE);
     }
 
-    public void searchClick(View view) {
-        Toast.makeText(this, "Click", Toast.LENGTH_SHORT).show();
-    }
+//    public void searchClick(View view) {
+//        Toast.makeText(this, "Click", Toast.LENGTH_SHORT).show();
+//    }
 }

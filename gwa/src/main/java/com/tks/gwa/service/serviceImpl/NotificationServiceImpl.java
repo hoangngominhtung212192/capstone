@@ -83,7 +83,7 @@ public class NotificationServiceImpl implements NotificationService {
             String title = notificationTypeRepository.read(newNotification.getNotificationtype().getId()).getName();
 
             for (Token token : tokens) {
-                send(token.getToken(), title, newNotification.getDescription());
+                send(token.getToken(), title, newNotification.getDescription(), newNotification.getAccount().getId());
             }
         }
 
@@ -109,7 +109,7 @@ public class NotificationServiceImpl implements NotificationService {
         return strDate;
     }
 
-    public void send(String token, String notificationType, String content) throws JSONException {
+    public void send(String token, String notificationType, String content, int accountID) throws JSONException {
 
         JSONObject body = new JSONObject();
         body.put("to", token.trim());
@@ -117,6 +117,7 @@ public class NotificationServiceImpl implements NotificationService {
         JSONObject notification = new JSONObject();
         notification.put("title", notificationType);
         notification.put("body", content);
+        notification.put("accountID", accountID);
         body.put("data", notification);
 
         // print

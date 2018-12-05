@@ -12,8 +12,8 @@ public class AppConstant {
     public static final String checkString = "[A-Za-z\\s]+";
 
     public static final String checkUsername = "[A-Za-z]+";
-    public static final String BASE_URL = "http://192.168.1.7:8080/gwa/";
-    public static final String HOST_NAME = "192.168.1.7";
+    public static final String BASE_URL = "http://192.168.43.217:8080/gwa/";
+    public static final String HOST_NAME = "192.168.43.217";
 
     //APPROVE STATUS
     public static final String APPROVED_STATUS = "approved";

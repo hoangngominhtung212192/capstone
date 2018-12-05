@@ -508,16 +508,18 @@ $(document).ready(function () {
             messaging.onMessage(function (payload) {
                 console.log('onMessage: ', payload);
 
-                pageNumber = 1;
-                $("#ul-notification").empty();
-                if (payload.data.title == "Model" || payload.data.title == "Event") {
-                    toastr.error(payload.data.body, payload.data.title + " Notification", {timeOut: 5000});
-                } else {
-                    toastr.info(payload.data.body, payload.data.title + " Notification", {timeOut: 5000});
+                if (payload.data.accountID == account_session_id) {
+                    pageNumber = 1;
+                    $("#ul-notification").empty();
+                    if (payload.data.title == "Model" || payload.data.title == "Event") {
+                        toastr.error(payload.data.body, payload.data.title + " Notification", {timeOut: 5000});
+                    } else {
+                        toastr.info(payload.data.body, payload.data.title + " Notification", {timeOut: 5000});
+                    }
+                    setTimeout(function () {
+                        ajaxGetAllNotification(account_session_id);
+                    }, 1000);
                 }
-                setTimeout(function () {
-                    ajaxGetAllNotification(account_session_id);
-                }, 1000);
             })
         })
         /* This is end of firebase  */

@@ -851,7 +851,7 @@ public class TrademarketServiceImpl implements TrademarketService {
                     System.out.println("User " + result.getAccount().getId() + " have " + tokens.size() + " tokens!!!");
 
                     for (Token token : tokens) {
-                        send(token.getToken(), "OrderSent", noticationText);
+                        send(token.getToken(), "OrderSent", noticationText, result.getAccount().getId());
                     }
                 }
             }
@@ -948,7 +948,7 @@ public class TrademarketServiceImpl implements TrademarketService {
         return listResult;
     }
 
-    public void send(String token, String notificationType, String content) throws JSONException {
+    public void send(String token, String notificationType, String content, int accountID) throws JSONException {
 
         JSONObject body = new JSONObject();
         body.put("to", token.trim());
@@ -956,6 +956,7 @@ public class TrademarketServiceImpl implements TrademarketService {
         JSONObject notification = new JSONObject();
         notification.put("title", notificationType);
         notification.put("body", content);
+        notification.put("accountID", accountID);
         body.put("data", notification);
 
         // print

@@ -43,18 +43,18 @@
                 </ProgressBar>
             </RelativeLayout>
 
-            <!--    FAP search button   -->
-            <android.support.design.widget.FloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:elevation="4dp"
-                app:backgroundTint="#0000AA"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/search"
-                android:layout_marginBottom="20dp"
-                android:layout_marginRight="20dp"
-                android:onClick="searchClick"/>
+            <!--&lt;!&ndash;    FAP search button   &ndash;&gt;-->
+            <!--<android.support.design.widget.FloatingActionButton-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:elevation="4dp"-->
+                <!--app:backgroundTint="#0000AA"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:src="@drawable/search"-->
+                <!--android:layout_marginBottom="20dp"-->
+                <!--android:layout_marginRight="20dp"-->
+                <!--android:onClick="searchClick"/>-->
         </RelativeLayout>
 
     </LinearLayout>
