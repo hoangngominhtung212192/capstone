@@ -117,7 +117,8 @@ public class CustomNotificationAdapter extends RecyclerView.Adapter<CustomNotifi
                     context.startActivity(intent);
                 } else if (type.equalsIgnoreCase("Tradepost")) {
                     Intent intent = new Intent(context, TradeDetailsActivity.class);
-                    intent.putExtra("TRADEPOSTID", notification.getObjectID() + "");
+                    intent.putExtra("TRADEPOSTID", notification.getObjectID());
+                    intent.putExtra("CALLINGACTIVITY", "NOTIFICATION");
                     context.startActivity(intent);
                 } else if (type.equalsIgnoreCase("OrderSent")) {
                     Intent intent = new Intent(context, MyOrderActivity.class);
@@ -125,7 +126,7 @@ public class CustomNotificationAdapter extends RecyclerView.Adapter<CustomNotifi
 
                 } else if (type.equalsIgnoreCase("OrderReceived")) {
                     Intent intent = new Intent(context, ManageOrderActivity.class);
-                    intent.putExtra("TRADEPOSTID", notification.getObjectID() + "");
+                    intent.putExtra("TRADEPOSTID", notification.getObjectID());
                     context.startActivity(intent);
 
                 } else if (type.equalsIgnoreCase("Article")) {
