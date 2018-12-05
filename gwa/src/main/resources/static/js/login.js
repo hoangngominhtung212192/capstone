@@ -153,6 +153,8 @@ $(document).ready(function () {
                     $("#errorpassword").css("visibility", "visible");
                     $("#errorpassword").text(jsonResponse["message"]);
                 }
+
+                $("#loading").css("display", "none");
             }
         });
     }
