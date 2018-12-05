@@ -78,12 +78,13 @@ public class ArticleCrawl {
         crawler.parseHTML(url, AppConstant.URL_ARTICLE_CRAWL_BEGIN_SIGN, AppConstant.URL_ARTICLE_CRAWL_END_SIGN);
 
         String htmlContent = crawler.getHtmlContent().replaceAll("&", "%amp;");
-        htmlContent = CrawlHelper.fixString(htmlContent);
-
-        is = new ByteArrayInputStream(htmlContent.getBytes());
-        ss = new StreamSource(is);
 
         try {
+            htmlContent = new String(CrawlHelper.fixString(htmlContent).getBytes(), "UTF-8");
+
+            is = new ByteArrayInputStream(htmlContent.getBytes());
+            ss = new StreamSource(is);
+
             List<String> listArticleDetail = parser.parseArticles(ss);
 
             for (String detail : listArticleDetail) {
@@ -93,6 +94,8 @@ public class ArticleCrawl {
                 records++;
             }
         } catch (XMLStreamException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
@@ -104,12 +107,12 @@ public class ArticleCrawl {
         crawler.parseHTML(url, AppConstant.URL_ARTICLE_DETAIL_BEGIN_SIGN, AppConstant.URL_ARTICLE_DETAIL_END_SIGN);
 
         String htmlContent = crawler.getHtmlContent().replaceAll("&", "%amp;");
-        htmlContent = CrawlHelper.fixString(htmlContent);
-
-        is = new ByteArrayInputStream(htmlContent.getBytes());
-        ss = new StreamSource(is);
-
         try {
+            htmlContent = new String(CrawlHelper.fixString(htmlContent).getBytes(), "UTF-8");
+
+            is = new ByteArrayInputStream(htmlContent.getBytes());
+            ss = new StreamSource(is);
+
             String content = "";
 
             if (htmlContent.contains("<div class=\"l-section-h i-cf\" itemprop=\"text\">")) {
@@ -123,6 +126,8 @@ public class ArticleCrawl {
             parser.parseDetail(ss, content);
 
         } catch (XMLStreamException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
@@ -259,8 +264,7 @@ public class ArticleCrawl {
         } catch (NoSuchElementException e) {
             System.out.println("There is no data in log file");
             return 0;
-        }
-        finally {
+        } finally {
             try {
                 if (br != null) {
                     br.close();

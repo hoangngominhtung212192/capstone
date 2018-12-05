@@ -27,9 +27,10 @@ $(document).ready(function () {
 
 // Text labels
         first: '&laquo;',
-        prev: '❮',
-        next: '❯',
+        prev: '&lsaquo;',
+        next: '&rsaquo;',
         last: '&raquo;',
+
 
 // carousel-style pagination
         loop: false,
@@ -101,6 +102,7 @@ $(document).ready(function () {
         }
     }
     function appendMyResult(result){
+        $('#search-result').html("");
         for (var i = 0; i < result.length; i++) {
             var article = $('<div class="single-blog-post d-flex row">\n' +
                 '<div class="post-thumb col-sm-2" style="max-height: inherit;">\n' +
@@ -215,7 +217,7 @@ $(document).ready(function () {
             url : "/gwa/api/article/getMyArticle",
             data : {
                 id : account_session_id,
-                sorttype : currentSortType,
+                sorttype : $("#cbSortType option:selected").val(),
                 pageNum : currentPage
             },
             async: false,

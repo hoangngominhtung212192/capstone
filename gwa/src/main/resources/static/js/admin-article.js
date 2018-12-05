@@ -25,8 +25,8 @@ $(document).ready(function () {
 
 // Text labels
         first: '&laquo;',
-        prev: '❮',
-        next: '❯',
+        prev: '&lsaquo;',
+        next: '&rsaquo;',
         last: '&raquo;',
 
 // carousel-style pagination

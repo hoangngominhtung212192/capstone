@@ -35,6 +35,5 @@ public class ApplicationStartUp implements ApplicationListener<ApplicationReadyE
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
         System.out.println("#" + ApplicationStartUp.class.getName() + ": Application Starting Up...");
 
-//        articleCrawl.crawl();
     }
 }

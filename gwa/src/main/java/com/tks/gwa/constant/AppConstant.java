@@ -3,9 +3,9 @@ package com.tks.gwa.constant;
 public class AppConstant {
 
     public static final String[] listModelCrawlUrls = {"https://www.1999.co.jp/eng/list/680/0/1",
-            "https://www.1999.co.jp/eng/list/681/0/1"/*,
+            "https://www.1999.co.jp/eng/list/681/0/1",
             "https://www.1999.co.jp/eng/list/678/0/1",
-            "https://www.1999.co.jp/eng/list/679/0/1"*/};
+            "https://www.1999.co.jp/eng/list/679/0/1"};
 
     public static final String URL_GUNDAM_HOME_PAGE_CRAWL = "https://www.1999.co.jp";
 

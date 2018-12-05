@@ -275,18 +275,19 @@ $(document).ready(function () {
 
         $("#loading").css("display", "block");
 
+        if (sModelInterval) {
+            clearInterval(sModelInterval);
+        }
+
+        if (sTradeInterval) {
+            clearInterval(sTradeInterval);
+        }
+
+        if (sEventInterval) {
+            clearInterval(sEventInterval);
+        }
+
         setTimeout(function () {
-            if (sModelInterval) {
-                clearInterval(sModelInterval);
-            }
-
-            if (sTradeInterval) {
-                clearInterval(sTradeInterval);
-            }
-
-            if (sEventInterval) {
-                clearInterval(sEventInterval);
-            }
 
             $("#startCrawlBtn").css("display", "none");
             $("#stopCrawlBtn").css("display", "none");
@@ -318,7 +319,7 @@ $(document).ready(function () {
             ajaxGetLogSchedule();
 
             $("#loading").css("display", "none");
-        }, 200);
+        }, 2000); // wait for system to execute update and reset datetime
     }
 
     function ajaxGetLogSchedule() {
