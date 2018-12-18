@@ -38,8 +38,26 @@ public class EventAttendeeRepositoryImpl extends GenericRepositoryImpl<Eventatte
     }
 
     @Override
+    public int countSearchAttendeeByEvent(int eventid, String username) {
+        String sql = "SELECT COUNT(e.id) FROM " + Eventattendee.class.getName()+" AS e WHERE e.event.id = :eventid AND e.account.username LIKE :username";
+        Query query = this.entityManager.createQuery(sql);
+//        String evidS = String.valueOf(eventid);
+        query.setParameter("eventid", eventid);
+        query.setParameter("username", "%"+username+"%");
+        long result = 0;
+        try{
+            result = (long) query.getSingleResult();
+        } catch (NoResultException e) {
+            System.out.println("no attendee foudn");
+            return 0;
+        }
+        System.out.println("count attendee"+result);
+        return (int) result;
+    }
+
+    @Override
     public int countAttendeeByEvent(int eventid) {
-        String sql = "SELECT COUNT(e.id) FROM " + Eventattendee.class.getName()+" AS e WHERE e.event.id = :eventid";
+        String sql = "SELECT COUNT(e.id) FROM " + Eventattendee.class.getName()+" AS e WHERE e.event.id = :eventid AND e.rating > 0";
         Query query = this.entityManager.createQuery(sql);
         String evidS = String.valueOf(eventid);
         query.setParameter("eventid", eventid);
@@ -92,6 +110,32 @@ public class EventAttendeeRepositoryImpl extends GenericRepositoryImpl<Eventatte
             return listres;
         }
 
+        return listres;
+    }
+
+    @Override
+    public List<Eventattendee> searchAttendeeByEventWithPage(Integer eventid, String username, int pageNum) {
+        String sorttype = "desc";
+        String sortSql = "";
+        if (sorttype.equalsIgnoreCase("asc")){
+            sortSql = " ORDER BY date ASC";
+        } else {
+            sortSql = " ORDER BY date DESC";
+        }
+        String sql = "FROM " + Eventattendee.class.getName()+ " AS e WHERE e.event.id = :eventid AND e.account.username LIKE :username" + sortSql;
+        Query query = this.entityManager.createQuery(sql);
+        query.setParameter("eventid", eventid);
+        query.setParameter("username", "%"+username+"%");
+        query.setFirstResult((pageNum-1) * AppConstant.EVENT_MAX_RECORD_PER_PAGE);
+        query.setMaxResults(AppConstant.EVENT_MAX_RECORD_PER_PAGE);
+        List<Eventattendee> listres = null;
+
+        try {
+            listres = query.getResultList();
+        } catch (NoResultException e) {
+            System.out.println("no eventattendee found");
+            return listres;
+        }
         return listres;
     }
 

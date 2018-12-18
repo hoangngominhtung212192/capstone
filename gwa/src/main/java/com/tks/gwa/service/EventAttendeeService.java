@@ -12,9 +12,8 @@ public interface EventAttendeeService {
     Eventattendee updateAttendee(Eventattendee attendee);
     void deleteAttendee(Eventattendee attendee);
     List<Object> searchRatedAttendeeByEvent(int eventid, int pageNum);
-    List<Eventattendee> searchAttendeeByEvent(Integer eventid);
+    List<Object> searchAttendeeByEvent(Integer eventid, String username, int pageNum);
     Eventattendee getAttendeeInEvent(Integer userid, Integer eventid);
     Eventattendee getAttendeeByID(int id);
-//    List<Eventattendee> getAttendeeByAccountID(int accountID, String sorttype, int pageNum);
     List<Object> getAttendeeByAccountID(int accountid, String sorttype, int pageNum);
 }

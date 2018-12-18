@@ -56,8 +56,18 @@ public class EventattendeeServiceImpl implements EventAttendeeService {
     }
 
     @Override
-    public List<Eventattendee> searchAttendeeByEvent(Integer eventid) {
-        return attendeeRepository.searchAttendeeByEvent(eventid);
+    public List<Object> searchAttendeeByEvent(Integer eventid, String username, int pageNum) {
+        int totalRecord = attendeeRepository.countSearchAttendeeByEvent(eventid, username);
+        int totalPage = totalRecord / 10;
+        if (totalRecord % 10 > 0){
+            totalPage +=1;
+        }
+        List<Object> result = new ArrayList<>();
+        result.add(0, totalPage);
+        System.out.println("totalpage "+totalPage);
+        List<Eventattendee> eventattendeeList = attendeeRepository.searchAttendeeByEventWithPage(eventid, username, pageNum);
+        result.add(1, eventattendeeList);
+        return result;
     }
 
     @Override

@@ -1,4 +1,123 @@
 $(document).ready(function() {
+    var currentPage = 1;
+    var totalPage = 1;
+    var $pagination = $("#pagination-event");
+    var isSearch = false;
+    var defaultPaginationOpts = {
+        totalPages: totalPage,
+// the current page that show on start
+        startPage: 1,
+
+// maximum visible pages
+        visiblePages: 3,
+
+        initiateStartPageClick: false,
+
+// template for pagination links
+        href: false,
+
+// variable name in href template for page number
+        hrefVariable: '{{number}}',
+
+// Text labels
+        first: '&laquo;',
+        prev: '&lsaquo;',
+        next: '&rsaquo;',
+        last: '&raquo;',
+
+// carousel-style pagination
+        loop: false,
+
+// callback function
+        onPageClick: function (event, page) {
+            currentPage = page;
+            $('#search-result').html("");
+            searchUser();
+        },
+
+// pagination Classes
+        paginationClass: 'pagination',
+        nextClass: 'page-item',
+        prevClass: 'page-item',
+        lastClass: 'page-item',
+        firstClass: 'page-item',
+        pageClass: 'page-item',
+        activeClass: 'active',
+        disabledClass: 'disabled'
+    };
+
+    // getEventData();
+    $pagination.twbsPagination('destroy');
+    if (totalPage > 1){
+        $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+            totalPages: totalPage
+        }));
+    }
+    // searchEv();
+    $("#btnSearch").click(function (event) {
+        currentPage = 1;
+        event.preventDefault();
+
+        isSearch = true;
+        searchUser();
+        // testSchedule();
+
+    });
+
+    function appendResult(result){
+        var searchDiv = document.getElementById("tblBody");
+        while (searchDiv.firstChild) {
+            searchDiv.removeChild(searchDiv.firstChild);
+        }
+
+        for (var i = 0; i < result.length; i++) {
+            var row = $('<tr>\n' +
+                '                    <td>' + result[i].account.username + '</td>\n' +
+                '                    <td>' + result[i].date + '</td>\n' + '</tr>')
+            // $('#tblBody').append(row);
+            $('#tblBody').append(row);
+        }
+        $pagination.twbsPagination('destroy');
+        if (totalPage > 1){
+            $pagination.twbsPagination($.extend({}, defaultPaginationOpts, {
+                totalPages: totalPage,
+                currentPage: currentPage,
+                startPage: currentPage,
+
+            }));
+        }
+    }
+
+    function searchUser() {
+        var searchValue = $("#txtSearch").val();
+
+        $.ajax({
+            type : "POST",
+            url : "/gwa/api/event/searchAttendeeInEvent",
+            data : {
+                eventid : id,
+                username : searchValue,
+                pageNum : currentPage
+            },
+            async: false,
+            success : function(result, status) {
+                var data = result[1];
+                totalPage = result[0];
+                console.log(result);
+                console.log(status);
+                console.log("page num: "+currentPage);
+                console.log("seach numb of pages: "+result[0]);
+                // currentPage = 1;
+
+                appendResult(data);
+            },
+            error : function(e) {
+                $.growl.error({message: "No username found"});
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
     var checkImage = false;
     var imagetype;
     var imageFile;
@@ -81,6 +200,7 @@ $(document).ready(function() {
                     var latt = loca.split("@")[1];
                     var longg = loca.split("@")[2];
                     // $('#txtLocation').append(addr);
+                    $('#txtNumberAtt').html("This event has "+ result.numberOfAttendee +" attendees.");
                     $('#txtLocation').val(addr);
                     $('#txtLat').val(latt);
                     $('#txtLong').val(longg);
