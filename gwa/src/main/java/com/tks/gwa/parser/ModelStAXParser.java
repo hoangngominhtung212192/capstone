@@ -304,7 +304,9 @@ public class ModelStAXParser {
         com.tks.gwa.entity.Model newEntityModel = modelService.createNewModel(entity_model, "crawl");
 
         if (newEntityModel != null) {
-            newRecords += 1;
+            if (newEntityModel.getMessage() == null) {
+                newRecords += 1;
+            }
         }
     }
 

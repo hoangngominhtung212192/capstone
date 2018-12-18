@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    
+
     function getUrlParameter(sParam) {
         var sPageURL = decodeURIComponent(window.location.search.substring(1)),
             sURLVariables = sPageURL.split('&'),
@@ -907,14 +907,14 @@ $(document).ready(function () {
 
         if (lastTime) {
             var now = new Date($.now());
-            // subtract two datetime
+            // subtract two datetime --> milliseconds
             var diff = new Date(now - lastTime);
-            // convert to days
-            var days = diff/1000/60/60/24;
+            // convert to hours
+            var minutes = diff / 1000 / 60;
 
-            console.log("Number of days since filters in localStorage: " + days);
+            console.log("Number of minutes since filters saved in localStorage: " + minutes);
 
-            if (days >= 7) {
+            if (minutes >= 30) {
                 getListFilters();
             } else {
                 filters = JSON.parse(localStorage.getItem('filters'));
@@ -947,11 +947,14 @@ $(document).ready(function () {
 
     // filters when search
     var filterList = [];
+    var suggestList = [];
 
     // event for every single character that user inputs
     $("#table_filter").keyup(function (e) {
         // reset array
         filterList = [];
+        suggestList = [];
+
         $("#search-scroll").css("display", "block");
         var searchValue = $("#table_filter").val();
 
@@ -970,7 +973,7 @@ $(document).ready(function () {
                 if (similarity(value.name, searchValue) >= 0.5) {
                     // check if not exist in current filterlist
                     if (!checkExistInFilterList(value.id)) {
-                        filterList.push(value);
+                        suggestList.push(value);
                     }
                 }
             })
@@ -978,6 +981,7 @@ $(document).ready(function () {
 
         // log filterList
         console.log(filterList);
+        console.log(suggestList);
 
         // render UI
         renderFilterList();
@@ -1003,7 +1007,7 @@ $(document).ready(function () {
         $("#suggestSearch-container").empty();
 
         // if no record matches, then hide #search-scroll container
-        if (filterList.length == 0) {
+        if (filterList.length == 0 && suggestList.length == 0) {
             $("#search-scroll").css("display", "none");
         }
 
@@ -1016,21 +1020,40 @@ $(document).ready(function () {
                 "</a>\n" +
                 "</div>");
         });
+
+        if (suggestList.length > 0) {
+            $("#suggestSearch-container").append("<div class=\"suggest-title\">Did you mean...</div>");
+
+            $.each(suggestList, function (i, value) {
+                $("#suggestSearch-container").append("<div class=\"suggestSearch-row\">\n" +
+                    "<a href=\"/gwa/pages/modeldetail.html?modelID=" + value.id + "\">\n" +
+                    "<img class=\"model-image-search\" src=\"" + value.thumbImage + "\"/>\n" +
+                    "<div class=\"model-name-search\">" + value.name + "\n" +
+                    "</div>\n" +
+                    "</a>\n" +
+                    "</div>");
+            });
+        }
+
     }
 
     // levenshtein algo
-    function similarity(s1,s2) {
+    function similarity(s1, s2) {
         var longer = s1, shorter = s2;
         if (s1.length < s2.length) { // longer should always have greater length
-            longer = s2; shorter = s1;
+            longer = s2;
+            shorter = s1;
         }
         var longerLength = longer.length;
-        if (longerLength == 0) { return 1.0; /* both strings are zero length */ }
+        if (longerLength == 0) {
+            return 1.0;
+            /* both strings are zero length */
+        }
 
         return (longerLength - editDistance(longer, shorter)) / longerLength;
     }
 
-    function editDistance(s1,s2) {
+    function editDistance(s1, s2) {
         s1 = s1.toLowerCase();
         s2 = s2.toLowerCase();
 
@@ -1056,6 +1079,7 @@ $(document).ready(function () {
         }
         return costs[s2.length];
     }
+
     /*  End get list filters    */
 
     /*  This is for firebase area */
