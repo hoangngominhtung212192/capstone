@@ -13,9 +13,11 @@ public interface EventAttendeeRepository extends GenericRepository<Eventattendee
     Eventattendee addNewAttendee(Eventattendee attendee);
     Eventattendee updateAttendee(Eventattendee attendee);
     void deleteAttendee(Eventattendee attendee);
+    int countSearchAttendeeByEvent(int eventid, String username);
     int countAttendeeByEvent(int eventid);
     List<Eventattendee> searchRatedAttendeeByEvent(int eventid, int pageNum);
     List<Eventattendee> searchAttendeeByEvent(Integer eventid);
+    List<Eventattendee> searchAttendeeByEventWithPage(Integer eventid, String username, int pageNum);
     Eventattendee getAttendeeInEvent(Integer userid, Integer eventid) throws NoResultException;
     Eventattendee getAttendee(int id);
     int countAttendeeByAccoutnID(int accountID);

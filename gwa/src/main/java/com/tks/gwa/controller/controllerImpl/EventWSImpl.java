@@ -9,6 +9,7 @@ import com.tks.gwa.entity.Eventattendee;
 import com.tks.gwa.service.EventAttendeeService;
 import com.tks.gwa.service.EventService;
 import com.tks.gwa.service.FileUploadService;
+import com.tks.gwa.service.UserService;
 import com.tks.gwa.utils.LuhnAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,10 @@ public class EventWSImpl implements EventWS {
 
     @Autowired
     private FileControllerWsImpl fileControllerWs;
+
+    @Autowired
+    private UserService userService;
+
 
     @Override
     public ResponseEntity<Event> createEvent(@RequestBody Event event) {
@@ -249,6 +254,14 @@ public class EventWSImpl implements EventWS {
     }
 
     @Override
+    public ResponseEntity<List<Object>> searchAttendeeInEvent(@RequestParam int eventid,
+                                                              @RequestParam String username,
+                                                              @RequestParam int pageNum) {
+        List<Object> alist = attendeeService.searchAttendeeByEvent(eventid, username, pageNum);
+        return new ResponseEntity<>(alist, HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<List<Object>> getEventByStatusAndPage(@RequestParam String status,
                                                                 @RequestParam String sorttype,
                                                                 @RequestParam int pageNum) {
@@ -317,6 +330,29 @@ public class EventWSImpl implements EventWS {
         finalresult.add(1, events);
         sdto.setEventList(events);
         return new ResponseEntity<>(sdto, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<Object>> getEventByUser(String username, int pageNum) {
+        String sorttype = "desc";
+        Account account = userService.getAccountByUsername(username);
+        List<Object> finalresult = new ArrayList<>();
+
+        List<Object> firstresult = attendeeService.getAttendeeByAccountID(account.getId(), sorttype, pageNum);
+
+        finalresult.add(0, firstresult.get(0));
+        if (account.equals(null)){
+            finalresult.add(2, "No user found.");
+
+        }
+        List<Eventattendee> attendees = (List<Eventattendee>) firstresult.get(1);
+        List<Event> events = new ArrayList<Event>();
+        for (int i = 0; i < attendees.size(); i++) {
+            events.add(attendees.get(i).getEvent());
+        }
+        finalresult.add(1, events);
+
+        return new ResponseEntity<>(finalresult, HttpStatus.OK);
     }
 
     @Override

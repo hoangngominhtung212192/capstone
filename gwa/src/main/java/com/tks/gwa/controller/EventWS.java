@@ -82,6 +82,11 @@ public interface EventWS {
     ResponseEntity<List<Object>> getRatedAttendeeInEvent(@RequestParam("eventid") int eventid,
                                                                 @RequestParam("pageNum") int pageNum);
 
+    @RequestMapping(value = "/searchAttendeeInEvent", method = RequestMethod.POST)
+    ResponseEntity<List<Object>> searchAttendeeInEvent(@RequestParam("eventid") int eventid,
+                                                         @RequestParam("username") String username,
+                                                         @RequestParam("pageNum") int pageNum);
+
     @RequestMapping(value = "/getEventByStatusAndPage", method = RequestMethod.POST)
     ResponseEntity<List<Object>> getEventByStatusAndPage(@RequestParam("status") String status,
                                                          @RequestParam("sorttype") String sorttype,
@@ -107,6 +112,10 @@ public interface EventWS {
     @RequestMapping(value = "/getMyListEventAlt", method = RequestMethod.POST)
     ResponseEntity<EventSDTO> getMyListEventAlt(@RequestParam("accountID") Integer accountID,
                                                 @RequestParam("sorttype") String sorttype,
+                                                @RequestParam("pageNum") int pageNum);
+
+    @RequestMapping(value = "/getEventByUser", method = RequestMethod.POST)
+    ResponseEntity<List<Object>> getEventByUser(@RequestParam("username") String username,
                                                 @RequestParam("pageNum") int pageNum);
 
     @RequestMapping(value = "/getNearbyEvent", method = RequestMethod.POST)

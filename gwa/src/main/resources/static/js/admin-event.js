@@ -110,7 +110,6 @@ $(document).ready(function () {
                 appendResult(data);
             },
             error : function(e) {
-                alert("No event with matching title found!");
                 console.log("ERROR: ", e);
             }
         });
