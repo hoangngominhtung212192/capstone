@@ -132,7 +132,7 @@ $(document).ready(function () {
                 '                                            <h6>' + result[i].title + '</h6>\n' +
                 '                                        </a>\n' +
                 '<p class="post-date"><span>From: '+result[i].startDate+'</span> to <span>'+result[i].endDate+'</span></p>'+
-                '<p><span>Ticket price: '+result[i].ticketPrice+'</span></p>\n' +
+                '<p><span>Ticket price: '+result[i].ticketPrice+'</span> USD</p>\n' +
                 '<p class="post-excerp" style="margin-bottom: 0px">'+result[i].description+'</p>'+
                 '                                    </div>\n' +
                 '                                </div>\n' +
